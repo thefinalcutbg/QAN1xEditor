@@ -10,7 +10,7 @@ namespace AN1x
 	enum VariFx : unsigned char { Chorus1, Chorus2, Flagner, Symphonic, Phaser, AutoPAN, RotarySpeaker, PitchChange, AuralExciter, Compressor, WahWah, Distortion, Overdrive, AmpSimulator };
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
-
+	
 	enum CommonParam : unsigned char
 	{
 		Name1 = 0x00,
@@ -198,5 +198,9 @@ namespace AN1x
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);
 	const char* getChorusTypeByValue(int value);
+	int compressorAttack(int value);
+	int compressorRelease(int value);
+	const char* compressorRatio(int value);
+	const char* wahCutoffFreq(int value);
 	
 }

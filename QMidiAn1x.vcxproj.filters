@@ -73,9 +73,6 @@
     <ClCompile Include="src\AbstractSceneController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ValueDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\VoiceNameEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -119,18 +116,12 @@
     <QtMoc Include="src\UiControlers.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\ValueDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\VoiceNameEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\SceneView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\ValueDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

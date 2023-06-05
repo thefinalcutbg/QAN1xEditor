@@ -6,7 +6,7 @@
 #include <QEvent>
 #include <qtooltip.h>
 #include <QMouseEvent>
-#include "ValueDialog.h"
+
 #include "GlobalWidgets.h"
 #include <QStatusBar>
 
@@ -26,14 +26,9 @@ bool DialKnob::event(QEvent* e)
 	case QEvent::MouseButtonPress:
 		if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
 		{
-			ValueDialog d;
-			d.setValue(minimum(), maximum(), defaultValue, value());
-			d.exec();
-			auto result = d.getValue();
+			setValue(defaultValue);
 
-			setValue(result);
-
-			emit valueChanged(result);
+			emit valueChanged(value());
 		}
 		return true;
 		break;
@@ -50,30 +45,25 @@ QString DialKnob::getValueText()
 	switch(m_textType)
 	{ 
 		case Normal:
-			result += QString::number(value());
-			break;
+		{
+			auto val = value() + m_offset;
+			if (m_showPositive && val > 0) result += "+";
+			result += QString::number(val);
+
+			result += m_suffix;
+		}	
+		break;
 
 		case Frequency:
 			result += AN1x::getFrequencyByValue(value());
 			break;
 
-	
 		case Resonance:
 		{
-			QString number = QString::number(value());
+			auto val = value() + m_offset;
+			QString number = QString::number(val);
 			number.insert(value() < 100 ? 1:2, '.');
 			result += number;
-		}
-		break;
-
-		case Gain:
-		{
-			int number = value() - 64;
-			if (number > 0) {
-				result += " +";
-			}
-			result += QString::number(value() - 64);
-			result += " db";
 		}
 		break;
 
@@ -85,19 +75,18 @@ QString DialKnob::getValueText()
 			result += AN1x::getChorusTypeByValue(value());
 			break;
 
-		case Percent:
-			result += QString::number(value());
-			result += "%";
-			break;
-
 		case Milliseconds:
 		{
 			if (value() == 0) {
 				result += "0.0";
 			}
 			else{
+
 				QString number = QString::number(value());
-				number.insert(value() < 10 ? 1 : 2, '.');
+				if (value() < 10) number.insert(0, "0.");
+				else if (value() < 100) number.insert(1, '.');
+				else number.insert(2, '.');
+				
 				result += number;
 			}
 
@@ -105,7 +94,49 @@ QString DialKnob::getValueText()
 		}
 			break;
 
-			
+		case Diffusion:
+			result += value() ? "Stereo" : "Mono";
+			break;
+
+		case Stage:
+		{
+			auto val = value();
+			int values[] = { 4,6,8 };
+			result += QString::number(values[val]);
+		}
+		break;
+
+		case PanDirection:
+		{
+			const char* values[] =
+			{
+				"Left->Right", "Left<-Right","Left<->Right","Left turn", "Right turn"
+			};
+			result += values[value()];
+		}
+			break;
+
+		case CompressorAttack:
+			result += QString::number(AN1x::compressorAttack(value()));
+			break;
+		case CompressorRelease:
+			result += QString::number(AN1x::compressorRelease(value()));
+			break;
+		case CompressorRatio:
+			result += AN1x::compressorRatio(value());
+			break;
+		case WahCutoffFreq:
+			result += AN1x::wahCutoffFreq(value());
+			break;
+		case AMPType:
+		{
+			const char* values[] =
+			{
+				"Off", "Stack", "Combo", "Tube"
+			};
+			result += values[value()];
+		}	
+		break;
 	}
 
 	return result;
@@ -254,14 +285,9 @@ bool EGSlider::event(QEvent* e)
 	case QEvent::MouseButtonPress:
 		if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
 		{
-			ValueDialog d;
-			d.setValue(minimum(), maximum(), defaultValue, value());
-			d.exec();
-			auto result = d.getValue();
+			setValue(defaultValue);
 
-			setValue(result);
-
-			emit valueChanged(result);
+			emit valueChanged(value());
 			return true;
 		}
 

@@ -110,7 +110,6 @@
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
     <ClCompile Include="src\SceneView.cpp" />
-    <ClCompile Include="src\ValueDialog.cpp" />
     <ClCompile Include="src\VoiceNameEdit.cpp" />
     <QtRcc Include="src\QMidiAn1x.qrc" />
     <QtUic Include="src\QMidiAn1x.ui" />
@@ -124,11 +123,9 @@
     <ClCompile Include="src\QMidiAn1x.cpp" />
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\SceneView.ui" />
-    <QtUic Include="src\ValueDialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\VoiceNameEdit.h" />
-    <QtMoc Include="src\ValueDialog.h" />
     <QtMoc Include="src\UiControlers.h" />
     <ClInclude Include="src\AbstractSceneController.h" />
     <ClInclude Include="src\GlobalWidgets.h" />

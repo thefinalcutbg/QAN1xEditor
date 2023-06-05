@@ -82,6 +82,7 @@ int AN1x::getOffset(SceneParam p)
 
 int AN1x::getOffset(CommonParam p)
 {
+
 	static const std::map<unsigned char, int> parameterToOffset{
 	{SceneSelect, 1}
 	};
@@ -234,11 +235,58 @@ const char* AN1x::getChorusTypeByValue(int value)
 		"8xSoft",
 		"8xMiddle",
 		"8xHard",
-		"Random Soft",
-		"Random Middle",
-		"Random Hard",
+		"Rnd Soft",
+		"Rnd Middle",
+		"Rnd Hard",
 	};
 
 	return chorus[value];
+}
+
+int AN1x::compressorAttack(int value)
+{
+	if (value < 0 || value > 19) return -1;
+
+	static int values[] = { 1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,23,26,30,35,40 };
+
+	return values[value];
+}
+
+int AN1x::compressorRelease(int value)
+{
+	if (value < 0 || value > 15) return -1;
+
+	static int values[] = { 10,15,25,35,45,55,65,75,85,100,115,140,170,230,340,680 };
+
+	return values[value];
+}
+
+const char* AN1x::compressorRatio(int value)
+{
+	static const char* unknown = "???";
+
+	if (value < 0 || value > 7) return unknown;
+
+	static std::array<const char*, 16> values{ "1.0","1.5","2.0","3.0","5.0","7.0","10.0","20.0" };
+
+	return values[value];
+}
+
+const char* AN1x::wahCutoffFreq(int value)
+{
+
+		static const char* unknown = "???";
+		if (value < 0 || value > 39) return unknown;
+
+		static std::array<const char*, 40> frq{
+			"20",
+			"32","45","63","80","100","125","160","200","250","280",
+			"315","350","400","500","560","630","700","800","1.0k","1.2k",
+			"1.4k","1.6k","1.8k","2.0k","2.2k","2.5k","2.8k","3.2k","3.6k","4.0k",
+			"5.0k","5.6k","6.3k","7.0k","8.0k","9.0k","10.0k","12.0k","14.0k"
+		};
+
+		return frq[value];
+
 }
 

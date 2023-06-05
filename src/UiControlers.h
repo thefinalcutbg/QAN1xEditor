@@ -7,19 +7,47 @@ class DialKnob  : public QDial, public AbstractSceneController
 {
 	Q_OBJECT
 
+	int m_offset{ 0 };
+	QString m_suffix = "";
+	bool m_showPositive{ false };
+
 public:
 
-	enum ValueTextType { Normal, Frequency, Resonance, Gain, LFOFrquency, ChorusType, Percent, Milliseconds };
+	enum ValueTextType { 
+		Normal, 
+		Frequency, 
+		Resonance, 
+		LFOFrquency, 
+		ChorusType, 
+		Milliseconds, 
+		Stage,
+		Diffusion,
+		PanDirection,
+		CompressorAttack,
+		CompressorRelease,
+		CompressorRatio,
+		WahCutoffFreq,
+		AMPType
+	};
 
 	DialKnob(QWidget *parent);
-
+	
 	~DialKnob();
 
 	// Inherited via AbstractSceneController
+	void setOffset(int offset) { m_offset = offset; };
+	void setSuffix(const char* suffix) { m_suffix = suffix; }
+	void setShowPositive(bool show) { m_showPositive = show; }
 	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
 	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
+	void resetValueText() {
+		m_textType = ValueTextType::Normal;
+		m_suffix.clear();
+		m_offset = 0;
+		m_showPositive = false;
+	}
 
 private:
 	bool event(QEvent* e) override;

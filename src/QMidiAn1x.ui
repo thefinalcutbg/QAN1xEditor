@@ -286,16 +286,19 @@
         </rect>
        </property>
        <property name="title">
-        <string>Voice Name</string>
+        <string>Voice Name and Type</string>
        </property>
        <widget class="ComboPicker" name="voiceType">
         <property name="geometry">
          <rect>
-          <x>50</x>
+          <x>10</x>
           <y>70</y>
-          <width>111</width>
+          <width>151</width>
           <height>22</height>
          </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
         </property>
         <item>
          <property name="text">
@@ -309,7 +312,7 @@
         </item>
         <item>
          <property name="text">
-          <string>CP - Chr Perc</string>
+          <string>CP - Chromatic Percussion</string>
          </property>
         </item>
         <item>
@@ -364,7 +367,7 @@
         </item>
         <item>
          <property name="text">
-          <string>FX - Synth FX</string>
+          <string>FX - Synth Effect</string>
          </property>
         </item>
         <item>
@@ -379,7 +382,7 @@
         </item>
         <item>
          <property name="text">
-          <string>SE - Sound FX</string>
+          <string>SE - Sound Effect</string>
          </property>
         </item>
         <item>
@@ -389,7 +392,7 @@
         </item>
         <item>
          <property name="text">
-          <string>SC - Syn Comp</string>
+          <string>SC - Synth Comp</string>
          </property>
         </item>
         <item>
@@ -404,7 +407,7 @@
         </item>
         <item>
          <property name="text">
-          <string>WV - Wave</string>
+          <string>WV - Material Wave</string>
          </property>
         </item>
         <item>
@@ -412,19 +415,6 @@
           <string>SQ - Sequence</string>
          </property>
         </item>
-       </widget>
-       <widget class="QLabel" name="label_10">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>70</y>
-          <width>49</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Type:</string>
-        </property>
        </widget>
        <widget class="VoiceNameEdit" name="voiceNameEdit">
         <property name="geometry">
@@ -534,6 +524,9 @@
        </property>
        <property name="maximum">
         <number>240</number>
+       </property>
+       <property name="value">
+        <number>140</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_12">
@@ -806,7 +799,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
@@ -843,7 +836,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
@@ -880,7 +873,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
@@ -917,7 +910,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
@@ -954,7 +947,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
@@ -991,7 +984,7 @@
             <number>32</number>
            </property>
            <property name="notchTarget">
-            <double>8.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="notchesVisible">
             <bool>true</bool>
