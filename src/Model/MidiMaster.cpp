@@ -130,6 +130,7 @@ bool MidiMaster::handleSceneParameter(const Message& m)
 
 void MidiMaster::handleMessage(const Message& msg)
 {
+	qDebug() << msg;
 	handlingMessage = true;
 
 	handleCommonParameter(msg);

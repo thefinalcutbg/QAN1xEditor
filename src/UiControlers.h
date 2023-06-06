@@ -11,11 +11,14 @@ class DialKnob  : public QDial, public AbstractSceneController
 	QString m_suffix = "";
 	bool m_showPositive{ false };
 
+	bool event(QEvent* e) override;
+	QString getValueText();
+
 public:
 
 	enum ValueTextType { 
 		Normal, 
-		Frequency, 
+		EqFrequency, 
 		Resonance, 
 		LFOFrquency, 
 		ChorusType, 
@@ -27,20 +30,26 @@ public:
 		CompressorRelease,
 		CompressorRatio,
 		WahCutoffFreq,
-		AMPType
+		AMPType,
+		DelayInput,
+		TempoDelay,
+		ReverbTime,
+		ReverbDamp
 	};
 
+private: ValueTextType m_textType{ Normal };
+
+public:
 	DialKnob(QWidget *parent);
 	
 	~DialKnob();
 
 	// Inherited via AbstractSceneController
-	void setOffset(int offset) { m_offset = offset; };
-	void setSuffix(const char* suffix) { m_suffix = suffix; }
-	void setShowPositive(bool show) { m_showPositive = show; }
+
 	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
 	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
 	void setCurrentValueAsDefault() final;
+
 	void setValue(int value) final;
 	void resetValueText() {
 		m_textType = ValueTextType::Normal;
@@ -49,15 +58,10 @@ public:
 		m_showPositive = false;
 	}
 
-private:
-	bool event(QEvent* e) override;
-
-	ValueTextType m_textType{ Normal };
-
-	QString getValueText();
-
-public:
 	void setValueTextType(ValueTextType t) { m_textType = t;  };
+	void setOffset(int offset) { m_offset = offset; };
+	void setSuffix(const char* suffix) { m_suffix = suffix; }
+	void setShowPositive(bool show) { m_showPositive = show; }
 };
 
 #include <QComboBox>

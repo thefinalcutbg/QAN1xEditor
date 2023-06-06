@@ -54,7 +54,7 @@ QString DialKnob::getValueText()
 		}	
 		break;
 
-		case Frequency:
+		case EqFrequency:
 			result += AN1x::getFrequencyByValue(value());
 			break;
 
@@ -67,25 +67,17 @@ QString DialKnob::getValueText()
 		}
 		break;
 
-		case LFOFrquency:
-			result += AN1x::getLFOFreqByValue(value());
-			break;
-
-		case ChorusType:
-			result += AN1x::getChorusTypeByValue(value());
-			break;
-
 		case Milliseconds:
 		{
-			if (value() == 0) {
+			auto val = value() + m_offset;
+			if (val == 0) {
 				result += "0.0";
 			}
 			else{
 
-				QString number = QString::number(value());
-				if (value() < 10) number.insert(0, "0.");
-				else if (value() < 100) number.insert(1, '.');
-				else number.insert(2, '.');
+				QString number = QString::number(val);
+				if (val < 10) number.insert(0, "0.");
+				else number.insert(number.size() - 1, '.');
 				
 				result += number;
 			}
@@ -94,28 +86,31 @@ QString DialKnob::getValueText()
 		}
 			break;
 
-		case Diffusion:
-			result += value() ? "Stereo" : "Mono";
-			break;
-
-		case Stage:
+		case ReverbDamp:
 		{
-			auto val = value();
-			int values[] = { 4,6,8 };
-			result += QString::number(values[val]);
+			//same as Milliseconds, but no suffix
+			auto val = value() + m_offset;
+			if (val == 0) {
+				result += "0.0";
+			}
+			else {
+
+				QString number = QString::number(val);
+				if (val < 10) number.insert(0, "0.");
+				else number.insert(number.size() - 1, '.');
+
+				result += number;
+			}
 		}
 		break;
 
-		case PanDirection:
-		{
-			const char* values[] =
-			{
-				"Left->Right", "Left<-Right","Left<->Right","Left turn", "Right turn"
-			};
-			result += values[value()];
-		}
-			break;
 
+		case LFOFrquency:
+			result += AN1x::getLFOFreqByValue(value());
+			break;
+		case ChorusType:
+			result += AN1x::getChorusTypeByValue(value());
+			break;
 		case CompressorAttack:
 			result += QString::number(AN1x::compressorAttack(value()));
 			break;
@@ -128,6 +123,34 @@ QString DialKnob::getValueText()
 		case WahCutoffFreq:
 			result += AN1x::wahCutoffFreq(value());
 			break;
+		case ReverbTime:
+			result += AN1x::reverbTime(value());
+			result += "s";
+			break;
+
+
+		case Stage:
+		{
+			auto val = value();
+			int values[] = { 4,6,8 };
+			result += QString::number(values[val]);
+		}
+		break;
+
+		case Diffusion:
+			result += value() ? "Stereo" : "Mono";
+			break;
+
+		case PanDirection:
+		{
+			const char* values[] =
+			{
+				"Left->Right", "Left<-Right","Left<->Right","Left turn", "Right turn"
+			};
+			result += values[value()];
+		}
+		break;
+
 		case AMPType:
 		{
 			const char* values[] =
@@ -137,6 +160,30 @@ QString DialKnob::getValueText()
 			result += values[value()];
 		}	
 		break;
+
+		case DelayInput:
+		{
+			const char* values[] =
+			{
+				"Left", "Right", "Left & Right"
+			};
+			result += values[value()];
+		}
+		break;
+
+		case TempoDelay:
+		{
+			const char* values[] =
+			{
+				"1/2","3/8","1/4","3/16","1/6","1/8","3/32","1/12","1/16","1/24","1/32"
+			};
+			result += values[value()];
+		}
+		break;
+
+
+
+
 	}
 
 	return result;

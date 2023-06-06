@@ -16,7 +16,7 @@ class QMidiAn1x : public QMainWindow
 
     void setFxLayout(int value);
     void setDelayLayout(int value);
-    void setReverbLayout(int value);
+    void setReverbLayout();
 
 public:
     QMidiAn1x(QWidget *parent = nullptr);

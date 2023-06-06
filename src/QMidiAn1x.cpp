@@ -12,9 +12,9 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
 
     m.setView(this);
 
-    ui.lowFq->setValueTextType(DialKnob::Frequency);
-    ui.midFq->setValueTextType(DialKnob::Frequency);
-    ui.highFq->setValueTextType(DialKnob::Frequency);
+    ui.lowFq->setValueTextType(DialKnob::EqFrequency);
+    ui.midFq->setValueTextType(DialKnob::EqFrequency);
+    ui.highFq->setValueTextType(DialKnob::EqFrequency);
     ui.midRes->setValueTextType(DialKnob::Resonance);
     ui.lowGain->setOffset(-64);
     ui.lowGain->setSuffix("dB");
@@ -27,6 +27,8 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
     ui.highGain->setShowPositive(true);
 
     setFxLayout(0);
+    setDelayLayout(0);
+    setReverbLayout();
 
     //MIDI DEVICES
     connect(ui.refresh, &QPushButton::clicked, [&] { m.refreshConnection(); });
@@ -65,8 +67,10 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
     );
     
     connect(ui.variFxType, &QComboBox::currentIndexChanged, [=](int index) { setFxLayout(index); });
-    connect(ui.delayType, &QComboBox::currentIndexChanged, [=](int index) { setFxLayout(index); });
-    connect(ui.reverbType, &QComboBox::currentIndexChanged, [=](int index) { setFxLayout(index); });
+    connect(ui.delayType, &QComboBox::currentIndexChanged, [=](int index) { setDelayLayout(index); });
+
+    ui.scene1DW->setSceneParam(&m, AN1x::SceneParam::VariFxDW, false);
+    ui.scene2DW->setSceneParam(&m, AN1x::SceneParam::VariFxDW, true);
 
     ui.voiceNameEdit->setMidiMaster(&m);
 
@@ -196,6 +200,14 @@ void QMidiAn1x::setMidiDevices(const QStringList& in, const QStringList& out)
 
 void QMidiAn1x::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
 {
+    //the DRY-WET are in the FX/EQ secion
+    if (p == AN1x::VariFxDW) {
+        qDebug() << "here";
+        auto& dial = isScene2 ? ui.scene1DW : ui.scene2DW;
+        dial->setValue(value);
+        return;
+    }
+
     auto& sceneView = isScene2 ? *ui.scene2tab : *ui.scene1tab;
 
     sceneView.setSceneParameters(p, value);
@@ -297,6 +309,13 @@ void QMidiAn1x::setFxLayout(int value)
     ui.fxParam6->resetValueText();
     ui.fxParam6->setNotchesVisible(false);
 
+    ui.scene1DW->setOffset(-64);
+    ui.scene1DW->setNotchTarget(70);
+    ui.scene2DW->setOffset(-64);
+    ui.scene2DW->setNotchTarget(70);
+    ui.dryWetLabel1->setText("D=W");
+    ui.dryWetLabel2->setText("D=W");
+
     switch ((AN1x::VariFx)value)
     {
         case AN1x::Chorus1:
@@ -309,7 +328,7 @@ void QMidiAn1x::setFxLayout(int value)
 
             ui.fxLabel2->setText("PM Depth");
             ui.fxParam2->setRange(0, 100);
-            ui.fxParam2->setValue(2);
+            ui.fxParam2->setValue(78);
             ui.fxParam2->setSuffix("%");
 
             ui.fxLabel3->setText("Amplitude");
@@ -330,6 +349,7 @@ void QMidiAn1x::setFxLayout(int value)
 
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
+            
         }
         break;
 
@@ -475,13 +495,13 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxLabel3->setText("HPF");
             ui.fxParam3->setRange(0, 52);
             ui.fxParam3->setValue(0);
-            ui.fxParam3->setValueTextType(DialKnob::Frequency);
+            ui.fxParam3->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel4->setText("LPF");
             ui.fxParam4->show();
             ui.fxParam4->setRange(34, 60);
             ui.fxParam4->setValue(60);
-            ui.fxParam4->setValueTextType(DialKnob::Frequency);
+            ui.fxParam4->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel5->setText("");
             ui.fxParam5->hide();
@@ -504,6 +524,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam2->setRange(0, 100);
             ui.fxParam2->setValue(53);
             ui.fxParam2->setOffset(-50);
+            ui.fxParam2->setShowPositive(true);
 
             ui.fxLabel3->setText("Pan 1");
             ui.fxParam3->setRange(1, 127);
@@ -515,7 +536,8 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam4->show();
             ui.fxParam4->setRange(0, 100);
             ui.fxParam4->setValue(47);
-            ui.fxParam4->setOffset(-50);;
+            ui.fxParam4->setOffset(-50);
+            ui.fxParam4->setShowPositive(true);
 
             ui.fxLabel5->setText("Pan 2");
             ui.fxParam5->show();
@@ -534,12 +556,11 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxLabel1->setText("HPF");
             ui.fxParam1->setRange(28, 58);
             ui.fxParam1->setValue(32);
-            ui.fxParam1->setValueTextType(DialKnob::Frequency);
+            ui.fxParam1->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel2->setText("Drive");
             ui.fxParam2->setRange(0, 100);
             ui.fxParam2->setValue(80);
-            ui.fxParam2->setSuffix("%");
 
             ui.fxLabel3->setText("Mix Level");
             ui.fxParam3->setRange(0, 100);
@@ -553,6 +574,13 @@ void QMidiAn1x::setFxLayout(int value)
 
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
+
+
+            ui.scene1DW->setNotchTarget(127);
+            ui.scene2DW->setNotchTarget(127);
+            ui.dryWetLabel1->setText("");
+            ui.dryWetLabel2->setText("");
+
         }
         break;
 
@@ -560,7 +588,7 @@ void QMidiAn1x::setFxLayout(int value)
         {
             ui.fxLabel1->setText("Attack");
             ui.fxParam1->setRange(0, 19);
-            ui.fxParam1->setValue(4);
+            ui.fxParam1->setValue(2);
             ui.fxParam1->setValueTextType(DialKnob::CompressorAttack);
 
             ui.fxLabel2->setText("Release");
@@ -587,6 +615,11 @@ void QMidiAn1x::setFxLayout(int value)
             
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
+
+            ui.scene1DW->setNotchTarget(127);
+            ui.scene2DW->setNotchTarget(127);
+            ui.dryWetLabel1->setText("");
+            ui.dryWetLabel2->setText("");
         }
         break;
 
@@ -615,6 +648,9 @@ void QMidiAn1x::setFxLayout(int value)
 
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
+
+            ui.scene1DW->setNotchTarget(70);
+            ui.scene2DW->setNotchTarget(70);
         }
         break;
 
@@ -628,7 +664,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxLabel2->setText("Mid Freq");
             ui.fxParam2->setRange(14, 54);
             ui.fxParam2->setValue(33);
-            ui.fxParam2->setValueTextType(DialKnob::Frequency);
+            ui.fxParam2->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel3->setText("Mid Gain");
             ui.fxParam3->setRange(52, 76);
@@ -641,7 +677,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam4->show();
             ui.fxParam4->setRange(28, 58);
             ui.fxParam4->setValue(56);
-            ui.fxParam4->setValueTextType(DialKnob::Frequency);
+            ui.fxParam4->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel5->setText("High Gain");
             ui.fxParam5->show();
@@ -656,6 +692,10 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam6->setRange(0,100);
             ui.fxParam6->setValue(75);
 
+            ui.scene1DW->setNotchTarget(70);
+            ui.scene2DW->setNotchTarget(70);
+            ui.dryWetLabel1->setText("Both");
+            ui.dryWetLabel2->setText("Both");
         }
         break;
 
@@ -674,7 +714,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxLabel3->setText("LPF");
             ui.fxParam3->setRange(34, 60);
             ui.fxParam3->setValue(48);
-            ui.fxParam3->setValueTextType(DialKnob::Frequency);
+            ui.fxParam3->setValueTextType(DialKnob::EqFrequency);
 
             ui.fxLabel4->setText("Out Level");
             ui.fxParam4->show();
@@ -686,6 +726,11 @@ void QMidiAn1x::setFxLayout(int value)
 
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
+
+            ui.scene1DW->setNotchTarget(70);
+            ui.scene2DW->setNotchTarget(70);
+            ui.dryWetLabel1->setText("Both");
+            ui.dryWetLabel2->setText("Both");
         }
         break;
     }
@@ -700,10 +745,276 @@ void QMidiAn1x::setFxLayout(int value)
 
 void QMidiAn1x::setDelayLayout(int value)
 {
+
+    QSignalBlocker b[] = {
+        QSignalBlocker{ui.dlyParam1},
+        QSignalBlocker{ui.dlyParam2},
+        QSignalBlocker{ui.dlyParam3},
+        QSignalBlocker{ui.dlyParam4},
+        QSignalBlocker{ui.dlyParam5},
+        QSignalBlocker{ui.dlyParam6},
+        QSignalBlocker{ui.dlyParam7}
+    };
+
+
+    ui.dlyParam1->resetValueText();
+    ui.dlyParam1->setNotchesVisible(false);
+    ui.dlyParam2->resetValueText();
+    ui.dlyParam2->setNotchesVisible(false);
+    ui.dlyParam3->resetValueText();
+    ui.dlyParam3->setNotchesVisible(false);
+    ui.dlyParam4->resetValueText();
+    ui.dlyParam4->setNotchesVisible(false);
+    ui.dlyParam5->resetValueText();
+    ui.dlyParam5->setNotchesVisible(false);
+    ui.dlyParam6->resetValueText();
+    ui.dlyParam6->setNotchesVisible(false);
+    ui.dlyParam7->resetValueText();
+    ui.dlyParam7->setNotchesVisible(false);
+
+
+    switch ((AN1x::Delay)value)
+    {
+        case AN1x::LCR:
+
+            ui.dlyLabel1->setText("Left");
+            ui.dlyParam1->setRange(0, 6599);
+            ui.dlyParam1->setOffset(1);
+            ui.dlyParam1->setValue(453);
+            ui.dlyParam1->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel2->setText("Right");
+            ui.dlyParam2->setRange(0, 6599);
+            ui.dlyParam2->setOffset(1);
+            ui.dlyParam2->setValue(715);
+            ui.dlyParam2->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel3->setText("Center");
+            ui.dlyParam3->setRange(0, 6599);
+            ui.dlyParam3->setOffset(1);
+            ui.dlyParam3->setValue(3999);
+            ui.dlyParam3->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel4->setText("Center lvl.");
+            ui.dlyParam4->setRange(0, 100);
+            ui.dlyParam4->setValue(90);
+
+            ui.dlyLabel5->setText("FB level");
+            ui.dlyParam5->setRange(0, 198);
+            ui.dlyParam5->setValue(131);
+            ui.dlyParam5->setOffset(-99);
+            ui.dlyParam5->setSuffix("%");
+
+            ui.dlyLabel6->setText("HPF");
+            ui.dlyParam6->setRange(0, 52);
+            ui.dlyParam6->setValue(0);
+            ui.dlyParam6->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel7->setText("LPF");
+            ui.dlyParam7->show();
+            ui.dlyParam7->setRange(34, 60);
+            ui.dlyParam7->setValue(54);
+            ui.dlyParam7->setValueTextType(DialKnob::EqFrequency);
+
+            break;
+
+        case AN1x::LR:
+
+            ui.dlyLabel1->setText("Left");
+            ui.dlyParam1->setRange(0, 6599);
+            ui.dlyParam1->setValue(3914);
+            ui.dlyParam1->setOffset(1);
+            ui.dlyParam1->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel2->setText("Right");
+            ui.dlyParam2->setRange(0, 6599);
+            ui.dlyParam2->setValue(4121);
+            ui.dlyParam2->setOffset(1);
+            ui.dlyParam2->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel3->setText("FB Delay 1");
+            ui.dlyParam3->setRange(0, 6599);
+            ui.dlyParam3->setValue(3914);
+            ui.dlyParam3->setOffset(1);
+            ui.dlyParam3->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel4->setText("FB Delay 2");
+            ui.dlyParam4->setRange(0, 6599);
+            ui.dlyParam4->setValue(4121);
+            ui.dlyParam4->setOffset(1);
+            ui.dlyParam4->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel5->setText("FB Level");
+            ui.dlyParam5->setRange(0, 198);
+            ui.dlyParam5->setValue(129);
+            ui.dlyParam5->setSuffix("%");
+            ui.dlyParam5->setOffset(-99);
+
+            ui.dlyLabel6->setText("HPF");
+            ui.dlyParam6->setRange(0, 52);
+            ui.dlyParam6->setValue(0);
+            ui.dlyParam6->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel7->setText("LPF");
+            ui.dlyParam7->show();
+            ui.dlyParam7->setRange(34, 60);
+            ui.dlyParam7->setValue(54);
+            ui.dlyParam7->setValueTextType(DialKnob::EqFrequency);
+
+            break;
+
+        case AN1x::Echo:
+            ui.dlyLabel1->setText("Left");
+            ui.dlyParam1->setRange(0, 3299);
+            ui.dlyParam1->setValue(3239);
+            ui.dlyParam1->setOffset(1);
+            ui.dlyParam1->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel2->setText("Left FB");
+            ui.dlyParam2->setRange(0, 198);
+            ui.dlyParam2->setValue(134);
+            ui.dlyParam2->setOffset(-99);
+            ui.dlyParam2->setSuffix("%");
+
+            ui.dlyLabel3->setText("Right");
+            ui.dlyParam3->setRange(0, 3299);
+            ui.dlyParam3->setValue(3299);
+            ui.dlyParam3->setOffset(1);
+            ui.dlyParam3->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel4->setText("Rright FB");
+            ui.dlyParam4->setRange(0, 198);
+            ui.dlyParam4->setValue(134);
+            ui.dlyParam4->setOffset(-99);
+            ui.dlyParam4->setSuffix("%");
+
+            ui.dlyLabel5->setText("HPF");
+            ui.dlyParam5->setRange(0, 52);
+            ui.dlyParam5->setValue(0);
+            ui.dlyParam5->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel6->setText("LPF");
+            ui.dlyParam6->setRange(34, 60);
+            ui.dlyParam6->setValue(54);
+            ui.dlyParam6->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel7->setText("");
+            ui.dlyParam7->hide();
+
+            break;
+
+        case AN1x::Cross:
+            ui.dlyLabel1->setText("Left->Right");
+            ui.dlyParam1->setRange(0, 3299);
+            ui.dlyParam1->setValue(3299);
+            ui.dlyParam1->setOffset(1);
+            ui.dlyParam1->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel2->setText("L->R FB");
+            ui.dlyParam2->setRange(0, 198);
+            ui.dlyParam2->setValue(142);
+            ui.dlyParam2->setOffset(-99);
+            ui.dlyParam2->setSuffix("%");
+
+            ui.dlyLabel3->setText("Right->Left");
+            ui.dlyParam3->setRange(0, 3299);
+            ui.dlyParam3->setValue(3299);
+            ui.dlyParam3->setOffset(1);
+            ui.dlyParam3->setValueTextType(DialKnob::Milliseconds);
+
+            ui.dlyLabel4->setText("R->L FB");
+            ui.dlyParam4->setRange(0, 198);
+            ui.dlyParam4->setValue(142);
+            ui.dlyParam4->setOffset(-99);
+            ui.dlyParam4->setSuffix("%");
+
+            ui.dlyLabel5->setText("Input");
+            ui.dlyParam5->setRange(0, 2);
+            ui.dlyParam5->setValue(0);
+            ui.dlyParam5->setNotchesVisible(true);
+            ui.dlyParam5->setNotchTarget(1);
+            ui.dlyParam5->setValueTextType(DialKnob::DelayInput);
+
+            ui.dlyLabel6->setText("HPF");
+            ui.dlyParam6->setRange(0, 52);
+            ui.dlyParam6->setValue(0);
+            ui.dlyParam6->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel7->setText("LPF");
+            ui.dlyParam7->show();
+            ui.dlyParam7->setRange(34, 60);
+            ui.dlyParam7->setValue(54);
+            ui.dlyParam7->setValueTextType(DialKnob::EqFrequency);
+
+            break;
+
+        case AN1x::TempoDelay:
+            ui.dlyLabel1->setText("Subdivide");
+            ui.dlyParam1->setRange(0, 10);
+            ui.dlyParam1->setValue(2);
+            ui.dlyParam1->setNotchesVisible(true);
+            ui.dlyParam1->setNotchTarget(1);
+            ui.dlyParam1->setValueTextType(DialKnob::TempoDelay);
+
+            ui.dlyLabel2->setText("L Diffusion");
+            ui.dlyParam2->setRange(44, 84);
+            ui.dlyParam2->setOffset(-64);
+            ui.dlyParam2->setValue(63);
+            ui.dlyParam2->setShowPositive(true);
+            ui.dlyParam2->setSuffix("%");
+
+            ui.dlyLabel3->setText("R Diffusion");
+            ui.dlyParam3->setRange(44, 84);
+            ui.dlyParam3->setOffset(-64);
+            ui.dlyParam3->setValue(63);
+            ui.dlyParam3->setShowPositive(true);
+            ui.dlyParam3->setSuffix("%");
+
+            ui.dlyLabel4->setText("Feedback");
+            ui.dlyParam4->setRange(0, 198);
+            ui.dlyParam4->setValue(132);
+            ui.dlyParam4->setOffset(-99);
+            ui.dlyParam4->setSuffix("%");
+
+            ui.dlyLabel5->setText("HPF");
+            ui.dlyParam5->setRange(0, 52);
+            ui.dlyParam5->setValue(0);
+            ui.dlyParam5->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel6->setText("LPF");
+            ui.dlyParam6->setRange(34, 60);
+            ui.dlyParam6->setValue(54);
+            ui.dlyParam6->setValueTextType(DialKnob::EqFrequency);
+
+            ui.dlyLabel7->setText("");
+            ui.dlyParam7->hide();
+
+            break;
+    };  
+
+
+
+    ui.dlyParam1->setCurrentValueAsDefault();
+    ui.dlyParam2->setCurrentValueAsDefault();
+    ui.dlyParam3->setCurrentValueAsDefault();
+    ui.dlyParam4->setCurrentValueAsDefault();
+    ui.dlyParam5->setCurrentValueAsDefault();
+    ui.dlyParam6->setCurrentValueAsDefault();
+    ui.dlyParam7->setCurrentValueAsDefault();
 }
 
-void QMidiAn1x::setReverbLayout(int value)
+void QMidiAn1x::setReverbLayout()
 {
+    ui.revParam1->setValueTextType(DialKnob::ReverbTime);
+    ui.revParam2->setValueTextType(DialKnob::ReverbDamp);
+    ui.revParam2->setOffset(1);
+    ui.revParam4->setValueTextType(DialKnob::Milliseconds);
+    ui.revParam4->setOffset(1);
+    ui.revParam5->setOffset(-64);
+    ui.revParam5->setShowPositive(true);
+    ui.revParam6->setValueTextType(DialKnob::EqFrequency);
+    ui.revParam7->setValueTextType(DialKnob::EqFrequency);
+
 }
 
 QMidiAn1x::~QMidiAn1x()

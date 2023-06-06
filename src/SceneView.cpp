@@ -111,7 +111,8 @@ void SceneView::setMidiMaster(MidiMaster* master)
 		ui.feedback,
 		ui.ampVolume,
 		ui.ampVelSens,
-		ui.AmpModDepth
+		ui.AmpModDepth,
+		nullptr
 	};
 
 	for (int i = 0; i < AN1x::SceneParam::SceneParamSize; i++)

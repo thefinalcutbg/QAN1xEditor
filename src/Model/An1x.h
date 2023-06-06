@@ -179,6 +179,7 @@ namespace AN1x
 		Volume,
 		AmpVelSens,
 		AmpModDepth,
+		VariFxDW,
 		SceneParamSize
 	};
 
@@ -202,5 +203,5 @@ namespace AN1x
 	int compressorRelease(int value);
 	const char* compressorRatio(int value);
 	const char* wahCutoffFreq(int value);
-	
+	const char* reverbTime(int value);
 }
