@@ -309,3 +309,88 @@ const char* AN1x::reverbTime(int value)
 	return time[value];
 }
 
+std::string AN1x::getMatrixSourceName(int value)
+{
+	if (value < 0 || value > 115) return "???";
+
+	if (!value) return "Off";
+
+	if (value < 96) return std::to_string(value);
+
+	static const char* named[11] =
+	{
+		"Aftertouch",
+		"Pitch Bend",
+		"Key Track",
+		"Velocity",
+		"Key Random",
+		"Mod Wheel",
+		"Foot Volume",
+		"Foot Control",
+		"Foot Switch",
+		"Ribbon X",
+		"Ribbon Y"
+	};
+
+	if (value > 95 && value < 107) return named[value-96];
+
+	return std::string("Assign Knob ") + std::to_string(value - 107);
+}
+
+const char* AN1x::getMatrixParamName(int value)
+{
+	static const char* unknown = "???";
+	if (value < 0 || value > 45) return unknown;
+
+	static std::array<const char*, 46> values{ 
+		"Off",
+		"Scene Tune",
+		"Pitch Up",
+		"Pitch Down",
+		"PEG Decay",
+		"PEG Depth",
+		"Portamento Time",
+		"LFO1 Speed",
+		"LFO1 Delay",
+		"LFO2 Speed",
+		"Sync Pitch",
+		"Sync Depth",
+		"FM Depth",
+		"VCO1 Pitch",
+		"VCO1 Fine",
+		"VCO1 Edge",
+		"VCO1 Pulse Width",
+		"VCO1 PW Depth",
+		"VCO1 LFO Mod Depth",
+		"VCO2 Pitch",
+		"VCO2 Fine",
+		"VCO2 Edge",
+		"VCO2 Pulse Width",
+		"VCO2 PW Depth",
+		"VCO2 LFO Mod Depth",
+		"VCO1 Level",
+		"VCO2 Level",
+		"Ring Modulation",
+		"Nouse Level",
+		"FEG Attack",
+		"FEG Decay",
+		"FEG Sustain",
+		"FEG Release",
+		"HPF Cutoff",
+		"VCF Cutoff",
+		"Resonance",
+		"FEG Depth",
+		"VCF LFO Mod Depth",
+		"AEG Attack",
+		"AEG Decay",
+		"AEG Sustain",
+		"AEG Release",
+		"VCA Feedback",
+		"VCA Volume",
+		"VCA LFO Mod Depth",
+		"Vari FX D:W"
+	};
+
+	return values[value];
+}
+

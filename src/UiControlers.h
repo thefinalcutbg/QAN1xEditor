@@ -61,7 +61,7 @@ public:
 	void setValueTextType(ValueTextType t) { m_textType = t;  };
 	void setOffset(int offset) { m_offset = offset; };
 	void setSuffix(const char* suffix) { m_suffix = suffix; }
-	void setShowPositive(bool show) { m_showPositive = show; }
+	void showPlusOnPositives(bool show) { m_showPositive = show; }
 };
 
 #include <QComboBox>

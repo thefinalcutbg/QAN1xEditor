@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_SceneView.h"
+#include "Model/An1x.h"
 
 class MidiMaster;
 
@@ -13,7 +14,9 @@ class SceneView : public QWidget
 	
 	bool isScene2 = false;
 
-	std::array<AbstractSceneController*, AN1x::SceneParamSize> ui_controls { nullptr };
+	static constexpr int uiParamSize = AN1x::VariFxDW;
+
+	std::array<AbstractSceneController*, uiParamSize> ui_controls { nullptr };
 
 public:
 	SceneView(QWidget *parent = nullptr);

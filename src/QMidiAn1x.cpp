@@ -8,6 +8,7 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
 {
     ui.setupUi(this);
 
+
     GlobalWidgets::statusBar = statusBar();
 
     m.setView(this);
@@ -18,13 +19,28 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
     ui.midRes->setValueTextType(DialKnob::Resonance);
     ui.lowGain->setOffset(-64);
     ui.lowGain->setSuffix("dB");
-    ui.lowGain->setShowPositive(true);
+    ui.lowGain->showPlusOnPositives(true);
     ui.midGain->setOffset(-64);
     ui.midGain->setSuffix("dB");
-    ui.midGain->setShowPositive(true);
+    ui.midGain->showPlusOnPositives(true);
     ui.highGain->setOffset(-64);
     ui.highGain->setSuffix("dB");
-    ui.highGain->setShowPositive(true);
+    ui.highGain->showPlusOnPositives(true);
+
+    for (int y = 0; y < 116; y++)
+    {
+        ui.sourceMtrxCom_1->addItem(AN1x::getMatrixSourceName(y).c_str());
+        ui.sourceMtrxCom_2->addItem(AN1x::getMatrixSourceName(y).c_str());
+    }
+
+    for (int y = 0; y < 46; y++)
+    {
+        ui.paramMtrxCom_1->addItem(AN1x::getMatrixParamName(y));
+        ui.paramMtrxCom_2->addItem(AN1x::getMatrixParamName(y));
+    }
+
+    ui.depthMtrxCom_1->showPlusOnPositives(true);
+    ui.depthMtrxCom_2->showPlusOnPositives(true);
 
     setFxLayout(0);
     setDelayLayout(0);
@@ -72,6 +88,9 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
     ui.scene1DW->setSceneParam(&m, AN1x::SceneParam::VariFxDW, false);
     ui.scene2DW->setSceneParam(&m, AN1x::SceneParam::VariFxDW, true);
 
+    ui.ctrlMatrixScene2->setAsScene2();
+
+
     ui.voiceNameEdit->setMidiMaster(&m);
 
     ui_controls = {
@@ -95,12 +114,12 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
         nullptr,
         nullptr,
         ui.portamentoCheck,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
+        ui.sourceMtrxCom_1,
+        ui.paramMtrxCom_1,
+        ui.depthMtrxCom_1,
+        ui.sourceMtrxCom_2,
+        ui.paramMtrxCom_2,
+        ui.depthMtrxCom_2,
         ui.variFxType,
         nullptr,
         ui.fxParam1,
@@ -169,6 +188,9 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
 
     ui.scene1tab->setMidiMaster(&m);
     ui.scene2tab->setMidiMaster(&m);
+
+    ui.ctrlMatrixScene1->setMidiMaster(&m);
+    ui.ctrlMatrixScene2->setMidiMaster(&m);
 
     m.refreshConnection();
 
@@ -518,33 +540,33 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam1->setRange(0, 48);
             ui.fxParam1->setValue(24);
             ui.fxParam1->setOffset(-24);
-            ui.fxParam1->setShowPositive(true);
+            ui.fxParam1->showPlusOnPositives(true);
 
             ui.fxLabel2->setText("Fine 1");
             ui.fxParam2->setRange(0, 100);
             ui.fxParam2->setValue(53);
             ui.fxParam2->setOffset(-50);
-            ui.fxParam2->setShowPositive(true);
+            ui.fxParam2->showPlusOnPositives(true);
 
             ui.fxLabel3->setText("Pan 1");
             ui.fxParam3->setRange(1, 127);
             ui.fxParam3->setValue(1);
             ui.fxParam3->setOffset(-64);
-            ui.fxParam3->setShowPositive(true);
+            ui.fxParam3->showPlusOnPositives(true);
 
             ui.fxLabel4->setText("Fine 2");
             ui.fxParam4->show();
             ui.fxParam4->setRange(0, 100);
             ui.fxParam4->setValue(47);
             ui.fxParam4->setOffset(-50);
-            ui.fxParam4->setShowPositive(true);
+            ui.fxParam4->showPlusOnPositives(true);
 
             ui.fxLabel5->setText("Pan 2");
             ui.fxParam5->show();
             ui.fxParam5->setRange(1, 127);
             ui.fxParam5->setValue(127);
             ui.fxParam5->setOffset(-64);
-            ui.fxParam5->setShowPositive(true);
+            ui.fxParam5->showPlusOnPositives(true);
 
             ui.fxLabel6->setText("");
             ui.fxParam6->hide();
@@ -671,7 +693,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam3->setOffset(-64);
             ui.fxParam3->setSuffix("dB");
             ui.fxParam3->setValue(67);
-            ui.fxParam3->setShowPositive(true);
+            ui.fxParam3->showPlusOnPositives(true);
 
             ui.fxLabel4->setText("High Freq");
             ui.fxParam4->show();
@@ -685,7 +707,7 @@ void QMidiAn1x::setFxLayout(int value)
             ui.fxParam5->setOffset(-64);
             ui.fxParam5->setSuffix("dB");
             ui.fxParam5->setValue(68);
-            ui.fxParam5->setShowPositive(true);
+            ui.fxParam5->showPlusOnPositives(true);
 
             ui.fxLabel6->setText("Out Level");
             ui.fxParam6->show();
@@ -960,14 +982,14 @@ void QMidiAn1x::setDelayLayout(int value)
             ui.dlyParam2->setRange(44, 84);
             ui.dlyParam2->setOffset(-64);
             ui.dlyParam2->setValue(63);
-            ui.dlyParam2->setShowPositive(true);
+            ui.dlyParam2->showPlusOnPositives(true);
             ui.dlyParam2->setSuffix("%");
 
             ui.dlyLabel3->setText("R Diffusion");
             ui.dlyParam3->setRange(44, 84);
             ui.dlyParam3->setOffset(-64);
             ui.dlyParam3->setValue(63);
-            ui.dlyParam3->setShowPositive(true);
+            ui.dlyParam3->showPlusOnPositives(true);
             ui.dlyParam3->setSuffix("%");
 
             ui.dlyLabel4->setText("Feedback");
@@ -1011,7 +1033,7 @@ void QMidiAn1x::setReverbLayout()
     ui.revParam4->setValueTextType(DialKnob::Milliseconds);
     ui.revParam4->setOffset(1);
     ui.revParam5->setOffset(-64);
-    ui.revParam5->setShowPositive(true);
+    ui.revParam5->showPlusOnPositives(true);
     ui.revParam6->setValueTextType(DialKnob::EqFrequency);
     ui.revParam7->setValueTextType(DialKnob::EqFrequency);
 

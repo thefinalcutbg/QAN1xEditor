@@ -1,11 +1,13 @@
 #include "SceneView.h"
 #include "Model/MidiMaster.h"
 #include "GlobalWidgets.h"
+#include <QPainter>
 
 SceneView::SceneView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
 }
 
 void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
@@ -32,7 +34,7 @@ void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
 		return;
 	}
 
-	if (p < AN1x::SceneParamSize && ui_controls[p] != nullptr) {
+	if (p < ui_controls.size() && ui_controls[p] != nullptr) {
 		ui_controls[p]->setValue(value);
 	}
 }
@@ -111,11 +113,10 @@ void SceneView::setMidiMaster(MidiMaster* master)
 		ui.feedback,
 		ui.ampVolume,
 		ui.ampVelSens,
-		ui.AmpModDepth,
-		nullptr
+		ui.AmpModDepth
 	};
 
-	for (int i = 0; i < AN1x::SceneParam::SceneParamSize; i++)
+	for (int i = 0; i < ui_controls.size(); i++)
 	{
 		if (ui_controls[i] == nullptr) continue;
 

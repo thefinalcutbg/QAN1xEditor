@@ -76,6 +76,9 @@
     <ClCompile Include="src\VoiceNameEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ControlMatrixScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QMidi\RtMidi.h">
@@ -119,9 +122,15 @@
     <QtMoc Include="src\VoiceNameEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\ControlMatrixScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\SceneView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ControlMatrixScene.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -106,12 +106,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\AbstractSceneController.cpp" />
+    <ClCompile Include="src\ControlMatrixScene.cpp" />
     <ClCompile Include="src\UiControlers.cpp" />
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
     <ClCompile Include="src\SceneView.cpp" />
     <ClCompile Include="src\VoiceNameEdit.cpp" />
     <QtRcc Include="src\QMidiAn1x.qrc" />
+    <QtUic Include="src\ControlMatrixScene.ui" />
     <QtUic Include="src\QMidiAn1x.ui" />
     <QtMoc Include="src\QMidiAn1x.h" />
     <ClCompile Include="QMidi\qmidiin.cpp" />
@@ -128,6 +130,7 @@
     <QtMoc Include="src\VoiceNameEdit.h" />
     <QtMoc Include="src\UiControlers.h" />
     <ClInclude Include="src\AbstractSceneController.h" />
+    <QtMoc Include="src\ControlMatrixScene.h" />
     <ClInclude Include="src\GlobalWidgets.h" />
     <ClInclude Include="src\Model\An1x.h" />
     <ClInclude Include="src\Model\MidiMaster.h" />

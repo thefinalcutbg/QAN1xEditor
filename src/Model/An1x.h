@@ -180,7 +180,13 @@ namespace AN1x
 		AmpVelSens,
 		AmpModDepth,
 		VariFxDW,
-		SceneParamSize
+		reserve,
+		CtrlMtrxSource1,
+		CtrlMtrxParam1,
+		CtrlMtrxDepth1,
+		//repeat last 3 15 more times
+		CtrlMtrxDepth16 = 0x73,
+		SceneParametersMaxSize
 	};
 
 	unsigned char getScene(bool isScene2);
@@ -204,4 +210,6 @@ namespace AN1x
 	const char* compressorRatio(int value);
 	const char* wahCutoffFreq(int value);
 	const char* reverbTime(int value);
+	std::string getMatrixSourceName(int value);
+	const char* getMatrixParamName(int value);
 }
