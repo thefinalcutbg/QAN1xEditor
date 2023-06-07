@@ -92,6 +92,10 @@ void ArpSeq::setCommonParameter(AN1x::CommonParam p, int value)
 
 }
 
+void ArpSeq::setSequenceParameter(AN1x::StepSequencer p, int value)
+{
+}
+
 void ArpSeq::setArpLayout(bool arp)
 {
 	ui.arpType->setDisabled(!arp);

@@ -189,6 +189,25 @@ namespace AN1x
 		SceneParametersMaxSize
 	};
 
+	enum StepSequencer : unsigned char
+	{
+		SeqBaseUnit = 0x00,
+		SeqLength,
+		SeqLoopType,
+		SeqCtrlChange,
+		SeqNull1,
+		SeqNull2,
+		SeqNote1 = 0x06,
+		//15 more
+		SeqVelocity1 = 0x16,
+		//15 more
+		SeqGateTime = 0x26,
+		//15 more
+		SeqCtrlChange1 = 0x36,
+		//15 more
+		StepSequencerMaxSize = 0x46
+	};
+
 	unsigned char getScene(bool isScene2);
 
 
