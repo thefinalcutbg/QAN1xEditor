@@ -105,36 +105,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\AbstractSceneController.cpp" />
-    <ClCompile Include="src\ControlMatrixScene.cpp" />
-    <ClCompile Include="src\UiControlers.cpp" />
+    <ClCompile Include="src\View\ArpSeq.cpp" />
+    <ClCompile Include="src\View\ControlMatrixScene.cpp" />
+    <ClCompile Include="src\View\FxEq.cpp" />
+    <ClCompile Include="src\View\UiControlers.cpp" />
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
-    <ClCompile Include="src\SceneView.cpp" />
-    <ClCompile Include="src\VoiceNameEdit.cpp" />
-    <QtRcc Include="src\QMidiAn1x.qrc" />
-    <QtUic Include="src\ControlMatrixScene.ui" />
-    <QtUic Include="src\QMidiAn1x.ui" />
-    <QtMoc Include="src\QMidiAn1x.h" />
+    <ClCompile Include="src\View\SceneView.cpp" />
+    <ClCompile Include="src\View\VoiceNameEdit.cpp" />
+    <QtRcc Include="src\View\QMidiAn1x.qrc" />
+    <QtUic Include="src\View\ArpSeq.ui" />
+    <QtUic Include="src\View\ControlMatrixScene.ui" />
+    <QtUic Include="src\View\FxEq.ui" />
+    <QtUic Include="src\View\QMidiAn1x.ui" />
+    <QtMoc Include="src\View\QMidiAn1x.h" />
     <ClCompile Include="QMidi\qmidiin.cpp" />
     <ClCompile Include="QMidi\qmidimapper.cpp" />
     <ClCompile Include="QMidi\qmidimessage.cpp" />
     <ClCompile Include="QMidi\qmidiout.cpp" />
     <ClCompile Include="QMidi\qmidipianoroll.cpp" />
     <ClCompile Include="QMidi\RtMidi.cpp" />
-    <ClCompile Include="src\QMidiAn1x.cpp" />
+    <ClCompile Include="src\View\QMidiAn1x.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <QtUic Include="src\SceneView.ui" />
+    <QtUic Include="src\View\SceneView.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\VoiceNameEdit.h" />
-    <QtMoc Include="src\UiControlers.h" />
-    <ClInclude Include="src\AbstractSceneController.h" />
-    <QtMoc Include="src\ControlMatrixScene.h" />
-    <ClInclude Include="src\GlobalWidgets.h" />
+    <QtMoc Include="src\View\VoiceNameEdit.h" />
+    <QtMoc Include="src\View\UiControlers.h" />
+    <ClInclude Include="src\View\AbstractSceneController.h" />
+    <QtMoc Include="src\View\ControlMatrixScene.h" />
+    <QtMoc Include="src\View\FxEq.h" />
+    <QtMoc Include="src\View\ArpSeq.h" />
+    <ClInclude Include="src\View\GlobalWidgets.h" />
     <ClInclude Include="src\Model\An1x.h" />
     <ClInclude Include="src\Model\MidiMaster.h" />
-    <QtMoc Include="src\SceneView.h" />
+    <QtMoc Include="src\View\SceneView.h" />
     <QtMoc Include="QMidi\qmidiin.h" />
     <QtMoc Include="QMidi\qmidimapper.h" />
     <QtMoc Include="QMidi\qmidimessage.h" />

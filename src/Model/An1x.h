@@ -108,7 +108,7 @@ namespace AN1x
 		FreeEGTrigger,
 		FreeEGLoopType,
 		FreeEGLength,
-		CommonParamSize
+		CommonMaxSize
 	};
 
 	enum SceneParam : unsigned char
@@ -212,4 +212,5 @@ namespace AN1x
 	const char* reverbTime(int value);
 	std::string getMatrixSourceName(int value);
 	const char* getMatrixParamName(int value);
+	const char* getMatrixCommonParamName(int value);
 }

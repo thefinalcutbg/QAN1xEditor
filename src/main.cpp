@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QDebug>
-#include "QMidiAn1x.h"
+#include "View/QMidiAn1x.h"
 
 
 int main(int argc, char* argv[])

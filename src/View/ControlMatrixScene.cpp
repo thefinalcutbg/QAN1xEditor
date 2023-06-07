@@ -60,7 +60,7 @@ ControlMatrixScene::ControlMatrixScene(QWidget* parent)
 	{
 		auto combo = static_cast<ComboPicker*>(ui_controls[i]);
 
-		for (int y = 0; y < 116; y++)
+		for (int y = 0; y < 115; y++)
 		{
 			combo->addItem(AN1x::getMatrixSourceName(y).c_str());
 		}

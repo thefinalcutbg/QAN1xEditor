@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ArpSeqClass</class>
+ <widget class="QWidget" name="ArpSeqClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1002</width>
+    <height>563</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ArpSeq</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>10</y>
+     <width>101</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Scene switch</string>
+   </property>
+   <widget class="QRadioButton" name="radioScene1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>89</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scene 1</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioScene2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>89</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scene 2</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioBothScenes">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>89</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Both</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>10</y>
+     <width>191</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Play Effect</string>
+   </property>
+   <widget class="DialKnob" name="swing">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="minimum">
+     <number>32</number>
+    </property>
+    <property name="maximum">
+     <number>53</number>
+    </property>
+    <property name="wrapping">
+     <bool>false</bool>
+    </property>
+    <property name="notchTarget">
+     <double>8.000000000000000</double>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>70</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Velocity</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="seqLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Swing</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="DialKnob" name="velocity">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>30</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="minimum">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>64</number>
+    </property>
+    <property name="wrapping">
+     <bool>false</bool>
+    </property>
+    <property name="notchTarget">
+     <double>8.000000000000000</double>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="seqLabel_3">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>70</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gate Time</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="DialKnob" name="gate">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>30</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>64</number>
+    </property>
+    <property name="wrapping">
+     <bool>false</bool>
+    </property>
+    <property name="notchTarget">
+     <double>8.000000000000000</double>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>551</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Parameters</string>
+   </property>
+   <widget class="ComboPicker" name="arpSubdivide">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>60</y>
+      <width>69</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>7</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>3/8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3/16</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3/32</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/12</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/16</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/24</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1/32</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QSpinBox" name="seqPatternNo">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>90</y>
+      <width>101</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="suffix">
+     <string/>
+    </property>
+    <property name="prefix">
+     <string>C#1: User </string>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>128</number>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Step hold</string>
+    </property>
+   </widget>
+   <widget class="ComboPicker" name="stepHoldCombo">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>131</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Off</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>On</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="ComboPicker" name="arpType">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>30</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>Up 1 octave</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up 2 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up 4 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Down 1 octave</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Down 2 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Down 4 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 1 octave A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 2 octaves A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 4 octaves A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 1 octaves B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 2 octaves B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Up and down 4 octaves A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random 1 octave</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random 2 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random 3 octaves</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Techno sequence A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Techno sequence B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Techno sequence C</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Techno sequence D</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>House sequence</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Syncopation A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Syncopation B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Syncopated echo</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Echo with moving filter A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Echo with moving filter B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Pulse bass and sequence</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bass line A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bass line B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bass line C</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bass line D</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="seqLabel_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sequencer Pattern:</string>
+    </property>
+   </widget>
+   <widget class="ComboPicker" name="kbdMode">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>60</y>
+      <width>131</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Chord</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Chord &amp; Normal</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="arpLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>60</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Subdivide:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Keyboard mode:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="arpLabel_1">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>30</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Arpeggio Type:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Length:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="seqLength">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>150</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="suffix">
+    <string> Steps</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>16</number>
+   </property>
+   <property name="value">
+    <number>8</number>
+   </property>
+  </widget>
+  <widget class="ComboPicker" name="loopType">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>150</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Forwards</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Backwards</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Alternate A</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Alternate B</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>150</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Loop Type:</string>
+   </property>
+  </widget>
+  <widget class="ComboPicker" name="baseUnit">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>150</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>7</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>3/8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3/16</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3/32</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/12</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/16</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/24</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/32</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>150</y>
+     <width>61</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Base Unit:</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="seq">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>961</width>
+     <height>351</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>150</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Control Change:</string>
+   </property>
+  </widget>
+  <widget class="ComboPicker" name="controlChange">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>150</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>7</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>3/8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3/16</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3/32</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/12</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/16</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/24</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1/32</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>120</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Arp/Seq</string>
+   </property>
+   <widget class="QRadioButton" name="radioArp">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Arpeggiator</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioSeq">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>89</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sequencer</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DialKnob</class>
+   <extends>QDial</extends>
+   <header>UiControlers.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboPicker</class>
+   <extends>QComboBox</extends>
+   <header>UiControlers.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

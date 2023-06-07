@@ -311,7 +311,7 @@ const char* AN1x::reverbTime(int value)
 
 std::string AN1x::getMatrixSourceName(int value)
 {
-	if (value < 0 || value > 115) return "???";
+	if (value < 0 || value > 114) return "???";
 
 	if (!value) return "Off";
 
@@ -334,7 +334,7 @@ std::string AN1x::getMatrixSourceName(int value)
 
 	if (value > 95 && value < 107) return named[value-96];
 
-	return std::string("Assign Knob ") + std::to_string(value - 107);
+	return std::string("Assign Knob ") + std::to_string(value - 106);
 }
 
 const char* AN1x::getMatrixParamName(int value)
@@ -389,6 +389,23 @@ const char* AN1x::getMatrixParamName(int value)
 		"VCA Volume",
 		"VCA LFO Mod Depth",
 		"Vari FX D:W"
+	};
+
+	return values[value];
+}
+
+const char* AN1x::getMatrixCommonParamName(int value)
+{
+	static const char* unknown = "???";
+	if (value < 0 || value > 5) return unknown;
+
+	static std::array<const char*, 6> values{
+		"Off",
+		"Volume",
+		"Pan",
+		"Variable FX",
+		"Delay",
+		"Reverb"
 	};
 
 	return values[value];

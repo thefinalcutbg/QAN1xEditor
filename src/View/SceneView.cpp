@@ -24,6 +24,16 @@ void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
 		ui.monoRadio->setChecked(value == 1);
 		ui.legatoRadio->setChecked(value == 2);
 
+		if (value == 0) {
+			ui.portamentoType->setItemText(0, "Normal");
+			ui.portamentoType->setItemText(1, "Sustain-key");
+		}
+		else
+		{
+			ui.portamentoType->setItemText(0, "Full-time");
+			ui.portamentoType->setItemText(1, "Fingered");
+		}
+
 		return;
 	}
 
@@ -43,9 +53,23 @@ void SceneView::setMidiMaster(MidiMaster* master)
 {
 	m = master;
 
-	connect(ui.polyRadio, &QRadioButton::clicked, [=] { master->setSceneParam(AN1x::SceneParam::PolyMode, 0, isScene2); });
-	connect(ui.monoRadio, &QRadioButton::clicked, [=] { master->setSceneParam(AN1x::SceneParam::PolyMode, 1, isScene2); });
-	connect(ui.legatoRadio, &QRadioButton::clicked, [=] { master->setSceneParam(AN1x::SceneParam::PolyMode, 2, isScene2); });
+	connect(ui.polyRadio, &QRadioButton::clicked, [=] { 
+		master->setSceneParam(AN1x::SceneParam::PolyMode, 0, isScene2);
+		ui.portamentoType->setItemText(0, "Normal");
+		ui.portamentoType->setItemText(1, "Sustain-key"); 
+	});
+
+	connect(ui.monoRadio, &QRadioButton::clicked, [=] { 
+		master->setSceneParam(AN1x::SceneParam::PolyMode, 1, isScene2); 
+		ui.portamentoType->setItemText(0, "Full-time"); 
+		ui.portamentoType->setItemText(1, "Fingered"); 
+		});
+
+	connect(ui.legatoRadio, &QRadioButton::clicked, [=] { 
+		master->setSceneParam(AN1x::SceneParam::PolyMode, 2, isScene2); 
+		ui.portamentoType->setItemText(0, "Full-time"); 
+		ui.portamentoType->setItemText(1, "Fingered"); 
+	});
 
 	ui_controls = {
 		nullptr,

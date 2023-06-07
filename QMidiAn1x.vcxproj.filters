@@ -23,16 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\QMidiAn1x.qrc">
+    <QtRcc Include="src\View\QMidiAn1x.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="src\QMidiAn1x.ui">
+    <QtUic Include="src\View\QMidiAn1x.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="src\QMidiAn1x.h">
+    <QtMoc Include="src\View\QMidiAn1x.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="src\QMidiAn1x.cpp">
+    <ClCompile Include="src\View\QMidiAn1x.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,25 +58,28 @@
     <ClCompile Include="QMidi\qmidipianoroll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneView.cpp">
+    <ClCompile Include="src\View\SceneView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\MidiMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UiControlers.cpp">
+    <ClCompile Include="src\View\UiControlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\An1x.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AbstractSceneController.cpp">
+    <ClCompile Include="src\View\VoiceNameEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\VoiceNameEdit.cpp">
+    <ClCompile Include="src\View\ControlMatrixScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ControlMatrixScene.cpp">
+    <ClCompile Include="src\View\FxEq.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\ArpSeq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,10 +93,10 @@
     <ClInclude Include="src\Model\An1x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GlobalWidgets.h">
+    <ClInclude Include="src\View\GlobalWidgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\AbstractSceneController.h">
+    <ClInclude Include="src\View\AbstractSceneController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,24 +116,36 @@
     <QtMoc Include="qmidi\qmidipianoroll.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\SceneView.h">
+    <QtMoc Include="src\View\SceneView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\UiControlers.h">
+    <QtMoc Include="src\View\UiControlers.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\VoiceNameEdit.h">
+    <QtMoc Include="src\View\VoiceNameEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\ControlMatrixScene.h">
+    <QtMoc Include="src\View\ControlMatrixScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\FxEq.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\ArpSeq.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\SceneView.ui">
+    <QtUic Include="src\View\SceneView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\ControlMatrixScene.ui">
+    <QtUic Include="src\View\ControlMatrixScene.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\FxEq.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\ArpSeq.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

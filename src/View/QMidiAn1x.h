@@ -12,11 +12,7 @@ class QMidiAn1x : public QMainWindow
 
     MidiMaster m;
 
-    std::array<AbstractSceneController*, AN1x::CommonParam::CommonParamSize> ui_controls{ nullptr };
-
-    void setFxLayout(int value);
-    void setDelayLayout(int value);
-    void setReverbLayout();
+    std::array<AbstractSceneController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
 
 public:
     QMidiAn1x(QWidget *parent = nullptr);

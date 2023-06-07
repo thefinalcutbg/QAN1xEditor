@@ -265,12 +265,12 @@
     </property>
     <item>
      <property name="text">
-      <string>Full-Time</string>
+      <string>Normal</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Fingered</string>
+      <string>Sustain-key</string>
      </property>
     </item>
    </widget>
