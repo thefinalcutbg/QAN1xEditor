@@ -189,7 +189,7 @@
      <number>200</number>
     </property>
     <property name="value">
-     <number>64</number>
+     <number>100</number>
     </property>
     <property name="wrapping">
      <bool>false</bool>
@@ -251,7 +251,7 @@
      <number>200</number>
     </property>
     <property name="value">
-     <number>64</number>
+     <number>100</number>
     </property>
     <property name="wrapping">
      <bool>false</bool>

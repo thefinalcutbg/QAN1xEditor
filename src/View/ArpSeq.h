@@ -19,6 +19,7 @@ class ArpSeq : public QWidget
 public:
 	ArpSeq(QWidget *parent = nullptr);
 	void setMidiMaster(MidiMaster* m);
+	void setCommonParameter(AN1x::CommonParam p, int value);
 	~ArpSeq();
 
 private:

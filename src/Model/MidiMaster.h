@@ -5,7 +5,7 @@
 #include "An1x.h"
 #include <optional>
 
-class QMidiAn1x;
+class QAN1xEditor;
 
 typedef std::vector<unsigned char> Message;
 
@@ -14,7 +14,7 @@ class MidiMaster
 	QMidiOut* m_out { nullptr };
 	QMidiIn* m_in {nullptr};
 
-	QMidiAn1x* view{ nullptr };
+	QAN1xEditor* view{ nullptr };
 
 	bool handlingMessage = false;
 
@@ -28,7 +28,7 @@ public:
 
 	MidiMaster();
 
-	void setView(QMidiAn1x* v) { view = v; }
+	void setView(QAN1xEditor* v) { view = v; }
 
 	void refreshConnection();
 

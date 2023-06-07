@@ -113,19 +113,19 @@
     <ClCompile Include="src\Model\MidiMaster.cpp" />
     <ClCompile Include="src\View\SceneView.cpp" />
     <ClCompile Include="src\View\VoiceNameEdit.cpp" />
-    <QtRcc Include="src\View\QMidiAn1x.qrc" />
+    <QtRcc Include="src\View\QAN1xEditor.qrc" />
     <QtUic Include="src\View\ArpSeq.ui" />
     <QtUic Include="src\View\ControlMatrixScene.ui" />
     <QtUic Include="src\View\FxEq.ui" />
-    <QtUic Include="src\View\QMidiAn1x.ui" />
-    <QtMoc Include="src\View\QMidiAn1x.h" />
+    <QtUic Include="src\View\QAN1xEditor.ui" />
+    <QtMoc Include="src\View\QAN1xEditor.h" />
     <ClCompile Include="QMidi\qmidiin.cpp" />
     <ClCompile Include="QMidi\qmidimapper.cpp" />
     <ClCompile Include="QMidi\qmidimessage.cpp" />
     <ClCompile Include="QMidi\qmidiout.cpp" />
     <ClCompile Include="QMidi\qmidipianoroll.cpp" />
     <ClCompile Include="QMidi\RtMidi.cpp" />
-    <ClCompile Include="src\View\QMidiAn1x.cpp" />
+    <ClCompile Include="src\View\QAN1xEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\View\SceneView.ui" />
   </ItemGroup>

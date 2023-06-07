@@ -23,16 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\View\QMidiAn1x.qrc">
+    <QtRcc Include="src\View\QAN1xEditor.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="src\View\QMidiAn1x.ui">
+    <QtUic Include="src\View\QAN1xEditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="src\View\QMidiAn1x.h">
+    <QtMoc Include="src\View\QAN1xEditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="src\View\QMidiAn1x.cpp">
+    <ClCompile Include="src\View\QAN1xEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

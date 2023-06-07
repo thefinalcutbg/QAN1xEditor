@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QMidiAn1xClass</class>
- <widget class="QMainWindow" name="QMidiAn1xClass">
+ <class>QAN1xEditor</class>
+ <widget class="QMainWindow" name="QAN1xEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QMidiAn1x</string>
+   <string>QAN1xEditor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -1346,7 +1346,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="QMidiAn1x.qrc"/>
+  <include location="QAN1xEditor.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,7 +1,7 @@
 #include "MidiMaster.h"
 #include "qmidimessage.h"
 #include <QDebug>
-#include "View/QMidiAn1x.h"
+#include "View/QAN1xEditor.h"
 #include <array>
 
 MidiMaster::MidiMaster()

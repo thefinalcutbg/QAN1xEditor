@@ -1,12 +1,12 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_QMidiAn1x.h"
+#include "ui_QAN1xEditor.h"
 #include "qmidiin.h"
 #include "qmidiout.h"
 #include "Model/MidiMaster.h"
 
-class QMidiAn1x : public QMainWindow
+class QAN1xEditor : public QMainWindow
 {
     Q_OBJECT
 
@@ -15,12 +15,12 @@ class QMidiAn1x : public QMainWindow
     std::array<AbstractSceneController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
 
 public:
-    QMidiAn1x(QWidget *parent = nullptr);
+    QAN1xEditor(QWidget *parent = nullptr);
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
     void setCommonParameter(AN1x::CommonParam p, int value);
-    ~QMidiAn1x();
+    ~QAN1xEditor();
 
 private:
-    Ui::QMidiAn1xClass ui;
+    Ui::QAN1xEditor ui;
 };

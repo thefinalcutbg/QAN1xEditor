@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QDebug>
-#include "View/QMidiAn1x.h"
+#include "View/QAN1xEditor.h"
 
 
 int main(int argc, char* argv[])
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 
 	a.setWheelScrollLines(1);
 
-	QMidiAn1x w;
+	QAN1xEditor w;
 	w.show();
 
 	return a.exec();

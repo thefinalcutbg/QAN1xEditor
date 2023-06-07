@@ -1,9 +1,9 @@
-#include "QMidiAn1x.h"
+#include "QAN1xEditor.h"
 #include "qmidimessage.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 
-QMidiAn1x::QMidiAn1x(QWidget* parent)
+QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -125,6 +125,8 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
     ui.ctrlMatrixScene1->setMidiMaster(&m);
     ui.ctrlMatrixScene2->setMidiMaster(&m);
 
+    ui.seqTab->setMidiMaster(&m);
+
     ui.fxeqTab->setMidiMaster(&m);
 
     m.refreshConnection();
@@ -132,7 +134,7 @@ QMidiAn1x::QMidiAn1x(QWidget* parent)
 
 }
 
-void QMidiAn1x::setMidiDevices(const QStringList& in, const QStringList& out)
+void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 {
     {
         QSignalBlocker b1(ui.inCombo);
@@ -155,7 +157,7 @@ void QMidiAn1x::setMidiDevices(const QStringList& in, const QStringList& out)
 
 
 
-void QMidiAn1x::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
+void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
 {
 
 
@@ -170,7 +172,7 @@ void QMidiAn1x::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
     ui.fxeqTab->setSceneParameter(p, value, isScene2);
 }
 
-void QMidiAn1x::setCommonParameter(AN1x::CommonParam p, int value)
+void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 {
     //name edit
     if (p < 10) {
@@ -241,8 +243,8 @@ void QMidiAn1x::setCommonParameter(AN1x::CommonParam p, int value)
     }
 
     ui.fxeqTab->setCommonParameter(p, value);
-    
+    ui.seqTab->setCommonParameter(p, value);
 }
 
-QMidiAn1x::~QMidiAn1x()
+QAN1xEditor::~QAN1xEditor()
 {}
