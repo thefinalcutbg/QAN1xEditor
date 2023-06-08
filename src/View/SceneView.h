@@ -9,8 +9,6 @@ class MidiMaster;
 class SceneView : public QWidget
 {
 	Q_OBJECT
-
-	MidiMaster* m{ nullptr };
 	
 	bool isScene2 = false;
 
@@ -18,14 +16,16 @@ class SceneView : public QWidget
 
 	std::array<AbstractSceneController*, uiParamSize> ui_controls { nullptr };
 
+	AN1x::ParamType getType() {
+		return isScene2 ? AN1x::ParamType::Scene2 : AN1x::ParamType::Scene1;
+	}
+
 public:
 	SceneView(QWidget *parent = nullptr);
 
 	void setAsScene2() { isScene2 = true; }
 
 	void setSceneParameters(AN1x::SceneParam p, int value);
-
-	void setMidiMaster(MidiMaster* master);
 
 	~SceneView();
 

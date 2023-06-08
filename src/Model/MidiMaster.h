@@ -4,6 +4,7 @@
 #include "qmidiin.h"
 #include "An1x.h"
 #include <optional>
+#include <variant>
 
 class QAN1xEditor;
 
@@ -22,13 +23,18 @@ class MidiMaster
 	bool handleSceneParameter(const Message& m);
 	bool handleCommonParameter(const Message& m);
 	bool handleSequenceParameter(const Message& m);
+	bool handleGlobalParameter(const Message& m);
 
 	void sendMessage(const Message& msg);
 	void handleMessage(const Message& msg);
 
+	MidiMaster();
+
+	static MidiMaster m_singleton;
+
 public:
 
-	MidiMaster();
+	static MidiMaster& get() { return m_singleton; }
 
 	void setView(QAN1xEditor* v) { view = v; }
 
@@ -36,9 +42,6 @@ public:
 
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
-	
-	void setGlobalParam(AN1x::GlobalParam p, int value);
-	void setCommonParam(AN1x::CommonParam p, int value);
-	void setSceneParam(AN1x::SceneParam p, int value, bool isScene2);
-	void setSeqParam(AN1x::SeqParam p, int value);
+
+	void setParam(AN1x::ParamType type, unsigned char parameter, int value);
 };

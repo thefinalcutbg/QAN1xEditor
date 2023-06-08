@@ -4,13 +4,11 @@
 #include "ui_QAN1xEditor.h"
 #include "qmidiin.h"
 #include "qmidiout.h"
-#include "Model/MidiMaster.h"
+
 
 class QAN1xEditor : public QMainWindow
 {
     Q_OBJECT
-
-    MidiMaster m;
 
     std::array<AbstractSceneController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
 

@@ -72,7 +72,18 @@ FxEq::FxEq(QWidget *parent)
         ui.revParam7
     };
 
+    ui.scene1DW->setParam(AN1x::ParamType::Scene1, AN1x::SceneParam::VariFxDW);
+    ui.scene2DW->setParam(AN1x::ParamType::Scene2, AN1x::SceneParam::VariFxDW);
 
+    for (int i = 0; i < ui_controls.size(); i++)
+    {
+        if (ui_controls[i] == nullptr) continue;
+
+        auto param = AN1x::VariFXType + i;
+
+        ui_controls[i]->setCurrentValueAsDefault();
+        ui_controls[i]->setParam(AN1x::ParamType::Common, (AN1x::CommonParam)param);
+    }
 
 
 }
@@ -97,24 +108,6 @@ void FxEq::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
     dial->setValue(value);
 
 }
-
-void FxEq::setMidiMaster(MidiMaster* m)
-{
-
-    ui.scene1DW->setSceneParam(m, AN1x::SceneParam::VariFxDW, false);
-    ui.scene2DW->setSceneParam(m, AN1x::SceneParam::VariFxDW, true);
-
-    for (int i = 0; i < ui_controls.size(); i++)
-    {
-        if (ui_controls[i] == nullptr) continue;
-
-        auto param = AN1x::VariFXType + i;
-
-        ui_controls[i]->setCurrentValueAsDefault();
-        ui_controls[i]->setCommonParam(m, (AN1x::CommonParam)param);
-    }
-}
-
 
 void FxEq::setFxLayout(int value)
 {

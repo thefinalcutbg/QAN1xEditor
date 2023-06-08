@@ -80,7 +80,13 @@ ControlMatrixScene::ControlMatrixScene(QWidget* parent)
 		dial->setCurrentValueAsDefault();
 	}
 
+	for (int i = 0; i < ui_controls.size(); i++)
+	{
+		auto parameter = static_cast<int>(AN1x::CtrlMtrxSource1) + i;
 
+		ui_controls[i]->setCurrentValueAsDefault();
+		ui_controls[i]->setParam(getType(), (AN1x::SceneParam)parameter);
+	}
 }
 
 void ControlMatrixScene::setSceneParameters(AN1x::SceneParam p, int value)
@@ -88,18 +94,6 @@ void ControlMatrixScene::setSceneParameters(AN1x::SceneParam p, int value)
 	if (p < AN1x::CtrlMtrxSource1 || p > AN1x::SceneParametersMaxSize) return;
 
 	ui_controls[p - AN1x::CtrlMtrxSource1]->setValue(value);
-}
-
-void ControlMatrixScene::setMidiMaster(MidiMaster* master)
-{
-	for (int i = 0; i < ui_controls.size(); i++)
-	{
-		auto parameter = static_cast<int>(AN1x::CtrlMtrxSource1) + i;
-
-		ui_controls[i]->setCurrentValueAsDefault();
-		ui_controls[i]->setSceneParam(master, (AN1x::SceneParam)parameter, isScene2);
-	}
-
 }
 
 ControlMatrixScene::~ControlMatrixScene()

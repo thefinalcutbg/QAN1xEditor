@@ -13,6 +13,10 @@ class ControlMatrixScene : public QWidget
 
 	std::array<AbstractSceneController*, uiControlsSize> ui_controls{ nullptr };
 
+	AN1x::ParamType getType() {
+		return isScene2 ? AN1x::ParamType::Scene1 : AN1x::ParamType::Scene2;
+	}
+
 public:
 	ControlMatrixScene(QWidget* parent = nullptr);
 
@@ -20,7 +24,6 @@ public:
 
 	void setSceneParameters(AN1x::SceneParam p, int value);
 
-	void setMidiMaster(MidiMaster* master);
 
 	~ControlMatrixScene();
 

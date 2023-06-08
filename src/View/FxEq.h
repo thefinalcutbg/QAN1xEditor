@@ -23,7 +23,6 @@ public:
 
 	void setCommonParameter(AN1x::CommonParam p, int value);
 	void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
-	void setMidiMaster(MidiMaster* m);
 
 	~FxEq();
 

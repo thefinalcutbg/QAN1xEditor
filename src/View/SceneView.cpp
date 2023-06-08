@@ -2,74 +2,12 @@
 #include "Model/MidiMaster.h"
 #include "GlobalWidgets.h"
 #include <QPainter>
+#include "Model/MidiMaster.h"
 
 SceneView::SceneView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
-}
-
-void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
-{
-	if (p == AN1x::PolyMode) {
-		
-		QSignalBlocker arr[] = { 
-			QSignalBlocker{ui.polyRadio}, 
-			QSignalBlocker{ui.monoRadio}, 
-			QSignalBlocker{ui.legatoRadio } 
-		};
-		
-		ui.polyRadio->setChecked(value == 0);
-		ui.monoRadio->setChecked(value == 1);
-		ui.legatoRadio->setChecked(value == 2);
-
-		if (value == 0) {
-			ui.portamentoType->setItemText(0, "Normal");
-			ui.portamentoType->setItemText(1, "Sustain-key");
-		}
-		else
-		{
-			ui.portamentoType->setItemText(0, "Full-time");
-			ui.portamentoType->setItemText(1, "Fingered");
-		}
-
-		return;
-	}
-
-	if (p == AN1x::LFOResetMode) {
-
-		QSignalBlocker b(ui.lfoReset);
-		ui.lfoReset->setChecked(value);
-		return;
-	}
-
-	if (p < ui_controls.size() && ui_controls[p] != nullptr) {
-		ui_controls[p]->setValue(value);
-	}
-}
-
-void SceneView::setMidiMaster(MidiMaster* master)
-{
-	m = master;
-
-	connect(ui.polyRadio, &QRadioButton::clicked, [=] { 
-		master->setSceneParam(AN1x::SceneParam::PolyMode, 0, isScene2);
-		ui.portamentoType->setItemText(0, "Normal");
-		ui.portamentoType->setItemText(1, "Sustain-key"); 
-	});
-
-	connect(ui.monoRadio, &QRadioButton::clicked, [=] { 
-		master->setSceneParam(AN1x::SceneParam::PolyMode, 1, isScene2); 
-		ui.portamentoType->setItemText(0, "Full-time"); 
-		ui.portamentoType->setItemText(1, "Fingered"); 
-		});
-
-	connect(ui.legatoRadio, &QRadioButton::clicked, [=] { 
-		master->setSceneParam(AN1x::SceneParam::PolyMode, 2, isScene2); 
-		ui.portamentoType->setItemText(0, "Full-time"); 
-		ui.portamentoType->setItemText(1, "Fingered"); 
-	});
 
 	ui_controls = {
 		nullptr,
@@ -145,13 +83,31 @@ void SceneView::setMidiMaster(MidiMaster* master)
 		if (ui_controls[i] == nullptr) continue;
 
 		ui_controls[i]->setCurrentValueAsDefault();
-		ui_controls[i]->setSceneParam(m, (AN1x::SceneParam)i, isScene2);
+		ui_controls[i]->setParam(getType(), (AN1x::SceneParam)i);
 	}
-	
-	connect(ui.lfoReset, &QCheckBox::clicked, [=](bool checked) { master->setSceneParam(AN1x::SceneParam::LFOResetMode, checked, isScene2); });
-	
 
-	connect(ui.algorithmCombo, &QComboBox::currentIndexChanged, 
+	connect(ui.polyRadio, &QRadioButton::clicked, [&] {
+		MidiMaster::get().setParam(getType(), AN1x::SceneParam::PolyMode, 0);
+		ui.portamentoType->setItemText(0, "Normal");
+		ui.portamentoType->setItemText(1, "Sustain-key");
+		});
+
+	connect(ui.monoRadio, &QRadioButton::clicked, [&] {
+		MidiMaster::get().setParam(getType(), AN1x::SceneParam::PolyMode, 1);
+		ui.portamentoType->setItemText(0, "Full-time");
+		ui.portamentoType->setItemText(1, "Fingered");
+		});
+
+	connect(ui.legatoRadio, &QRadioButton::clicked, [&] {
+		MidiMaster::get().setParam(getType(), AN1x::SceneParam::PolyMode, 2);
+		ui.portamentoType->setItemText(0, "Full-time");
+		ui.portamentoType->setItemText(1, "Fingered");
+		});
+
+	connect(ui.lfoReset, &QCheckBox::clicked, [=](bool checked) { MidiMaster::get().setParam(getType(), AN1x::SceneParam::LFOResetMode, checked); });
+
+
+	connect(ui.algorithmCombo, &QComboBox::currentIndexChanged,
 		[=](int idx) {
 
 			ui.syncGroup->setEnabled(idx);
@@ -170,9 +126,50 @@ void SceneView::setMidiMaster(MidiMaster* master)
 				ui.osc1wave->addItem("Inner3");
 				return;
 			}
-				
+
 		});
-};
+}
+
+void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
+{
+	if (p == AN1x::PolyMode) {
+		
+		QSignalBlocker arr[] = { 
+			QSignalBlocker{ui.polyRadio}, 
+			QSignalBlocker{ui.monoRadio}, 
+			QSignalBlocker{ui.legatoRadio } 
+		};
+		
+		ui.polyRadio->setChecked(value == 0);
+		ui.monoRadio->setChecked(value == 1);
+		ui.legatoRadio->setChecked(value == 2);
+
+		if (value == 0) {
+			ui.portamentoType->setItemText(0, "Normal");
+			ui.portamentoType->setItemText(1, "Sustain-key");
+		}
+		else
+		{
+			ui.portamentoType->setItemText(0, "Full-time");
+			ui.portamentoType->setItemText(1, "Fingered");
+		}
+
+		return;
+	}
+
+	if (p == AN1x::LFOResetMode) {
+
+		QSignalBlocker b(ui.lfoReset);
+		ui.lfoReset->setChecked(value);
+		return;
+	}
+
+	if (p < ui_controls.size() && ui_controls[p] != nullptr) {
+		ui_controls[p]->setValue(value);
+	}
+}
+
+
 
 
 SceneView::~SceneView()

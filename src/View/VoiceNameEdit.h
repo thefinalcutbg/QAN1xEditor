@@ -13,7 +13,6 @@ class VoiceNameEdit  : public QLineEdit
 
 public:
 	VoiceNameEdit(QWidget *parent);
-	void setMidiMaster(MidiMaster* m);
 	void setName(AN1x::CommonParam p, int value);
 	~VoiceNameEdit();
 };

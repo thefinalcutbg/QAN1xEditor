@@ -46,9 +46,6 @@ public:
 
 	// Inherited via AbstractSceneController
 
-	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
-	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
-	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 
 	void setValue(int value) final;
@@ -76,9 +73,6 @@ class ComboPicker : public QComboBox, public AbstractSceneController
 public:
 	ComboPicker(QWidget* parent);
 
-	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
-	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
-	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 	void setAsNoteCombo() { m_isNoteCombo = true; }
@@ -96,9 +90,6 @@ class EGSlider : public QSlider, public AbstractSceneController
 public:
 	EGSlider(QWidget* parent);
 
-	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
-	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
-	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 
@@ -116,30 +107,9 @@ class CheckBox : public QCheckBox, public AbstractSceneController
 public:
 	CheckBox(QWidget* parent);
 
-	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
-	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
+
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 
 	~CheckBox() {};
 };
-
-#include <QSpinBox>
-/*
-class SpinBox : public QSpinBox, public AbstractSceneController
-{
-	Q_OBJECT
-
-public:
-	SpinBox(QWidget* parent) : QSpinBox(parent) {};
-
-	void setSceneParam(AN1x::SceneParam p, bool isScene2) final;
-	void setCommonParam(AN1x::CommonParam p) final;
-	void setCurrentValueAsDefault() final;
-	void setValue(int value) final;
-
-	~SpinBox() {};
-
-
-};
-*/

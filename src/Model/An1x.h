@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 
 namespace AN1x
 {
@@ -11,7 +12,16 @@ namespace AN1x
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
 	
-	enum GlobalParam : unsigned char
+	enum class ParamType : unsigned char{
+		System,
+		Common,
+		Scene1,
+		Scene2,
+		StepSq,
+		Unknown
+	};
+
+	enum SystemParam : unsigned char
 	{
 		MasterTune,
 		NullGlobal1,
@@ -237,17 +247,11 @@ namespace AN1x
 	unsigned char getScene(bool isScene2);
 
 
-	//int getOffset(CommonParam p);
-	int getOffset(SceneParam p);
-	int getOffset(CommonParam p);
+	std::vector<unsigned char> getHeader(ParamType p);
 
-	bool isNull(GlobalParam p);
-	bool isNull(SceneParam p);
-	bool isNull(CommonParam p);
-
-	bool isTwoByteParameter(SceneParam p);
-	bool isTwoByteParameter(CommonParam p);
-	bool isTwoByteParameter(GlobalParam p);
+	int getOffset(ParamType t, unsigned char p);
+	bool isNull(ParamType t, unsigned char p);
+	bool isTwoByteParameter(ParamType t, unsigned char p);
 
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);

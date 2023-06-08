@@ -1,18 +1,21 @@
 #pragma once
 #include "Model/AN1x.h"
-#include <qobject.h>
-
-class MidiMaster;
 
 class AbstractSceneController
 {
 protected:
+	
+	AN1x::ParamType type = AN1x::ParamType::Unknown;
+	unsigned char parameter;
 	int defaultValue{ 0 };
 public:
+
+	void setParam(AN1x::ParamType t, unsigned char p) {
+		this->type = t;
+		this->parameter = p;
+	};
+
 	virtual void setCurrentValueAsDefault() = 0;
 	virtual void setValue(int value) = 0;
-	virtual void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) {};
-	virtual void setCommonParam(MidiMaster* m, AN1x::CommonParam p) {};
-	virtual void setSequenceParam(MidiMaster* m, AN1x::SeqParam) {};
 };
 

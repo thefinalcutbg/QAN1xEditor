@@ -196,37 +196,18 @@ DialKnob::DialKnob(QWidget *parent)
 	setAttribute(Qt::WA_Hover, true);
 	installEventFilter(this);
 
+	connect(this, &QDial::valueChanged, 
+		[&](int value) {
+			if (type == AN1x::ParamType::Unknown) return;
+			GlobalWidgets::statusBar->showMessage(getValueText());
+			MidiMaster::get().setParam(type, parameter, value);
+		}
+	);
+
 }
 
 DialKnob::~DialKnob()
 {}
-
-void DialKnob::setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2)
-{
-	connect(this, &QDial::valueChanged, [=](int value) {
-			GlobalWidgets::statusBar->showMessage(getValueText());
-			m->setSceneParam(p, value, isScene2);
-		}
-	);
-}
-
-void DialKnob::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
-{
-	connect(this, &QDial::valueChanged, [=](int value) {
-		GlobalWidgets::statusBar->showMessage(getValueText());
-		m->setCommonParam(p, value);
-		}
-	);
-}
-
-void DialKnob::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
-{
-	connect(this, &QDial::valueChanged, [=](int value) {
-		GlobalWidgets::statusBar->showMessage(getValueText());
-		m->setSeqParam(p, value);
-		}
-	);
-}
 
 void DialKnob::setCurrentValueAsDefault()
 {
@@ -250,36 +231,15 @@ void DialKnob::setValue(int value)
 
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
-
-}
-
-void ComboPicker::setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2)
-{
-	connect(this, &QComboBox::currentIndexChanged, [=](int value) {
-			//GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			m->setSceneParam(p, value, isScene2);
-		}
+	connect(this, &QComboBox::currentIndexChanged, 
+		[&](int value) { 
+			if (type == AN1x::ParamType::Unknown) return;
+			if (m_isNoteCombo) value = 127 - value;
+			MidiMaster::get().setParam(type, parameter, value); }
 	);
 }
 
-void ComboPicker::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
-{
-	connect(this, &QComboBox::currentIndexChanged, [=](int value) {
-			//GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			m->setCommonParam(p, value);
-		}
-	);
-}
 
-void ComboPicker::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
-{
-	connect(this, &QComboBox::currentIndexChanged, [=](int value) {
-		//GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-		if (m_isNoteCombo) value = 127-value;
-		m->setSeqParam(p, value);
-		}
-	);
-}
 
 void ComboPicker::setCurrentValueAsDefault()
 {
@@ -300,31 +260,11 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 	setMouseTracking(true);
 	setAttribute(Qt::WA_Hover, true);
 	installEventFilter(this);
-}
 
-void EGSlider::setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2)
-{
-	connect(this, &QSlider::valueChanged, [=](int value) {
-			GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			m->setSceneParam(p, value, isScene2);
-		}
-	);
-}
-
-void EGSlider::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
-{
-	connect(this, &QSlider::valueChanged, [=](int value) {
-			GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			m->setCommonParam(p, value);
-		}
-	);
-}
-
-void EGSlider::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
-{
-	connect(this, &QSlider::valueChanged, [=](int value) {
+	connect(this, &QSlider::valueChanged, [&](int value) {
+		if (type == AN1x::ParamType::Unknown) return;
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-		m->setSeqParam(p, value);
+			MidiMaster::get().setParam(type, parameter, value);
 		}
 	);
 }
@@ -375,24 +315,11 @@ bool EGSlider::event(QEvent* e)
 	return QSlider::event(e);
 }
 
-
 CheckBox::CheckBox(QWidget* parent) : QCheckBox(parent)
 {
-
-}
-
-void CheckBox::setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2)
-{
-	connect(this, &QCheckBox::stateChanged, [=](bool checked) {
-		m->setSceneParam(p, checked, isScene2);
-		}
-	);
-}
-
-void CheckBox::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
-{
-	connect(this, &QCheckBox::stateChanged, [=](bool checked) {
-			m->setCommonParam(p, checked);
+	connect(this, &QCheckBox::stateChanged, [&](bool checked) {
+			if (type == AN1x::ParamType::Unknown) return;
+			MidiMaster::get().setParam(type, parameter, checked);
 		}
 	);
 }

@@ -6,124 +6,151 @@ unsigned char AN1x::getScene(bool isScene2)
 	return isScene2 ? 0x11 : 0x10;
 }
 
-static const std::set<unsigned char> s_commonNull
+std::vector<unsigned char> AN1x::getHeader(ParamType p)
 {
-	AN1x::CommonParam::NullCommon1,
-	AN1x::CommonParam::reserved,
-	AN1x::CommonParam::NullCommon3,
-	AN1x::CommonParam::NullCommon4,
-	AN1x::CommonParam::NullCommon5,
-	AN1x::CommonParam::NullCommon6,
-	AN1x::CommonParam::NullCommon7,
-	AN1x::CommonParam::NullCommon8,
-	AN1x::CommonParam::NullCommon9,
-	AN1x::CommonParam::NullCommon10,
-	AN1x::CommonParam::NullCommon11,
-	AN1x::CommonParam::NullCommon12,
-	AN1x::CommonParam::NullCommon13,
-	AN1x::CommonParam::NullCommon14,
-	AN1x::CommonParam::NullCommon15,
-	AN1x::CommonParam::NullCommon16,
-	AN1x::CommonParam::NullCommon17,
-	AN1x::CommonParam::NullCommon18,
-	AN1x::CommonParam::NullCommon19,
-	AN1x::CommonParam::NullCommon20,
-	AN1x::CommonParam::NullCommon21,
-	AN1x::CommonParam::NullCommon22,
-	AN1x::CommonParam::NullCommon23,
-	AN1x::CommonParam::NullCommon24
-};
 
-static const std::set<unsigned char> s_sceneNull
-{
-	AN1x::SceneParam::NullScene1,
-	AN1x::SceneParam::NullScene2,
-	AN1x::SceneParam::NullScene3,
-	AN1x::SceneParam::NullScene4,
-	AN1x::SceneParam::NullScene5
-};
-
-int AN1x::getOffset(SceneParam p)
-{
-	static const std::map<unsigned char, int> parameterToOffset{
-	{PEGSwitch, 1},
-	{SyncPitchModSwitch, 1},
-	{PEGDepth, 64},
-	{PEGDecay, 64},
-	{SyncPitch, 64},
-	{SyncPitchDepth, 64},
-	{FMDepth, 64},
-	{VCO1Pitch, 64},
-	{VCO2Pitch, 64},
-	{VCO1Fine, 64},
-	{VCO2Fine, 64 },
-	{VCO1PWMDepth, 64},
-	{VCO2PWMDepth, 64},
-	{AmpVelSens, 64},
-	{AmpModDepth, 64},
-	{FilterModDepth, 64},
-	{FilterVelSens, 64},
-	{FilterKeyTrack, 32},
-	{FilterResonance, 25},
-	{LFO1Speed, -1},
-	{LFO2Speed, -1},
-	{VCO1PitchModDepth, 128},
-	{VCO2PitchModDepth, 128},
-	{FEGDepth, 128}
-	};
-
-	if (parameterToOffset.count(p))
+	switch (p)
 	{
-		return parameterToOffset.at(p);
+		case ParamType::System: return { 0xF0, 0x43, 0x10, 0x5C, 0x00, 0x00 };
+		case ParamType::Common: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00 };
+		case ParamType::Scene1: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x10 };
+		case ParamType::Scene2: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x11 };
+		case ParamType::StepSq: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E };
+	}
+
+	return {};
+}
+
+
+
+
+int AN1x::getOffset(ParamType t, unsigned char parameter)
+{
+	switch (t)
+	{
+		case ParamType::Scene1:
+		case ParamType::Scene2:
+		{
+			static const std::map<unsigned char, int> parameterToOffset{
+			{PEGSwitch, 1},
+			{SyncPitchModSwitch, 1},
+			{PEGDepth, 64},
+			{PEGDecay, 64},
+			{SyncPitch, 64},
+			{SyncPitchDepth, 64},
+			{FMDepth, 64},
+			{VCO1Pitch, 64},
+			{VCO2Pitch, 64},
+			{VCO1Fine, 64},
+			{VCO2Fine, 64 },
+			{VCO1PWMDepth, 64},
+			{VCO2PWMDepth, 64},
+			{AmpVelSens, 64},
+			{AmpModDepth, 64},
+			{FilterModDepth, 64},
+			{FilterVelSens, 64},
+			{FilterKeyTrack, 32},
+			{FilterResonance, 25},
+			{LFO1Speed, -1},
+			{LFO2Speed, -1},
+			{VCO1PitchModDepth, 128},
+			{VCO2PitchModDepth, 128},
+			{FEGDepth, 128}
+			};
+
+			if (parameterToOffset.count(parameter))
+			{
+				return parameterToOffset.at(parameter);
+			}
+
+			break;
+		}
+		case ParamType::Common:
+		{
+			static const std::map<unsigned char, int> parameterToOffset{
+				{SceneSelect, 1}
+			};
+
+			if (parameterToOffset.count(parameter))
+			{
+				return parameterToOffset.at(parameter);
+			}
+
+			break;
+		}
 	}
 
 	return 0;
 }
 
-int AN1x::getOffset(CommonParam p)
+bool AN1x::isNull(ParamType t, unsigned char p)
 {
-
-	static const std::map<unsigned char, int> parameterToOffset{
-	{SceneSelect, 1}
+	static const std::set<unsigned char> s_commonNull
+	{
+		AN1x::CommonParam::NullCommon1,
+		AN1x::CommonParam::reserved,
+		AN1x::CommonParam::NullCommon3,
+		AN1x::CommonParam::NullCommon4,
+		AN1x::CommonParam::NullCommon5,
+		AN1x::CommonParam::NullCommon6,
+		AN1x::CommonParam::NullCommon7,
+		AN1x::CommonParam::NullCommon8,
+		AN1x::CommonParam::NullCommon9,
+		AN1x::CommonParam::NullCommon10,
+		AN1x::CommonParam::NullCommon11,
+		AN1x::CommonParam::NullCommon12,
+		AN1x::CommonParam::NullCommon13,
+		AN1x::CommonParam::NullCommon14,
+		AN1x::CommonParam::NullCommon15,
+		AN1x::CommonParam::NullCommon16,
+		AN1x::CommonParam::NullCommon17,
+		AN1x::CommonParam::NullCommon18,
+		AN1x::CommonParam::NullCommon19,
+		AN1x::CommonParam::NullCommon20,
+		AN1x::CommonParam::NullCommon21,
+		AN1x::CommonParam::NullCommon22,
+		AN1x::CommonParam::NullCommon23,
+		AN1x::CommonParam::NullCommon24
 	};
 
-	if (parameterToOffset.count(p))
+	static const std::set<unsigned char> s_sceneNull
 	{
-		return parameterToOffset.at(p);
+		AN1x::SceneParam::NullScene1,
+		AN1x::SceneParam::NullScene2,
+		AN1x::SceneParam::NullScene3,
+		AN1x::SceneParam::NullScene4,
+		AN1x::SceneParam::NullScene5
+	};
+
+	switch (t)
+	{
+		case ParamType::System:
+			return p == AN1x::NullCommon1;
+		case ParamType::Scene1:
+		case ParamType::Scene2:
+			return s_sceneNull.count(p);
+		case ParamType::Common:
+			return s_commonNull.count(p);
+	}
+	return false;
+}
+
+bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
+{
+	switch (t)
+	{
+	case ParamType::Scene1:
+	case ParamType::Scene2:
+		return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1));
+	case ParamType::Common:
+		isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
+	case ParamType::System:
+		return p == AN1x::MasterTune;
 	}
 
-	return 0;
+	return false;
 }
 
-bool AN1x::isNull(GlobalParam p)
-{
-	return p == AN1x::NullCommon1;
-}
-
-bool AN1x::isNull(SceneParam p)
-{
-	return s_sceneNull.count(p);
-}
-
-bool AN1x::isNull(CommonParam p)
-{
-	return s_commonNull.count(p);
-}
-
-bool AN1x::isTwoByteParameter(SceneParam p)
-{
-	return isNull((AN1x::SceneParam)(p + 1));
-}
-
-bool AN1x::isTwoByteParameter(CommonParam p)
-{
-	return isNull((AN1x::CommonParam)(p + 1)) && p+1 != CommonParam::reserved;
-}
-
-bool AN1x::isTwoByteParameter(GlobalParam p)
-{
-	return p == AN1x::MasterTune;
-}
 
 const char* AN1x::getFrequencyByValue(int value)
 {

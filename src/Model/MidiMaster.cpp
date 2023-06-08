@@ -5,6 +5,8 @@
 #include <array>
 
 
+MidiMaster MidiMaster::m_singleton;
+
 MidiMaster::MidiMaster()
 {
 
@@ -72,17 +74,17 @@ bool MidiMaster::handleCommonParameter(const Message& m)
 
 	AN1x::CommonParam parameter = static_cast<AN1x::CommonParam>(m[6]);
 
-	if (AN1x::isNull(parameter)) return false;
+	if (AN1x::isNull(AN1x::ParamType::Common, parameter)) return false;
 
 	int value = m[7];
 
-	if (AN1x::isTwoByteParameter(parameter))
+	if (AN1x::isTwoByteParameter(AN1x::ParamType::Common, parameter))
 	{
 		value = m[7]*128;
 		value += m[8];
 	}
 
-	value -= AN1x::getOffset(parameter);
+	value -= AN1x::getOffset(AN1x::ParamType::Common, parameter);
 
 	if (!view) return true;
 
@@ -108,17 +110,17 @@ bool MidiMaster::handleSceneParameter(const Message& m)
 	bool isScene2 = m[5] == 16 ? false : true;
 	AN1x::SceneParam parameter = static_cast<AN1x::SceneParam>(m[6]);
 
-	if (AN1x::isNull(parameter)) return false;
+	if (AN1x::isNull(AN1x::ParamType::Scene1, parameter)) return false;
 
 	int value = m[7];
 
-	if (AN1x::isTwoByteParameter(parameter))
+	if (AN1x::isTwoByteParameter(AN1x::ParamType::Scene1, parameter))
 	{
 		value = m[7] * 128;
 		value += m[8];
 	}
 
-	value -= AN1x::getOffset(parameter);
+	value -= AN1x::getOffset(AN1x::ParamType::Scene1, parameter);
 
 	if (!view) return true;
 
@@ -126,20 +128,6 @@ bool MidiMaster::handleSceneParameter(const Message& m)
 
 	return true;
 
-}
-
-
-void MidiMaster::handleMessage(const Message& msg)
-{
-	if(sendingMessage) return;
-	qDebug() << "recieve: "<< msg;
-	handlingMessage = true;
-
-	handleCommonParameter(msg);
-	handleSceneParameter(msg);
-	handleSequenceParameter(msg);
-
-	handlingMessage = false;
 }
 
 bool MidiMaster::handleSequenceParameter(const Message& m)
@@ -156,6 +144,45 @@ bool MidiMaster::handleSequenceParameter(const Message& m)
 
 	return true;
 }
+
+bool MidiMaster::handleGlobalParameter(const Message& m)
+{
+	return false;
+}
+
+
+void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int value)
+{
+	auto header = AN1x::getHeader(type);
+
+	header.push_back(parameter);
+
+	if (value < 128) {
+		header.push_back(value);
+	}
+	else
+	{
+		header.push_back(value / 128);
+		header.push_back(value % 128);
+	}
+
+	header.push_back(0xF7);
+}
+
+
+void MidiMaster::handleMessage(const Message& msg)
+{
+	if(sendingMessage) return;
+	qDebug() << "recieve: "<< msg;
+	handlingMessage = true;
+
+	handleCommonParameter(msg);
+	handleSceneParameter(msg);
+	handleSequenceParameter(msg);
+
+	handlingMessage = false;
+}
+
 
 
 void MidiMaster::sendMessage(const Message& msg)
@@ -181,58 +208,5 @@ void MidiMaster::sendMessage(const Message& msg)
 	sendingMessage = false;
 }
 
-//0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00
 
-void MidiMaster::setSeqParam(AN1x::SeqParam p, int value)
-{
-	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E, unsigned char(p), unsigned char(value), 0xF7 });
-}
-
-void MidiMaster::setGlobalParam(AN1x::GlobalParam p, int value)
-{
-	if (AN1x::isNull(p)) return;
-
-	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x00, 0x00, p, unsigned char(value), 0xF7 });
-	
-}
-
-void MidiMaster::setCommonParam(AN1x::CommonParam p, int value)
-{
-	if (AN1x::isNull(p)) return;
-
-	value += getOffset(p);
-
-	if (AN1x::isTwoByteParameter(p))
-	{
-		unsigned char firstByte = value / 128;
-		unsigned char secondByte = value % 128;
-
-		sendMessage({  0x10, 0x00, unsigned char(p), firstByte, secondByte, 0xF7 });
-
-		return;
-	}
-
-	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00, unsigned char(p), unsigned char(value), 0xF7 });
-}
-
-//0xF0, 0x43, 0x10, 0x5C, 0x10,
-void MidiMaster::setSceneParam(AN1x::SceneParam p, int value, bool isScene2)
-{
-
-	if (AN1x::isNull(p)) return;
-
-	value += getOffset(p);
-
-	if (AN1x::isTwoByteParameter(p))
-	{
-		unsigned char firstByte = value/128;
-		unsigned char secondByte = value%128;
-
-		sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, AN1x::getScene(isScene2), p, firstByte, secondByte, 0xF7 });
-
-		return;
-	}
-
-	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, AN1x::getScene(isScene2), p, (unsigned char)value, 0xF7 });
-}
 

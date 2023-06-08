@@ -3,22 +3,20 @@
 
 VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 	: QLineEdit(parent)
-{}
-
-void VoiceNameEdit::setMidiMaster(MidiMaster * m)
 {
-	connect(this, &QLineEdit::textChanged, [=](const QString& text) {
-		
-			auto result = text.toStdString();
-			
 
-			for (int i = 0; i < 10; i++)
-			{
-				m->setCommonParam((AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
-			}
+	connect(this, &QLineEdit::textChanged, [&](const QString& text) {
+
+		auto result = text.toStdString();
+
+		for (int i = 0; i < 10; i++)
+		{
+			MidiMaster::get().setParam(AN1x::ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
+		}
 		}
 	);
 }
+
 
 void VoiceNameEdit::setName(AN1x::CommonParam p, int value)
 {
