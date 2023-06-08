@@ -1137,19 +1137,6 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="CheckBox" name="DlyRevConnection_3">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>30</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Bypass</string>
-    </property>
-   </widget>
    <widget class="DialKnob" name="revParam5">
     <property name="geometry">
      <rect>
@@ -2431,19 +2418,6 @@
    <widget class="CheckBox" name="DlyRevConnection">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>60</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Serial</string>
-    </property>
-   </widget>
-   <widget class="CheckBox" name="DlyRevConnection_2">
-    <property name="geometry">
-     <rect>
       <x>160</x>
       <y>30</y>
       <width>61</width>
@@ -2451,7 +2425,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Bypass</string>
+     <string>Serial</string>
     </property>
    </widget>
    <zorder>dlyParam4</zorder>
@@ -2473,7 +2447,6 @@
    <zorder>delayType</zorder>
    <zorder>DlyRevConnection</zorder>
    <zorder>dlyReturn</zorder>
-   <zorder>DlyRevConnection_2</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

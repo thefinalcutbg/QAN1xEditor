@@ -95,6 +95,11 @@ int AN1x::getOffset(CommonParam p)
 	return 0;
 }
 
+bool AN1x::isNull(GlobalParam p)
+{
+	return p == AN1x::NullCommon1;
+}
+
 bool AN1x::isNull(SceneParam p)
 {
 	return s_sceneNull.count(p);
@@ -113,6 +118,11 @@ bool AN1x::isTwoByteParameter(SceneParam p)
 bool AN1x::isTwoByteParameter(CommonParam p)
 {
 	return isNull((AN1x::CommonParam)(p + 1)) && p+1 != CommonParam::reserved;
+}
+
+bool AN1x::isTwoByteParameter(GlobalParam p)
+{
+	return p == AN1x::MasterTune;
 }
 
 const char* AN1x::getFrequencyByValue(int value)

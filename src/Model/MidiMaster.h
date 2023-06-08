@@ -37,6 +37,7 @@ public:
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
 	
+	void setGlobalParam(AN1x::GlobalParam p, int value);
 	void setCommonParam(AN1x::CommonParam p, int value);
 	void setSceneParam(AN1x::SceneParam p, int value, bool isScene2);
 	void setSeqParam(AN1x::SeqParam p, int value);

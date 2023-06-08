@@ -123,3 +123,23 @@ public:
 
 	~CheckBox() {};
 };
+
+#include <QSpinBox>
+/*
+class SpinBox : public QSpinBox, public AbstractSceneController
+{
+	Q_OBJECT
+
+public:
+	SpinBox(QWidget* parent) : QSpinBox(parent) {};
+
+	void setSceneParam(AN1x::SceneParam p, bool isScene2) final;
+	void setCommonParam(AN1x::CommonParam p) final;
+	void setCurrentValueAsDefault() final;
+	void setValue(int value) final;
+
+	~SpinBox() {};
+
+
+};
+*/

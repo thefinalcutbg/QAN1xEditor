@@ -4,6 +4,7 @@
 #include "View/QAN1xEditor.h"
 #include <array>
 
+
 MidiMaster::MidiMaster()
 {
 
@@ -187,6 +188,14 @@ void MidiMaster::setSeqParam(AN1x::SeqParam p, int value)
 	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E, unsigned char(p), unsigned char(value), 0xF7 });
 }
 
+void MidiMaster::setGlobalParam(AN1x::GlobalParam p, int value)
+{
+	if (AN1x::isNull(p)) return;
+
+	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x00, 0x00, p, unsigned char(value), 0xF7 });
+	
+}
+
 void MidiMaster::setCommonParam(AN1x::CommonParam p, int value)
 {
 	if (AN1x::isNull(p)) return;
@@ -198,7 +207,7 @@ void MidiMaster::setCommonParam(AN1x::CommonParam p, int value)
 		unsigned char firstByte = value / 128;
 		unsigned char secondByte = value % 128;
 
-		sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00, unsigned char(p), firstByte, secondByte, 0xF7 });
+		sendMessage({  0x10, 0x00, unsigned char(p), firstByte, secondByte, 0xF7 });
 
 		return;
 	}

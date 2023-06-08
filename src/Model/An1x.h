@@ -11,6 +11,32 @@ namespace AN1x
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
 	
+	enum GlobalParam : unsigned char
+	{
+		MasterTune,
+		NullGlobal1,
+		KeyboardTranspose,
+		VelocityCurve,
+		FixedVelocity,
+		EffectBypass,
+		TransmitChannel,
+		ArpSeqTransmitChannel,
+		RecieveChannel1,
+		RecieveChannel2,
+		MidiDeviceNumber,
+		MidiLocal,
+		SceenCtrlNumber,
+		MWCtrlNumber,
+		FVCtrlNumber,
+		FCCtrlNumber,
+		FSCtrlNumber,
+		RibXCtrlNumber,
+		RibZCtrlNumber,
+		AssignKnob1Number,
+		//x7 more 
+		GlobalReserved = 0x1B
+	};
+
 	enum CommonParam : unsigned char
 	{
 		Name1 = 0x00,
@@ -215,11 +241,13 @@ namespace AN1x
 	int getOffset(SceneParam p);
 	int getOffset(CommonParam p);
 
+	bool isNull(GlobalParam p);
 	bool isNull(SceneParam p);
 	bool isNull(CommonParam p);
 
 	bool isTwoByteParameter(SceneParam p);
 	bool isTwoByteParameter(CommonParam p);
+	bool isTwoByteParameter(GlobalParam p);
 
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);
