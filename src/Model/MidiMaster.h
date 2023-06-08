@@ -17,9 +17,11 @@ class MidiMaster
 	QAN1xEditor* view{ nullptr };
 
 	bool handlingMessage = false;
+	bool sendingMessage = false;
 
 	bool handleSceneParameter(const Message& m);
 	bool handleCommonParameter(const Message& m);
+	bool handleSequenceParameter(const Message& m);
 
 	void sendMessage(const Message& msg);
 	void handleMessage(const Message& msg);
@@ -37,5 +39,5 @@ public:
 	
 	void setCommonParam(AN1x::CommonParam p, int value);
 	void setSceneParam(AN1x::SceneParam p, int value, bool isScene2);
-	
+	void setSeqParam(AN1x::SeqParam p, int value);
 };

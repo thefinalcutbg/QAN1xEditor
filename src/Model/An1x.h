@@ -189,7 +189,7 @@ namespace AN1x
 		SceneParametersMaxSize
 	};
 
-	enum StepSequencer : unsigned char
+	enum SeqParam : unsigned char
 	{
 		SeqBaseUnit = 0x00,
 		SeqLength,
@@ -201,7 +201,7 @@ namespace AN1x
 		//15 more
 		SeqVelocity1 = 0x16,
 		//15 more
-		SeqGateTime = 0x26,
+		SeqGateTime1 = 0x26,
 		//15 more
 		SeqCtrlChange1 = 0x36,
 		//15 more

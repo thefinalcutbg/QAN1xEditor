@@ -19,6 +19,7 @@ public:
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
     void setCommonParameter(AN1x::CommonParam p, int value);
+    void setSequenceParameter(AN1x::SeqParam p, int value);
     ~QAN1xEditor();
 
 private:

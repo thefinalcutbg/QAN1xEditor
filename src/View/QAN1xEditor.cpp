@@ -246,5 +246,10 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
     ui.seqTab->setCommonParameter(p, value);
 }
 
+void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
+{
+    ui.seqTab->setSequenceParameter(p, value);
+}
+
 QAN1xEditor::~QAN1xEditor()
 {}

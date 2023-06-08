@@ -12,7 +12,8 @@ class ArpSeq : public QWidget
 	static constexpr int ui_size = AN1x::NullCommon23 - AN1x::ArpSeqOnOff;
 
 	std::array<AbstractSceneController*, ui_size> ui_controls{ nullptr };
-	std::array<AbstractSceneController*, AN1x::SeqNote1> seq_controls{ nullptr };
+	std::array<AbstractSceneController*, AN1x::StepSequencerMaxSize> seq_controls{ nullptr };
+	std::array<QGroupBox*, 16> p_steps;
 
 	void setArpLayout(bool arp);
 
@@ -21,7 +22,7 @@ public:
 	ArpSeq(QWidget *parent = nullptr);
 	void setMidiMaster(MidiMaster* m);
 	void setCommonParameter(AN1x::CommonParam p, int value);
-	void setSequenceParameter(AN1x::StepSequencer p, int value);
+	void setSequenceParameter(AN1x::SeqParam p, int value);
 	~ArpSeq();
 
 private:

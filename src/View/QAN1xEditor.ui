@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1121</width>
-    <height>858</height>
+    <width>1068</width>
+    <height>860</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,8 +46,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1103</width>
-         <height>797</height>
+         <width>1050</width>
+         <height>821</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -106,6 +106,36 @@
            <widget class="QPushButton" name="refresh">
             <property name="text">
              <string>Refresh devices</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>100</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="sendVoice">
+            <property name="text">
+             <string>Send Voice</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="requestVoice">
+            <property name="text">
+             <string>Request Voice</string>
             </property>
            </widget>
           </item>
@@ -685,6 +715,219 @@
             <string>Arpeggiator/Sequencer</string>
            </property>
           </widget>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="geometry">
+            <rect>
+             <x>510</x>
+             <y>40</y>
+             <width>531</width>
+             <height>131</height>
+            </rect>
+           </property>
+           <property name="title">
+            <string>Global Settings</string>
+           </property>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>30</y>
+              <width>81</width>
+              <height>19</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Velocity curve:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_9">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>70</y>
+              <width>61</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="text">
+             <string>Transpose</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkBox_2">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>90</y>
+              <width>91</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>MIDI Local</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_8">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>70</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="text">
+             <string>Master Tune</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_5">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>60</y>
+              <width>91</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Velocity value:</string>
+            </property>
+           </widget>
+           <widget class="QDial" name="transpose">
+            <property name="geometry">
+             <rect>
+              <x>100</x>
+              <y>20</y>
+              <width>41</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="notchTarget">
+             <double>8.000000000000000</double>
+            </property>
+            <property name="notchesVisible">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QDial" name="masterTune">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>20</y>
+              <width>41</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="notchTarget">
+             <double>8.000000000000000</double>
+            </property>
+            <property name="notchesVisible">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="spinBox">
+            <property name="geometry">
+             <rect>
+              <x>270</x>
+              <y>60</y>
+              <width>71</width>
+              <height>22</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="comboBox_3">
+            <property name="geometry">
+             <rect>
+              <x>270</x>
+              <y>30</y>
+              <width>71</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <item>
+             <property name="text">
+              <string>Normal</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Soft1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Soft2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Easy</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Wide</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Hard</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fixed</string>
+             </property>
+            </item>
+           </widget>
+          </widget>
          </widget>
         </item>
         <item>
@@ -698,7 +941,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="SceneView" name="scene1tab">
              <attribute name="title">
@@ -720,11 +963,6 @@
               <string>Sequencer/Arpeggiator</string>
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_5"/>
-            </widget>
-            <widget class="QWidget" name="egTab">
-             <attribute name="title">
-              <string>Custom EG</string>
-             </attribute>
             </widget>
             <widget class="QWidget" name="matrixTab">
              <attribute name="title">
@@ -1065,211 +1303,6 @@
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="globalTab">
-             <attribute name="title">
-              <string>Global</string>
-             </attribute>
-             <widget class="QCheckBox" name="checkBox_2">
-              <property name="geometry">
-               <rect>
-                <x>190</x>
-                <y>90</y>
-                <width>91</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>MIDI Local</string>
-              </property>
-             </widget>
-             <widget class="QDial" name="masterTune">
-              <property name="geometry">
-               <rect>
-                <x>40</x>
-                <y>20</y>
-                <width>41</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="notchTarget">
-               <double>8.000000000000000</double>
-              </property>
-              <property name="notchesVisible">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_9">
-              <property name="geometry">
-               <rect>
-                <x>100</x>
-                <y>70</y>
-                <width>61</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="text">
-               <string>Transpose</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignHCenter|Qt::AlignTop</set>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_5">
-              <property name="geometry">
-               <rect>
-                <x>190</x>
-                <y>60</y>
-                <width>91</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Velocity value:</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_3">
-              <property name="geometry">
-               <rect>
-                <x>190</x>
-                <y>30</y>
-                <width>81</width>
-                <height>19</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Velocity curve:</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_8">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
-                <y>70</y>
-                <width>81</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="text">
-               <string>Master Tune</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignHCenter|Qt::AlignTop</set>
-              </property>
-             </widget>
-             <widget class="QSpinBox" name="spinBox">
-              <property name="geometry">
-               <rect>
-                <x>280</x>
-                <y>60</y>
-                <width>71</width>
-                <height>22</height>
-               </rect>
-              </property>
-             </widget>
-             <widget class="QDial" name="transpose">
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>20</y>
-                <width>41</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="notchTarget">
-               <double>8.000000000000000</double>
-              </property>
-              <property name="notchesVisible">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QComboBox" name="comboBox_3">
-              <property name="geometry">
-               <rect>
-                <x>280</x>
-                <y>30</y>
-                <width>71</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <item>
-               <property name="text">
-                <string>Normal</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Soft1</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Soft2</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Easy</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Wide</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Hard</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Fixed</string>
-               </property>
-              </item>
-             </widget>
-            </widget>
            </widget>
           </item>
          </layout>
@@ -1279,22 +1312,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1121</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menudsadas">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
-   <addaction name="menudsadas"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

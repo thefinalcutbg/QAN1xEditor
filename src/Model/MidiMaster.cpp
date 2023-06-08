@@ -130,13 +130,30 @@ bool MidiMaster::handleSceneParameter(const Message& m)
 
 void MidiMaster::handleMessage(const Message& msg)
 {
-	qDebug() << msg;
+	if(sendingMessage) return;
+	qDebug() << "recieve: "<< msg;
 	handlingMessage = true;
 
 	handleCommonParameter(msg);
 	handleSceneParameter(msg);
+	handleSequenceParameter(msg);
 
 	handlingMessage = false;
+}
+
+bool MidiMaster::handleSequenceParameter(const Message& m)
+{
+	static const std::array<int, 6> header = { 240, 67, 16, 92, 16, 14 };
+
+	for (int i = 0; i < header.size(); i++)
+	{
+		if (i >= m.size() || header[i] != m[i]) return false;
+	}
+
+
+	view->setSequenceParameter((AN1x::SeqParam)m[6], m[7]);
+
+	return true;
 }
 
 
@@ -144,10 +161,14 @@ void MidiMaster::sendMessage(const Message& msg)
 {
 	if (handlingMessage) return;
 
+	sendingMessage = true;
+
 	try {
 		if (!m_out->isPortOpen()) return;
 
 		auto m = msg;
+
+		qDebug() << "send: " << m;
 
 		m_out->sendRawMessage(m);
 	}
@@ -155,9 +176,16 @@ void MidiMaster::sendMessage(const Message& msg)
 	{
 		refreshConnection();
 	}
+
+	sendingMessage = false;
 }
 
 //0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00
+
+void MidiMaster::setSeqParam(AN1x::SeqParam p, int value)
+{
+	sendMessage({ 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E, unsigned char(p), unsigned char(value), 0xF7 });
+}
 
 void MidiMaster::setCommonParam(AN1x::CommonParam p, int value)
 {

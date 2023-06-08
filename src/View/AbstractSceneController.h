@@ -13,5 +13,6 @@ public:
 	virtual void setValue(int value) = 0;
 	virtual void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) {};
 	virtual void setCommonParam(MidiMaster* m, AN1x::CommonParam p) {};
+	virtual void setSequenceParam(MidiMaster* m, AN1x::SeqParam) {};
 };
 

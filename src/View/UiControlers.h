@@ -48,6 +48,7 @@ public:
 
 	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
 	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
+	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 
 	void setValue(int value) final;
@@ -70,14 +71,17 @@ class ComboPicker : public QComboBox, public AbstractSceneController
 {
 	Q_OBJECT
 
+	bool m_isNoteCombo{ false };
+
 public:
 	ComboPicker(QWidget* parent);
 
 	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
 	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
+	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
-
+	void setAsNoteCombo() { m_isNoteCombo = true; }
 	~ComboPicker() {};
 };
 
@@ -94,6 +98,7 @@ public:
 
 	void setSceneParam(MidiMaster* m, AN1x::SceneParam p, bool isScene2) final;
 	void setCommonParam(MidiMaster* m, AN1x::CommonParam p) final;
+	void setSequenceParam(MidiMaster* m, AN1x::SeqParam p) final;
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 

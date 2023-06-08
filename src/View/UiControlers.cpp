@@ -219,6 +219,15 @@ void DialKnob::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
 	);
 }
 
+void DialKnob::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
+{
+	connect(this, &QDial::valueChanged, [=](int value) {
+		GlobalWidgets::statusBar->showMessage(getValueText());
+		m->setSeqParam(p, value);
+		}
+	);
+}
+
 void DialKnob::setCurrentValueAsDefault()
 {
 	defaultValue = value();
@@ -262,6 +271,16 @@ void ComboPicker::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
 	);
 }
 
+void ComboPicker::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
+{
+	connect(this, &QComboBox::currentIndexChanged, [=](int value) {
+		//GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
+		if (m_isNoteCombo) value = 127-value;
+		m->setSeqParam(p, value);
+		}
+	);
+}
+
 void ComboPicker::setCurrentValueAsDefault()
 {
 	defaultValue = currentIndex();
@@ -270,6 +289,7 @@ void ComboPicker::setCurrentValueAsDefault()
 void ComboPicker::setValue(int value)
 {
 	blockSignals(true);
+	if (m_isNoteCombo) value = 127-value;
 	setCurrentIndex(value);
 	blockSignals(false);
 }
@@ -296,6 +316,15 @@ void EGSlider::setCommonParam(MidiMaster* m, AN1x::CommonParam p)
 	connect(this, &QSlider::valueChanged, [=](int value) {
 			GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
 			m->setCommonParam(p, value);
+		}
+	);
+}
+
+void EGSlider::setSequenceParam(MidiMaster* m, AN1x::SeqParam p)
+{
+	connect(this, &QSlider::valueChanged, [=](int value) {
+		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
+		m->setSeqParam(p, value);
 		}
 	);
 }
