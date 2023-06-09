@@ -14,14 +14,10 @@ class SceneView : public QWidget
 
 	std::array<AbstractController*, uiParamSize> ui_controls { nullptr };
 
-	AN1x::ParamType getType() {
-		return isScene2 ? AN1x::ParamType::Scene2 : AN1x::ParamType::Scene1;
-	}
-
 public:
 	SceneView(QWidget *parent = nullptr);
 
-	void setAsScene2() { isScene2 = true; }
+	void setAsScene(bool isSceen2);
 
 	void setSceneParameters(AN1x::SceneParam p, int value);
 

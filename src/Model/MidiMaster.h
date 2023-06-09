@@ -19,4 +19,6 @@ namespace MidiMaster
 	void connectMidiOut(int idx);
 
 	void setParam(AN1x::ParamType type, unsigned char parameter, int value);
+	void setPress(int note);
+	void setRelease(int note);
 }

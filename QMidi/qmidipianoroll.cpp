@@ -93,14 +93,17 @@ void QMidiPianoRoll::onMidiReceive(QMidiMessage *message)
         QColor color;
         if(isSemiTone(message->getPitch()))
         {
+            qDebug() << "black";
             color = QColor(Qt::black);
         }
         else
         {
+            qDebug() << "white";
              color = QColor(Qt::white);
         }
         brush.setColor(color);
         _keys[message->getPitch()]->setBrush(brush);
+        _keys[message->getPitch()]->update();
         break;
     }
     case MIDI_CONTROL_CHANGE: {

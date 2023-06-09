@@ -111,17 +111,6 @@ ArpSeq::ArpSeq(QWidget *parent)
 
 		auto note = static_cast<ComboPicker*>(seq_controls[i]);
 
-		static const char* notelist[12] = { "B","A#","A","G#","G","F#","F","E","D#","D","C#","C" };
-
-		for (int y = 8; y >= -2; y--) {
-			for (int j = 0; j < 12; j++)
-			{
-				if (y == 8 && j < 4) continue;
-				note->addItem(QString::number(y) + notelist[j]);
-			}
-		}
-
-		note->setCurrentIndex(127-60);
 		note->setAsNoteCombo();
 	}
 

@@ -34,7 +34,8 @@ public:
 		DelayInput,
 		TempoDelay,
 		ReverbTime,
-		ReverbDamp
+		ReverbDamp,
+		MasterTune
 	};
 
 private: ValueTextType m_textType{ Normal };
@@ -69,13 +70,13 @@ class ComboPicker : public QComboBox, public AbstractController
 	Q_OBJECT
 
 	bool m_isNoteCombo{ false };
-
+	bool event(QEvent* e) override;
 public:
 	ComboPicker(QWidget* parent);
 
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
-	void setAsNoteCombo() { m_isNoteCombo = true; }
+	void setAsNoteCombo();
 	~ComboPicker() {};
 };
 

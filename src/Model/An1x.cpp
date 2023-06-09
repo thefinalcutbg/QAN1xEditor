@@ -31,7 +31,7 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 		case ParamType::System:
 		{
 			static const std::map<unsigned char, int> parameterToOffset{
-				{MasterTune, 341},
+				//{MasterTune, 341},
 				{KeyboardTranspose, 64}
 
 			};

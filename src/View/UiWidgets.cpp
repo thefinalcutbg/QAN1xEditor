@@ -1,4 +1,4 @@
-#include "UiControlers.h"
+#include "UiWidgets.h"
 #include <QMouseEvent>
 #include <qtooltip.h>
 #include <qdebug.h>
@@ -181,7 +181,11 @@ QString DialKnob::getValueText()
 		}
 		break;
 
-
+		case MasterTune:
+		{
+			return ""; //implement this
+		}
+		break;
 
 
 	}
@@ -198,6 +202,7 @@ DialKnob::DialKnob(QWidget *parent)
 
 	connect(this, &QDial::valueChanged, 
 		[&](int value) {
+			qDebug() << static_cast<int>(type);
 			if (type == AN1x::ParamType::Unknown) return;
 			GlobalWidgets::statusBar->showMessage(getValueText());
 			MidiMaster::setParam(type, parameter, value);
@@ -229,14 +234,45 @@ void DialKnob::setValue(int value)
 }
 
 
+bool ComboPicker::event(QEvent* e)
+{
+	switch (e->type())
+	{
+	case QEvent::HoverEnter:
+		GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(currentIndex()));
+		return true;
+		break;
+	case QEvent::HoverLeave:
+		GlobalWidgets::statusBar->clearMessage();
+		return true;
+		break;
+	case QEvent::MouseButtonPress:
+		if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
+		{
+			setValue(defaultValue);
+
+			emit currentIndexChanged(defaultValue);
+		}
+		return true;
+		break;
+	default:
+		break;
+	}
+	return QComboBox::event(e);
+}
+
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
 	connect(this, &QComboBox::currentIndexChanged, 
 		[&](int value) { 
 			if (type == AN1x::ParamType::Unknown) return;
+
+			GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(value));
 			if (m_isNoteCombo) value = 127 - value;
 			MidiMaster::setParam(type, parameter, value); }
 	);
+
+	installEventFilter(this);
 }
 
 
@@ -251,6 +287,28 @@ void ComboPicker::setValue(int value)
 	blockSignals(true);
 	if (m_isNoteCombo) value = 127-value;
 	setCurrentIndex(value);
+	blockSignals(false);
+}
+
+void ComboPicker::setAsNoteCombo()
+{
+	blockSignals(true);
+	m_isNoteCombo = true;
+
+	clear();
+
+	static const char* notelist[12] = { "B","A#","A","G#","G","F#","F","E","D#","D","C#","C" };
+
+	for (int y = 8; y >= -2; y--) {
+		for (int j = 0; j < 12; j++)
+		{
+			if (y == 8 && j < 4) continue;
+			addItem(QString::number(y) + notelist[j]);
+		}
+	}
+
+	setCurrentIndex(127 - 60);
+
 	blockSignals(false);
 }
 

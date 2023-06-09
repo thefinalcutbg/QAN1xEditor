@@ -171,7 +171,15 @@ void MidiMaster::refreshConnection()
 
 	s_in->setIgnoreTypes(false, true, true);
 
-	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) {  handleMessage(m->getSysExData()); delete m; });
+	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) 
+		{  
+			if (m->getPitch()) {
+				s_view->pianoRoll()->onMidiReceive(m);
+			}
+			else {
+				handleMessage(m->getSysExData()); delete m;
+			}
+		});
 
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
 	
@@ -199,6 +207,7 @@ void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int val
 }
 
 void MidiMaster::setView(QAN1xEditor* v) {
+
 	s_view = v;
 }
 
@@ -209,6 +218,7 @@ void MidiMaster::connectMidiIn(int idx)
 	if (idx == -1) return;
 
 	s_in->openPort(idx);
+
 }
 
 void MidiMaster::connectMidiOut(int idx)
@@ -219,3 +229,28 @@ void MidiMaster::connectMidiOut(int idx)
 
 	s_out->openPort(idx);
 }
+
+void MidiMaster::setPress(int note) {
+
+	QMidiMessage* m = new QMidiMessage();
+	
+	m->setPitch(note);
+	m->setStatus(QMidiStatus::MIDI_NOTE_ON);
+	m->setVelocity(127);
+
+	s_out->sendMessage(m);
+	qDebug() << "NOTE ON";
+};
+
+void MidiMaster::setRelease(int note) {
+
+	QMidiMessage* m = new QMidiMessage();
+
+	m->setPitch(note);
+	m->setStatus(QMidiStatus::MIDI_NOTE_OFF);
+	m->setVelocity(127);
+
+	qDebug() << "NOTE OFF";
+
+	s_out->sendMessage(m);
+};

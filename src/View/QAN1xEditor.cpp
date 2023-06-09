@@ -2,19 +2,57 @@
 #include "qmidimessage.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
-#include "Model/MidiMaster.h"
+#include "Model/MidiPlayer.h"
+#include <QKeyEvent>
 
+bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
+{
+    if (e->type() == QEvent::KeyPress)
+    {
+        
+        auto keyEvent = static_cast<QKeyEvent*>(e);
+       
+        if (keyEvent->modifiers()) return false;
+
+        if(keyEvent->isAutoRepeat()) return false;
+        qDebug() << keyEvent->key();
+        MidiPlayer::keyPressed(keyEvent->key());
+
+        return false;
+    }
+    
+    if (e->type() == QEvent::KeyRelease)
+    {
+        auto keyEvent = static_cast<QKeyEvent*>(e);
+
+        if (keyEvent->modifiers()) return false;
+
+        if (keyEvent->isAutoRepeat()) return false;
+
+        MidiPlayer::keyReleased(keyEvent->key());
+
+        return false;
+    }
+
+    return false;
+}
+//poganovski manastir <restoranta
+//sukovski manastir
 QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
+    installEventFilter(this);
+
     GlobalWidgets::statusBar = statusBar();
 
     MidiMaster::setView(this);
-    ui.scene2tab->setAsScene2();
-    ui.ctrlMatrixScene2->setAsScene2();
 
+    ui.scene1tab->setAsScene(false);
+    ui.scene2tab->setAsScene(true);
+    ui.ctrlMatrixScene1->setAsScene(false);
+    ui.ctrlMatrixScene2->setAsScene(true);
 
     for (int y = 0; y < 6; y++)
     {
@@ -63,9 +101,12 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.scene1radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
     connect(ui.scene2radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
     connect(ui.bothSceneRadio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
-  
+
+    connect(ui.transpose, &QSpinBox::valueChanged, [&](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
     ui.fixedVelocity->setSpecialValueText("Off");
+    ui.splitPoint->setAsNoteCombo();
     ui.tempoBPM->setSpecialValueText("MIDI");
+    ui.masterTune->setValueTextType(DialKnob::MasterTune);
 
     connect(ui.fixedVelocity, &QSpinBox::valueChanged, 
         [&](int value) { 
@@ -93,7 +134,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         ui.detune,
         ui.tempoBPM,
         nullptr,
-        nullptr,
+        ui.splitPoint,
         ui.portamentoCheck,
         ui.sourceMtrxCom_1,
         ui.paramMtrxCom_1,
@@ -240,6 +281,11 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
 {
     ui.seqTab->setSequenceParameter(p, value);
+}
+
+QMidiPianoRoll* QAN1xEditor::pianoRoll()
+{
+    return ui.graphicsView;
 }
 
 QAN1xEditor::~QAN1xEditor()

@@ -64,7 +64,7 @@
     <ClCompile Include="src\Model\MidiMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\UiControlers.cpp">
+    <ClCompile Include="src\View\UiWidgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\An1x.cpp">
@@ -82,6 +82,9 @@
     <ClCompile Include="src\View\ArpSeq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\MidiPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QMidi\RtMidi.h">
@@ -97,6 +100,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\AbstractController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\MidiPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,7 +125,7 @@
     <QtMoc Include="src\View\SceneView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\View\UiControlers.h">
+    <QtMoc Include="src\View\UiWidgets.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\VoiceNameEdit.h">

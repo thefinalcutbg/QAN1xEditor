@@ -105,10 +105,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Model\MidiPlayer.cpp" />
     <ClCompile Include="src\View\ArpSeq.cpp" />
     <ClCompile Include="src\View\ControlMatrixScene.cpp" />
     <ClCompile Include="src\View\FxEq.cpp" />
-    <ClCompile Include="src\View\UiControlers.cpp" />
+    <ClCompile Include="src\View\UiWidgets.cpp" />
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
     <ClCompile Include="src\View\SceneView.cpp" />
@@ -131,7 +132,8 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\VoiceNameEdit.h" />
-    <QtMoc Include="src\View\UiControlers.h" />
+    <QtMoc Include="src\View\UiWidgets.h" />
+    <ClInclude Include="src\Model\MidiPlayer.h" />
     <ClInclude Include="src\View\AbstractController.h" />
     <QtMoc Include="src\View\ControlMatrixScene.h" />
     <QtMoc Include="src\View\FxEq.h" />

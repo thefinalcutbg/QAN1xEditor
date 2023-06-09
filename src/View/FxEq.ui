@@ -2481,17 +2481,17 @@
   <customwidget>
    <class>DialKnob</class>
    <extends>QDial</extends>
-   <header>UiControlers.h</header>
+   <header>UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>ComboPicker</class>
    <extends>QComboBox</extends>
-   <header>UiControlers.h</header>
+   <header>UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>CheckBox</class>
    <extends>QCheckBox</extends>
-   <header>UiControlers.h</header>
+   <header>UiWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
