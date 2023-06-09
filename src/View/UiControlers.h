@@ -1,9 +1,9 @@
 #pragma once
 
 #include <QDial>
-#include "AbstractSceneController.h"
+#include "AbstractController.h"
 
-class DialKnob  : public QDial, public AbstractSceneController
+class DialKnob  : public QDial, public AbstractController
 {
 	Q_OBJECT
 
@@ -44,7 +44,7 @@ public:
 	
 	~DialKnob();
 
-	// Inherited via AbstractSceneController
+	// Inherited via AbstractController
 
 	void setCurrentValueAsDefault() final;
 
@@ -64,7 +64,7 @@ public:
 
 #include <QComboBox>
 
-class ComboPicker : public QComboBox, public AbstractSceneController
+class ComboPicker : public QComboBox, public AbstractController
 {
 	Q_OBJECT
 
@@ -81,7 +81,7 @@ public:
 
 #include <QSlider>
 
-class EGSlider : public QSlider, public AbstractSceneController
+class EGSlider : public QSlider, public AbstractController
 {
 	Q_OBJECT
 
@@ -98,7 +98,7 @@ public:
 
 #include <QCheckBox>
 
-class CheckBox : public QCheckBox, public AbstractSceneController
+class CheckBox : public QCheckBox, public AbstractController
 {
 	Q_OBJECT
 
@@ -107,9 +107,20 @@ class CheckBox : public QCheckBox, public AbstractSceneController
 public:
 	CheckBox(QWidget* parent);
 
-
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 
 	~CheckBox() {};
+};
+
+#include <QSpinBox>
+
+class SpinBox : public QSpinBox, public AbstractController
+{
+	Q_OBJECT
+
+public:
+	SpinBox(QWidget* parent);
+	void setCurrentValueAsDefault() final;
+	void setValue(int value) final;
 };

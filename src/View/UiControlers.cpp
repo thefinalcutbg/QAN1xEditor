@@ -200,7 +200,7 @@ DialKnob::DialKnob(QWidget *parent)
 		[&](int value) {
 			if (type == AN1x::ParamType::Unknown) return;
 			GlobalWidgets::statusBar->showMessage(getValueText());
-			MidiMaster::get().setParam(type, parameter, value);
+			MidiMaster::setParam(type, parameter, value);
 		}
 	);
 
@@ -235,7 +235,7 @@ ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 		[&](int value) { 
 			if (type == AN1x::ParamType::Unknown) return;
 			if (m_isNoteCombo) value = 127 - value;
-			MidiMaster::get().setParam(type, parameter, value); }
+			MidiMaster::setParam(type, parameter, value); }
 	);
 }
 
@@ -264,7 +264,7 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 	connect(this, &QSlider::valueChanged, [&](int value) {
 		if (type == AN1x::ParamType::Unknown) return;
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			MidiMaster::get().setParam(type, parameter, value);
+			MidiMaster::setParam(type, parameter, value);
 		}
 	);
 }
@@ -319,7 +319,7 @@ CheckBox::CheckBox(QWidget* parent) : QCheckBox(parent)
 {
 	connect(this, &QCheckBox::stateChanged, [&](bool checked) {
 			if (type == AN1x::ParamType::Unknown) return;
-			MidiMaster::get().setParam(type, parameter, checked);
+			MidiMaster::setParam(type, parameter, checked);
 		}
 	);
 }
@@ -335,5 +335,26 @@ void CheckBox::setValue(int value)
 
 	QCheckBox::setChecked(value);
 
+	blockSignals(false);
+}
+
+SpinBox::SpinBox(QWidget* parent) : QSpinBox(parent)
+{
+	connect(this, &QSpinBox::valueChanged, [&](int value) {
+			if (type == AN1x::ParamType::Unknown) return;
+			MidiMaster::setParam(type, parameter, value);
+		}
+	);
+}
+
+void SpinBox::setCurrentValueAsDefault()
+{
+	defaultValue = value();
+}
+
+void SpinBox::setValue(int value)
+{
+	blockSignals(true);
+	QSpinBox::setValue(value);
 	blockSignals(false);
 }

@@ -1,61 +1,21 @@
 #include "MidiMaster.h"
 #include "qmidimessage.h"
+#include "qmidiout.h"
+#include "qmidiin.h"
 #include <QDebug>
 #include "View/QAN1xEditor.h"
 #include <array>
 
+QMidiOut* s_out{ nullptr };
+QMidiIn* s_in{ nullptr };
 
-MidiMaster MidiMaster::m_singleton;
+QAN1xEditor* s_view{ nullptr };
 
-MidiMaster::MidiMaster()
-{
-
-}
+bool handlingMessage = false;
+bool sendingMessage = false;
 
 
-void MidiMaster::refreshConnection()
-{
-	if (m_out) {
-		m_out->closePort();
-		delete m_out;
-	}
-
-	if (m_in)
-	{
-		m_in->closePort();
-		delete m_in;
-	}
-	
-	m_out = new QMidiOut;
-	m_in = new QMidiIn;
-
-	m_in->setIgnoreTypes(false, true, true);
-
-	QObject::connect(m_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) {  handleMessage(m->getSysExData()); delete m; });
-
-	view->setMidiDevices(m_in->getPorts(), m_out->getPorts());
-	
-}
-
-void MidiMaster::connectMidiIn(int idx)
-{
-	if (!m_in) return;
-
-	if (idx == -1) return; 
-
-	m_in->openPort(idx);
-}
-
-void MidiMaster::connectMidiOut(int idx)
-{
-	if (!m_out) return;
-
-	if (idx == -1) return;
-		
-	m_out->openPort(idx);
-}
-
-bool MidiMaster::handleCommonParameter(const Message& m)
+bool handleCommonParameter(const Message& m)
 {
 
 	static const std::array<int, 6> header = { 240, 67, 16, 92, 16, 0 };
@@ -80,20 +40,20 @@ bool MidiMaster::handleCommonParameter(const Message& m)
 
 	if (AN1x::isTwoByteParameter(AN1x::ParamType::Common, parameter))
 	{
-		value = m[7]*128;
+		value = m[7] * 128;
 		value += m[8];
 	}
 
 	value -= AN1x::getOffset(AN1x::ParamType::Common, parameter);
 
-	if (!view) return true;
+	if (!s_view) return true;
 
-	view->setCommonParameter(parameter, value);
+	s_view->setCommonParameter(parameter, value);
 
 	return true;
 }
 
-bool MidiMaster::handleSceneParameter(const Message& m)
+bool handleSceneParameter(const Message& m)
 {
 
 	static const std::array<int, 5> header = { 240, 67, 16, 92, 16 };
@@ -122,15 +82,15 @@ bool MidiMaster::handleSceneParameter(const Message& m)
 
 	value -= AN1x::getOffset(AN1x::ParamType::Scene1, parameter);
 
-	if (!view) return true;
+	if (!s_view) return true;
 
-	view->setSceneParameter(parameter, value, isScene2);
+	s_view->setSceneParameter(parameter, value, isScene2);
 
 	return true;
 
 }
 
-bool MidiMaster::handleSequenceParameter(const Message& m)
+bool handleSequenceParameter(const Message& m)
 {
 	static const std::array<int, 6> header = { 240, 67, 16, 92, 16, 14 };
 
@@ -140,40 +100,22 @@ bool MidiMaster::handleSequenceParameter(const Message& m)
 	}
 
 
-	view->setSequenceParameter((AN1x::SeqParam)m[6], m[7]);
+	s_view->setSequenceParameter((AN1x::SeqParam)m[6], m[7]);
 
 	return true;
 }
 
-bool MidiMaster::handleGlobalParameter(const Message& m)
+bool handleGlobalParameter(const Message& m)
 {
 	return false;
 }
 
 
-void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int value)
+
+
+void handleMessage(const Message& msg)
 {
-	auto header = AN1x::getHeader(type);
-
-	header.push_back(parameter);
-
-	if (value < 128) {
-		header.push_back(value);
-	}
-	else
-	{
-		header.push_back(value / 128);
-		header.push_back(value % 128);
-	}
-
-	header.push_back(0xF7);
-}
-
-
-void MidiMaster::handleMessage(const Message& msg)
-{
-	if(sendingMessage) return;
-	qDebug() << "recieve: "<< msg;
+	qDebug() << "recieve: " << msg;
 	handlingMessage = true;
 
 	handleCommonParameter(msg);
@@ -185,28 +127,95 @@ void MidiMaster::handleMessage(const Message& msg)
 
 
 
-void MidiMaster::sendMessage(const Message& msg)
+void sendMessage(const Message& msg)
 {
+	if (s_out == nullptr) return;
+
 	if (handlingMessage) return;
 
 	sendingMessage = true;
 
 	try {
-		if (!m_out->isPortOpen()) return;
+		if (!s_out->isPortOpen()) return;
 
 		auto m = msg;
 
 		qDebug() << "send: " << m;
 
-		m_out->sendRawMessage(m);
+		s_out->sendRawMessage(m);
 	}
 	catch (std::exception)
 	{
-		refreshConnection();
+		MidiMaster::refreshConnection();
 	}
 
 	sendingMessage = false;
 }
 
 
+void MidiMaster::refreshConnection()
+{
+	if (s_out) {
+		s_out->closePort();
+		delete s_out;
+	}
 
+	if (s_in)
+	{
+		s_in->closePort();
+		delete s_in;
+	}
+	
+	s_out = new QMidiOut;
+	s_in = new QMidiIn;
+
+	s_in->setIgnoreTypes(false, true, true);
+
+	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) {  handleMessage(m->getSysExData()); delete m; });
+
+	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
+	
+}
+
+void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int value)
+{
+	auto msg = AN1x::getHeader(type);
+
+	msg.push_back(parameter);
+
+	value += AN1x::getOffset(type, parameter);
+
+	if (AN1x::isTwoByteParameter(type, parameter)) {
+		msg.push_back(value / 128);
+		msg.push_back(value % 128);
+	}
+	else {
+		msg.push_back(value);
+	}
+
+	msg.push_back(0xF7);
+
+	sendMessage(msg);
+}
+
+void MidiMaster::setView(QAN1xEditor* v) {
+	s_view = v;
+}
+
+void MidiMaster::connectMidiIn(int idx)
+{
+	if (!s_in) return;
+
+	if (idx == -1) return;
+
+	s_in->openPort(idx);
+}
+
+void MidiMaster::connectMidiOut(int idx)
+{
+	if (!s_out) return;
+
+	if (idx == -1) return;
+
+	s_out->openPort(idx);
+}

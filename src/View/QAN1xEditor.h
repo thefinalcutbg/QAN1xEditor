@@ -10,8 +10,8 @@ class QAN1xEditor : public QMainWindow
 {
     Q_OBJECT
 
-    std::array<AbstractSceneController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
-
+    std::array<AbstractController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
+    std::array<AbstractController*, AN1x::SystemParam::SystemReserved> system_controls{ nullptr };
 public:
     QAN1xEditor(QWidget *parent = nullptr);
     void setMidiDevices(const QStringList& in, const QStringList& out);

@@ -2,7 +2,6 @@
 
 #include <QWidget>
 #include "ui_ArpSeq.h"
-#include "AbstractSceneController.h"
 
 class ArpSeq : public QWidget
 {
@@ -11,8 +10,8 @@ class ArpSeq : public QWidget
 		
 	static constexpr int ui_size = AN1x::NullCommon23 - AN1x::ArpSeqOnOff;
 
-	std::array<AbstractSceneController*, ui_size> ui_controls{ nullptr };
-	std::array<AbstractSceneController*, AN1x::StepSequencerMaxSize> seq_controls{ nullptr };
+	std::array<AbstractController*, ui_size> ui_controls{ nullptr };
+	std::array<AbstractController*, AN1x::StepSequencerMaxSize> seq_controls{ nullptr };
 	std::array<QGroupBox*, 16> p_steps;
 
 	void setArpLayout(bool arp);

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1148</width>
+    <width>1118</width>
     <height>860</height>
    </rect>
   </property>
@@ -46,7 +46,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1130</width>
+         <width>1100</width>
          <height>821</height>
         </rect>
        </property>
@@ -421,7 +421,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QSpinBox" name="tempoBPM">
+          <widget class="SpinBox" name="tempoBPM">
            <property name="geometry">
             <rect>
              <x>340</x>
@@ -434,7 +434,7 @@
             <string> BPM</string>
            </property>
            <property name="minimum">
-            <number>40</number>
+            <number>39</number>
            </property>
            <property name="maximum">
             <number>240</number>
@@ -454,19 +454,6 @@
            </property>
            <property name="text">
             <string>Tempo:</string>
-           </property>
-          </widget>
-          <widget class="CheckBox" name="midiSyncCheck">
-           <property name="geometry">
-            <rect>
-             <x>420</x>
-             <y>50</y>
-             <width>76</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Midi Sync</string>
            </property>
           </widget>
           <widget class="ComboPicker" name="layerPan">
@@ -727,7 +714,7 @@
            <property name="title">
             <string>Global Settings</string>
            </property>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="velCurveLabel">
             <property name="geometry">
              <rect>
               <x>120</x>
@@ -759,7 +746,7 @@
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
             </property>
            </widget>
-           <widget class="CheckBox" name="checkBox_2">
+           <widget class="CheckBox" name="midiLocal">
             <property name="geometry">
              <rect>
               <x>120</x>
@@ -791,7 +778,7 @@
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
             </property>
            </widget>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="label_1">
             <property name="geometry">
              <rect>
               <x>120</x>
@@ -801,10 +788,10 @@
              </rect>
             </property>
             <property name="text">
-             <string>Velocity value:</string>
+             <string>Fixed velocity:</string>
             </property>
            </widget>
-           <widget class="QSpinBox" name="fixedVelocity">
+           <widget class="SpinBox" name="fixedVelocity">
             <property name="geometry">
              <rect>
               <x>210</x>
@@ -812,6 +799,9 @@
               <width>71</width>
               <height>22</height>
              </rect>
+            </property>
+            <property name="maximum">
+             <number>127</number>
             </property>
            </widget>
            <widget class="ComboPicker" name="velocityCurve">
@@ -853,54 +843,6 @@
               <string>Hard</string>
              </property>
             </item>
-            <item>
-             <property name="text">
-              <string>Fixed</string>
-             </property>
-            </item>
-           </widget>
-           <widget class="ComboPicker" name="fxBypass">
-            <property name="geometry">
-             <rect>
-              <x>210</x>
-              <y>90</y>
-              <width>61</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <item>
-             <property name="text">
-              <string>Off</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Delay</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Reverb</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>All</string>
-             </property>
-            </item>
-           </widget>
-           <widget class="QLabel" name="label_10">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>90</y>
-              <width>61</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Fx Bypass:</string>
-            </property>
            </widget>
            <widget class="DialKnob" name="masterTune">
             <property name="geometry">
@@ -929,17 +871,23 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="minimum">
+             <number>-1000</number>
+            </property>
             <property name="maximum">
-             <number>32</number>
+             <number>1000</number>
+            </property>
+            <property name="singleStep">
+             <number>3</number>
             </property>
             <property name="value">
-             <number>6</number>
+             <number>0</number>
             </property>
             <property name="notchTarget">
              <double>8.000000000000000</double>
             </property>
             <property name="notchesVisible">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
            <widget class="DialKnob" name="transpose">
@@ -969,11 +917,14 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="minimum">
+             <number>-36</number>
+            </property>
             <property name="maximum">
-             <number>32</number>
+             <number>36</number>
             </property>
             <property name="value">
-             <number>6</number>
+             <number>0</number>
             </property>
             <property name="notchTarget">
              <double>8.000000000000000</double>
@@ -1415,6 +1366,11 @@
    <extends>QWidget</extends>
    <header>arpseq.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>UiControlers.h</header>
   </customwidget>
  </customwidgets>
  <resources>

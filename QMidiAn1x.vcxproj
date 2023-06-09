@@ -132,7 +132,7 @@
   <ItemGroup>
     <QtMoc Include="src\View\VoiceNameEdit.h" />
     <QtMoc Include="src\View\UiControlers.h" />
-    <ClInclude Include="src\View\AbstractSceneController.h" />
+    <ClInclude Include="src\View\AbstractController.h" />
     <QtMoc Include="src\View\ControlMatrixScene.h" />
     <QtMoc Include="src\View\FxEq.h" />
     <QtMoc Include="src\View\ArpSeq.h" />

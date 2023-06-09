@@ -4,8 +4,6 @@
 #include "ui_SceneView.h"
 #include "Model/An1x.h"
 
-class MidiMaster;
-
 class SceneView : public QWidget
 {
 	Q_OBJECT
@@ -14,7 +12,7 @@ class SceneView : public QWidget
 
 	static constexpr int uiParamSize = AN1x::VariFxDW;
 
-	std::array<AbstractSceneController*, uiParamSize> ui_controls { nullptr };
+	std::array<AbstractController*, uiParamSize> ui_controls { nullptr };
 
 	AN1x::ParamType getType() {
 		return isScene2 ? AN1x::ParamType::Scene2 : AN1x::ParamType::Scene1;

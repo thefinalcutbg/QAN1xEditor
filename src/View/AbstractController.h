@@ -1,7 +1,7 @@
 #pragma once
 #include "Model/AN1x.h"
 
-class AbstractSceneController
+class AbstractController
 {
 protected:
 	

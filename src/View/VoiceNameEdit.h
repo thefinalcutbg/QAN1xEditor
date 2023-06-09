@@ -3,8 +3,6 @@
 #include <QLineEdit>
 #include "Model/An1x.h"
 
-class MidiMaster;
-
 class VoiceNameEdit  : public QLineEdit
 {
 	Q_OBJECT

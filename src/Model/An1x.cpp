@@ -28,6 +28,21 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 {
 	switch (t)
 	{
+		case ParamType::System:
+		{
+			static const std::map<unsigned char, int> parameterToOffset{
+				{MasterTune, 341},
+				{KeyboardTranspose, 64}
+
+			};
+
+			if (parameterToOffset.count(parameter))
+			{
+				return parameterToOffset.at(parameter);
+			}
+		}
+			break;
+
 		case ParamType::Scene1:
 		case ParamType::Scene2:
 		{
@@ -143,7 +158,7 @@ bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
 	case ParamType::Scene2:
 		return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1));
 	case ParamType::Common:
-		isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
+		return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
 	case ParamType::System:
 		return p == AN1x::MasterTune;
 	}

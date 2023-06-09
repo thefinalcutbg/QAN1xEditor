@@ -11,13 +11,13 @@ class FxEq : public QWidget
 
 	static constexpr int ui_size = AN1x::NullCommon22 - AN1x::VariFXType;
 
-	std::array<AbstractSceneController*, ui_size> ui_controls{ nullptr };
+	std::array<AbstractController*, ui_size> ui_controls{ nullptr };
 
 	void setFxLayout(int value);
 	void setDelayLayout(int value);
 	void setReverbLayout();
 	void setEqLayout();
-
+	void setBypass();
 public:
 	FxEq(QWidget *parent = nullptr);
 

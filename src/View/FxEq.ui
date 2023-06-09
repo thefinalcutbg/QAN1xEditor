@@ -1244,6 +1244,19 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="CheckBox" name="revBypass">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>76</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bypass</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_8">
    <property name="geometry">
@@ -2418,14 +2431,27 @@
    <widget class="CheckBox" name="DlyRevConnection">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>30</y>
+      <x>50</x>
+      <y>60</y>
       <width>61</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>Serial</string>
+    </property>
+   </widget>
+   <widget class="CheckBox" name="dlyBypass">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>76</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bypass</string>
     </property>
    </widget>
    <zorder>dlyParam4</zorder>
@@ -2447,6 +2473,7 @@
    <zorder>delayType</zorder>
    <zorder>DlyRevConnection</zorder>
    <zorder>dlyReturn</zorder>
+   <zorder>dlyBypass</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

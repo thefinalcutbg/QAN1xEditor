@@ -11,7 +11,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     GlobalWidgets::statusBar = statusBar();
 
-    MidiMaster::get().setView(this);
+    MidiMaster::setView(this);
     ui.scene2tab->setAsScene2();
     ui.ctrlMatrixScene2->setAsScene2();
 
@@ -35,41 +35,44 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 
     //MIDI DEVICES
-    connect(ui.refresh, &QPushButton::clicked, [&] { MidiMaster::get().refreshConnection(); });
-    connect(ui.inCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::get().connectMidiIn(index - 1); });
-    connect(ui.outCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::get().connectMidiOut(index - 1); });
+    connect(ui.refresh, &QPushButton::clicked, [&] { MidiMaster::refreshConnection(); });
+    connect(ui.inCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::connectMidiIn(index - 1); });
+    connect(ui.outCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::connectMidiOut(index - 1); });
 
     //LAYER
-    connect(ui.single, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
-    connect(ui.dual, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
-    connect(ui.split, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
+    connect(ui.single, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
+    connect(ui.dual, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
+    connect(ui.split, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
     connect(ui.unison, &QGroupBox::clicked, [&](bool checked) {
 
         if (ui.single->isChecked())
         {
-            MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
+            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
         }
         else if (ui.dual->isChecked())
         {
-            MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
+            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
         }
         else if (ui.split->isChecked())
         {
-            MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
+            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
         }
         }
     );
 
-    connect(ui.scene1radio, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
-    connect(ui.scene2radio, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
-    connect(ui.bothSceneRadio, &QRadioButton::clicked, [&] { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
-    connect(ui.tempoBPM, &QSpinBox::valueChanged, [&](int value) { MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::CommonParam::Tempo, value); });
-    connect(ui.midiSyncCheck, &QCheckBox::clicked, [&](bool checked) { 
-            ui.tempoBPM->setDisabled(checked);
-            MidiMaster::get().setParam(AN1x::ParamType::Common, AN1x::CommonParam::Tempo, checked ? 39 : ui.tempoBPM->value());
-        }
-    );
-    
+    connect(ui.scene1radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
+    connect(ui.scene2radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
+    connect(ui.bothSceneRadio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
+  
+    ui.fixedVelocity->setSpecialValueText("Off");
+    ui.tempoBPM->setSpecialValueText("MIDI");
+
+    connect(ui.fixedVelocity, &QSpinBox::valueChanged, 
+        [&](int value) { 
+            ui.velocityCurve->setDisabled(value); 
+            ui.velCurveLabel->setDisabled(value);
+        });
+
 
     ui_controls = {
         nullptr,
@@ -88,7 +91,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         ui.layerPan,
         ui.separation,
         ui.detune,
-        nullptr,
+        ui.tempoBPM,
         nullptr,
         nullptr,
         ui.portamentoCheck,
@@ -112,9 +115,22 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     ui.arpSeqCheck->setCurrentValueAsDefault();
     ui.arpSeqCheck->setParam(AN1x::ParamType::Common, AN1x::ArpSeqOnOff);
 
+    system_controls[0] = ui.masterTune;
+    system_controls[2] = ui.transpose;
+    system_controls[3] = ui.velocityCurve;
+    system_controls[4] = ui.fixedVelocity;
+   
+    system_controls[12] = ui.midiLocal;
 
+    for (int i = 0; i < system_controls.size(); i++)
+    {
+        if (system_controls[i] == nullptr) continue;
+
+        system_controls[i]->setCurrentValueAsDefault();
+        system_controls[i]->setParam(AN1x::ParamType::System, (AN1x::SystemParam)i);
+    }
  
-    MidiMaster::get().refreshConnection();
+    MidiMaster::refreshConnection();
 
 
 }
@@ -201,16 +217,6 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
         return;
     }
 
-    if (p == AN1x::Tempo) {
-
-        if (value == 39) {
-            ui.midiSyncCheck->setChecked(true);
-        }
-        ui.midiSyncCheck->setChecked(false);
-        ui.tempoBPM->setValue(value);
-
-        return;
-    }
 
     if (p == AN1x::ArpSeqOnOff) {
         ui.arpSeqCheck->setValue(value);

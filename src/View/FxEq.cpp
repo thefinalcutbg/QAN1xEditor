@@ -7,9 +7,10 @@ FxEq::FxEq(QWidget *parent)
 	ui.setupUi(this);
 
 
-    connect(ui.variFxType, &QComboBox::currentIndexChanged, [=](int index) { setFxLayout(index); });
-    connect(ui.delayType, &QComboBox::currentIndexChanged, [=](int index) { setDelayLayout(index); });
-
+    connect(ui.variFxType, &QComboBox::currentIndexChanged, [&](int index) { setFxLayout(index); });
+    connect(ui.delayType, &QComboBox::currentIndexChanged, [&](int index) { setDelayLayout(index); });
+    connect(ui.dlyBypass, &QCheckBox::clicked, [&] { setBypass(); });
+    connect(ui.revBypass, &QCheckBox::clicked, [&] { setBypass(); });
 
     setFxLayout(0);
     setDelayLayout(0);
@@ -858,6 +859,21 @@ void FxEq::setEqLayout()
     ui.highGain->setOffset(-64);
     ui.highGain->setSuffix("dB");
     ui.highGain->showPlusOnPositives(true);
+
+}
+
+void FxEq::setBypass()
+{
+    bool dly = ui.dlyBypass->isChecked();
+    bool rev = ui.revBypass->isChecked();
+
+    bool value[4] = { (!dly & !rev),(!dly && rev),(dly && !rev),(dly && rev) };
+
+    for (int i = 0; i < 4; i++) {
+        if (value[i]) {
+            MidiMaster::setParam(AN1x::ParamType::System, AN1x::EffectBypass, i);
+        }
+    }
 
 }
 

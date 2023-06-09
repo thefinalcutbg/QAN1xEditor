@@ -5,14 +5,14 @@ VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 	: QLineEdit(parent)
 {
 
-	connect(this, &QLineEdit::textChanged, [&](const QString& text) {
+	connect(this, &QLineEdit::textChanged, 
+		[&](const QString& text) {
+			auto result = text.toStdString();
 
-		auto result = text.toStdString();
-
-		for (int i = 0; i < 10; i++)
-		{
-			MidiMaster::get().setParam(AN1x::ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
-		}
+			for (int i = 0; i < 10; i++)
+			{
+				MidiMaster::setParam(AN1x::ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
+			}
 		}
 	);
 }

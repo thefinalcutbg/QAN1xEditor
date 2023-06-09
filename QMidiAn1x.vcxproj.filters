@@ -96,7 +96,7 @@
     <ClInclude Include="src\View\GlobalWidgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\View\AbstractSceneController.h">
+    <ClInclude Include="src\View\AbstractController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

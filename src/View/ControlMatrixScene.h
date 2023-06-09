@@ -11,7 +11,7 @@ class ControlMatrixScene : public QWidget
 
 	static constexpr int uiControlsSize = 3 * 16;
 
-	std::array<AbstractSceneController*, uiControlsSize> ui_controls{ nullptr };
+	std::array<AbstractController*, uiControlsSize> ui_controls{ nullptr };
 
 	AN1x::ParamType getType() {
 		return isScene2 ? AN1x::ParamType::Scene1 : AN1x::ParamType::Scene2;
