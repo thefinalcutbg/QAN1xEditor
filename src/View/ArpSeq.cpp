@@ -36,7 +36,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 
 	seq_controls = {
 		ui.baseUnit,
-		nullptr,//ui.seqLength,
+		ui.seqLength,
 		ui.loopType,
 		ui.controlChange,
 		nullptr,

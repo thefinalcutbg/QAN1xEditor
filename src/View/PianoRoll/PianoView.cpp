@@ -49,14 +49,12 @@ PianoView::PianoView(QWidget *parent)
 	setScene(scene);
 }
 
-void PianoView::setNoteOn(int note)
+void PianoView::setNote(int note, bool pressed)
 {
-	p_keys[note]->noteOn();
-}
-
-void PianoView::setNoteOff(int note)
-{
-	p_keys[note]->noteOff();
+	pressed ?
+		p_keys[note]->noteOn()
+		:
+		p_keys[note]->noteOff();
 }
 
 PianoView::~PianoView()

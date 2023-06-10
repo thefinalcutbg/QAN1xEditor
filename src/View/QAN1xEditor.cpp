@@ -5,53 +5,6 @@
 
 #include <QKeyEvent>
 
-bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
-{
-    if (!ui.enablePcKbd->isChecked()) {
-        releaseKeyboard(); return false;
-    }
-
-    if (e->type() == QEvent::KeyPress)
-    {
-        auto keyEvent = static_cast<QKeyEvent*>(e);
-
-        if (keyEvent->modifiers()) goto here;
-
-        if(keyEvent->isAutoRepeat()) goto here;
-
-        grabKeyboard();
-
-        if (keyEvent->key() == Qt::Key_X) {
-            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() + 1);
-        }
-        else if(keyEvent->key() == Qt::Key_Z) {
-            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
-        }
-        else {
-            MidiMaster::pcKeyPress(keyEvent->key());
-        }
-
-        return false;
-    }
-    
-    if (e->type() == QEvent::KeyRelease)
-    {
-        auto keyEvent = static_cast<QKeyEvent*>(e);
-
-        if (keyEvent->modifiers()) goto here;
-
-        if (keyEvent->isAutoRepeat()) goto here;
-
-        MidiMaster::pcKeyRelease(keyEvent->key());
-
-        return false;
-    }
-
-here:
-    
-    return QWidget::eventFilter(obj, e);
-    return false;
-}
 //poganovski manastir <restoranta
 //sukovski manastir
 QAN1xEditor::QAN1xEditor(QWidget* parent)
@@ -66,6 +19,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     MidiMaster::setView(this);
 
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [](int value) { MidiMaster::setKbdOctave(value); });
+    connect(ui.requestVoice, &QPushButton::clicked, [] { MidiMaster::requestBulk(); });
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
@@ -91,15 +45,15 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 
     //MIDI DEVICES
-    connect(ui.refresh, &QPushButton::clicked, [&] { MidiMaster::refreshConnection(); });
-    connect(ui.inCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::connectMidiIn(index - 1); });
-    connect(ui.outCombo, &QComboBox::currentIndexChanged, [&](int index) { MidiMaster::connectMidiOut(index - 1); });
+    connect(ui.refresh, &QPushButton::clicked, [=] { MidiMaster::refreshConnection(); });
+    connect(ui.inCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
+    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); MidiMaster::requestBulk(); });
 
     //LAYER
-    connect(ui.single, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
-    connect(ui.dual, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
-    connect(ui.split, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
-    connect(ui.unison, &QGroupBox::clicked, [&](bool checked) {
+    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
+    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
+    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
+    connect(ui.unison, &QGroupBox::clicked, [=](bool checked) {
 
         if (ui.single->isChecked())
         {
@@ -116,11 +70,12 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         }
     );
 
-    connect(ui.scene1radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
-    connect(ui.scene2radio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
-    connect(ui.bothSceneRadio, &QRadioButton::clicked, [&] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
+    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
+    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
+    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
 
-    connect(ui.transpose, &QSpinBox::valueChanged, [&](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
+    connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
+
     ui.fixedVelocity->setSpecialValueText("Off");
     ui.splitPoint->setAsNoteCombo();
     ui.tempoBPM->setSpecialValueText("MIDI");
@@ -215,11 +170,22 @@ void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 
 }
 
+void QAN1xEditor::setParameter(AN1x::ParamType type, unsigned char param, int value)
+{
+    switch (type)
+    {
+        case AN1x::ParamType::Common: setCommonParameter((AN1x::CommonParam)param, value); break;
+        case AN1x::ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
+        case AN1x::ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
+        case AN1x::ParamType::StepSq: setSequenceParameter((AN1x::SeqParam)param, value); break;
+    }
+}
+
 
 
 void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
 {
-
+    if (p >= AN1x::SceneParametersMaxSize) return;
 
     auto& sceneView = isScene2 ? *ui.scene2tab : *ui.scene1tab;
 
@@ -234,6 +200,8 @@ void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2
 
 void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 {
+    if (p >= AN1x::CommonMaxSize) return;
+
     //name edit
     if (p < 10) {
         ui.voiceNameEdit->setName(p, value);
@@ -279,13 +247,14 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 
     if (p == AN1x::ArpSeqOnOff) {
         ui.arpSeqCheck->setValue(value);
+        return;
     }
 
     if (p == AN1x::SceneSelect) {
        
         QRadioButton* group[3]{ ui.scene1radio, ui.scene2radio, ui.bothSceneRadio };
         group[value]->setChecked(true);
-
+        return;
     }
 
     if (p < AN1x::VariFXType && ui_controls[p] != nullptr) {
@@ -298,12 +267,63 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 
 void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
 {
+    if (p >= AN1x::StepSequencerMaxSize) return;
     ui.seqTab->setSequenceParameter(p, value);
 }
 
 PianoView* QAN1xEditor::pianoRoll()
 {
     return ui.pianoView;
+}
+
+
+bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
+{
+    if (!ui.enablePcKbd->isChecked()) {
+        releaseKeyboard();
+        return false;
+    }
+
+    if (e->type() == QEvent::KeyPress)
+    {
+        auto keyEvent = static_cast<QKeyEvent*>(e);
+
+        if (keyEvent->modifiers()) goto here;
+
+        if (keyEvent->isAutoRepeat()) goto here;
+
+        grabKeyboard();
+
+        if (keyEvent->key() == Qt::Key_X) {
+            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() + 1);
+        }
+        else if (keyEvent->key() == Qt::Key_Z) {
+            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
+        }
+        else {
+            MidiMaster::pcKeyPress(keyEvent->key(), true);
+        }
+
+        return false;
+    }
+
+    if (e->type() == QEvent::KeyRelease)
+    {
+        auto keyEvent = static_cast<QKeyEvent*>(e);
+
+        if (keyEvent->modifiers()) goto here;
+
+        if (keyEvent->isAutoRepeat()) goto here;
+
+        MidiMaster::pcKeyPress(keyEvent->key(), false);
+
+        return false;
+    }
+
+here:
+
+    return QWidget::eventFilter(obj, e);
+ 
 }
 
 

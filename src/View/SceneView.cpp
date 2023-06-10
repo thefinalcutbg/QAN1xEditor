@@ -9,7 +9,19 @@ SceneView::SceneView(QWidget *parent)
 {
 	ui.setupUi(this);
 
-
+	ui.fine1->showPlusOnPositives(true);
+	ui.pitch1->showPlusOnPositives(true);
+	ui.fine2->showPlusOnPositives(true);
+	ui.pitch2->showPlusOnPositives(true);
+	ui.depth1->showPlusOnPositives(true);
+	ui.depth2->showPlusOnPositives(true);
+	ui.VCO1PitchModDepth->showPlusOnPositives(true);
+	ui.VCO2PitchModDepth->showPlusOnPositives(true);
+	ui.ampVelSens->showPlusOnPositives(true);
+	ui.filterDepth->showPlusOnPositives(true);
+	ui.pegDepth->showPlusOnPositives(true);
+	ui.pegDecay->showPlusOnPositives(true);
+	ui.filterKeyTrk->showPlusOnPositives(true);
 }
 
 void SceneView::setAsScene(bool isScene2)
@@ -93,19 +105,19 @@ void SceneView::setAsScene(bool isScene2)
 		ui_controls[i]->setParam(type, (AN1x::SceneParam)i);
 	}
 
-	connect(ui.polyRadio, &QRadioButton::clicked, [&] {
+	connect(ui.polyRadio, &QRadioButton::clicked, [=] {
 		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 0);
 		ui.portamentoType->setItemText(0, "Normal");
 		ui.portamentoType->setItemText(1, "Sustain-key");
 		});
 
-	connect(ui.monoRadio, &QRadioButton::clicked, [&] {
+	connect(ui.monoRadio, &QRadioButton::clicked, [=] {
 		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 1);
 		ui.portamentoType->setItemText(0, "Full-time");
 		ui.portamentoType->setItemText(1, "Fingered");
 		});
 
-	connect(ui.legatoRadio, &QRadioButton::clicked, [&] {
+	connect(ui.legatoRadio, &QRadioButton::clicked, [=] {
 		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 2);
 		ui.portamentoType->setItemText(0, "Full-time");
 		ui.portamentoType->setItemText(1, "Fingered");

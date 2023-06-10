@@ -20,14 +20,14 @@ namespace MidiMaster
 
 	void setParam(AN1x::ParamType type, unsigned char parameter, int value);
 
+	void requestBulk();
 
 	//PC keyboard as Midi
 
 	void setKbdOctave(int octave);
-	void pcKeyPress(int pcKey);
-	void pcKeyRelease(int pcKey);
-	void noteOn(int note);
-	void noteOff(int note);
+
+	void pcKeyPress(int pcKey, bool pressed); 	//pressed = false means released
+	void setNote(int note, bool press); 	//pressed = false means released
 
 	
 }

@@ -845,7 +845,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QSpinBox" name="seqLength">
+   <widget class="SpinBox" name="seqLength">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -3676,6 +3676,11 @@
   <customwidget>
    <class>ComboPicker</class>
    <extends>QComboBox</extends>
+   <header>UiWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SpinBox</class>
+   <extends>QSpinBox</extends>
    <header>UiWidgets.h</header>
   </customwidget>
  </customwidgets>

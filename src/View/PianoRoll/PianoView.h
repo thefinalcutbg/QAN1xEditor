@@ -11,7 +11,7 @@ class PianoView  : public QGraphicsView
 
 public:
 	PianoView(QWidget *parent);
-	void setNoteOn(int note);
-	void setNoteOff(int note);
+	void setNote(int note, bool pressed);
+
 	~PianoView();
 };

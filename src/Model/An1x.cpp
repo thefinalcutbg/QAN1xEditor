@@ -134,7 +134,8 @@ bool AN1x::isNull(ParamType t, unsigned char p)
 		AN1x::SceneParam::NullScene2,
 		AN1x::SceneParam::NullScene3,
 		AN1x::SceneParam::NullScene4,
-		AN1x::SceneParam::NullScene5
+		AN1x::SceneParam::NullScene5,
+		AN1x::SceneParam::reserve
 	};
 
 	switch (t)
@@ -146,6 +147,9 @@ bool AN1x::isNull(ParamType t, unsigned char p)
 			return s_sceneNull.count(p);
 		case ParamType::Common:
 			return s_commonNull.count(p);
+		case ParamType::StepSq:
+			return p == AN1x::SeqNull1 && p == AN1x::SeqNull2;
+			
 	}
 	return false;
 }
@@ -154,13 +158,15 @@ bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
 {
 	switch (t)
 	{
-	case ParamType::Scene1:
-	case ParamType::Scene2:
-		return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1));
-	case ParamType::Common:
-		return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
-	case ParamType::System:
-		return p == AN1x::MasterTune;
+		case ParamType::Scene1:
+		case ParamType::Scene2:
+			return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1)) && p + 1 != SceneParam::reserve;
+		case ParamType::Common:
+			return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
+		case ParamType::System:
+			return p == AN1x::MasterTune;
+		case ParamType::StepSq:
+			return false; //everything is 1 byte
 	}
 
 	return false;
