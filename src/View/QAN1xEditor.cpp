@@ -18,8 +18,14 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     MidiMaster::setView(this);
 
-    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [](int value) { MidiMaster::setKbdOctave(value); });
-    connect(ui.requestVoice, &QPushButton::clicked, [] { MidiMaster::requestBulk(); });
+    ui.pitchBend->setCurrentValueAsDefault();
+    ui.modWheel->setCurrentValueAsDefault();
+
+    connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
+    connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
+
+    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
+    connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::requestBulk(); });
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);

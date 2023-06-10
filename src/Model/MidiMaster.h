@@ -20,6 +20,9 @@ namespace MidiMaster
 
 	void setParam(AN1x::ParamType type, unsigned char parameter, int value);
 
+	void modWheelChange(int value);
+	void pitchChange(int value);
+
 	void requestBulk();
 
 	//PC keyboard as Midi

@@ -78,7 +78,12 @@ void MidiMaster::refreshConnection()
 
 	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) 
 		{  
-			if (m->getStatus() == QMidiStatus::MIDI_SYSEX)
+
+			if (m->getStatus() == QMidiStatus::MIDI_PROGRAM_CHANGE)
+			{
+				requestBulk();
+			}
+			else if (m->getStatus() == QMidiStatus::MIDI_SYSEX)
 			{
 				handleSysMsg(m->getSysExData()); 
 			}
@@ -114,6 +119,20 @@ void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int val
 	msg.push_back(0xF7);
 
 	sendMessage(msg);
+}
+
+void MidiMaster::modWheelChange(int value)
+{
+	if (value < 0 || value > 127) return;
+
+	sendMessage({ 0xB0, 0x01, (unsigned char)value });
+}
+
+void MidiMaster::pitchChange(int value)
+{
+	if (value < 0 || value > 127) return;
+
+	sendMessage({ 0xE0, 0x00, (unsigned char)value });
 }
 
 void MidiMaster::requestBulk()
@@ -163,8 +182,6 @@ void MidiMaster::requestBulk()
 
 			value -= AN1x::getOffset(type, param);
 
-			qDebug() << (int)type << (int)param << (int)value;
-
 			s_view->setParameter(type, param, value);
 		}
 
@@ -185,7 +202,10 @@ void MidiMaster::connectMidiIn(int idx)
 {
 	if (!s_in) return;
 
-	if (idx == -1) return;
+	if (idx == -1) {
+		s_in->closePort();
+		return;
+	}
 
 	s_in->openPort(idx);
 }
@@ -194,7 +214,10 @@ void MidiMaster::connectMidiOut(int idx)
 {
 	if (!s_out) return;
 
-	if (idx == -1) return;
+	if (idx == -1) {
+		s_out->closePort();
+		return;
+	}
 
 	s_out->openPort(idx);
 }

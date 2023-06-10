@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1172</width>
-    <height>957</height>
+    <width>1229</width>
+    <height>978</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -37,8 +37,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1154</width>
-         <height>918</height>
+         <width>1211</width>
+         <height>939</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -54,10 +54,16 @@
           <item>
            <widget class="QComboBox" name="inCombo">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>350</width>
+              <height>0</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -71,10 +77,16 @@
           <item>
            <widget class="QComboBox" name="outCombo">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>350</width>
+              <height>0</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -100,13 +112,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="sendVoice">
-            <property name="text">
-             <string>Send Voice</string>
-            </property>
-           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="requestVoice">
@@ -487,7 +492,7 @@
             <rect>
              <x>100</x>
              <y>10</y>
-             <width>71</width>
+             <width>81</width>
              <height>22</height>
             </rect>
            </property>
@@ -1388,6 +1393,65 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
+           <widget class="EGSlider" name="pitchBend">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>53</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>53</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>127</number>
+            </property>
+            <property name="value">
+             <number>64</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="EGSlider" name="modWheel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>53</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>53</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>127</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="PianoView" name="pianoView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1487,6 +1551,11 @@
    <class>PianoView</class>
    <extends>QGraphicsView</extends>
    <header>PianoRoll/pianoview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EGSlider</class>
+   <extends>QSlider</extends>
+   <header>UiWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources>

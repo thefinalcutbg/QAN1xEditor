@@ -1,5 +1,5 @@
 #include "ArpSeq.h"
-#include "Model/MidiMaster.h";
+#include "Model/MidiMaster.h"
 
 ArpSeq::ArpSeq(QWidget *parent)
 	: QWidget(parent)
