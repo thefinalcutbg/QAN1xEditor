@@ -19,6 +19,15 @@ namespace MidiMaster
 	void connectMidiOut(int idx);
 
 	void setParam(AN1x::ParamType type, unsigned char parameter, int value);
-	void setPress(int note);
-	void setRelease(int note);
+
+
+	//PC keyboard as Midi
+
+	void setKbdOctave(int octave);
+	void pcKeyPress(int pcKey);
+	void pcKeyRelease(int pcKey);
+	void noteOn(int note);
+	void noteOff(int note);
+
+	
 }

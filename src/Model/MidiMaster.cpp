@@ -173,12 +173,9 @@ void MidiMaster::refreshConnection()
 
 	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) 
 		{  
-			if (m->getPitch()) {
-				s_view->pianoRoll()->onMidiReceive(m);
-			}
-			else {
-				handleMessage(m->getSysExData()); delete m;
-			}
+
+			handleMessage(m->getSysExData()); delete m;
+			
 		});
 
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
@@ -230,19 +227,78 @@ void MidiMaster::connectMidiOut(int idx)
 	s_out->openPort(idx);
 }
 
-void MidiMaster::setPress(int note) {
+
+
+//MIDI Keyboard
+int s_buttonsNotes[20]{
+	65, //Qt::Key_A,
+	87, //Qt::Key_W,
+	83, //Qt::Key_S,
+	69, //Qt::Key_E,
+	68, //Qt::Key_D,
+	70, //Qt::Key_F,
+	84, //Qt::Key_T,
+	71, //Qt::Key_G,
+	89, //Qt::Key_Y,
+	72, //Qt::Key_H,
+	85, //Qt::Key_U,
+	74, //Qt::Key_J,
+	75, //Qt::Key_K,
+	79, //Qt::Key_O,
+	76, //Qt::Key_L,
+	80, //Qt::Key_P,
+	59, //Qt::Key_Semicolon,
+	39, //Qt::Key_Apostrophe,
+	93, //Qt::Key_BracketRight,
+	92 //Qt::Key_Backslash
+};
+int s_octave{ 5 };
+
+void MidiMaster::setKbdOctave(int octave) {
+	
+	s_octave = octave + 2;
+}
+
+int getNote(int key)
+{
+	for (int i = 0; i < 20; i++) {
+		if (key == s_buttonsNotes[i]) {
+			int note = (12 * s_octave) + i;
+
+			return note < 128 ? note : -1;
+		}
+	}
+	return -1;
+}
+
+void MidiMaster::pcKeyPress(int kbd_key) {
+
+	noteOn(getNote(kbd_key));
+};
+
+void MidiMaster::pcKeyRelease(int kbd_key) {
+
+	noteOff(getNote(kbd_key));
+};
+
+void MidiMaster::noteOn(int note) {
+
+	if (note == -1) return;
 
 	QMidiMessage* m = new QMidiMessage();
-	
+
 	m->setPitch(note);
 	m->setStatus(QMidiStatus::MIDI_NOTE_ON);
 	m->setVelocity(127);
 
 	s_out->sendMessage(m);
-	qDebug() << "NOTE ON";
+
+	s_view->pianoRoll()->setNoteOn(note);
 };
 
-void MidiMaster::setRelease(int note) {
+void MidiMaster::noteOff(int note) {
+
+	if (note == -1) return;
 
 	QMidiMessage* m = new QMidiMessage();
 
@@ -250,7 +306,8 @@ void MidiMaster::setRelease(int note) {
 	m->setStatus(QMidiStatus::MIDI_NOTE_OFF);
 	m->setVelocity(127);
 
-	qDebug() << "NOTE OFF";
-
 	s_out->sendMessage(m);
+
+	s_view->pianoRoll()->setNoteOff(note);
+	
 };

@@ -29,8 +29,8 @@ bool DialKnob::event(QEvent* e)
 			setValue(defaultValue);
 
 			emit valueChanged(value());
+			return true;
 		}
-		return true;
 		break;
 	default:
 		break;
@@ -249,15 +249,18 @@ bool ComboPicker::event(QEvent* e)
 	case QEvent::MouseButtonPress:
 		if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
 		{
-			setValue(defaultValue);
+			int val = m_isNoteCombo ? 60 : defaultValue;
+			setValue(val);
 
-			emit currentIndexChanged(defaultValue);
+			emit currentIndexChanged(val);
+			return true;
 		}
-		return true;
+		
 		break;
 	default:
 		break;
 	}
+
 	return QComboBox::event(e);
 }
 

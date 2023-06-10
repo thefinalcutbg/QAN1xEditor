@@ -82,7 +82,10 @@
     <ClCompile Include="src\View\ArpSeq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model\MidiPlayer.cpp">
+    <ClCompile Include="src\View\PianoRoll\PianoKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\PianoRoll\PianoView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,7 +105,7 @@
     <ClInclude Include="src\View\AbstractController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\MidiPlayer.h">
+    <ClInclude Include="src\View\PianoRoll\PianoKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\ArpSeq.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\PianoRoll\PianoView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

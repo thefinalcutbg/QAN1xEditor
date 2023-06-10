@@ -2,21 +2,33 @@
 #include "qmidimessage.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
-#include "Model/MidiPlayer.h"
+
 #include <QKeyEvent>
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 {
+    if (!ui.enablePcKbd->isChecked()) goto here;
+
+
     if (e->type() == QEvent::KeyPress)
     {
-        
         auto keyEvent = static_cast<QKeyEvent*>(e);
-       
-        if (keyEvent->modifiers()) return false;
 
-        if(keyEvent->isAutoRepeat()) return false;
-        qDebug() << keyEvent->key();
-        MidiPlayer::keyPressed(keyEvent->key());
+        if (keyEvent->modifiers()) goto here;
+
+        if(keyEvent->isAutoRepeat()) goto here;
+
+        grabKeyboard();
+
+        if (keyEvent->key() == Qt::Key_X) {
+            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() + 1);
+        }
+        else if(keyEvent->key() == Qt::Key_Z) {
+            ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
+        }
+        else {
+            MidiMaster::pcKeyPress(keyEvent->key());
+        }
 
         return false;
     }
@@ -25,14 +37,18 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
     {
         auto keyEvent = static_cast<QKeyEvent*>(e);
 
-        if (keyEvent->modifiers()) return false;
+        if (keyEvent->modifiers()) goto here;
 
-        if (keyEvent->isAutoRepeat()) return false;
+        if (keyEvent->isAutoRepeat()) goto here;
 
-        MidiPlayer::keyReleased(keyEvent->key());
+        MidiMaster::pcKeyRelease(keyEvent->key());
 
         return false;
     }
+
+here:
+
+    return QWidget::eventFilter(obj, e);
 
     return false;
 }
@@ -48,6 +64,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     GlobalWidgets::statusBar = statusBar();
 
     MidiMaster::setView(this);
+
+    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [](int value) { MidiMaster::setKbdOctave(value); });
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
@@ -283,10 +301,11 @@ void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
     ui.seqTab->setSequenceParameter(p, value);
 }
 
-QMidiPianoRoll* QAN1xEditor::pianoRoll()
+PianoView* QAN1xEditor::pianoRoll()
 {
-    return ui.graphicsView;
+    return ui.pianoView;
 }
+
 
 QAN1xEditor::~QAN1xEditor()
 {}
