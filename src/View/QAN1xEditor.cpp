@@ -5,8 +5,7 @@
 
 #include <QKeyEvent>
 
-//poganovski manastir <restoranta
-//sukovski manastir
+
 QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
 {
