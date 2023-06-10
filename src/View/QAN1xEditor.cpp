@@ -7,8 +7,9 @@
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 {
-    if (!ui.enablePcKbd->isChecked()) goto here;
-
+    if (!ui.enablePcKbd->isChecked()) {
+        releaseKeyboard(); return false;
+    }
 
     if (e->type() == QEvent::KeyPress)
     {
@@ -47,9 +48,8 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
     }
 
 here:
-
+    
     return QWidget::eventFilter(obj, e);
-
     return false;
 }
 //poganovski manastir <restoranta
