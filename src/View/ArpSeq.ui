@@ -864,7 +864,7 @@
      <number>16</number>
     </property>
     <property name="value">
-     <number>1</number>
+     <number>8</number>
     </property>
    </widget>
    <widget class="QGroupBox" name="step_3">
@@ -1032,6 +1032,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_15">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -1205,6 +1208,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_8">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -1378,6 +1384,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_11">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -1551,6 +1560,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_14">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>780</x>
@@ -1740,6 +1752,9 @@
     </property>
    </widget>
    <widget class="QGroupBox" name="step_16">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>880</x>
@@ -2257,6 +2272,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_13">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -2758,6 +2776,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_9">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -2931,6 +2952,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="step_10">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>580</x>
@@ -3448,6 +3472,9 @@
     </property>
    </widget>
    <widget class="QGroupBox" name="step_12">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>680</x>

@@ -1,7 +1,7 @@
 #include "UiWidgets.h"
 #include <QMouseEvent>
 #include <qtooltip.h>
-#include <qdebug.h>
+
 #include "Model/MidiMaster.h"
 #include <QEvent>
 #include <qtooltip.h>

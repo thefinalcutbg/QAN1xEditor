@@ -148,8 +148,10 @@ void MidiMaster::requestBulk()
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); return; //Common
 		case 1: 
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); return; //Scene1
-		case 2: sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); return ; //Scene2
-		case 3: sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); return; //SeqPattern
+		case 2: 
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); return ; //Scene2
+		case 3:
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); return; //SeqPattern
 	}
 
 	sync_num = -1;
@@ -202,24 +204,20 @@ void MidiMaster::connectMidiIn(int idx)
 {
 	if (!s_in) return;
 
-	if (idx == -1) {
-		s_in->closePort();
-		return;
-	}
-
-	s_in->openPort(idx);
+	s_in->closePort();
+	
+	if(idx != -1)
+		s_in->openPort(idx);
 }
 
 void MidiMaster::connectMidiOut(int idx)
 {
 	if (!s_out) return;
 
-	if (idx == -1) {
-		s_out->closePort();
-		return;
-	}
+	s_out->closePort();
 
-	s_out->openPort(idx);
+	if(idx != -1)
+		s_out->openPort(idx);
 }
 
 

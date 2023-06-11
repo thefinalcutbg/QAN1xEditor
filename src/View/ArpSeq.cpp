@@ -140,6 +140,8 @@ ArpSeq::ArpSeq(QWidget *parent)
 		ui.step_16
 	};
 
+
+
 	connect(ui.seqLength, &QSpinBox::valueChanged, [this](int value) {
 			for (int i = 0; i < 16; i++) p_steps[i]->setEnabled(i < value);
 		}

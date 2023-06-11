@@ -148,7 +148,7 @@ bool AN1x::isNull(ParamType t, unsigned char p)
 		case ParamType::Common:
 			return s_commonNull.count(p);
 		case ParamType::StepSq:
-			return p == AN1x::SeqNull1 && p == AN1x::SeqNull2;
+			return p == AN1x::SeqNull1 || p == AN1x::SeqNull2;
 			
 	}
 	return false;
