@@ -18,8 +18,11 @@ QAN1x is a free open-source software written in C++ and Qt. It allows users to e
 - [QMidi](https://github.com/thomasgeissl/QMidi)
 - [RtMidi](https://github.com/thestk/rtmidi)
 
-<!-- ## Screenshots -->
-<!-- [Example screenshot](./img/screenshot.png) -->
+## Screenshots
+[Scene Controls](/screenshots/scr1.png)
+[Effects Section](/screenshots/scr2.png)
+[Arpeggiator and Sequencer](/screenshots/scr3.png)
+[Control Matrix](/screenshots/scr4.png)
 
 ## Setup
 Use the Visual Studio solution, or setup a new project by yourself. Everything needed (except the Qt framework) is included in the repo.
