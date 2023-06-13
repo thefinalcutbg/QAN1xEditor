@@ -263,10 +263,10 @@ void MidiMaster::pcKeyPress(int kbd_key, bool pressed) {
 	79, //Qt::Key_O,
 	76, //Qt::Key_L,
 	80, //Qt::Key_P,
-	59, //Qt::Key_Semicolon,
-	39, //Qt::Key_Apostrophe,
-	93, //Qt::Key_BracketRight,
-	92 //Qt::Key_Backslash
+	186, //Qt::Key_Semicolon,
+	222, //Qt::Key_Apostrophe,
+	221, //Qt::Key_BracketRight,
+	220 //Qt::Key_Backslash
 	};
 
 	int note{ -1 };

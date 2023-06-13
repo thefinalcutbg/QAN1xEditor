@@ -315,14 +315,14 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
         grabKeyboard();
 
-        if (keyEvent->key() == Qt::Key_X) {
+        if (keyEvent->nativeVirtualKey() == Qt::Key_X) {
             ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() + 1);
         }
-        else if (keyEvent->key() == Qt::Key_Z) {
+        else if (keyEvent->nativeVirtualKey() == Qt::Key_Z) {
             ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
         }
         else {
-            MidiMaster::pcKeyPress(keyEvent->key(), true);
+            MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), true);
         }
 
         return false;
@@ -336,7 +336,7 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
         if (keyEvent->isAutoRepeat()) goto here;
 
-        MidiMaster::pcKeyPress(keyEvent->key(), false);
+        MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), false);
 
         return false;
     }
