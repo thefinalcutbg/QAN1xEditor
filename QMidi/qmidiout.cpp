@@ -52,7 +52,6 @@ void QMidiOut::sendMessage(QMidiMessage *message)
 {
     std::vector<unsigned char> rawMessage = message->getRawMessage();
     if(!rawMessage.empty()){
-        qDebug()<<"send message"<<rawMessage.front();
         sendRawMessage(rawMessage);
     }
     

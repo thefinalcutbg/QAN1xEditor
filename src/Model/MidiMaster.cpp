@@ -2,7 +2,7 @@
 #include "qmidimessage.h"
 #include "qmidiout.h"
 #include "qmidiin.h"
-#include <QDebug>
+
 #include "View/QAN1xEditor.h"
 #include <array>
 
@@ -16,7 +16,7 @@ bool sendingMessage = false;
 int sync_num = -1;
 int s_kbdOctave{ 5 };
 
-std::array<std::vector<unsigned char>, 4> s_voiceState;
+std::array<std::vector<unsigned char>, 5> s_voiceState;
 
 void handleSysMsg(const Message& msg)
 {
@@ -25,7 +25,6 @@ void handleSysMsg(const Message& msg)
 	if (sync_num != -1) {
 
 		s_voiceState[sync_num] = msg;
-
 		handlingSysMsg = false;
 		MidiMaster::requestBulk();
 
@@ -144,13 +143,15 @@ void MidiMaster::requestBulk()
 
 	switch (sync_num)
 	{
-		case 0: 
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); return; //Common
+		case 0:
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); return; //System
 		case 1: 
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); return; //Scene1
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); return; //Common
 		case 2: 
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); return; //Scene1
+		case 3: 
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); return ; //Scene2
-		case 3:
+		case 4:
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); return; //SeqPattern
 	}
 
@@ -189,10 +190,11 @@ void MidiMaster::requestBulk()
 
 	};
 
-	lambda(AN1x::ParamType::Common, s_voiceState[0], AN1x::CommonMaxSize);
-	lambda(AN1x::ParamType::Scene1, s_voiceState[1], AN1x::SceneParametersMaxSize);
-	lambda(AN1x::ParamType::Scene2, s_voiceState[2], AN1x::SceneParametersMaxSize);
-	lambda(AN1x::ParamType::StepSq, s_voiceState[3], AN1x::StepSequencerMaxSize);
+	lambda(AN1x::ParamType::System, s_voiceState[0], AN1x::SystemMaxSize);
+	lambda(AN1x::ParamType::Common, s_voiceState[1], AN1x::CommonMaxSize);
+	lambda(AN1x::ParamType::Scene1, s_voiceState[2], AN1x::SceneParametersMaxSize);
+	lambda(AN1x::ParamType::Scene2, s_voiceState[3], AN1x::SceneParametersMaxSize);
+	lambda(AN1x::ParamType::StepSq, s_voiceState[4], AN1x::StepSequencerMaxSize);
 }
 
 void MidiMaster::setView(QAN1xEditor* v) {
@@ -266,8 +268,6 @@ void MidiMaster::pcKeyPress(int kbd_key, bool pressed) {
 			if(note > 127) note = -1;
 		}
 	}
-
-	qDebug() << note;
 
 	setNote(note, pressed);
 };

@@ -138,8 +138,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     system_controls[2] = ui.transpose;
     system_controls[3] = ui.velocityCurve;
     system_controls[4] = ui.fixedVelocity;
-   
-    system_controls[12] = ui.midiLocal;
+    system_controls[11] = ui.midiLocal;
 
     for (int i = 0; i < system_controls.size(); i++)
     {
@@ -179,6 +178,7 @@ void QAN1xEditor::setParameter(AN1x::ParamType type, unsigned char param, int va
 {
     switch (type)
     {
+        case AN1x::ParamType::System: setSystemParameter((AN1x::SystemParam)param, value); break;
         case AN1x::ParamType::Common: setCommonParameter((AN1x::CommonParam)param, value); break;
         case AN1x::ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
         case AN1x::ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
@@ -187,6 +187,19 @@ void QAN1xEditor::setParameter(AN1x::ParamType type, unsigned char param, int va
 }
 
 
+
+void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
+{
+    if (p >= AN1x::SystemMaxSize) return;
+
+    ui.fxeqTab->setSystemParameter(p, value);
+
+
+    if (system_controls[p] == nullptr) return;
+
+    system_controls[p]->setValue(value);
+ 
+}
 
 void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
 {

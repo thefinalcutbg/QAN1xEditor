@@ -11,6 +11,7 @@ FxEq::FxEq(QWidget *parent)
     connect(ui.delayType, &QComboBox::currentIndexChanged, [&](int index) { setDelayLayout(index); });
     connect(ui.dlyBypass, &QCheckBox::clicked, [&] { setBypass(); });
     connect(ui.revBypass, &QCheckBox::clicked, [&] { setBypass(); });
+    connect(ui.allBypass, &QCheckBox::clicked, [&] { setBypass(); });
 
     setFxLayout(0);
     setDelayLayout(0);
@@ -87,6 +88,44 @@ FxEq::FxEq(QWidget *parent)
     }
 
 
+}
+
+void FxEq::setSystemParameter(AN1x::SystemParam p, int value)
+{
+    if (p != AN1x::SystemParam::EffectBypass) return;
+
+    QSignalBlocker all(ui.allBypass);
+    QSignalBlocker dly(ui.dlyBypass);
+    QSignalBlocker rev(ui.revBypass);
+
+    switch (value)
+    {
+    case 0: 
+        ui.allBypass->setChecked(false);
+        ui.dlyBypass->setChecked(false);
+        ui.revBypass->setChecked(false);
+        break;
+    case 1:
+        ui.allBypass->setChecked(false);
+        ui.dlyBypass->setChecked(true);
+        ui.revBypass->setChecked(false);
+        break;
+    case 2:
+        ui.allBypass->setChecked(false);
+        ui.dlyBypass->setChecked(false);
+        ui.revBypass->setChecked(true);
+        break;
+    case 3:
+        ui.allBypass->setChecked(false);
+        ui.dlyBypass->setChecked(true);
+        ui.revBypass->setChecked(true);
+        break;
+    case 4:
+        ui.allBypass->setChecked(true);
+        ui.dlyBypass->setChecked(true);
+        ui.revBypass->setChecked(true);
+        break;
+    }
 }
 
 void FxEq::setCommonParameter(AN1x::CommonParam p, int value)
@@ -864,6 +903,16 @@ void FxEq::setEqLayout()
 
 void FxEq::setBypass()
 {
+    bool all = ui.allBypass->isChecked();
+    
+    if (all) {
+        QSignalBlocker d(ui.dlyBypass);
+        QSignalBlocker r(ui.revBypass);
+        ui.dlyBypass->setChecked(true);
+        ui.revBypass->setChecked(true);
+        MidiMaster::setParam(AN1x::ParamType::System, AN1x::EffectBypass, 4);
+    }
+
     bool dly = ui.dlyBypass->isChecked();
     bool rev = ui.revBypass->isChecked();
 

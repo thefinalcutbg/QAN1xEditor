@@ -261,7 +261,7 @@
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>30</y>
       <width>49</width>
       <height>21</height>
@@ -274,9 +274,9 @@
    <widget class="ComboPicker" name="variFxType">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>50</x>
       <y>30</y>
-      <width>121</width>
+      <width>111</width>
       <height>22</height>
      </rect>
     </property>
@@ -667,6 +667,19 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="CheckBox" name="allBypass">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bypass All</string>
     </property>
    </widget>
   </widget>

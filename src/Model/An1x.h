@@ -44,7 +44,8 @@ namespace AN1x
 		RibZCtrlNumber,
 		AssignKnob1Number,
 		//x7 more 
-		SystemReserved = 0x1B
+		SystemReserved = 0x1B,
+		SystemMaxSize
 	};
 
 	enum CommonParam : unsigned char

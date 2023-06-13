@@ -158,13 +158,13 @@ bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
 {
 	switch (t)
 	{
+		case ParamType::System:
+			return p == AN1x::MasterTune;
+		case ParamType::Common:
+			return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
 		case ParamType::Scene1:
 		case ParamType::Scene2:
 			return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1)) && p + 1 != SceneParam::reserve;
-		case ParamType::Common:
-			return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
-		case ParamType::System:
-			return p == AN1x::MasterTune;
 		case ParamType::StepSq:
 			return false; //everything is 1 byte
 	}

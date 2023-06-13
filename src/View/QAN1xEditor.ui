@@ -726,6 +726,9 @@
             <property name="text">
              <string>MIDI Local</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
            <widget class="QLabel" name="label_8">
             <property name="geometry">

@@ -202,7 +202,6 @@ DialKnob::DialKnob(QWidget *parent)
 
 	connect(this, &QDial::valueChanged, 
 		[&](int value) {
-			qDebug() << static_cast<int>(type);
 			if (type == AN1x::ParamType::Unknown) return;
 			GlobalWidgets::statusBar->showMessage(getValueText());
 			MidiMaster::setParam(type, parameter, value);

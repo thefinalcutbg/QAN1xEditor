@@ -13,8 +13,9 @@ class QAN1xEditor : public QMainWindow
     bool eventFilter(QObject* obj, QEvent* event);
 
     std::array<AbstractController*, AN1x::CommonParam::VariFXType> ui_controls{ nullptr };
-    std::array<AbstractController*, AN1x::SystemParam::SystemReserved> system_controls{ nullptr };
+    std::array<AbstractController*, AN1x::SystemParam::SystemMaxSize> system_controls{ nullptr };
 
+    void setSystemParameter(AN1x::SystemParam p, int value);
     void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
     void setCommonParameter(AN1x::CommonParam p, int value);
     void setSequenceParameter(AN1x::SeqParam p, int value);
