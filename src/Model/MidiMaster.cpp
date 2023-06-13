@@ -134,6 +134,16 @@ void MidiMaster::pitchChange(int value)
 	sendMessage({ 0xE0, 0x00, (unsigned char)value });
 }
 
+
+void MidiMaster::goToVoice(int value)
+{
+	if (value < 0 || value > 127) return;
+
+	sendMessage({ 0xC0, (unsigned char)value });
+
+	requestBulk();
+}
+
 void MidiMaster::requestBulk()
 {
 	if (s_out == nullptr || !s_out->isPortOpen()) return;

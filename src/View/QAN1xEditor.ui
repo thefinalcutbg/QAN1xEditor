@@ -61,7 +61,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>300</width>
               <height>0</height>
              </size>
             </property>
@@ -84,7 +84,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>300</width>
               <height>0</height>
              </size>
             </property>
@@ -116,7 +116,21 @@
           <item>
            <widget class="QPushButton" name="requestVoice">
             <property name="text">
-             <string>Request Voice</string>
+             <string>Request current voice</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="requestVoiceNum">
+            <property name="text">
+             <string>Request voice:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="voiceSpin">
+            <property name="maximum">
+             <number>127</number>
             </property>
            </widget>
           </item>

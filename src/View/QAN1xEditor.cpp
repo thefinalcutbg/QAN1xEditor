@@ -26,6 +26,9 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
     connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::requestBulk(); });
 
+    connect(ui.requestVoiceNum, &QPushButton::clicked, [this] { MidiMaster::goToVoice(ui.voiceSpin->value()); });
+
+
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
     ui.ctrlMatrixScene1->setAsScene(false);
