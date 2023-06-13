@@ -130,9 +130,10 @@ void FxEq::setSystemParameter(AN1x::SystemParam p, int value)
 
 void FxEq::setCommonParameter(AN1x::CommonParam p, int value)
 {
+    int idx = p - AN1x::VariFXType;
 
-    if (p >= AN1x::VariFXType && p < AN1x::NullCommon22 &&  ui_controls[p] != nullptr) {
-        ui_controls[p-AN1x::VariFXType]->setValue(value);
+    if (idx >= 0 && idx < ui_controls.size() &&  ui_controls[idx] != nullptr) {
+        ui_controls[idx]->setValue(value);
     }
 
     if (p == AN1x::VariFXType)setFxLayout(value);
