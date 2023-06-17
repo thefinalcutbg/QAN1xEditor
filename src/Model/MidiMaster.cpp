@@ -12,7 +12,7 @@ QMidiIn* s_in{ nullptr };
 QAN1xEditor* s_view{ nullptr };
 
 bool handlingMessage = false;
-//bool sendingMessage = false;
+
 int sync_num = -1;
 int s_kbdOctave{ 5 };
 
