@@ -12,7 +12,7 @@ QMidiIn* s_in{ nullptr };
 QAN1xEditor* s_view{ nullptr };
 
 bool handlingMessage = false;
-bool sendingMessage = false;
+//bool sendingMessage = false;
 int sync_num = -1;
 int s_kbdOctave{ 5 };
 
@@ -80,8 +80,6 @@ void sendMessage(const Message& msg)
 
 	if (handlingMessage) return;
 
-	sendingMessage = true;
-
 	try {
 		if (!s_out->isPortOpen()) return;
 
@@ -94,7 +92,7 @@ void sendMessage(const Message& msg)
 		MidiMaster::refreshConnection();
 	}
 
-	sendingMessage = false;
+
 }
 
 void MidiMaster::refreshConnection()
@@ -123,10 +121,10 @@ void MidiMaster::refreshConnection()
 
 			switch (m->getStatus())
 			{
-			case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  requestBulk(); break;
+				case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  requestBulk(); break;
 				case QMidiStatus::MIDI_SYSEX: handleSysMsg(m->getSysExData()); break;
 				case QMidiStatus::MIDI_CONTROL_CHANGE: s_view->setModWheel(m->getRawMessage()[2]); break;
-				default: s_out->sendMessage(m);
+				default: handlingMessage = false; s_out->sendMessage(m);
 			}
 
 			handlingMessage = false;
