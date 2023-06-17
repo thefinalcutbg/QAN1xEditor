@@ -24,7 +24,7 @@ public:
     QAN1xEditor(QWidget *parent = nullptr);
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setParameter(AN1x::ParamType type, unsigned char param, int value);
-
+    void setModWheel(int value);
     PianoView* pianoRoll();
 
     ~QAN1xEditor();

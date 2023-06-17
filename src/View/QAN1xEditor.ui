@@ -129,8 +129,11 @@
           </item>
           <item>
            <widget class="QSpinBox" name="voiceSpin">
+            <property name="minimum">
+             <number>1</number>
+            </property>
             <property name="maximum">
-             <number>127</number>
+             <number>128</number>
             </property>
            </widget>
           </item>
@@ -1367,6 +1370,26 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Velocity:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="velocityKbdSpin">
+            <property name="maximum">
+             <number>127</number>
+            </property>
+            <property name="singleStep">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>64</number>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="label_14">
             <property name="text">
              <string>Octave:</string>
@@ -1389,6 +1412,13 @@
             </property>
             <property name="value">
              <number>3</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="octaveDescrLabel">
+            <property name="text">
+             <string>(use Z and X on keyboard to change octaves)</string>
             </property>
            </widget>
           </item>

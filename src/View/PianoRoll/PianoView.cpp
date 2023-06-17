@@ -57,5 +57,14 @@ void PianoView::setNote(int note, bool pressed)
 		p_keys[note]->noteOff();
 }
 
+void PianoView::setVelocity(int velocity)
+{
+	for (auto& key : p_keys)
+	{
+		if (key == nullptr) return;
+		key->setVelocity(velocity);
+	}
+}
+
 PianoView::~PianoView()
 {}

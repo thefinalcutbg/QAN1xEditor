@@ -14,14 +14,14 @@ void PianoKey::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 void PianoKey::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton) {
-        MidiMaster::setNote(idx, true);
+        MidiMaster::setNote(idx, true, m_velocity);
     }
 }
 
 void PianoKey::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton) {
-        MidiMaster::setNote(idx, false);
+        MidiMaster::setNote(idx, false, m_velocity);
     }
 }
 
@@ -32,8 +32,7 @@ void PianoKey::hoverEnterEvent(QGraphicsSceneHoverEvent* e)
 
 void PianoKey::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-
-    MidiMaster::setNote(idx, false);
+    MidiMaster::setNote(idx, false, m_velocity);
 }
 
 PianoKey::PianoKey(int idx) : idx(idx)

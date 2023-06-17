@@ -11,7 +11,7 @@ QMidiIn* s_in{ nullptr };
 
 QAN1xEditor* s_view{ nullptr };
 
-bool handlingSysMsg = false;
+bool handlingMessage = false;
 bool sendingMessage = false;
 int sync_num = -1;
 int s_kbdOctave{ 5 };
@@ -20,25 +20,65 @@ std::array<std::vector<unsigned char>, 5> s_voiceState;
 
 void handleSysMsg(const Message& msg)
 {
-	handlingSysMsg = true;
-
+	//requesting until all bulks are recieved
 	if (sync_num != -1) {
-
 		s_voiceState[sync_num] = msg;
-		handlingSysMsg = false;
+		handlingMessage = false;
 		MidiMaster::requestBulk();
 
 		return;
 	}
 
-	handlingSysMsg = false;
+	//setting parameter to UI
+	std::array<int, 4> header{ 240, 67, 16, 92 };
+
+	for (int i = 0; i < header.size(); i++)
+	{
+		if (msg[i] != header[i]) return;
+	}
+
+	AN1x::ParamType type;
+
+	if (msg[4] == 0) //System Param Change
+	{
+		type = AN1x::ParamType::System;
+	}
+	else
+	{
+		switch (msg[5])
+		{
+		case 0: type = AN1x::ParamType::Common; break;
+		case 16: type = AN1x::ParamType::Scene1; break;
+		case 17: type = AN1x::ParamType::Scene2; break;
+		case 14: type = AN1x::ParamType::StepSq; break;
+		default: return;
+		}
+	}
+
+	unsigned char param = msg[6];
+
+	if (AN1x::isNull(type, param)) return;
+
+	int value = msg[7];
+
+	if (AN1x::isTwoByteParameter(type, param))
+	{
+		value = msg[7] * 128;
+		value += msg[8];
+	}
+
+	value -= AN1x::getOffset(type, param);
+
+	s_view->setParameter(type, param, value);
+
+	handlingMessage = false;
 }
 
 void sendMessage(const Message& msg)
 {
 	if (s_out == nullptr) return;
 
-	if (handlingSysMsg) return;
+	if (handlingMessage) return;
 
 	sendingMessage = true;
 
@@ -75,25 +115,24 @@ void MidiMaster::refreshConnection()
 
 	s_in->setIgnoreTypes(false, true, true);
 
-	QObject::connect(s_in, &QMidiIn::midiMessageReceived, [=](QMidiMessage* m) 
-		{  
+	QObject::connect(s_in, &QMidiIn::midiMessageReceived, s_view, [=](QMidiMessage* m)
+	{
+			//qDebug() << m->getRawMessage();
 
-			if (m->getStatus() == QMidiStatus::MIDI_PROGRAM_CHANGE)
+			handlingMessage = true;
+
+			switch (m->getStatus())
 			{
-				requestBulk();
+			case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  requestBulk(); break;
+				case QMidiStatus::MIDI_SYSEX: handleSysMsg(m->getSysExData()); break;
+				case QMidiStatus::MIDI_CONTROL_CHANGE: s_view->setModWheel(m->getRawMessage()[2]); break;
+				default: s_out->sendMessage(m);
 			}
-			else if (m->getStatus() == QMidiStatus::MIDI_SYSEX)
-			{
-				handleSysMsg(m->getSysExData()); 
-			}
-			else
-			{
-				s_out->sendMessage(m);
-			}
+
+			handlingMessage = false;
 
 			delete m;
-			
-		});
+	});
 
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
 	
@@ -200,11 +239,15 @@ void MidiMaster::requestBulk()
 
 	};
 
+	handlingMessage = true;
+
 	lambda(AN1x::ParamType::System, s_voiceState[0], AN1x::SystemMaxSize);
 	lambda(AN1x::ParamType::Common, s_voiceState[1], AN1x::CommonMaxSize);
 	lambda(AN1x::ParamType::Scene1, s_voiceState[2], AN1x::SceneParametersMaxSize);
 	lambda(AN1x::ParamType::Scene2, s_voiceState[3], AN1x::SceneParametersMaxSize);
 	lambda(AN1x::ParamType::StepSq, s_voiceState[4], AN1x::StepSequencerMaxSize);
+
+	handlingMessage = false;
 }
 
 void MidiMaster::setView(QAN1xEditor* v) {
@@ -244,7 +287,7 @@ void MidiMaster::setKbdOctave(int octave) {
 
 
 
-void MidiMaster::pcKeyPress(int kbd_key, bool pressed) {
+void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
 	static int s_buttonsNotes[20]{
 	65, //Qt::Key_A,
@@ -279,11 +322,11 @@ void MidiMaster::pcKeyPress(int kbd_key, bool pressed) {
 		}
 	}
 
-	setNote(note, pressed);
+	setNote(note, pressed, velocity);
 };
 
 
-void MidiMaster::setNote(int note, bool on) {
+void MidiMaster::setNote(int note, bool on, int velocity) {
 
 	if (note == -1) return;
 
@@ -291,7 +334,7 @@ void MidiMaster::setNote(int note, bool on) {
 
 	m->setPitch(note);
 	m->setStatus(on ? QMidiStatus::MIDI_NOTE_ON : QMidiStatus::MIDI_NOTE_OFF);
-	m->setVelocity(127);
+	m->setVelocity(velocity);
 
 	s_out->sendMessage(m);
 

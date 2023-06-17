@@ -221,7 +221,7 @@ void DialKnob::setCurrentValueAsDefault()
 void DialKnob::setValue(int value)
 {
 	
-	blockSignals(true);
+	//blockSignals(true);
 
 	QDial::setValue(value);
 
@@ -229,7 +229,7 @@ void DialKnob::setValue(int value)
 		GlobalWidgets::statusBar->showMessage(getValueText());
 	}
 
-	blockSignals(false);
+	//blockSignals(false);
 }
 
 
@@ -336,14 +336,14 @@ void EGSlider::setCurrentValueAsDefault()
 
 void EGSlider::setValue(int value)
 {
-	blockSignals(true);
+	//blockSignals(true);
 
 	QSlider::setValue (value);
 
 	if (underMouse() && GlobalWidgets::statusBar) {
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
 	}
-	blockSignals(false);
+	//blockSignals(false);
 }
 
 bool EGSlider::event(QEvent* e)
@@ -391,11 +391,11 @@ void CheckBox::setCurrentValueAsDefault()
 
 void CheckBox::setValue(int value)
 {
-	blockSignals(true);
+	//blockSignals(true);
 
 	QCheckBox::setChecked(value);
 
-	blockSignals(false);
+	//blockSignals(false);
 }
 
 SpinBox::SpinBox(QWidget* parent) : QSpinBox(parent)
@@ -414,7 +414,7 @@ void SpinBox::setCurrentValueAsDefault()
 
 void SpinBox::setValue(int value)
 {
-	blockSignals(true);
+	//blockSignals(true);
 	QSpinBox::setValue(value);
-	blockSignals(false);
+	//blockSignals(false);
 }

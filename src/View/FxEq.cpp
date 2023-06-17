@@ -77,6 +77,9 @@ FxEq::FxEq(QWidget *parent)
     ui.scene1DW->setParam(AN1x::ParamType::Scene1, AN1x::SceneParam::VariFxDW);
     ui.scene2DW->setParam(AN1x::ParamType::Scene2, AN1x::SceneParam::VariFxDW);
 
+    ui.scene1DW->showPlusOnPositives(true);
+    ui.scene2DW->showPlusOnPositives(true);
+
     for (int i = 0; i < ui_controls.size(); i++)
     {
         if (ui_controls[i] == nullptr) continue;

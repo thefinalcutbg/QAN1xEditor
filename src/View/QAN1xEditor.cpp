@@ -22,12 +22,14 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
-
+    connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
     connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::requestBulk(); });
 
-    connect(ui.requestVoiceNum, &QPushButton::clicked, [this] { MidiMaster::goToVoice(ui.voiceSpin->value()); });
+    connect(ui.requestVoiceNum, &QPushButton::clicked, [this] { MidiMaster::goToVoice(ui.voiceSpin->value()-1); });
 
+    ui.octaveDescrLabel->hide();
+    connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { ui.octaveDescrLabel->setHidden(!checked); });
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
@@ -84,6 +86,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
 
+
     ui.fixedVelocity->setSpecialValueText("Off");
     ui.splitPoint->setAsNoteCombo();
     ui.tempoBPM->setSpecialValueText("MIDI");
@@ -94,6 +97,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
             ui.velocityCurve->setDisabled(value); 
             ui.velCurveLabel->setDisabled(value);
         });
+
 
 
     ui_controls = {
@@ -189,14 +193,24 @@ void QAN1xEditor::setParameter(AN1x::ParamType type, unsigned char param, int va
     }
 }
 
-
+void QAN1xEditor::setModWheel(int value)
+{
+    ui.modWheel->setValue(value);
+}
 
 void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
 {
     if (p >= AN1x::SystemMaxSize) return;
 
-    ui.fxeqTab->setSystemParameter(p, value);
+    if (p == AN1x::SystemParam::VelocityCurve)
+    {
+        QSignalBlocker b(ui.fixedVelocity);
+        ui.fixedVelocity->setValue(0);
+        ui.velocityCurve->setDisabled(false);
+        ui.velCurveLabel->setDisabled(false);
+    }
 
+    ui.fxeqTab->setSystemParameter(p, value);
 
     if (system_controls[p] == nullptr) return;
 
@@ -322,7 +336,7 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
             ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
         }
         else {
-            MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), true);
+            MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), true, ui.velocityKbdSpin->value());
         }
 
         return false;
@@ -336,7 +350,7 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
         if (keyEvent->isAutoRepeat()) goto here;
 
-        MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), false);
+        MidiMaster::pcKeyPress(keyEvent->nativeVirtualKey(), false, ui.velocityKbdSpin->value());
 
         return false;
     }

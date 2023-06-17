@@ -13,6 +13,8 @@ class PianoKey  : public QGraphicsRectItem
 	void hoverEnterEvent(QGraphicsSceneHoverEvent* e) override;
 	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
+	int m_velocity{ 64 };
+
 public:
 	PianoKey(int idx);
 	bool isBlack() { return m_black; };
@@ -20,6 +22,8 @@ public:
 
 	void noteOn();
 	void noteOff();
+
+	void setVelocity(int velocity) { m_velocity = velocity; }
 
 	~PianoKey();
 };
