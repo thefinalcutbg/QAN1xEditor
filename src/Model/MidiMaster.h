@@ -23,7 +23,7 @@ namespace MidiMaster
 	void modWheelChange(int value);
 	void pitchChange(int value);
 	void goToVoice(int value);
-	void requestBulk();
+	void syncBulk(const Message& = {});
 
 	//PC keyboard as Midi
 

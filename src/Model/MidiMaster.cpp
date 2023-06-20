@@ -13,19 +13,16 @@ QAN1xEditor* s_view{ nullptr };
 
 bool handlingMessage = false;
 
-int sync_num = -1;
 int s_kbdOctave{ 5 };
 
 std::array<std::vector<unsigned char>, 5> s_voiceState;
 
 void handleSysMsg(const Message& msg)
 {
-	//requesting until all bulks are recieved
-	if (sync_num != -1) {
-		s_voiceState[sync_num] = msg;
-		handlingMessage = false;
-		MidiMaster::requestBulk();
-
+	if (msg.size() > 20)  //bulk
+	{
+		
+		MidiMaster::syncBulk(msg);
 		return;
 	}
 
@@ -121,7 +118,7 @@ void MidiMaster::refreshConnection()
 
 			switch (m->getStatus())
 			{
-				case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  requestBulk(); break;
+				case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  syncBulk(); break;
 				case QMidiStatus::MIDI_SYSEX: handleSysMsg(m->getSysExData()); break;
 				case QMidiStatus::MIDI_CONTROL_CHANGE: s_view->setModWheel(m->getRawMessage()[2]); break;
 				default: handlingMessage = false; s_out->sendMessage(m);
@@ -178,33 +175,15 @@ void MidiMaster::goToVoice(int value)
 
 	sendMessage({ 0xC0, (unsigned char)value });
 
-	requestBulk();
+	syncBulk();
 }
 
-void MidiMaster::requestBulk()
+void MidiMaster::syncBulk(const Message& m)
 {
 	if (s_out == nullptr || !s_out->isPortOpen()) return;
 	if (s_in == nullptr || !s_in->isPortOpen()) return;
 
-	sync_num++;
-
-	switch (sync_num)
-	{
-		case 0:
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); return; //System
-		case 1: 
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); return; //Common
-		case 2: 
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); return; //Scene1
-		case 3: 
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); return ; //Scene2
-		case 4:
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); return; //SeqPattern
-	}
-
-	sync_num = -1;
-
-	auto lambda = [&](AN1x::ParamType type, const std::vector<unsigned char>& paramList, int maxSize) {
+	auto handleBulk = [](AN1x::ParamType type, const std::vector<unsigned char>& paramList, int maxSize) {
 
 		constexpr int header = 9;
 
@@ -237,15 +216,42 @@ void MidiMaster::requestBulk()
 
 	};
 
-	handlingMessage = true;
+	static int syncCounter = 0;
+	
+	if (m.empty() && syncCounter != 0) { syncCounter = 0; }
 
-	lambda(AN1x::ParamType::System, s_voiceState[0], AN1x::SystemMaxSize);
-	lambda(AN1x::ParamType::Common, s_voiceState[1], AN1x::CommonMaxSize);
-	lambda(AN1x::ParamType::Scene1, s_voiceState[2], AN1x::SceneParametersMaxSize);
-	lambda(AN1x::ParamType::Scene2, s_voiceState[3], AN1x::SceneParametersMaxSize);
-	lambda(AN1x::ParamType::StepSq, s_voiceState[4], AN1x::StepSequencerMaxSize);
+	switch (syncCounter)
+	{
+		case 0:
+			handlingMessage = false;
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
+		case 1: 
+			handleBulk(AN1x::ParamType::System, m, AN1x::SystemMaxSize);
+			handlingMessage = false;
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); break; //request Common
+		case 2: 
+			handleBulk(AN1x::ParamType::Common, m, AN1x::CommonMaxSize);
+			handlingMessage = false;
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); break; //request Scene1
+		case 3: 
+			handleBulk(AN1x::ParamType::Scene1, m, AN1x::SceneParametersMaxSize);
+			handlingMessage = false;
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); break; //request Scene2
+		case 4:
+			handleBulk(AN1x::ParamType::Scene2, m, AN1x::SceneParametersMaxSize);
+			handlingMessage = false;
+			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); break; //request SeqPattern
+		case 5: //termination
+			handleBulk(AN1x::ParamType::StepSq, m, AN1x::StepSequencerMaxSize);
+			handlingMessage = false;
+			syncCounter = 0;
+			return;
+		default:
+			syncCounter = 0; return;
+	}	
 
-	handlingMessage = false;
+	syncCounter++;
+
 }
 
 void MidiMaster::setView(QAN1xEditor* v) {

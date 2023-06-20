@@ -24,7 +24,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
-    connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::requestBulk(); });
+    connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::syncBulk(); });
 
     connect(ui.requestVoiceNum, &QPushButton::clicked, [this] { MidiMaster::goToVoice(ui.voiceSpin->value()-1); });
 
@@ -57,7 +57,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     //MIDI DEVICES
     connect(ui.refresh, &QPushButton::clicked, [=] { MidiMaster::refreshConnection(); });
     connect(ui.inCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
-    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); MidiMaster::requestBulk(); });
+    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); MidiMaster::syncBulk(); });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
