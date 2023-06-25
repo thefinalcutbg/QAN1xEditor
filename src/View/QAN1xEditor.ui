@@ -1014,9 +1014,29 @@
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_5"/>
             </widget>
+            <widget class="FreeEGWidget" name="FreeEG1">
+             <attribute name="title">
+              <string>Free EG Track 1</string>
+             </attribute>
+            </widget>
+            <widget class="FreeEGWidget" name="FreeEG2">
+             <attribute name="title">
+              <string>Free EG Track 2</string>
+             </attribute>
+            </widget>
+            <widget class="FreeEGWidget" name="FreeEG3">
+             <attribute name="title">
+              <string>Free EG Track 3</string>
+             </attribute>
+            </widget>
+            <widget class="FreeEGWidget" name="FreeEG4">
+             <attribute name="title">
+              <string>Free EG Track 4</string>
+             </attribute>
+            </widget>
             <widget class="QWidget" name="matrixTab">
              <attribute name="title">
-              <string>Ctrl Matrix</string>
+              <string>Control Matrix</string>
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
@@ -1603,6 +1623,12 @@
    <class>EGSlider</class>
    <extends>QSlider</extends>
    <header>UiWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FreeEGWidget</class>
+   <extends>QWidget</extends>
+   <header>freeegwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

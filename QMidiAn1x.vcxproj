@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="src\View\ArpSeq.cpp" />
     <ClCompile Include="src\View\ControlMatrixScene.cpp" />
+    <ClCompile Include="src\View\FreeEGWidget.cpp" />
     <ClCompile Include="src\View\FxEq.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoKey.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoView.cpp" />
@@ -118,6 +119,7 @@
     <QtRcc Include="src\View\QAN1xEditor.qrc" />
     <QtUic Include="src\View\ArpSeq.ui" />
     <QtUic Include="src\View\ControlMatrixScene.ui" />
+    <QtUic Include="src\View\FreeEGWidget.ui" />
     <QtUic Include="src\View\FxEq.ui" />
     <QtUic Include="src\View\QAN1xEditor.ui" />
     <QtMoc Include="src\View\QAN1xEditor.h" />
@@ -133,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\PianoRoll\PianoView.h" />
+    <QtMoc Include="src\View\FreeEGWidget.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />
     <QtMoc Include="src\View\UiWidgets.h" />

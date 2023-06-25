@@ -88,6 +88,9 @@
     <ClCompile Include="src\View\PianoRoll\PianoView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\FreeEGWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QMidi\RtMidi.h">
@@ -146,6 +149,9 @@
     <QtMoc Include="src\View\PianoRoll\PianoView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\FreeEGWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\SceneView.ui">
@@ -158,6 +164,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\ArpSeq.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\FreeEGWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
