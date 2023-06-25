@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/png">
+        <file>an1x.png</file>
+    </qresource>
+</RCC>

@@ -35,6 +35,9 @@
     <ClCompile Include="src\View\QAN1xEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <QtRcc Include="Resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -89,6 +92,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\FreeEGWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\FreeEG\FreeEGScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,6 +156,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\FreeEGWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\FreeEG\FreeEGScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

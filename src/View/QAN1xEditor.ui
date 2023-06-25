@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1229</width>
+    <width>1228</width>
     <height>978</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1211</width>
+         <width>1210</width>
          <height>939</height>
         </rect>
        </property>
@@ -103,11 +103,11 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>100</width>
+              <width>111</width>
               <height>20</height>
              </size>
             </property>
@@ -136,6 +136,19 @@
              <number>128</number>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -978,6 +991,39 @@
             </rect>
            </property>
           </widget>
+          <widget class="QFrame" name="an1xPng">
+           <property name="geometry">
+            <rect>
+             <x>880</x>
+             <y>0</y>
+             <width>251</width>
+             <height>181</height>
+            </rect>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+          <zorder>an1xPng</zorder>
+          <zorder>unison</zorder>
+          <zorder>layerGroup</zorder>
+          <zorder>sceneGroup</zorder>
+          <zorder>tempoBPM</zorder>
+          <zorder>label_12</zorder>
+          <zorder>layerPan</zorder>
+          <zorder>label_4</zorder>
+          <zorder>portamentoCheck</zorder>
+          <zorder>voiceNameEdit</zorder>
+          <zorder>label_11</zorder>
+          <zorder>voiceType</zorder>
+          <zorder>label_50</zorder>
+          <zorder>arpSeqCheck</zorder>
+          <zorder>groupBox_2</zorder>
+          <zorder>label_13</zorder>
+          <zorder>splitPoint</zorder>
          </widget>
         </item>
         <item>

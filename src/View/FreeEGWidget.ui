@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1184</width>
+    <width>1181</width>
     <height>453</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>928</width>
+    <width>1181</width>
     <height>453</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>FreeEGWidget</string>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="QGraphicsView" name="egView">
    <property name="geometry">
     <rect>
      <x>10</x>
