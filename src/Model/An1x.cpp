@@ -83,7 +83,9 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 		case ParamType::Common:
 		{
 			static const std::map<unsigned char, int> parameterToOffset{
-				{SceneSelect, 1}
+				{SceneSelect, 1},
+				{FreeEGKbdTrack, 64},
+				{FreeEGLength, 2}
 			};
 
 			if (parameterToOffset.count(parameter))
@@ -172,11 +174,10 @@ bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
 	return false;
 }
 
+const char* unknown = "???";
 
 const char* AN1x::getFrequencyByValue(int value)
 {
-
-	static const char* unknown = "???";
 	if (value < 0 || value > 60) return unknown;
 
 	static std::array<const char*, 61> fq{
@@ -248,7 +249,6 @@ const char* AN1x::getFrequencyByValue(int value)
 
 const char* AN1x::getLFOFreqByValue(int value)
 {
-	static const char* unknown = "???";
 	if (value < 0 || value > 159) return unknown;
 
 	static std::array<const char*, 160> fq{
@@ -276,7 +276,6 @@ const char* AN1x::getLFOFreqByValue(int value)
 
 const char* AN1x::getChorusTypeByValue(int value)
 {
-	static const char* unknown = "???";
 	if (value < 0 || value > 16) return unknown;
 
 	static std::array<const char*, 16> chorus{
@@ -321,8 +320,6 @@ int AN1x::compressorRelease(int value)
 
 const char* AN1x::compressorRatio(int value)
 {
-	static const char* unknown = "???";
-
 	if (value < 0 || value > 7) return unknown;
 
 	static std::array<const char*, 16> values{ "1.0","1.5","2.0","3.0","5.0","7.0","10.0","20.0" };
@@ -332,8 +329,6 @@ const char* AN1x::compressorRatio(int value)
 
 const char* AN1x::wahCutoffFreq(int value)
 {
-
-		static const char* unknown = "???";
 		if (value < 0 || value > 39) return unknown;
 
 		static std::array<const char*, 40> frq{
@@ -350,7 +345,6 @@ const char* AN1x::wahCutoffFreq(int value)
 
 const char* AN1x::reverbTime(int value)
 {
-	static const char* unknown = "???";
 	if (value < 0 || value > 69) return unknown;
 
 	static std::array<const char*, 70> time{
@@ -397,7 +391,6 @@ std::string AN1x::getMatrixSourceName(int value)
 
 const char* AN1x::getMatrixParamName(int value)
 {
-	static const char* unknown = "???";
 	if (value < 0 || value > 45) return unknown;
 
 	static std::array<const char*, 46> values{ 
@@ -454,7 +447,6 @@ const char* AN1x::getMatrixParamName(int value)
 
 const char* AN1x::getMatrixCommonParamName(int value)
 {
-	static const char* unknown = "???";
 	if (value < 0 || value > 5) return unknown;
 
 	static std::array<const char*, 6> values{
@@ -464,6 +456,100 @@ const char* AN1x::getMatrixCommonParamName(int value)
 		"Variable FX",
 		"Delay",
 		"Reverb"
+	};
+
+	return values[value];
+}
+
+const char* AN1x::getFreeEGParameters(int value)
+{
+	if (value < 0 || value > 56) return unknown;
+
+	static std::array<const char*, 57> values{
+			"Off",
+			"PEG Decay",
+			"PEG Depth",
+			"PEG Switch",
+			"Portamento Time",
+			"LFO1 Wave",
+			"LFO1 Speed",
+			"LFO1 Delay",
+			"LFO2 Speed",
+			"Sync Algorithm",
+			"Sync Pitch",
+			"Sync Pitch Depth",
+			"Synch Pitch Source",
+			"Sync PMod",
+			"FM Depth",
+			"FM Source 1",
+			"FM Source 2",
+			"VCO1 Wave",
+			"VCO1 Pitch",
+			"VCO1 Fine",
+			"VCO1 Edge",
+			"VCO1 Pulse Width",
+			"VCO1 PW Mod Depth",
+			"VCO1 PW Mod Source",
+			"VCO1 LFO Mod Depth",
+			"VCO2 Wave",
+			"VCO2 Pitch",
+			"VCO2 Fine",
+			"VCO2 Edge",
+			"VCO2 Pulse Width",
+			"VCO2 PW Mod Depth",
+			"VCO2 PW Mod Source",
+			"VCO2 LFO Mod Depth",
+			"VCO1 Level",
+			"VCO2 Level",
+			"Ring Modulation",
+			"Noise Level",
+			"FEG Attack",
+			"FEG Decay",
+			"FEG Sustain",
+			"FEG Release",
+			"HPF Cutoff",
+			"VCF Type",
+			"VCF Cutoff",
+			"Resonance",
+			"FEG Depth",
+			"FEG Vel.Sensitivity",
+			"FEG Key Track",
+			"VCF LFO Mod Depth",
+			"AEG Attack",
+			"AEG Decay",
+			"AEG Sustain",
+			"AEG Release",
+			"VCA Feedback",
+			"VCA Valume",
+			"AEG Vel.Sensitivity",
+			"VCA Mod Depth"
+	};
+
+	return values[value];
+}
+
+const char* AN1x::getFreeEGLength(int value)
+{
+	if (value < 0 || value > 94) return unknown;
+
+	static std::array<const char*, 95> values{
+			"1/2 bar",
+			"1 bar",
+			"3/2 bar",
+			"2 bars",
+			"3 bars",
+			"4 bars",
+			"6 bars",
+			"8 bars",
+			"1.0 second","1.1 second","1.2 second","1.3 second","1.4 second","1.5 second","1.6 second","1.7 second","1.8 second","1.9 second",
+			"2.0 seconds","2.1 seconds","2.2 seconds","2.3 seconds","2.4 seconds","2.5 seconds","2.6 seconds","2.7 seconds","2.8 seconds","2.9 seconds",
+			"3.0 seconds","3.1 seconds","3.2 seconds","3.3 seconds","3.4 seconds","3.5 seconds","3.6 seconds","3.7 seconds","3.8 seconds","3.9 seconds",
+			"4.0 seconds","4.1 seconds","4.2 seconds","4.3 seconds","4.4 seconds","4.5 seconds","4.6 seconds","4.7 seconds","4.8 seconds","4.9 seconds",
+			"5.0 seconds","5.1 seconds","5.2 seconds","5.3 seconds","5.4 seconds","5.5 seconds","5.6 seconds","5.7 seconds","5.8 seconds","5.9 seconds",
+			"6.0 seconds","6.1 seconds","6.2 seconds","6.3 seconds","6.4 seconds","6.5 seconds","6.6 seconds","6.7 seconds","6.8 seconds","6.9 seconds",
+			"7.0 seconds","7.1 seconds","7.2 seconds","7.3 seconds","7.4 seconds","7.5 seconds","7.6 seconds","7.7 seconds","7.8 seconds","7.9 seconds",
+			"8.0 seconds","8.5 seconds","9.0 seconds","9.5 seconds","10.0 seconds","10.5 seconds","11.0 seconds","11.5 seconds","12.0 seconds","12.5 seconds",
+			"13.0 seconds","13.5 seconds","14.0 seconds","14.5 seconds","15.0 seconds","15.5 seconds","16.0 seconds"
 	};
 
 	return values[value];

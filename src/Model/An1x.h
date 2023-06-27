@@ -145,6 +145,16 @@ namespace AN1x
 		FreeEGTrigger,
 		FreeEGLoopType,
 		FreeEGLength,
+		FreeEGKbdTrack,
+		FreeEgTrackParam1,
+		FreeEgTrackSceneSw1,
+		FreeEgTrackParam2,
+		FreeEgTrackSceneSw2,
+		FreeEgTrackParam3,
+		FreeEgTrackSceneSw3,
+		FreeEgTrackParam4,
+		FreeEgTrackSceneSw4,
+		FreeEgData,
 		CommonMaxSize
 	};
 
@@ -265,4 +275,6 @@ namespace AN1x
 	std::string getMatrixSourceName(int value);
 	const char* getMatrixParamName(int value);
 	const char* getMatrixCommonParamName(int value);
+	const char* getFreeEGParameters(int value);
+	const char* getFreeEGLength(int value);
 }

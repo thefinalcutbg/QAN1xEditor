@@ -1037,7 +1037,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>4</number>
             </property>
             <widget class="SceneView" name="scene1tab">
              <attribute name="title">
@@ -1060,24 +1060,9 @@
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_5"/>
             </widget>
-            <widget class="FreeEGWidget" name="FreeEG1">
+            <widget class="FreeEGWidget" name="FreeEG">
              <attribute name="title">
-              <string>Free EG Track 1</string>
-             </attribute>
-            </widget>
-            <widget class="FreeEGWidget" name="FreeEG2">
-             <attribute name="title">
-              <string>Free EG Track 2</string>
-             </attribute>
-            </widget>
-            <widget class="FreeEGWidget" name="FreeEG3">
-             <attribute name="title">
-              <string>Free EG Track 3</string>
-             </attribute>
-            </widget>
-            <widget class="FreeEGWidget" name="FreeEG4">
-             <attribute name="title">
-              <string>Free EG Track 4</string>
+              <string>Free EG Tracks</string>
              </attribute>
             </widget>
             <widget class="QWidget" name="matrixTab">

@@ -300,6 +300,7 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 
     ui.fxeqTab->setCommonParameter(p, value);
     ui.seqTab->setCommonParameter(p, value);
+    ui.FreeEG->setCommonParameter(p, value);
 }
 
 void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
