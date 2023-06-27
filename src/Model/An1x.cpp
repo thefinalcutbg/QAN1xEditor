@@ -520,9 +520,9 @@ const char* AN1x::getFreeEGParameters(int value)
 			"AEG Sustain",
 			"AEG Release",
 			"VCA Feedback",
-			"VCA Valume",
+			"VCA Volume",
 			"AEG Vel.Sensitivity",
-			"VCA Mod Depth"
+			"VCA LFO Mod Depth"
 	};
 
 	return values[value];
