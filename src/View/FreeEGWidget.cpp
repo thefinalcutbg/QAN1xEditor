@@ -51,6 +51,16 @@ void FreeEGWidget::setCommonParameter(AN1x::CommonParam p, int value)
 {
 	int idx = p - AN1x::FreeEGTrigger;
 
+	if (
+		p == AN1x::FreeEgTrackSceneSw1 ||
+		p == AN1x::FreeEgTrackSceneSw2 ||
+		p == AN1x::FreeEgTrackSceneSw3 ||
+		p == AN1x::FreeEgTrackSceneSw4
+		)
+	{
+		value /= 5; //AN1x bug - returns 0, 5, 10, 15 instead of 0,1,2,3
+	}
+
 	if (idx >= 0 && idx < ui_controls.size() && ui_controls[idx] != nullptr) {
 		ui_controls[idx]->setValue(value);
 	}
