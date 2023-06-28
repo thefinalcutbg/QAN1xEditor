@@ -34,7 +34,7 @@
     <rect>
      <x>10</x>
      <y>320</y>
-     <width>231</width>
+     <width>261</width>
      <height>101</height>
     </rect>
    </property>
@@ -46,7 +46,7 @@
      <rect>
       <x>110</x>
       <y>30</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -59,7 +59,7 @@
      <rect>
       <x>110</x>
       <y>60</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -117,9 +117,9 @@
   <widget class="QGroupBox" name="groupTrack_2">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>270</x>
      <y>320</y>
-     <width>231</width>
+     <width>261</width>
      <height>101</height>
     </rect>
    </property>
@@ -131,7 +131,7 @@
      <rect>
       <x>110</x>
       <y>30</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -170,7 +170,7 @@
      <rect>
       <x>110</x>
       <y>60</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -202,9 +202,9 @@
   <widget class="QGroupBox" name="groupTrack_4">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>790</x>
      <y>320</y>
-     <width>231</width>
+     <width>261</width>
      <height>101</height>
     </rect>
    </property>
@@ -216,7 +216,7 @@
      <rect>
       <x>110</x>
       <y>30</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -255,7 +255,7 @@
      <rect>
       <x>110</x>
       <y>60</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -287,7 +287,7 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>710</x>
+     <x>800</x>
      <y>280</y>
      <width>51</width>
      <height>21</height>
@@ -300,7 +300,7 @@
   <widget class="ComboPicker" name="loopCombo">
    <property name="geometry">
     <rect>
-     <x>520</x>
+     <x>580</x>
      <y>280</y>
      <width>111</width>
      <height>22</height>
@@ -338,7 +338,7 @@
   <widget class="ComboPicker" name="triggerCombo">
    <property name="geometry">
     <rect>
-     <x>760</x>
+     <x>850</x>
      <y>280</y>
      <width>121</width>
      <height>22</height>
@@ -366,7 +366,7 @@
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>540</x>
      <y>280</y>
      <width>41</width>
      <height>21</height>
@@ -379,9 +379,9 @@
   <widget class="QGroupBox" name="groupTrack_3">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>530</x>
      <y>320</y>
-     <width>231</width>
+     <width>261</width>
      <height>101</height>
     </rect>
    </property>
@@ -393,7 +393,7 @@
      <rect>
       <x>110</x>
       <y>30</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -432,7 +432,7 @@
      <rect>
       <x>110</x>
       <y>60</y>
-      <width>111</width>
+      <width>141</width>
       <height>22</height>
      </rect>
     </property>
@@ -464,9 +464,9 @@
   <widget class="QLabel" name="label_43">
    <property name="geometry">
     <rect>
-     <x>930</x>
-     <y>280</y>
-     <width>71</width>
+     <x>1080</x>
+     <y>380</y>
+     <width>61</width>
      <height>21</height>
     </rect>
    </property>
@@ -474,7 +474,7 @@
     <enum>QFrame::Plain</enum>
    </property>
    <property name="text">
-    <string>Key Track:</string>
+    <string>Key Track</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -483,10 +483,10 @@
   <widget class="DialKnob" name="keyTrack">
    <property name="geometry">
     <rect>
-     <x>1000</x>
-     <y>270</y>
-     <width>31</width>
-     <height>41</height>
+     <x>1090</x>
+     <y>330</y>
+     <width>41</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -566,7 +566,7 @@
   <widget class="ComboPicker" name="lengthCombo">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>330</x>
      <y>280</y>
      <width>111</width>
      <height>22</height>
@@ -579,7 +579,7 @@
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>280</x>
      <y>280</y>
      <width>49</width>
      <height>21</height>

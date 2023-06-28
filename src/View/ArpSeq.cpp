@@ -248,7 +248,7 @@ void ArpSeq::setArpLayout(bool arp)
 	ui.arpSubdivide->setDisabled(!arp);
 	ui.arpLabel_1->setDisabled(!arp);
 	ui.arpLabel_2->setDisabled(!arp);
-	
+	ui.stepGroup->setDisabled(arp);
 	ui.swing->setDisabled(arp);
 	ui.gate->setDisabled(arp);
 	
