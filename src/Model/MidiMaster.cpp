@@ -15,8 +15,6 @@ bool handlingMessage = false;
 
 int s_kbdOctave{ 5 };
 
-std::array<std::vector<unsigned char>, 5> s_voiceState;
-
 void handleSysMsg(const Message& msg)
 {
 	if (msg.size() > 20)  //bulk

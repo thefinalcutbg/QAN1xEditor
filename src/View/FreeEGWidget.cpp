@@ -1,7 +1,7 @@
 #include "FreeEGWidget.h"
 #include "Model/MidiMaster.h"
-
-FreeEGWidget::FreeEGWidget(QWidget *parent)
+#include "FreeEG/FreeEGScene.h"
+FreeEGWidget::FreeEGWidget(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -42,6 +42,20 @@ FreeEGWidget::FreeEGWidget(QWidget *parent)
 		ui_controls[i]->setParam(AN1x::ParamType::Common, (AN1x::CommonParam)i + AN1x::FreeEGTrigger);
 	}
 
+	FreeEGScene* s = new FreeEGScene(ui.egView);
+	ui.egView->setScene(s);
+	ui.egView->viewport()->setMouseTracking(true);
+
+	connect(ui.currentTrackCombo, &QComboBox::currentIndexChanged, [=](int index) { s->setCurrentIndex(index); });
+
+	s->setCurrentIndex(0);
+
+	ui.groupTrack_1->setStyleSheet("QGroupBox {font-weight: bold; color: blue;}");
+	ui.groupTrack_2->setStyleSheet("QGroupBox {font-weight: bold; color: lightgreen;}");
+	ui.groupTrack_3->setStyleSheet("QGroupBox {font-weight: bold; color: red;}");
+	ui.groupTrack_4->setStyleSheet("QGroupBox {font-weight: bold; color: goldenrod;}");
+
+	ui.keyTrack->showPlusOnPositives(true);
 }
 
 FreeEGWidget::~FreeEGWidget()
