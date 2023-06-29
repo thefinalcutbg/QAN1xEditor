@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include "EGRect.h"
+#include <QGraphicsRectItem>
 #include "EGPath.h"
 
 typedef std::array<int, 192> EGTrack;
@@ -10,7 +10,7 @@ class FreeEGScene  : public QGraphicsScene
 {
 	Q_OBJECT
 
-	EGRect* rects[192];
+	QGraphicsRectItem* rects[192];
 
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* e) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* e) override;

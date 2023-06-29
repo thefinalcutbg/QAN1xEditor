@@ -8,17 +8,15 @@ FreeEGScene::FreeEGScene(QObject *parent)
 {
 
 	int pos = 0;
-	int counter = 0;
 	
 	for (auto& r : rects)
 	{
-		r = new EGRect(counter);
+		r = new QGraphicsRectItem();
 		r->setRect(0, 0, 6, 256);
 		r->setX(pos);
 		r->setPen(QPen(Qt::lightGray));
 		this->addItem(r);
 		pos += 6;
-		counter++;
 	}
 	
 	QColor colors[4]{ Qt::darkBlue, Qt::green, Qt::red, Qt::darkYellow };

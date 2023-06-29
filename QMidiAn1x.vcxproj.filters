@@ -94,9 +94,6 @@
     <ClCompile Include="src\View\FreeEG\FreeEGScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\View\FreeEG\EGRect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\FreeEG\EGPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\PianoRoll\PianoKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\View\FreeEG\EGRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\View\FreeEG\EGPath.h">
