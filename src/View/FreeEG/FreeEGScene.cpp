@@ -29,6 +29,10 @@ FreeEGScene::FreeEGScene(QObject *parent)
 		path[i]->setTrack(track[i]);
 	}
 
+	QGraphicsLineItem* middle = new QGraphicsLineItem(0, 128, pos, 128);
+	middle->setPen(QPen(Qt::gray));
+	addItem(middle);
+
 }
 
 void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
