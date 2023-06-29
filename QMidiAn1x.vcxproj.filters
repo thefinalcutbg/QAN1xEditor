@@ -23,7 +23,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\View\QAN1xEditor.qrc">
+    <QtRcc Include="QAN1xEditor.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
     <QtUic Include="src\View\QAN1xEditor.ui">
@@ -35,9 +35,6 @@
     <ClCompile Include="src\View\QAN1xEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <QtRcc Include="Resource.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

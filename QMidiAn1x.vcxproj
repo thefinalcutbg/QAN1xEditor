@@ -119,8 +119,7 @@
     <ClCompile Include="src\Model\MidiMaster.cpp" />
     <ClCompile Include="src\View\SceneView.cpp" />
     <ClCompile Include="src\View\VoiceNameEdit.cpp" />
-    <QtRcc Include="Resource.qrc" />
-    <QtRcc Include="src\View\QAN1xEditor.qrc" />
+    <QtRcc Include="QAN1xEditor.qrc" />
     <QtUic Include="src\View\ArpSeq.ui" />
     <QtUic Include="src\View\ControlMatrixScene.ui" />
     <QtUic Include="src\View\FreeEGWidget.ui" />

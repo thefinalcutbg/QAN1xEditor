@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1228</width>
+    <width>1234</width>
     <height>978</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1210</width>
+         <width>1216</width>
          <height>939</height>
         </rect>
        </property>
@@ -1663,7 +1663,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="QAN1xEditor.qrc"/>
+  <include location="../../QAN1xEditor.qrc"/>
  </resources>
  <connections/>
 </ui>
