@@ -39,5 +39,14 @@ void VoiceNameEdit::setName(AN1x::CommonParam p, int value)
 	blockSignals(false);
 }
 
+unsigned char VoiceNameEdit::getChar(int index)
+{
+	auto result = text();
+
+	while (result.length() < 10) result.append(" ");
+	
+	return result.toStdString()[index];
+}
+
 VoiceNameEdit::~VoiceNameEdit()
 {}

@@ -17,5 +17,6 @@ public:
 
 	virtual void setCurrentValueAsDefault() = 0;
 	virtual void setValue(int value) = 0;
+	virtual int getValue() = 0;
 };
 

@@ -20,12 +20,17 @@ class QAN1xEditor : public QMainWindow
     void setCommonParameter(AN1x::CommonParam p, int value);
     void setSequenceParameter(AN1x::SeqParam p, int value);
 
+    unsigned char layerMode();
+
 public:
     QAN1xEditor(QWidget *parent = nullptr);
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setParameter(AN1x::ParamType type, unsigned char param, int value);
     void setModWheel(int value);
     PianoView* pianoRoll();
+
+    //two byte values are represented by int and 0 and has to be separated;
+    std::vector<int> getCommon();
 
     ~QAN1xEditor();
 

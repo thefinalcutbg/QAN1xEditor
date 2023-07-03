@@ -21,8 +21,11 @@ public:
 	ArpSeq(QWidget *parent = nullptr);
 	void setCommonParameter(AN1x::CommonParam p, int value);
 	void setSequenceParameter(AN1x::SeqParam p, int value);
+
 	~ArpSeq();
 
-private:
 	Ui::ArpSeqClass ui;
+
+private:
+	
 };

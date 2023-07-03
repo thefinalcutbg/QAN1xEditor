@@ -23,6 +23,5 @@ public:
 
 	~ControlMatrixScene();
 
-private:
 	Ui::ControlMatrixSceneClass ui;
 };

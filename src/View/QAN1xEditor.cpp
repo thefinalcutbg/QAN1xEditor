@@ -309,10 +309,22 @@ void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
     ui.seqTab->setSequenceParameter(p, value);
 }
 
+unsigned char QAN1xEditor::layerMode()
+{
+    bool notUnison = !ui.unison->isChecked();
+
+    if (ui.single->isChecked()) return notUnison ? 0 : 1;
+    if (ui.dual->isChecked()) return notUnison ? 2 : 3;
+    if (ui.split->isChecked()) return notUnison ? 4 : 5;
+
+    return 0;
+}
+
 PianoView* QAN1xEditor::pianoRoll()
 {
     return ui.pianoView;
 }
+
 
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
@@ -363,6 +375,134 @@ here:
     return QWidget::eventFilter(obj, e);
  
 }
+
+std::vector<int> QAN1xEditor::getCommon()
+{
+    
+    int scene = 0;
+    if (ui.scene2radio->isChecked()) scene = 1;
+    if (ui.bothSceneRadio->isChecked()) scene = 2;
+
+    int arpSeqType = ui.seqTab->ui.radioArp->isChecked() ? 0 : 1;
+
+    int seqSceneSwitch = 0;
+    if (ui.seqTab->ui.radioScene2) seqSceneSwitch = 1;
+    if (ui.seqTab->ui.radioBothScenes) seqSceneSwitch = 2;
+
+    std::vector<int> result{
+        (int)ui.voiceNameEdit->getChar(0),
+        (int)ui.voiceNameEdit->getChar(1),
+        (int)ui.voiceNameEdit->getChar(2),
+        (int)ui.voiceNameEdit->getChar(3),
+        (int)ui.voiceNameEdit->getChar(4),
+        (int)ui.voiceNameEdit->getChar(5),
+        (int)ui.voiceNameEdit->getChar(6),
+        (int)ui.voiceNameEdit->getChar(7),
+        (int)ui.voiceNameEdit->getChar(8),
+        (int)ui.voiceNameEdit->getChar(9),
+        ui.voiceType->getValue(),
+        scene,
+        layerMode(),
+        ui.layerPan->getValue(),
+        ui.separation->getValue(),
+        ui.detune->getValue(),
+        ui.tempoBPM->getValue(),
+        0x00,
+        ui.splitPoint->getValue(),
+        ui.portamentoCheck->getValue(),
+        ui.sourceMtrxCom_1->getValue(),
+        ui.paramMtrxCom_1->getValue(),
+        ui.depthMtrxCom_1->getValue(),
+        ui.sourceMtrxCom_2->getValue(),
+        ui.paramMtrxCom_2->getValue(),
+        ui.depthMtrxCom_2->getValue(),
+        ui.fxeqTab->ui.variFxType->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam1->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam2->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam3->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam4->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam5->getValue(),
+        0x00,
+        ui.fxeqTab->ui.fxParam6->getValue(),
+        0x00,
+        ui.fxeqTab->ui.lowFq->getValue(),
+        ui.fxeqTab->ui.lowGain->getValue(),
+        ui.fxeqTab->ui.midFq->getValue(),
+        ui.fxeqTab->ui.midGain->getValue(),
+        ui.fxeqTab->ui.highFq->getValue(),
+        ui.fxeqTab->ui.highGain->getValue(),
+        ui.fxeqTab->ui.DlyRevConnection->getValue(),
+        ui.fxeqTab->ui.delayType->getValue(),
+        ui.fxeqTab->ui.dlyReturn->getValue(),
+        ui.fxeqTab->ui.dlyParam1->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam1->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam2->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam3->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam4->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam5->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam6->getValue(),
+        0x00,
+        ui.fxeqTab->ui.dlyParam7->getValue(),
+        0x00,
+        ui.fxeqTab->ui.reverbType->getValue(),
+        ui.fxeqTab->ui.revReturn->getValue(),
+        ui.fxeqTab->ui.revParam1->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam2->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam3->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam4->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam5->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam6->getValue(),
+        0x00,
+        ui.fxeqTab->ui.revParam7->getValue(),
+        0x00,
+        ui.arpSeqCheck->getValue(),
+        arpSeqType,
+        arpSeqType ? ui.seqTab->ui.seqPatternNo->getValue() : ui.seqTab->ui.arpType->getValue() ,
+        ui.seqTab->ui.kbdMode->getValue(),
+        seqSceneSwitch,
+        ui.seqTab->ui.arpSubdivide->getValue(),
+        ui.seqTab->ui.swing->getValue(),
+        ui.seqTab->ui.velocity->getValue(),
+        0x00,
+        ui.seqTab->ui.gate->getValue(),
+        0x00,
+        ui.FreeEG->ui.triggerCombo->getValue(),
+        ui.FreeEG->ui.loopCombo->getValue(),
+        ui.FreeEG->ui.lengthCombo->getValue(),
+        ui.FreeEG->ui.keyTrack->getValue(),
+        ui.FreeEG->ui.trackParam_1->getValue(),
+        ui.FreeEG->ui.trackSceneSw_1->getValue(),
+        ui.FreeEG->ui.trackParam_2->getValue(),
+        ui.FreeEG->ui.trackSceneSw_2->getValue(),
+        ui.FreeEG->ui.trackParam_3->getValue(),
+        ui.FreeEG->ui.trackSceneSw_3->getValue(),
+        ui.FreeEG->ui.trackParam_4->getValue(),
+        ui.FreeEG->ui.trackSceneSw_4->getValue()
+    };
+
+    auto tracks = ui.FreeEG->getTrackData();
+
+    result.insert(result.end(), tracks.begin(), tracks.end());
+
+    return result;
+}
+
 
 
 QAN1xEditor::~QAN1xEditor()

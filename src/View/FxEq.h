@@ -25,8 +25,10 @@ public:
 	void setCommonParameter(AN1x::CommonParam p, int value);
 	void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
 
+	Ui::FxEq ui;
+
 	~FxEq();
 
 private:
-	Ui::FxEq ui;
+
 };

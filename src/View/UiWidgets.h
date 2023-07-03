@@ -61,6 +61,7 @@ public:
 	void setOffset(int offset) { m_offset = offset; };
 	void setSuffix(const char* suffix) { m_suffix = suffix; }
 	void showPlusOnPositives(bool show) { m_showPositive = show; }
+	int getValue() final { return isVisible() ? value() : 0; }
 };
 
 #include <QComboBox>
@@ -77,6 +78,9 @@ public:
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
 	void setAsNoteCombo();
+
+	int getValue() final { return currentIndex(); }
+
 	~ComboPicker() {};
 };
 
@@ -93,7 +97,7 @@ public:
 
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
-
+	int getValue() final { return value(); }
 	~EGSlider() {};
 };
 
@@ -110,7 +114,7 @@ public:
 
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
-
+	int getValue() final { return isChecked(); }
 	~CheckBox() {};
 };
 
@@ -124,4 +128,5 @@ public:
 	SpinBox(QWidget* parent);
 	void setCurrentValueAsDefault() final;
 	void setValue(int value) final;
+	int getValue() final { return value(); }
 };

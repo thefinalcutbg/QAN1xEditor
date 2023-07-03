@@ -3,6 +3,8 @@
 #include <QWidget>
 #include "ui_FreeEGWidget.h"
 
+class FreeEGScene;
+
 class FreeEGWidget : public QWidget
 {
 	Q_OBJECT
@@ -11,6 +13,7 @@ class FreeEGWidget : public QWidget
 
 	std::array<AbstractController*, ui_size> ui_controls{ nullptr };
 
+	FreeEGScene* scene;
 
 public:
 	FreeEGWidget(QWidget *parent = nullptr);
@@ -18,7 +21,7 @@ public:
 
 	void setCommonParameter(AN1x::CommonParam p, int value);
 
+	std::vector<int> getTrackData();
 
-private:
 	Ui::FreeEGWidgetClass ui;
 };

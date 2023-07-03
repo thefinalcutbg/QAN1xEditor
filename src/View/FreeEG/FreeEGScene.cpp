@@ -35,6 +35,27 @@ FreeEGScene::FreeEGScene(QObject *parent)
 
 }
 
+std::vector<int> FreeEGScene::getTrackData()
+{
+	std::vector<int> result;
+
+	auto lambda = [&](const EGTrack& track) {
+		for (auto t : track)
+		{
+			result.push_back(t < 0 ? 0 : 1);
+			if (t < 0) t += 128;
+			result.push_back(t);
+		}
+	};
+
+	lambda(track[0]);
+	lambda(track[1]);
+	lambda(track[2]);
+	lambda(track[3]);
+
+	return result;
+}
+
 void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
 	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos());
@@ -59,7 +80,7 @@ void FreeEGScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
 void FreeEGScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 {
-	if (e->button() == Qt::LeftButton) emit editingFinished(track);
+	if (e->button() == Qt::LeftButton) emit editingFinished();
 }
 
 void FreeEGScene::processPosition(QPointF pos)

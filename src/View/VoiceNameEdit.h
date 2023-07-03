@@ -12,5 +12,6 @@ class VoiceNameEdit  : public QLineEdit
 public:
 	VoiceNameEdit(QWidget *parent);
 	void setName(AN1x::CommonParam p, int value);
+	unsigned char getChar(int index);
 	~VoiceNameEdit();
 };

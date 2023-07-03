@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include "EGPath.h"
+#include <vector>
 
 typedef std::array<int, 192> EGTrack;
 
@@ -28,9 +29,10 @@ public:
 	
 	void setCurrentIndex(int index);
 	FreeEGScene(QObject *parent);
+	std::vector<int> getTrackData();
 	~FreeEGScene();
 
 
 signals:
-	void editingFinished(EGTrack tracks[4]);
+	void editingFinished();
 };

@@ -339,7 +339,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QSpinBox" name="seqPatternNo">
+   <widget class="SpinBox" name="seqPatternNo">
     <property name="geometry">
      <rect>
       <x>120</x>

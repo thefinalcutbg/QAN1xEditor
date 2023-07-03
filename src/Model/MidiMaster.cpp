@@ -252,6 +252,44 @@ void MidiMaster::syncBulk(const Message& m)
 
 }
 
+void MidiMaster::sendCommonBulk()
+{
+	std::vector<unsigned char> result{ 0xF0, 0x43, 0x00, 0x5C, 0x0C, 0x68, 0x10, 0x00, 0x00 };
+
+	auto bulkData = s_view->getCommon();
+
+	for (int i = 0; i < bulkData.size(); i++)
+	{
+		if(AN1x::isNull(AN1x::ParamType::Common, i)) continue;
+
+		bulkData[i] += AN1x::getOffset(AN1x::ParamType::Common, i);
+
+		if (AN1x::isTwoByteParameter(AN1x::ParamType::Common, i)) {
+			auto value = bulkData[i];
+			bulkData[i] = value / 128;
+			i++;
+			bulkData[i] = value % 128;
+
+		}
+	}
+	
+	result.insert(result.end(), bulkData.begin(), bulkData.end());
+
+	unsigned char sum = 0x00;
+
+	for (int i = 4; i < result.size(); i++) {
+		sum += result[i];
+	}
+
+	unsigned char checkSum = 128 - sum;
+
+	result.push_back(checkSum);
+
+	result.push_back(0xF7);
+
+	sendMessage(result);
+}
+
 void MidiMaster::setView(QAN1xEditor* v) {
 
 	s_view = v;

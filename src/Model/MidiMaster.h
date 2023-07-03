@@ -25,6 +25,8 @@ namespace MidiMaster
 	void goToVoice(int value);
 	void syncBulk(const Message& = {});
 
+	void sendCommonBulk();
+
 	//PC keyboard as Midi
 
 	void setKbdOctave(int octave);
