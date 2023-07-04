@@ -200,6 +200,11 @@ void QAN1xEditor::setModWheel(int value)
     ui.modWheel->setValue(value);
 }
 
+void QAN1xEditor::setTrackData(const std::vector<int>& trackData)
+{
+    ui.FreeEG->setTrackData(trackData);
+}
+
 void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
 {
     if (p >= AN1x::SystemMaxSize) return;

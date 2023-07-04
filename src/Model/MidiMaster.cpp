@@ -228,9 +228,44 @@ void MidiMaster::syncBulk(const Message& m)
 			handlingMessage = false;
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); break; //request Common
 		case 2: 
+
+		//handling track data
+		{
+			std::vector<int> trackData;
+
+			trackData.reserve(192 * 4);
+
+			constexpr int headerSize = 9;
+			constexpr int allTracksSize = 8 * 192;
+			qDebug() << m.size();
+			for (int i = AN1x::FreeEgData + headerSize; i < m.size(); i++)
+			{
+				bool negative = m[i]==0;
+				i++;
+
+				if (i >= m.size()) break;
+
+				int value = m[i];
+
+				if (negative) value -= 128;
+
+				trackData.push_back(value);
+
+				
+			}
+
+			while (trackData.size() != 768) {
+				trackData.push_back(0);
+			}
+
+			qDebug() << "size:" << trackData.size();
+			s_view->setTrackData(trackData);
+		}	
+			//handling other common parameters
 			handleBulk(AN1x::ParamType::Common, m, AN1x::CommonMaxSize);
 			handlingMessage = false;
 			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); break; //request Scene1
+
 		case 3: 
 			handleBulk(AN1x::ParamType::Scene1, m, AN1x::SceneParametersMaxSize);
 			handlingMessage = false;
@@ -254,6 +289,8 @@ void MidiMaster::syncBulk(const Message& m)
 
 void MidiMaster::sendCommonBulk()
 {
+	if (handlingMessage) return;
+
 	std::vector<unsigned char> result{ 0xF0, 0x43, 0x00, 0x5C, 0x0C, 0x68, 0x10, 0x00, 0x00 };
 
 	auto bulkData = s_view->getCommon();
@@ -281,7 +318,8 @@ void MidiMaster::sendCommonBulk()
 	unsigned char sum = 0x00;
 
 	for (int i = 4; i < result.size(); i++) {
-		sum += result[i];
+		
+		sum += result[i]; //intended arithmetic overflow
 	}
 
 	unsigned char checkSum = 128 - sum;

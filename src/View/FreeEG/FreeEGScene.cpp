@@ -60,10 +60,26 @@ std::vector<int> FreeEGScene::getTrackData()
 	return result;
 }
 
+void FreeEGScene::setTrackData(const std::vector<int>& trackData)
+{
+	//if (trackData.size() != 192 * 4) return;
+
+	for (int i = 0; i < trackData.size(); i++)
+	{
+		int currentTrackNo = i / 192;
+		auto& currentTrack = track[currentTrackNo];
+		currentTrack[i % 192] = trackData[i];
+	}
+
+	for (int i = 0; i < 4; i++) {
+		path[i]->setTrack(track[i]);
+	}
+}
+
+
 void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos(), false);
-	if (e->buttons() == Qt::RightButton) processPosition(e->scenePos(), true);
+	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos());
 }
 
 void FreeEGScene::setCurrentIndex(int index)
@@ -74,29 +90,28 @@ void FreeEGScene::setCurrentIndex(int index)
 
 void FreeEGScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
-	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos(), false);
-	if (e->buttons() == Qt::RightButton) processPosition(e->scenePos(), true);
+	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos());
 
+	if (e->buttons() == Qt::RightButton) {
+		for (auto& p : *current_track) p = 0;
+
+		current_path->setTrack(*current_track);
+		emit editingFinished();
+	}
 }
 
 void FreeEGScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 {
 	if (e->button() == Qt::LeftButton) emit editingFinished();
-	if (e->button() == Qt::RightButton) emit editingFinished();
 }
 
-void FreeEGScene::processPosition(QPointF pos, bool reset)
+void FreeEGScene::processPosition(QPointF pos)
 {
 	int x = static_cast<int>(pos.x()) / 6;
 	int y = (static_cast<int>(pos.y()) * -1) + 128;
 
 	if (x < 0 || x > 191) return;
 	if (y < -128 || y > 128) return;
-
-	if (reset) {
-		current_path->setPoint(x, 0);
-		return;
-	}
 
 	current_path->setPoint(x, y);
 

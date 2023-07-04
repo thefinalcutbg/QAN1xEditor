@@ -27,6 +27,7 @@ public:
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setParameter(AN1x::ParamType type, unsigned char param, int value);
     void setModWheel(int value);
+    void setTrackData(const std::vector<int>& trackData);
     PianoView* pianoRoll();
 
     //two byte values are represented by int and 0 and has to be separated;

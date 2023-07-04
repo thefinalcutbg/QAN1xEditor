@@ -16,7 +16,7 @@ class FreeEGScene  : public QGraphicsScene
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* e) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* e) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* e) override;
-	void processPosition(QPointF pos, bool reset);
+	void processPosition(QPointF pos);
 
 	EGPath* current_path{ nullptr };
 	EGTrack* current_track{ nullptr };
@@ -30,6 +30,7 @@ public:
 	void setCurrentIndex(int index);
 	FreeEGScene(QObject *parent);
 	std::vector<int> getTrackData();
+	void setTrackData(const std::vector<int>& trackData);
 	~FreeEGScene();
 
 

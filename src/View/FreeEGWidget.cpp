@@ -89,3 +89,8 @@ std::vector<int> FreeEGWidget::getTrackData()
 	return scene->getTrackData();
 }
 
+void FreeEGWidget::setTrackData(const std::vector<int>& data)
+{
+	scene->setTrackData(data);
+}
+
