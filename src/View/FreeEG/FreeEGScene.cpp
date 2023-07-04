@@ -8,7 +8,7 @@ FreeEGScene::FreeEGScene(QObject *parent)
 {
 
 	int pos = 0;
-	
+	int counter = 0;
 	for (auto& r : rects)
 	{
 		r = new QGraphicsRectItem();
@@ -17,6 +17,8 @@ FreeEGScene::FreeEGScene(QObject *parent)
 		r->setPen(QPen(Qt::lightGray));
 		this->addItem(r);
 		pos += 6;
+		if (counter == 123) r->setBrush(Qt::red);
+		counter++;
 	}
 	
 	QColor colors[4]{ Qt::darkBlue, Qt::green, Qt::red, Qt::darkYellow };
@@ -75,6 +77,7 @@ void FreeEGScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 		for (auto& p : *current_track) p = 0;
 
 		current_path->setTrack(*current_track);
+		emit editingFinished();
 	}
 }
 
@@ -87,7 +90,10 @@ void FreeEGScene::processPosition(QPointF pos)
 {
 	int x = static_cast<int>(pos.x()) / 6;
 	int y = (static_cast<int>(pos.y()) * -1) + 128;
-
+	if (x == 123)
+	{
+		qDebug() << y;
+	}
 	if (x < 0 || x > 191) return;
 	if (y < -128 || y > 128) return;
 

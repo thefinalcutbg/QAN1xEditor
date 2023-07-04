@@ -282,8 +282,15 @@ void MidiMaster::sendCommonBulk()
 	}
 
 	unsigned char checkSum = 128 - sum;
-
+	if (checkSum >= 128) checkSum = checkSum - 128;
 	result.push_back(checkSum);
+
+	unsigned char controlDebug{ 0 };
+
+	for (int i = 4; i < result.size(); i++)
+	{
+		controlDebug += result[i];
+	}
 
 	result.push_back(0xF7);
 

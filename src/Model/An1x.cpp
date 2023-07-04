@@ -85,7 +85,8 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 			static const std::map<unsigned char, int> parameterToOffset{
 				{SceneSelect, 1},
 				{FreeEGKbdTrack, 64},
-				{FreeEGLength, 2}
+				{FreeEGLength, 2},
+				{ArpSeqScene, 1}
 			};
 
 			if (parameterToOffset.count(parameter))

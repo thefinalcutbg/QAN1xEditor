@@ -17,7 +17,7 @@ FxEq::FxEq(QWidget *parent)
     setDelayLayout(0);
     setReverbLayout();
     setEqLayout();
-
+     
     ui_controls = {
         ui.variFxType,
         nullptr,
@@ -920,7 +920,7 @@ void FxEq::setBypass()
     bool dly = ui.dlyBypass->isChecked();
     bool rev = ui.revBypass->isChecked();
 
-    bool value[4] = { (!dly & !rev),(!dly && rev),(dly && !rev),(dly && rev) };
+    bool value[4] = { (!dly && !rev),(!dly && rev),(dly && !rev),(dly && rev) };
 
     for (int i = 0; i < 4; i++) {
         if (value[i]) {

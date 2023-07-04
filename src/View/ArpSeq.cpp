@@ -170,7 +170,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 	connect(ui.radioSeq, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpSeqSelect, 1); });
 	connect(ui.radioScene1, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpSeqScene, 0); });
 	connect(ui.radioScene2, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpSeqScene, 1); });
-	connect(ui.radioBothScenes, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpSeqScene, 0); });
+	connect(ui.radioBothScenes, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpSeqScene, 2); });
 	connect(ui.arpType, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpTypeSeqNo, index); });
 	connect(ui.seqPatternNo, &QSpinBox::valueChanged, [=](int value) { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::ArpTypeSeqNo, value - 1); });
 
@@ -211,8 +211,8 @@ void ArpSeq::setCommonParameter(AN1x::CommonParam p, int value)
 
 		switch (value) {
 			case 0: ui.radioScene1->click(); break;
-			case 2: ui.radioScene1->click(); break;
-			case 3: ui.radioScene1->click(); break;
+			case 1: ui.radioScene2->click(); break;
+			case 2: ui.radioBothScenes->click(); break;
 		}
 		break;
 	
