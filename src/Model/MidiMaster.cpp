@@ -237,7 +237,7 @@ void MidiMaster::syncBulk(const Message& m)
 
 			constexpr int headerSize = 9;
 			constexpr int allTracksSize = 8 * 192;
-			qDebug() << m.size();
+
 			for (int i = AN1x::FreeEgData + headerSize; i < m.size(); i++)
 			{
 				bool negative = m[i]==0;
@@ -254,11 +254,10 @@ void MidiMaster::syncBulk(const Message& m)
 				
 			}
 
-			while (trackData.size() != 768) {
+			while (trackData.size() != 768) { //AN1x doesn't send all the track data :(
 				trackData.push_back(0);
 			}
 
-			qDebug() << "size:" << trackData.size();
 			s_view->setTrackData(trackData);
 		}	
 			//handling other common parameters

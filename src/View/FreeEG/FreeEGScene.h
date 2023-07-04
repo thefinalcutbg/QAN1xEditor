@@ -16,7 +16,7 @@ class FreeEGScene  : public QGraphicsScene
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* e) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* e) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* e) override;
-	void processPosition(QPointF pos);
+	void processPosition(QPointF pos, bool reset);
 
 	EGPath* current_path{ nullptr };
 	EGTrack* current_track{ nullptr };
