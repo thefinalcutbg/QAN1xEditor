@@ -260,11 +260,14 @@ void MidiMaster::sendCommonBulk()
 
 	for (int i = 0; i < bulkData.size(); i++)
 	{
+		if (i > AN1x::CommonParam::FreeEgTrackSceneSw4) continue;
+
 		if(AN1x::isNull(AN1x::ParamType::Common, i)) continue;
 
 		bulkData[i] += AN1x::getOffset(AN1x::ParamType::Common, i);
 
 		if (AN1x::isTwoByteParameter(AN1x::ParamType::Common, i)) {
+
 			auto value = bulkData[i];
 			bulkData[i] = value / 128;
 			i++;

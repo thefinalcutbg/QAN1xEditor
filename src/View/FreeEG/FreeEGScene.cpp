@@ -8,7 +8,7 @@ FreeEGScene::FreeEGScene(QObject *parent)
 {
 
 	int pos = 0;
-	int counter = 0;
+
 	for (auto& r : rects)
 	{
 		r = new QGraphicsRectItem();
@@ -17,8 +17,6 @@ FreeEGScene::FreeEGScene(QObject *parent)
 		r->setPen(QPen(Qt::lightGray));
 		this->addItem(r);
 		pos += 6;
-		if (counter == 123) r->setBrush(Qt::red);
-		counter++;
 	}
 	
 	QColor colors[4]{ Qt::darkBlue, Qt::green, Qt::red, Qt::darkYellow };
@@ -41,26 +39,31 @@ std::vector<int> FreeEGScene::getTrackData()
 {
 	std::vector<int> result;
 
-	auto lambda = [&](const EGTrack& track) {
+
+	auto lambda = [&](const EGTrack& track, std::vector<int>& result) {
+
+
 		for (auto t : track)
 		{
 			result.push_back(t < 0 ? 0 : 1);
 			if (t < 0) t += 128;
 			result.push_back(t);
 		}
+
 	};
 
-	lambda(track[0]);
-	lambda(track[1]);
-	lambda(track[2]);
-	lambda(track[3]);
+	lambda(track[0], result);
+	lambda(track[1], result);
+	lambda(track[2], result);
+	lambda(track[3], result);
 
 	return result;
 }
 
 void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos());
+	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos(), false);
+	if (e->buttons() == Qt::RightButton) processPosition(e->scenePos(), true);
 }
 
 void FreeEGScene::setCurrentIndex(int index)
@@ -71,31 +74,29 @@ void FreeEGScene::setCurrentIndex(int index)
 
 void FreeEGScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
-	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos());
+	if (e->buttons() == Qt::LeftButton) processPosition(e->scenePos(), false);
+	if (e->buttons() == Qt::RightButton) processPosition(e->scenePos(), true);
 
-	if (e->buttons() == Qt::RightButton) {
-		for (auto& p : *current_track) p = 0;
-
-		current_path->setTrack(*current_track);
-		emit editingFinished();
-	}
 }
 
 void FreeEGScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 {
 	if (e->button() == Qt::LeftButton) emit editingFinished();
+	if (e->button() == Qt::RightButton) emit editingFinished();
 }
 
-void FreeEGScene::processPosition(QPointF pos)
+void FreeEGScene::processPosition(QPointF pos, bool reset)
 {
 	int x = static_cast<int>(pos.x()) / 6;
 	int y = (static_cast<int>(pos.y()) * -1) + 128;
-	if (x == 123)
-	{
-		qDebug() << y;
-	}
+
 	if (x < 0 || x > 191) return;
 	if (y < -128 || y > 128) return;
+
+	if (reset) {
+		current_path->setPoint(x, 0);
+		return;
+	}
 
 	current_path->setPoint(x, y);
 

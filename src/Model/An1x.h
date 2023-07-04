@@ -12,7 +12,7 @@ namespace AN1x
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
 	
-	enum class ParamType : unsigned char{
+	enum class ParamType{
 		System,
 		Common,
 		Scene1,
@@ -21,7 +21,7 @@ namespace AN1x
 		Unknown
 	};
 
-	enum SystemParam : unsigned char
+	enum SystemParam
 	{
 		MasterTune,
 		NullGlobal1,
@@ -48,7 +48,7 @@ namespace AN1x
 		SystemMaxSize
 	};
 
-	enum CommonParam : unsigned char
+	enum CommonParam
 	{
 		Name1 = 0x00,
 		Name2,
@@ -236,7 +236,7 @@ namespace AN1x
 		SceneParametersMaxSize
 	};
 
-	enum SeqParam : unsigned char
+	enum SeqParam
 	{
 		SeqBaseUnit = 0x00,
 		SeqLength,
@@ -260,9 +260,9 @@ namespace AN1x
 
 	std::vector<unsigned char> getHeader(ParamType p);
 
-	int getOffset(ParamType t, unsigned char p);
-	bool isNull(ParamType t, unsigned char p);
-	bool isTwoByteParameter(ParamType t, unsigned char p);
+	int getOffset(ParamType t, int p);
+	bool isNull(ParamType t, int p);
+	bool isTwoByteParameter(ParamType t, int p);
 
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);

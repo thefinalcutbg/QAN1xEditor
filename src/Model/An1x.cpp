@@ -24,13 +24,13 @@ std::vector<unsigned char> AN1x::getHeader(ParamType p)
 
 
 
-int AN1x::getOffset(ParamType t, unsigned char parameter)
+int AN1x::getOffset(ParamType t, int parameter)
 {
 	switch (t)
 	{
 		case ParamType::System:
 		{
-			static const std::map<unsigned char, int> parameterToOffset{
+			static const std::map<int, int> parameterToOffset{
 				//{MasterTune, 341},
 				{KeyboardTranspose, 64}
 
@@ -46,7 +46,7 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 		case ParamType::Scene1:
 		case ParamType::Scene2:
 		{
-			static const std::map<unsigned char, int> parameterToOffset{
+			static const std::map<int, int> parameterToOffset{
 			{PEGSwitch, 1},
 			{SyncPitchModSwitch, 1},
 			{PEGDepth, 64},
@@ -82,7 +82,7 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 		}
 		case ParamType::Common:
 		{
-			static const std::map<unsigned char, int> parameterToOffset{
+			static const std::map<int, int> parameterToOffset{
 				{SceneSelect, 1},
 				{FreeEGKbdTrack, 64},
 				{FreeEGLength, 2},
@@ -93,17 +93,17 @@ int AN1x::getOffset(ParamType t, unsigned char parameter)
 			{
 				return parameterToOffset.at(parameter);
 			}
-
-			break;
+			
 		}
+		break;
 	}
 
 	return 0;
 }
 
-bool AN1x::isNull(ParamType t, unsigned char p)
+bool AN1x::isNull(ParamType t, int p)
 {
-	static const std::set<unsigned char> s_commonNull
+	static const std::set<int> s_commonNull
 	{
 		AN1x::CommonParam::NullCommon1,
 		AN1x::CommonParam::reserved,
@@ -131,7 +131,7 @@ bool AN1x::isNull(ParamType t, unsigned char p)
 		AN1x::CommonParam::NullCommon24
 	};
 
-	static const std::set<unsigned char> s_sceneNull
+	static const std::set<int> s_sceneNull
 	{
 		AN1x::SceneParam::NullScene1,
 		AN1x::SceneParam::NullScene2,
@@ -157,7 +157,7 @@ bool AN1x::isNull(ParamType t, unsigned char p)
 	return false;
 }
 
-bool AN1x::isTwoByteParameter(ParamType t, unsigned char p)
+bool AN1x::isTwoByteParameter(ParamType t, int p)
 {
 	switch (t)
 	{
