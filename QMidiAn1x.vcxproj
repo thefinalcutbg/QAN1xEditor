@@ -139,6 +139,7 @@
     <QtMoc Include="src\View\PianoRoll\PianoView.h" />
     <QtMoc Include="src\View\FreeEGWidget.h" />
     <QtMoc Include="src\View\FreeEG\FreeEGScene.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />
@@ -157,6 +158,9 @@
     <QtMoc Include="QMidi\qmidiout.h" />
     <QtMoc Include="QMidi\qmidipianoroll.h" />
     <ClInclude Include="QMidi\RtMidi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QAN1xEditor.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -69,10 +69,6 @@ std::vector<int> FreeEGScene::getTrackData()
 	lambda(track[2]);
 	lambda(track[3]);
 
-	for (int i = 0; i < 30; i++) {
-		qDebug() << result[i];
-	};
-
 	return result;
 }
 
