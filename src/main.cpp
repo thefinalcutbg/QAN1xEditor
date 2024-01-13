@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QDebug>
 #include "View/QAN1xEditor.h"
+#include "RtMidi.h"
 
 int main(int argc, char* argv[])
 {

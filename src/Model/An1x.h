@@ -277,4 +277,8 @@ namespace AN1x
 	const char* getMatrixCommonParamName(int value);
 	const char* getFreeEGParameters(int value);
 	const char* getFreeEGLength(int value);
+
+	//generates MIDI message for getting perticular voice
+	std::vector<unsigned char> voiceRequest(int voiceNumber);
+
 }

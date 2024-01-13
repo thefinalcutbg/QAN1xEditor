@@ -1,8 +1,9 @@
 #include "qmidiin.h"
-#include <QDebug>
+
 QMidiIn::QMidiIn(QObject *parent) : QObject(parent),
     _midiIn(new RtMidiIn())
 {
+    _midiIn->setBufferSize(2000, 4);
     _midiIn->setCallback(&QMidiIn::callback, this);
 }
 

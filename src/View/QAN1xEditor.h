@@ -5,6 +5,7 @@
 #include "qmidiin.h"
 #include "qmidiout.h"
 
+class An1xPatch;
 
 class QAN1xEditor : public QMainWindow
 {
@@ -24,6 +25,7 @@ class QAN1xEditor : public QMainWindow
 
 public:
     QAN1xEditor(QWidget *parent = nullptr);
+    void setPatch(const An1xPatch& patch);
     void setMidiDevices(const QStringList& in, const QStringList& out);
     void setParameter(AN1x::ParamType type, unsigned char param, int value);
     void setModWheel(int value);

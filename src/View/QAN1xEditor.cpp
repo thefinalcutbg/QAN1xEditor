@@ -2,7 +2,7 @@
 #include "qmidimessage.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
-
+#include "Model/An1xPatch.h"
 #include <QKeyEvent>
 
 
@@ -59,7 +59,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     //MIDI DEVICES
     connect(ui.refresh, &QPushButton::clicked, [=] { MidiMaster::refreshConnection(); });
     connect(ui.inCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
-    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); MidiMaster::syncBulk(); });
+    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
@@ -161,6 +161,32 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 
 }
+#include <qdebug.h>
+void QAN1xEditor::setPatch(const An1xPatch& patch)
+{
+
+    for (int i = 0; i < AN1x::FreeEgData; i++) {
+        if (AN1x::isNull(AN1x::ParamType::Common, i)) continue;
+        qDebug() << "setting parameter" << i;
+        setParameter(AN1x::ParamType::Common, i, patch.getParameter(AN1x::ParamType::Common, i));
+    }
+
+    for (int i = 0; i < AN1x::SceneParametersMaxSize; i++) {
+        if (AN1x::isNull(AN1x::ParamType::Scene1, i)) continue;
+        setParameter(AN1x::ParamType::Scene1, i, patch.getParameter(AN1x::ParamType::Scene1, i));
+    }
+
+    for (int i = 0; i < AN1x::SceneParametersMaxSize; i++){
+        if (AN1x::isNull(AN1x::ParamType::Scene2, i)) continue;
+        setParameter(AN1x::ParamType::Scene2, i, patch.getParameter(AN1x::ParamType::Scene2, i));
+    }
+
+    for (int i = 0; i < AN1x::StepSequencerMaxSize; i++) {
+        if (AN1x::isNull(AN1x::ParamType::StepSq, i)) continue;
+        setParameter(AN1x::ParamType::StepSq, i, patch.getParameter(AN1x::ParamType::StepSq, i));
+    }
+
+}
 
 void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 {
@@ -245,12 +271,10 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
     if (p >= AN1x::CommonMaxSize) return;
 
     //name edit
-    if (p < 10) {
+    if (p <= AN1x::Name10) {
         ui.voiceNameEdit->setName(p, value);
         return;
     }
-
-
 
     //layer mode
     if (p == AN1x::LayerMode)
@@ -293,7 +317,6 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
     }
 
     if (p == AN1x::SceneSelect) {
-       
         QRadioButton* group[3]{ ui.scene1radio, ui.scene2radio, ui.bothSceneRadio };
         group[value]->setChecked(true);
         return;

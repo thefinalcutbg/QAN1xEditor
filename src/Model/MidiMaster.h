@@ -2,6 +2,7 @@
 
 
 #include "An1x.h"
+
 #include <vector>
 
 class QAN1xEditor;

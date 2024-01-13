@@ -21,11 +21,9 @@ std::vector<unsigned char> AN1x::getHeader(ParamType p)
 	return {};
 }
 
-
-
-
 int AN1x::getOffset(ParamType t, int parameter)
 {
+
 	switch (t)
 	{
 		case ParamType::System:
@@ -556,3 +554,18 @@ const char* AN1x::getFreeEGLength(int value)
 	return values[value];
 }
 
+std::vector<unsigned char> AN1x::voiceRequest(int voiceNumber)
+{
+	if (voiceNumber < 0 || voiceNumber > 127) return {};
+
+	unsigned char penultimateByte = 0;
+
+	if (voiceNumber <= 111) {
+		penultimateByte = 111 - voiceNumber;
+	}
+	else {
+		penultimateByte = 127 - voiceNumber + 112;
+	}
+
+	return { 0xF0, 0x43, 0x20, 0x5C, 0x11, (unsigned char)voiceNumber, 00, penultimateByte, 0xF7 };
+}

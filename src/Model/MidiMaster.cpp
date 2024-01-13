@@ -4,6 +4,7 @@
 #include "qmidiin.h"
 
 #include "View/QAN1xEditor.h"
+#include "An1xPatch.h"
 #include <array>
 
 QMidiOut* s_out{ nullptr };
@@ -11,16 +12,22 @@ QMidiIn* s_in{ nullptr };
 
 QAN1xEditor* s_view{ nullptr };
 
+An1xPatch s_patch;
+
 bool handlingMessage = false;
 
 int s_kbdOctave{ 5 };
 
 void handleSysMsg(const Message& msg)
 {
-	if (msg.size() > 20)  //bulk
+	if (msg.size() == 1953)  //bulk
 	{
-		
-		MidiMaster::syncBulk(msg);
+		//sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
+
+		s_patch.setBulkPatch(msg);
+		s_view->setPatch(s_patch);
+		handlingMessage = false;
+
 		return;
 	}
 
@@ -64,6 +71,7 @@ void handleSysMsg(const Message& msg)
 
 	value -= AN1x::getOffset(type, param);
 
+	s_patch.setParameter(type, param, value);
 	s_view->setParameter(type, param, value);
 
 	handlingMessage = false;
@@ -110,13 +118,11 @@ void MidiMaster::refreshConnection()
 
 	QObject::connect(s_in, &QMidiIn::midiMessageReceived, s_view, [=](QMidiMessage* m)
 	{
-			//qDebug() << m->getRawMessage();
-
 			handlingMessage = true;
 
 			switch (m->getStatus())
 			{
-				case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false;  syncBulk(); break;
+				case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false; break;
 				case QMidiStatus::MIDI_SYSEX: handleSysMsg(m->getSysExData()); break;
 				case QMidiStatus::MIDI_CONTROL_CHANGE: s_view->setModWheel(m->getRawMessage()[2]); break;
 				default: handlingMessage = false; s_out->sendMessage(m);
@@ -133,23 +139,7 @@ void MidiMaster::refreshConnection()
 
 void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int value)
 {
-	auto msg = AN1x::getHeader(type);
-
-	msg.push_back(parameter);
-
-	value += AN1x::getOffset(type, parameter);
-
-	if (AN1x::isTwoByteParameter(type, parameter)) {
-		msg.push_back(value / 128);
-		msg.push_back(value % 128);
-	}
-	else {
-		msg.push_back(value);
-	}
-
-	msg.push_back(0xF7);
-
-	sendMessage(msg);
+	sendMessage(s_patch.setParameter(type, parameter, value));
 }
 
 void MidiMaster::modWheelChange(int value)
@@ -170,121 +160,26 @@ void MidiMaster::pitchChange(int value)
 void MidiMaster::goToVoice(int value)
 {
 	if (value < 0 || value > 127) return;
+	//sendMessage({ 0xC0, (unsigned char)value });
+	sendMessage(AN1x::voiceRequest(value));
 
-	sendMessage({ 0xC0, (unsigned char)value });
-
-	syncBulk();
+	//syncBulk();
 }
 
 void MidiMaster::syncBulk(const Message& m)
 {
 	if (s_out == nullptr || !s_out->isPortOpen()) return;
 	if (s_in == nullptr || !s_in->isPortOpen()) return;
-
-	auto handleBulk = [](AN1x::ParamType type, const std::vector<unsigned char>& paramList, int maxSize) {
-
-		constexpr int header = 9;
-
-		//header check
-		if (paramList[0] != 0xF0) return;
-		if (paramList[1] != 0x43) return;
-		if (paramList[3] != 0x5C) return;
-
-		if (paramList.size() < maxSize + header) return;
-
-		for (int i = header; i < maxSize + header; i++)
-		{
-			unsigned char param = i - header;
-
-			if (AN1x::isNull(type, param)) continue;
-			int value = paramList[i];
-
-			if (AN1x::isTwoByteParameter(type, param))
-			{
-				value = paramList[i] * 128;
-				value += paramList[i + 1];
-
-				i++;
-			}
-
-			value -= AN1x::getOffset(type, param);
-
-			s_view->setParameter(type, param, value);
-		}
-
-	};
-
-	static int syncCounter = 0;
 	
-	if (m.empty() && syncCounter != 0) { syncCounter = 0; }
+	//sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
 
-	switch (syncCounter)
-	{
-		case 0:
-			handlingMessage = false;
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
-		case 1: 
-			handleBulk(AN1x::ParamType::System, m, AN1x::SystemMaxSize);
-			handlingMessage = false;
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x00, 0x00, 0xF7 }); break; //request Common
-		case 2: 
+	s_patch.setBulkPatch(m);
+	s_view->setPatch(s_patch);
+	handlingMessage = false;
 
-		//handling track data
-		{
-			std::vector<int> trackData;
-
-			trackData.reserve(192 * 4);
-
-			constexpr int headerSize = 9;
-			constexpr int allTracksSize = 8 * 192;
-
-			for (int i = AN1x::FreeEgData + headerSize; i < m.size(); i++)
-			{
-				bool negative = m[i]==0;
-				i++;
-
-				if (i >= m.size()) break;
-
-				int value = m[i];
-
-				if (negative) value -= 128;
-
-				trackData.push_back(value);
-
-				
-			}
-
-			while (trackData.size() != 768) { //AN1x doesn't send all the track data :(
-				trackData.push_back(0);
-			}
-
-			s_view->setTrackData(trackData);
-		}	
-			//handling other common parameters
-			handleBulk(AN1x::ParamType::Common, m, AN1x::CommonMaxSize);
-			handlingMessage = false;
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x10, 0x00, 0xF7 }); break; //request Scene1
-
-		case 3: 
-			handleBulk(AN1x::ParamType::Scene1, m, AN1x::SceneParametersMaxSize);
-			handlingMessage = false;
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x11, 0x00, 0xF7 }); break; //request Scene2
-		case 4:
-			handleBulk(AN1x::ParamType::Scene2, m, AN1x::SceneParametersMaxSize);
-			handlingMessage = false;
-			sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x10, 0x0E, 0x00, 0xF7 }); break; //request SeqPattern
-		case 5: //termination
-			handleBulk(AN1x::ParamType::StepSq, m, AN1x::StepSequencerMaxSize);
-			handlingMessage = false;
-			syncCounter = 0;
-			return;
-		default:
-			syncCounter = 0; return;
-	}	
-
-	syncCounter++;
-
+	return;
 }
+
 
 void MidiMaster::sendCommonBulk()
 {
