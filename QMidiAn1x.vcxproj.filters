@@ -100,6 +100,12 @@
     <ClCompile Include="src\Model\An1xPatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\Browser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\PatchMemory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QMidi\RtMidi.h">
@@ -127,6 +133,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\An1xPatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PatchMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -173,6 +182,9 @@
     <QtMoc Include="src\View\FreeEG\FreeEGScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\View\Browser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\View\SceneView.ui">
@@ -188,6 +200,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\View\FreeEGWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\View\Browser.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

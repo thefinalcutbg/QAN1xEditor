@@ -74,8 +74,8 @@ FxEq::FxEq(QWidget *parent)
         ui.revParam7
     };
 
-    ui.scene1DW->setParam(AN1x::ParamType::Scene1, AN1x::SceneParam::VariFxDW);
-    ui.scene2DW->setParam(AN1x::ParamType::Scene2, AN1x::SceneParam::VariFxDW);
+    ui.scene1DW->setParam(AN1xParam::Type::Scene1, AN1x::SceneParam::VariFxDW);
+    ui.scene2DW->setParam(AN1xParam::Type::Scene2, AN1x::SceneParam::VariFxDW);
 
     ui.scene1DW->showPlusOnPositives(true);
     ui.scene2DW->showPlusOnPositives(true);
@@ -87,7 +87,7 @@ FxEq::FxEq(QWidget *parent)
         auto param = AN1x::VariFXType + i;
 
         ui_controls[i]->setCurrentValueAsDefault();
-        ui_controls[i]->setParam(AN1x::ParamType::Common, (AN1x::CommonParam)param);
+        ui_controls[i]->setParam(AN1xParam::Type::Common, (AN1x::CommonParam)param);
     }
 
 
@@ -914,7 +914,7 @@ void FxEq::setBypass()
         QSignalBlocker r(ui.revBypass);
         ui.dlyBypass->setChecked(true);
         ui.revBypass->setChecked(true);
-        MidiMaster::setParam(AN1x::ParamType::System, AN1x::EffectBypass, 4);
+        MidiMaster::setParam(AN1xParam::Type::System, AN1x::EffectBypass, 4);
     }
 
     bool dly = ui.dlyBypass->isChecked();
@@ -924,7 +924,7 @@ void FxEq::setBypass()
 
     for (int i = 0; i < 4; i++) {
         if (value[i]) {
-            MidiMaster::setParam(AN1x::ParamType::System, AN1x::EffectBypass, i);
+            MidiMaster::setParam(AN1xParam::Type::System, AN1x::EffectBypass, i);
         }
     }
 

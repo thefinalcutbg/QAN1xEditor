@@ -4,6 +4,22 @@
 #include <string>
 #include <vector>
 
+struct AN1xParam {
+
+	enum class Type {
+		System,
+		Common,
+		Scene1,
+		Scene2,
+		StepSq,
+		Unknown
+	};
+
+	const Type type;
+	const unsigned char parameter;
+	const int value;
+};
+
 namespace AN1x
 {
 	enum Layer : unsigned char{ Single, Unison, Dual, DualUnison, Split, SplitUnison };
@@ -12,14 +28,7 @@ namespace AN1x
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
 	
-	enum class ParamType{
-		System,
-		Common,
-		Scene1,
-		Scene2,
-		StepSq,
-		Unknown
-	};
+
 
 	enum SystemParam
 	{
@@ -258,11 +267,11 @@ namespace AN1x
 	unsigned char getScene(bool isScene2);
 
 
-	std::vector<unsigned char> getHeader(ParamType p);
+	std::vector<unsigned char> getHeader(AN1xParam::Type p);
 
-	int getOffset(ParamType t, int p);
-	bool isNull(ParamType t, int p);
-	bool isTwoByteParameter(ParamType t, int p);
+	int getOffset(AN1xParam::Type t, int p);
+	bool isNull(AN1xParam::Type t, int p);
+	bool isTwoByteParameter(AN1xParam::Type t, int p);
 
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);

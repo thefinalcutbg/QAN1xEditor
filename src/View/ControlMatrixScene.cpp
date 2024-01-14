@@ -10,7 +10,7 @@ ControlMatrixScene::ControlMatrixScene(QWidget* parent)
 
 void ControlMatrixScene::setAsScene(bool isScene2)
 {
-	AN1x::ParamType type = isScene2 ? AN1x::ParamType::Scene2 : AN1x::ParamType::Scene1;
+	AN1xParam::Type type = isScene2 ? AN1xParam::Type::Scene2 : AN1xParam::Type::Scene1;
 
 	ui_controls = {
 	ui.source_1,

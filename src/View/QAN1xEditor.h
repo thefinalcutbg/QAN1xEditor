@@ -27,9 +27,10 @@ public:
     QAN1xEditor(QWidget *parent = nullptr);
     void setPatch(const An1xPatch& patch);
     void setMidiDevices(const QStringList& in, const QStringList& out);
-    void setParameter(AN1x::ParamType type, unsigned char param, int value);
+    void setParameter(AN1xParam::Type type, unsigned char param, int value);
     void setModWheel(int value);
     void setTrackData(const std::vector<int>& trackData);
+    Browser* browser();
     PianoView* pianoRoll();
 
     //two byte values are represented by int and 0 and has to be separated;

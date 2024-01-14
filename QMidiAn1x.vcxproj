@@ -106,7 +106,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Model\An1xPatch.cpp" />
+    <ClCompile Include="src\Model\PatchMemory.cpp" />
     <ClCompile Include="src\View\ArpSeq.cpp" />
+    <ClCompile Include="src\View\Browser.cpp" />
     <ClCompile Include="src\View\ControlMatrixScene.cpp" />
     <ClCompile Include="src\View\FreeEGWidget.cpp" />
     <ClCompile Include="src\View\FreeEG\EGPath.cpp" />
@@ -121,6 +123,7 @@
     <ClCompile Include="src\View\VoiceNameEdit.cpp" />
     <QtRcc Include="QAN1xEditor.qrc" />
     <QtUic Include="src\View\ArpSeq.ui" />
+    <QtUic Include="src\View\Browser.ui" />
     <QtUic Include="src\View\ControlMatrixScene.ui" />
     <QtUic Include="src\View\FreeEGWidget.ui" />
     <QtUic Include="src\View\FxEq.ui" />
@@ -142,6 +145,8 @@
     <QtMoc Include="src\View\FreeEG\FreeEGScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Model\An1xPatch.h" />
+    <QtMoc Include="src\View\Browser.h" />
+    <ClInclude Include="src\Model\PatchMemory.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />

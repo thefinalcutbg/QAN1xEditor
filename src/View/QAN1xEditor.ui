@@ -114,13 +114,6 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="requestVoice">
-            <property name="text">
-             <string>Request current voice</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="requestVoiceNum">
             <property name="text">
              <string>Request voice:</string>
@@ -961,6 +954,19 @@
              <number>0</number>
             </property>
            </widget>
+           <widget class="QPushButton" name="requestSystem">
+            <property name="geometry">
+             <rect>
+              <x>200</x>
+              <y>120</y>
+              <width>91</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Request</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QLabel" name="label_13">
            <property name="geometry">
@@ -1039,6 +1045,11 @@
             <property name="currentIndex">
              <number>0</number>
             </property>
+            <widget class="Browser" name="browser">
+             <attribute name="title">
+              <string>Browser</string>
+             </attribute>
+            </widget>
             <widget class="SceneView" name="scene1tab">
              <attribute name="title">
               <string>Scene 1</string>
@@ -1659,6 +1670,12 @@
    <class>FreeEGWidget</class>
    <extends>QWidget</extends>
    <header>freeegwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Browser</class>
+   <extends>QWidget</extends>
+   <header>View/browser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

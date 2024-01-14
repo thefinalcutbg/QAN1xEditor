@@ -5,6 +5,7 @@
 
 #include "View/QAN1xEditor.h"
 #include "An1xPatch.h"
+#include "PatchMemory.h"
 #include <array>
 
 QMidiOut* s_out{ nullptr };
@@ -12,7 +13,7 @@ QMidiIn* s_in{ nullptr };
 
 QAN1xEditor* s_view{ nullptr };
 
-An1xPatch s_patch;
+An1xPatch current_patch;
 
 bool handlingMessage = false;
 
@@ -20,13 +21,23 @@ int s_kbdOctave{ 5 };
 
 void handleSysMsg(const Message& msg)
 {
+
 	if (msg.size() == 1953)  //bulk
 	{
-		//sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
-
-		s_patch.setBulkPatch(msg);
-		s_view->setPatch(s_patch);
 		handlingMessage = false;
+		PatchMemory::patchRecieved({ msg });
+		//s_view->setPatch(current_patch);
+		return;
+	}
+
+	if (msg.size() == 39) //system
+	{
+		current_patch.setSystemData(msg);
+		
+		for (int i = 0; i < AN1x::SystemMaxSize; i++)
+		{
+			s_view->setParameter(AN1xParam::Type::System, i, current_patch.getParameter(AN1xParam::Type::System, i));
+		}
 
 		return;
 	}
@@ -39,20 +50,20 @@ void handleSysMsg(const Message& msg)
 		if (msg[i] != header[i]) return;
 	}
 
-	AN1x::ParamType type;
+	AN1xParam::Type type;
 
 	if (msg[4] == 0) //System Param Change
 	{
-		type = AN1x::ParamType::System;
+		type = AN1xParam::Type::System;
 	}
 	else
 	{
 		switch (msg[5])
 		{
-		case 0: type = AN1x::ParamType::Common; break;
-		case 16: type = AN1x::ParamType::Scene1; break;
-		case 17: type = AN1x::ParamType::Scene2; break;
-		case 14: type = AN1x::ParamType::StepSq; break;
+		case 0: type = AN1xParam::Type::Common; break;
+		case 16: type = AN1xParam::Type::Scene1; break;
+		case 17: type = AN1xParam::Type::Scene2; break;
+		case 14: type = AN1xParam::Type::StepSq; break;
 		default: return;
 		}
 	}
@@ -71,7 +82,7 @@ void handleSysMsg(const Message& msg)
 
 	value -= AN1x::getOffset(type, param);
 
-	s_patch.setParameter(type, param, value);
+	current_patch.setParameter(type, param, value);
 	s_view->setParameter(type, param, value);
 
 	handlingMessage = false;
@@ -137,9 +148,9 @@ void MidiMaster::refreshConnection()
 	
 }
 
-void MidiMaster::setParam(AN1x::ParamType type, unsigned char parameter, int value)
+void MidiMaster::setParam(AN1xParam::Type type, unsigned char parameter, int value)
 {
-	sendMessage(s_patch.setParameter(type, parameter, value));
+	sendMessage(current_patch.setParameter(type, parameter, value));
 }
 
 void MidiMaster::modWheelChange(int value)
@@ -166,6 +177,17 @@ void MidiMaster::goToVoice(int value)
 	//syncBulk();
 }
 
+void MidiMaster::requestVoice(int index)
+{
+	if (index < 0 || index > 127) return;
+	sendMessage(AN1x::voiceRequest(index));
+}
+
+void MidiMaster::requestSystem()
+{
+	sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 });
+}
+
 void MidiMaster::syncBulk(const Message& m)
 {
 	if (s_out == nullptr || !s_out->isPortOpen()) return;
@@ -173,11 +195,16 @@ void MidiMaster::syncBulk(const Message& m)
 	
 	//sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
 
-	s_patch.setBulkPatch(m);
-	s_view->setPatch(s_patch);
-	handlingMessage = false;
+	//current_patch.setBulkPatch(m);
+	//s_view->setPatch(current_patch);
+
 
 	return;
+}
+
+void MidiMaster::setCurrentPatch(const An1xPatch& p)
+{
+	s_view->setPatch(p);
 }
 
 
@@ -193,11 +220,11 @@ void MidiMaster::sendCommonBulk()
 	{
 		if (i > AN1x::CommonParam::FreeEgTrackSceneSw4) continue;
 
-		if(AN1x::isNull(AN1x::ParamType::Common, i)) continue;
+		if(AN1x::isNull(AN1xParam::Type::Common, i)) continue;
 
-		bulkData[i] += AN1x::getOffset(AN1x::ParamType::Common, i);
+		bulkData[i] += AN1x::getOffset(AN1xParam::Type::Common, i);
 
-		if (AN1x::isTwoByteParameter(AN1x::ParamType::Common, i)) {
+		if (AN1x::isTwoByteParameter(AN1xParam::Type::Common, i)) {
 
 			auto value = bulkData[i];
 			bulkData[i] = value / 128;

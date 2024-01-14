@@ -26,7 +26,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
-    connect(ui.requestVoice, &QPushButton::clicked, [this] { MidiMaster::syncBulk(); });
+    connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
 
     connect(ui.requestVoiceNum, &QPushButton::clicked, [this] { MidiMaster::goToVoice(ui.voiceSpin->value()-1); });
 
@@ -62,29 +62,29 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
 
     //LAYER
-    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
-    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
-    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
+    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
+    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
+    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
     connect(ui.unison, &QGroupBox::clicked, [=](bool checked) {
 
         if (ui.single->isChecked())
         {
-            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
+            MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
         }
         else if (ui.dual->isChecked())
         {
-            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
+            MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
         }
         else if (ui.split->isChecked())
         {
-            MidiMaster::setParam(AN1x::ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
+            MidiMaster::setParam(AN1xParam::Type::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
         }
         }
     );
 
-    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 0); });
-    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 1); });
-    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1x::ParamType::Common, AN1x::SceneSelect, 2); });
+    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::SceneSelect, 0); });
+    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::SceneSelect, 1); });
+    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::setParam(AN1xParam::Type::Common, AN1x::SceneSelect, 2); });
 
     connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
 
@@ -137,11 +137,11 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         if (ui_controls[i] == nullptr) continue;
 
         ui_controls[i]->setCurrentValueAsDefault();
-        ui_controls[i]->setParam(AN1x::ParamType::Common, (AN1x::CommonParam)i);
+        ui_controls[i]->setParam(AN1xParam::Type::Common, (AN1x::CommonParam)i);
     }
 
     ui.arpSeqCheck->setCurrentValueAsDefault();
-    ui.arpSeqCheck->setParam(AN1x::ParamType::Common, AN1x::ArpSeqOnOff);
+    ui.arpSeqCheck->setParam(AN1xParam::Type::Common, AN1x::ArpSeqOnOff);
 
     system_controls[0] = ui.masterTune;
     system_controls[2] = ui.transpose;
@@ -154,7 +154,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         if (system_controls[i] == nullptr) continue;
 
         system_controls[i]->setCurrentValueAsDefault();
-        system_controls[i]->setParam(AN1x::ParamType::System, (AN1x::SystemParam)i);
+        system_controls[i]->setParam(AN1xParam::Type::System, (AN1x::SystemParam)i);
     }
  
     MidiMaster::refreshConnection();
@@ -166,24 +166,24 @@ void QAN1xEditor::setPatch(const An1xPatch& patch)
 {
 
     for (int i = 0; i < AN1x::FreeEgData; i++) {
-        if (AN1x::isNull(AN1x::ParamType::Common, i)) continue;
+        if (AN1x::isNull(AN1xParam::Type::Common, i)) continue;
         qDebug() << "setting parameter" << i;
-        setParameter(AN1x::ParamType::Common, i, patch.getParameter(AN1x::ParamType::Common, i));
+        setParameter(AN1xParam::Type::Common, i, patch.getParameter(AN1xParam::Type::Common, i));
     }
 
     for (int i = 0; i < AN1x::SceneParametersMaxSize; i++) {
-        if (AN1x::isNull(AN1x::ParamType::Scene1, i)) continue;
-        setParameter(AN1x::ParamType::Scene1, i, patch.getParameter(AN1x::ParamType::Scene1, i));
+        if (AN1x::isNull(AN1xParam::Type::Scene1, i)) continue;
+        setParameter(AN1xParam::Type::Scene1, i, patch.getParameter(AN1xParam::Type::Scene1, i));
     }
 
     for (int i = 0; i < AN1x::SceneParametersMaxSize; i++){
-        if (AN1x::isNull(AN1x::ParamType::Scene2, i)) continue;
-        setParameter(AN1x::ParamType::Scene2, i, patch.getParameter(AN1x::ParamType::Scene2, i));
+        if (AN1x::isNull(AN1xParam::Type::Scene2, i)) continue;
+        setParameter(AN1xParam::Type::Scene2, i, patch.getParameter(AN1xParam::Type::Scene2, i));
     }
 
     for (int i = 0; i < AN1x::StepSequencerMaxSize; i++) {
-        if (AN1x::isNull(AN1x::ParamType::StepSq, i)) continue;
-        setParameter(AN1x::ParamType::StepSq, i, patch.getParameter(AN1x::ParamType::StepSq, i));
+        if (AN1x::isNull(AN1xParam::Type::StepSq, i)) continue;
+        setParameter(AN1xParam::Type::StepSq, i, patch.getParameter(AN1xParam::Type::StepSq, i));
     }
 
 }
@@ -209,15 +209,15 @@ void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 
 }
 
-void QAN1xEditor::setParameter(AN1x::ParamType type, unsigned char param, int value)
+void QAN1xEditor::setParameter(AN1xParam::Type type, unsigned char param, int value)
 {
     switch (type)
     {
-        case AN1x::ParamType::System: setSystemParameter((AN1x::SystemParam)param, value); break;
-        case AN1x::ParamType::Common: setCommonParameter((AN1x::CommonParam)param, value); break;
-        case AN1x::ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
-        case AN1x::ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
-        case AN1x::ParamType::StepSq: setSequenceParameter((AN1x::SeqParam)param, value); break;
+        case AN1xParam::Type::System: setSystemParameter((AN1x::SystemParam)param, value); break;
+        case AN1xParam::Type::Common: setCommonParameter((AN1x::CommonParam)param, value); break;
+        case AN1xParam::Type::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
+        case AN1xParam::Type::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
+        case AN1xParam::Type::StepSq: setSequenceParameter((AN1x::SeqParam)param, value); break;
     }
 }
 
@@ -229,6 +229,11 @@ void QAN1xEditor::setModWheel(int value)
 void QAN1xEditor::setTrackData(const std::vector<int>& trackData)
 {
     ui.FreeEG->setTrackData(trackData);
+}
+
+Browser* QAN1xEditor::browser()
+{
+    return ui.browser;
 }
 
 void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
