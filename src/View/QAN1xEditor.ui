@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1234</width>
-    <height>978</height>
+    <width>1241</width>
+    <height>966</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -37,8 +37,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1216</width>
-         <height>939</height>
+         <width>1223</width>
+         <height>927</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -103,41 +103,11 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>111</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="requestVoiceNum">
-            <property name="text">
-             <string>Request voice:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="voiceSpin">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>128</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
               <height>20</height>
              </size>
             </property>
@@ -164,7 +134,7 @@
             <rect>
              <x>170</x>
              <y>40</y>
-             <width>81</width>
+             <width>91</width>
              <height>131</height>
             </rect>
            </property>
@@ -180,7 +150,7 @@
            <widget class="QLabel" name="label_6">
             <property name="geometry">
              <rect>
-              <x>0</x>
+              <x>10</x>
               <y>50</y>
               <width>81</width>
               <height>16</height>
@@ -199,7 +169,7 @@
            <widget class="DialKnob" name="detune">
             <property name="geometry">
              <rect>
-              <x>20</x>
+              <x>30</x>
               <y>20</y>
               <width>41</width>
               <height>31</height>
@@ -239,7 +209,7 @@
            <widget class="QLabel" name="label_7">
             <property name="geometry">
              <rect>
-              <x>0</x>
+              <x>10</x>
               <y>100</y>
               <width>81</width>
               <height>16</height>
@@ -258,7 +228,7 @@
            <widget class="DialKnob" name="separation">
             <property name="geometry">
              <rect>
-              <x>20</x>
+              <x>30</x>
               <y>70</y>
               <width>41</width>
               <height>31</height>
@@ -416,7 +386,7 @@
            <property name="geometry">
             <rect>
              <x>340</x>
-             <y>50</y>
+             <y>40</y>
              <width>71</width>
              <height>22</height>
             </rect>
@@ -438,7 +408,7 @@
            <property name="geometry">
             <rect>
              <x>270</x>
-             <y>50</y>
+             <y>40</y>
              <width>81</width>
              <height>21</height>
             </rect>
@@ -451,7 +421,7 @@
            <property name="geometry">
             <rect>
              <x>340</x>
-             <y>110</y>
+             <y>100</y>
              <width>71</width>
              <height>21</height>
             </rect>
@@ -482,7 +452,7 @@
            <property name="geometry">
             <rect>
              <x>270</x>
-             <y>110</y>
+             <y>100</y>
              <width>61</width>
              <height>22</height>
             </rect>
@@ -500,8 +470,8 @@
           <widget class="CheckBox" name="portamentoCheck">
            <property name="geometry">
             <rect>
-             <x>420</x>
-             <y>140</y>
+             <x>270</x>
+             <y>150</y>
              <width>91</width>
              <height>21</height>
             </rect>
@@ -683,10 +653,10 @@
           <widget class="CheckBox" name="arpSeqCheck">
            <property name="geometry">
             <rect>
-             <x>260</x>
-             <y>140</y>
+             <x>270</x>
+             <y>120</y>
              <width>151</width>
-             <height>21</height>
+             <height>31</height>
             </rect>
            </property>
            <property name="text">
@@ -696,8 +666,8 @@
           <widget class="QGroupBox" name="groupBox_2">
            <property name="geometry">
             <rect>
-             <x>510</x>
-             <y>20</y>
+             <x>420</x>
+             <y>10</y>
              <width>301</width>
              <height>161</height>
             </rect>
@@ -957,9 +927,9 @@
            <widget class="QPushButton" name="requestSystem">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>120</x>
               <y>120</y>
-              <width>91</width>
+              <width>71</width>
               <height>24</height>
              </rect>
             </property>
@@ -967,12 +937,25 @@
              <string>Request</string>
             </property>
            </widget>
+           <widget class="QPushButton" name="sendSystem">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>120</y>
+              <width>71</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QLabel" name="label_13">
            <property name="geometry">
             <rect>
              <x>270</x>
-             <y>80</y>
+             <y>70</y>
              <width>61</width>
              <height>22</height>
             </rect>
@@ -991,7 +974,7 @@
            <property name="geometry">
             <rect>
              <x>340</x>
-             <y>80</y>
+             <y>70</y>
              <width>71</width>
              <height>21</height>
             </rect>
@@ -1000,7 +983,7 @@
           <widget class="QFrame" name="an1xPng">
            <property name="geometry">
             <rect>
-             <x>880</x>
+             <x>940</x>
              <y>0</y>
              <width>251</width>
              <height>181</height>

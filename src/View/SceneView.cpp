@@ -26,7 +26,7 @@ SceneView::SceneView(QWidget *parent)
 
 void SceneView::setAsScene(bool isScene2)
 {
-	AN1xParam::Type type =  isScene2 ? AN1xParam::Type::Scene2 : AN1xParam::Type::Scene1;
+	ParamType type =  isScene2 ? ParamType::Scene2 : ParamType::Scene1;
 
 	ui_controls = {
 	nullptr,

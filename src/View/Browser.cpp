@@ -2,6 +2,7 @@
 #include "Model/PatchMemory.h"
 #include "Model/PatchMemory.h"
 #include <algorithm>
+#include <QMessageBox>
 
 Browser::Browser(QWidget *parent)
 	: QWidget(parent)
@@ -14,6 +15,7 @@ Browser::Browser(QWidget *parent)
 	}
 
 	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedIndexes());});
+	connect(ui.sendButton, &QPushButton::clicked, [&] {PatchMemory::sendToAn1x(getSelectedIndexes()); });
 
 	connect(ui.An1xList, &QListWidget::doubleClicked, [&] {
 
@@ -65,4 +67,27 @@ QString Browser::generatePatchText(int index, const char* name)
 	text += name;
 
 	return text;
+}
+
+void Browser::setProgressBarCount(int count)
+{
+	ui.sendButton->setDisabled(true);
+	ui.loadButton->setDisabled(true);
+
+	ui.progressBar->setMaximum(count);
+	ui.progressBar->setValue(0);
+}
+
+void Browser::incrementProgressBar()
+{
+	auto value = ui.progressBar->value() + 1;
+	ui.progressBar->setValue(value);
+
+	if (value != ui.progressBar->maximum()) return;
+
+	ui.progressBar->setValue(0);
+
+	ui.sendButton->setDisabled(false);
+	ui.loadButton->setDisabled(false);
+
 }

@@ -41,7 +41,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 		if (ui_controls[i] == nullptr) continue;
 
 		ui_controls[i]->setCurrentValueAsDefault();
-		ui_controls[i]->setParam(AN1xParam::Type::Common, (AN1x::CommonParam)i + AN1x::FreeEGTrigger);
+		ui_controls[i]->setParam(ParamType::Common, (AN1x::CommonParam)i + AN1x::FreeEGTrigger);
 	}
 
 	scene = new FreeEGScene(ui.egView);
@@ -59,7 +59,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 
 	ui.keyTrack->showPlusOnPositives(true);
 
-	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::sendCommonBulk(); });
+	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::EGTrackDataChanged(getTrackData()); });
 }
 
 FreeEGWidget::~FreeEGWidget()

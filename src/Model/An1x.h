@@ -4,20 +4,13 @@
 #include <string>
 #include <vector>
 
-struct AN1xParam {
-
-	enum class Type {
-		System,
-		Common,
-		Scene1,
-		Scene2,
-		StepSq,
-		Unknown
-	};
-
-	const Type type;
-	const unsigned char parameter;
-	const int value;
+enum class ParamType {
+	System,
+	Common,
+	Scene1,
+	Scene2,
+	StepSq,
+	Unknown
 };
 
 namespace AN1x
@@ -267,11 +260,11 @@ namespace AN1x
 	unsigned char getScene(bool isScene2);
 
 
-	std::vector<unsigned char> getHeader(AN1xParam::Type p);
+	std::vector<unsigned char> getHeader(ParamType p);
 
-	int getOffset(AN1xParam::Type t, int p);
-	bool isNull(AN1xParam::Type t, int p);
-	bool isTwoByteParameter(AN1xParam::Type t, int p);
+	int getOffset(ParamType t, int p);
+	bool isNull(ParamType t, int p);
+	bool isTwoByteParameter(ParamType t, int p);
 
 	const char* getFrequencyByValue(int value);
 	const char* getLFOFreqByValue(int value);
@@ -289,5 +282,6 @@ namespace AN1x
 
 	//generates MIDI message for getting perticular voice
 	std::vector<unsigned char> voiceRequest(int voiceNumber);
+	void addCheckSum(std::vector<unsigned char>& message);
 
 }

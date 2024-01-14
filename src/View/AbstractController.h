@@ -5,12 +5,12 @@ class AbstractController
 {
 protected:
 	
-	AN1xParam::Type type = AN1xParam::Type::Unknown;
+	ParamType type = ParamType::Unknown;
 	unsigned char parameter;
 	int defaultValue{ 0 };
 public:
 
-	void setParam(AN1xParam::Type t, unsigned char p) {
+	void setParam(ParamType t, unsigned char p) {
 		this->type = t;
 		this->parameter = p;
 	};

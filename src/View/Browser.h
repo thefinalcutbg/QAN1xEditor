@@ -12,13 +12,16 @@ public:
 
 	void setPatchName(int idx, const std::string& name);
 
+	QString generatePatchText(int index, const char* name);
+
+	void setProgressBarCount(int count);
+	void incrementProgressBar();
+
 	~Browser();
 
 private:
 
 	std::vector<int> getSelectedIndexes();
-
-	QString generatePatchText(int index, const char* name);
 
 	Ui::BrowserClass ui;
 };

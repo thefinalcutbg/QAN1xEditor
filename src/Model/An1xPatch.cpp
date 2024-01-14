@@ -2,7 +2,7 @@
 
 using namespace AN1x;
 
-std::array<unsigned char, An1xPatch::SystemSize> An1xPatch::m_system {
+std::array<unsigned char, An1xPatch::SystemSize> An1xPatch::s_system {
 	0x4, 0x0, 0x40, 0x4, 0x0, 0x0, 0x0, 0x7F, 0x0, 0x0, 0x10, 0x1, 0x1, 0x1, 0x7, 0x4, 0x40, 0xD, 0xC, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x0
 };
 
@@ -11,12 +11,10 @@ An1xPatch::An1xPatch() :
 
 {}
 
-unsigned char* An1xPatch::getParameterAddress(AN1xParam::Type type, unsigned char parameter)
+unsigned char* An1xPatch::getParameterAddress(ParamType type, unsigned char parameter)
 {
 	return const_cast<unsigned char*>(const_cast<const An1xPatch*>(this)->getParameterAddress(type, parameter));
 }
-
-
 
 An1xPatch::An1xPatch(const std::vector<unsigned char> bulkMsg)
 {
@@ -32,7 +30,7 @@ An1xPatch::An1xPatch(const std::vector<unsigned char> bulkMsg)
 	}
 }
 
-std::vector<unsigned char> An1xPatch::setParameter(AN1xParam::Type type, unsigned char parameter, int value)
+std::vector<unsigned char> An1xPatch::setParameter(ParamType type, unsigned char parameter, int value)
 {
 
 	auto paramAddress = getParameterAddress(type, parameter);
@@ -72,13 +70,43 @@ bool An1xPatch::setSystemData(const std::vector<unsigned char>& bulkMessage)
 
 	for (int i = 0; i < SystemSize; i++)
 	{
-		m_system[i] = bulkMessage[i + headerSize];
+		s_system[i] = bulkMessage[i + headerSize];
 	}
 
 	return true;
 }
 
-int An1xPatch::getParameter(AN1xParam::Type type, unsigned char param) const
+std::vector<unsigned char> An1xPatch::getDataMessage(ParamType type) const
+{
+	std::vector<unsigned char> result;
+
+	switch (type)
+	{
+		case ParamType::System: return getSystemData();
+		case ParamType::Common:
+			result = { 0xF0, 0x43, 0x00, 0x5C, 0x0C, 0x68, 0x10, 0x00, 0x00 };
+			for (int i = 0; i < CommonSize; i++) result.push_back(m_data[i]);
+			break;
+		case ParamType::Scene1:
+			result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x74, 0x10, 0x10, 0x00 };
+			for (int i = CommonSize; i < CommonSize + SceneSize; i++) result.push_back(m_data[i]);
+			break;
+		case ParamType::Scene2:
+			result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x74, 0x10, 0x11, 0x00 };
+			for (int i = CommonSize + SceneSize; i < CommonSize + (SceneSize*2); i++) result.push_back(m_data[i]);
+			break;
+		case ParamType::StepSq:
+			result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x46, 0x10, 0xE, 0x00 };
+			for (int i = CommonSize + (SceneSize*2); i < CommonSize + (SceneSize * 2) + SeqSize; i++) result.push_back(m_data[i]);
+			break;
+	}	
+
+	AN1x::addCheckSum(result);
+
+	return result;
+}
+
+int An1xPatch::getParameter(ParamType type, unsigned char param) const
 {
 	if (AN1x::isNull(type, param)) return 0;
 
@@ -98,9 +126,17 @@ int An1xPatch::getParameter(AN1xParam::Type type, unsigned char param) const
 
 }
 
+void An1xPatch::setTrackData(const std::vector<int>& data)
+{
+	for (int i = 0; i < data.size(); i++)
+	{
+		m_data[AN1x::CommonParam::FreeEgData + i] = data[i];
+	}
+}
+
 std::vector<int> An1xPatch::getTrackData() const
 {
-	auto param_ptr = getParameterAddress(AN1xParam::Type::Common, AN1x::FreeEgData);
+	auto param_ptr = getParameterAddress(ParamType::Common, AN1x::FreeEgData);
 
 	std::vector<int> result;
 
@@ -138,8 +174,21 @@ std::string An1xPatch::getName() const
 	return result;
 }
 
+std::vector<unsigned char> An1xPatch::getSystemData()
+{
+	std::vector<unsigned char> result;
 
-const unsigned char* An1xPatch::getParameterAddress(AN1xParam::Type type, unsigned char parameter) const
+	result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x1C, 0x00, 0x00, 0x00 };
+	
+	for (auto value : s_system) result.push_back(value);
+
+	addCheckSum(result);
+
+	return result;
+}
+
+
+const unsigned char* An1xPatch::getParameterAddress(ParamType type, unsigned char parameter) const
 {
 	unsigned char* paramAddress = nullptr;
 
@@ -151,8 +200,8 @@ const unsigned char* An1xPatch::getParameterAddress(AN1xParam::Type type, unsign
 		CommonSize + (SceneSize * 2)
 	};
 
-	if (type == AN1xParam::Type::System) {
-		return &m_system[parameter];
+	if (type == ParamType::System) {
+		return &s_system[parameter];
 	}
 	else
 	{

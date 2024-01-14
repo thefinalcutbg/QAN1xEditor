@@ -6,7 +6,6 @@
 #include <qdebug.h>
 std::array<An1xPatch, 128> s_patches;
 
-std::stack<int> sendStack;
 std::stack<int> loadStack;
 
 Browser* browser{ nullptr };
@@ -21,12 +20,33 @@ void PatchMemory::loadFromAn1x(const std::vector<int>& indexes)
 		loadStack.push(indexes[i]);
 	}
 
+	browser->setProgressBarCount(loadStack.size());
+
 	MidiMaster::requestVoice(loadStack.top());
 }
 
-void PatchMemory::sendToSAn1x(const std::vector<int>& indexes)
+void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 {
+	if (indexes.empty()) return;
 
+	browser->setProgressBarCount(indexes.size());
+
+	for (auto idx : indexes) {
+
+		if (idx < 0 || idx > 127) continue;
+
+		Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
+
+		for (auto value : s_patches[idx].rawData()) msg.push_back(value);
+		
+		AN1x::addCheckSum(msg);
+
+		browser->incrementProgressBar();
+
+		MidiMaster::sendBulk(msg);
+
+
+	}
 }
 
 void PatchMemory::setBrowser(Browser* b)
@@ -45,8 +65,11 @@ void PatchMemory::patchRecieved(const An1xPatch& patch)
 		browser->setPatchName(recievedIdx, patch.getName());
 	}
 
-	if (loadStack.empty()) return;
+	browser->incrementProgressBar();
 
+	if (loadStack.empty()) {
+		return;
+	}
 	MidiMaster::requestVoice(loadStack.top());
 
 }
@@ -56,4 +79,6 @@ void PatchMemory::loadAn1xMemPatch(int index)
 	if (index < 0 || index > 127) return;
 
 	MidiMaster::setCurrentPatch(s_patches[index]);
+
+	
 }

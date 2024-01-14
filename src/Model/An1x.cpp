@@ -6,27 +6,27 @@ unsigned char AN1x::getScene(bool isScene2)
 	return isScene2 ? 0x11 : 0x10;
 }
 
-std::vector<unsigned char> AN1x::getHeader(AN1xParam::Type p)
+std::vector<unsigned char> AN1x::getHeader(ParamType p)
 {
 
 	switch (p)
 	{
-		case AN1xParam::Type::System: return { 0xF0, 0x43, 0x10, 0x5C, 0x00, 0x00 };
-		case AN1xParam::Type::Common: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00 };
-		case AN1xParam::Type::Scene1: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x10 };
-		case AN1xParam::Type::Scene2: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x11 };
-		case AN1xParam::Type::StepSq: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E };
+		case ParamType::System: return { 0xF0, 0x43, 0x10, 0x5C, 0x00, 0x00 };
+		case ParamType::Common: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x00 };
+		case ParamType::Scene1: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x10 };
+		case ParamType::Scene2: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x11 };
+		case ParamType::StepSq: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E };
 	}
 
 	return {};
 }
 
-int AN1x::getOffset(AN1xParam::Type t, int parameter)
+int AN1x::getOffset(ParamType t, int parameter)
 {
 
 	switch (t)
 	{
-		case AN1xParam::Type::System:
+		case ParamType::System:
 		{
 			static const std::map<int, int> parameterToOffset{
 				//{MasterTune, 341},
@@ -41,8 +41,8 @@ int AN1x::getOffset(AN1xParam::Type t, int parameter)
 		}
 			break;
 
-		case AN1xParam::Type::Scene1:
-		case AN1xParam::Type::Scene2:
+		case ParamType::Scene1:
+		case ParamType::Scene2:
 		{
 			static const std::map<int, int> parameterToOffset{
 			{PEGSwitch, 1},
@@ -78,7 +78,7 @@ int AN1x::getOffset(AN1xParam::Type t, int parameter)
 
 			break;
 		}
-		case AN1xParam::Type::Common:
+		case ParamType::Common:
 		{
 			static const std::map<int, int> parameterToOffset{
 				{SceneSelect, 1},
@@ -99,7 +99,7 @@ int AN1x::getOffset(AN1xParam::Type t, int parameter)
 	return 0;
 }
 
-bool AN1x::isNull(AN1xParam::Type t, int p)
+bool AN1x::isNull(ParamType t, int p)
 {
 	static const std::set<int> s_commonNull
 	{
@@ -141,32 +141,32 @@ bool AN1x::isNull(AN1xParam::Type t, int p)
 
 	switch (t)
 	{
-		case AN1xParam::Type::System:
+		case ParamType::System:
 			return p == AN1x::NullCommon1;
-		case AN1xParam::Type::Scene1:
-		case AN1xParam::Type::Scene2:
+		case ParamType::Scene1:
+		case ParamType::Scene2:
 			return s_sceneNull.count(p);
-		case AN1xParam::Type::Common:
+		case ParamType::Common:
 			return s_commonNull.count(p);
-		case AN1xParam::Type::StepSq:
+		case ParamType::StepSq:
 			return p == AN1x::SeqNull1 || p == AN1x::SeqNull2;
 			
 	}
 	return false;
 }
 
-bool AN1x::isTwoByteParameter(AN1xParam::Type t, int p)
+bool AN1x::isTwoByteParameter(ParamType t, int p)
 {
 	switch (t)
 	{
-		case AN1xParam::Type::System:
+		case ParamType::System:
 			return p == AN1x::MasterTune;
-		case AN1xParam::Type::Common:
-			return isNull(AN1xParam::Type::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
-		case AN1xParam::Type::Scene1:
-		case AN1xParam::Type::Scene2:
-			return isNull(AN1xParam::Type::Scene1, (AN1x::SceneParam)(p + 1)) && p + 1 != SceneParam::reserve;
-		case AN1xParam::Type::StepSq:
+		case ParamType::Common:
+			return isNull(ParamType::Common, (AN1x::CommonParam)(p + 1)) && p + 1 != CommonParam::reserved;
+		case ParamType::Scene1:
+		case ParamType::Scene2:
+			return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1)) && p + 1 != SceneParam::reserve;
+		case ParamType::StepSq:
 			return false; //everything is 1 byte
 	}
 
@@ -568,4 +568,21 @@ std::vector<unsigned char> AN1x::voiceRequest(int voiceNumber)
 	}
 
 	return { 0xF0, 0x43, 0x20, 0x5C, 0x11, (unsigned char)voiceNumber, 00, penultimateByte, 0xF7 };
+}
+
+
+void AN1x::addCheckSum(std::vector<unsigned char>& message)
+{
+	unsigned char sum = 0x00;
+
+	for (int i = 4; i < message.size(); i++) {
+
+		sum += message[i]; //intended arithmetic overflow
+	}
+
+	unsigned char checkSum = (~sum + 1) & 0x7F;
+
+	message.push_back(checkSum);
+
+	message.push_back(0xF7);
 }

@@ -202,7 +202,7 @@ DialKnob::DialKnob(QWidget *parent)
 
 	connect(this, &QDial::valueChanged, 
 		[&](int value) {
-			if (type == AN1xParam::Type::Unknown) return;
+			if (type == ParamType::Unknown) return;
 			GlobalWidgets::statusBar->showMessage(getValueText());
 			MidiMaster::setParam(type, parameter, value);
 		}
@@ -267,7 +267,7 @@ ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
 	connect(this, &QComboBox::currentIndexChanged, 
 		[&](int value) { 
-			if (type == AN1xParam::Type::Unknown) return;
+			if (type == ParamType::Unknown) return;
 
 			GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(value));
 			if (m_isNoteCombo) value = 127 - value;
@@ -322,7 +322,7 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 	installEventFilter(this);
 
 	connect(this, &QSlider::valueChanged, [&](int value) {
-		if (type == AN1xParam::Type::Unknown) return;
+		if (type == ParamType::Unknown) return;
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
 			MidiMaster::setParam(type, parameter, value);
 		}
@@ -378,7 +378,7 @@ bool EGSlider::event(QEvent* e)
 CheckBox::CheckBox(QWidget* parent) : QCheckBox(parent)
 {
 	connect(this, &QCheckBox::stateChanged, [&](bool checked) {
-			if (type == AN1xParam::Type::Unknown) return;
+			if (type == ParamType::Unknown) return;
 			MidiMaster::setParam(type, parameter, checked);
 		}
 	);
@@ -401,7 +401,7 @@ void CheckBox::setValue(int value)
 SpinBox::SpinBox(QWidget* parent) : QSpinBox(parent)
 {
 	connect(this, &QSpinBox::valueChanged, [&](int value) {
-			if (type == AN1xParam::Type::Unknown) return;
+			if (type == ParamType::Unknown) return;
 			MidiMaster::setParam(type, parameter, value);
 		}
 	);
