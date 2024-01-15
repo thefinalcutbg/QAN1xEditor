@@ -914,7 +914,7 @@ void FxEq::setBypass()
         QSignalBlocker r(ui.revBypass);
         ui.dlyBypass->setChecked(true);
         ui.revBypass->setChecked(true);
-        MidiMaster::setParam(ParamType::System, AN1x::EffectBypass, 4);
+        MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, 4);
     }
 
     bool dly = ui.dlyBypass->isChecked();
@@ -924,7 +924,7 @@ void FxEq::setBypass()
 
     for (int i = 0; i < 4; i++) {
         if (value[i]) {
-            MidiMaster::setParam(ParamType::System, AN1x::EffectBypass, i);
+            MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, i);
         }
     }
 

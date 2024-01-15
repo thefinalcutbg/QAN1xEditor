@@ -11,7 +11,7 @@ VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 
 			for (int i = 0; i < 10; i++)
 			{
-				MidiMaster::setParam(ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
+				MidiMaster::parameterChanged(ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
 			}
 		}
 	);

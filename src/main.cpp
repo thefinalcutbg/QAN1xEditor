@@ -1,10 +1,12 @@
 #include <QApplication>
 #include <QDebug>
 #include "View/QAN1xEditor.h"
-#include "RtMidi.h"
+#include "Database/Database.h"
 
 int main(int argc, char* argv[])
 {
+	Db::createIfNotExist();
+
 	QApplication a(argc, argv);
 
 	a.setWheelScrollLines(1);

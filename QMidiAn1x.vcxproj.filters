@@ -40,24 +40,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QMidi\RtMidi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QMidi\qmidiin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QMidi\qmidimapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QMidi\qmidimessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QMidi\qmidiout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QMidi\qmidipianoroll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\View\SceneView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,11 +88,41 @@
     <ClCompile Include="src\Model\PatchMemory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\sqLite3\shell.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\sqLite3\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Database\Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\qmidiin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\qmidimapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\qmidimessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\qmidiout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\qmidipianoroll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\QMidi\RtMidi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\An1File.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\PatchDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QMidi\RtMidi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model\MidiMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,23 +150,26 @@
     <ClInclude Include="src\Model\PatchMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\sqLite3\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sqLite3\sqlite3ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database\Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\QMidi\RtMidi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\An1File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PatchDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="qmidi\qmidiin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qmidi\qmidimapper.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qmidi\qmidimessage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qmidi\qmidiout.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qmidi\qmidipianoroll.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\View\SceneView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -183,6 +198,21 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\Browser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\QMidi\qmidiin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\QMidi\qmidimapper.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\QMidi\qmidimessage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\QMidi\qmidiout.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\QMidi\qmidipianoroll.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

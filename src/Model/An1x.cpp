@@ -1,12 +1,13 @@
 #include "An1x.h"
 #include <array>
 
+
 unsigned char AN1x::getScene(bool isScene2)
 {
 	return isScene2 ? 0x11 : 0x10;
 }
 
-std::vector<unsigned char> AN1x::getHeader(ParamType p)
+Message AN1x::getHeader(ParamType p)
 {
 
 	switch (p)

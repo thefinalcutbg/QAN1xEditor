@@ -1,5 +1,5 @@
 #include "QAN1xEditor.h"
-#include "qmidimessage.h"
+
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
@@ -61,29 +61,29 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
 
     //LAYER
-    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
-    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
-    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
+    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
+    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
+    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
     connect(ui.unison, &QGroupBox::clicked, [=](bool checked) {
 
         if (ui.single->isChecked())
         {
-            MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
+            MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Single : AN1x::Unison);
         }
         else if (ui.dual->isChecked())
         {
-            MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
+            MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Dual : AN1x::Unison);
         }
         else if (ui.split->isChecked())
         {
-            MidiMaster::setParam(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
+            MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !checked ? AN1x::Split : AN1x::SplitUnison);
         }
         }
     );
 
-    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::SceneSelect, 0); });
-    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::SceneSelect, 1); });
-    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::SceneSelect, 2); });
+    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 0); });
+    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 1); });
+    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 2); });
 
     connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
 
@@ -161,7 +161,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 }
 
-void QAN1xEditor::setPatch(const An1xPatch& patch)
+void QAN1xEditor::setPatch(const AN1xPatch& patch)
 {
 
     for (int i = 0; i < AN1x::FreeEgData; i++) {
@@ -184,7 +184,7 @@ void QAN1xEditor::setPatch(const An1xPatch& patch)
         setParameter(ParamType::StepSq, i, patch.getParameter(ParamType::StepSq, i));
     }
 
-    ui.FreeEG->setTrackData(patch.getTrackData());
+    ui.FreeEG->setTrackData(patch.getFreeEGData());
 
 }
 
@@ -273,7 +273,7 @@ void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2
 
 void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 {
-    if (p >= AN1x::CommonMaxSize) return;
+    if (p >= AN1x::FreeEgData) return;
 
     //name edit
     if (p <= AN1x::Name10) {

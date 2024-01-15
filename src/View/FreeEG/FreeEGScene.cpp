@@ -47,7 +47,7 @@ FreeEGScene::FreeEGScene(QObject *parent)
 
 }
 
-std::vector<int> FreeEGScene::getTrackData()
+std::vector<int> FreeEGScene::getFreeEGData()
 {
 	std::vector<int> result;
 

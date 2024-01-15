@@ -22,6 +22,7 @@ public:
 private:
 
 	std::vector<int> getSelectedIndexes();
+	void importAN1FileButtonClicked();
 
 	Ui::BrowserClass ui;
 };

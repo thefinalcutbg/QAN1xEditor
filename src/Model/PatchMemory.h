@@ -8,7 +8,7 @@ namespace PatchMemory {
 
 	void loadFromAn1x(const std::vector<int>& indexes);
 	void sendToAn1x(const std::vector<int>& indexes);
-	void setBrowser(Browser* b);
-	void patchRecieved(const An1xPatch& patch);
+	void setBrowserView(Browser* b);
+	void patchRecieved(const AN1xPatch& patch);
 	void loadAn1xMemPatch(int index);
 };

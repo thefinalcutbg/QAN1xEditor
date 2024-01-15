@@ -21,7 +21,7 @@ public:
 
 	void setCommonParameter(AN1x::CommonParam p, int value);
 
-	std::vector<int> getTrackData();
+	std::vector<int> getFreeEGData();
 	void setTrackData(const std::vector<int>& data);
 
 	Ui::FreeEGWidgetClass ui;

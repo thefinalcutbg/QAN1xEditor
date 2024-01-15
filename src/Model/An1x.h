@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+typedef std::vector<unsigned char> Message;
+
 enum class ParamType {
 	System,
 	Common,
@@ -21,8 +23,6 @@ namespace AN1x
 	enum Delay : unsigned char { LCR, LR, Echo, Cross, TempoDelay };
 	enum Reverb : unsigned char { Hall1, Hall2, Room1, Room2, Room3, Stage1, Stage2, Plate };
 	
-
-
 	enum SystemParam
 	{
 		MasterTune,
@@ -156,8 +156,8 @@ namespace AN1x
 		FreeEgTrackSceneSw3,
 		FreeEgTrackParam4,
 		FreeEgTrackSceneSw4,
-		FreeEgData,
-		CommonMaxSize
+		FreeEgData, //FreeEG begins from here
+		CommonMaxSize = 1640
 	};
 
 	enum SceneParam : unsigned char
@@ -260,7 +260,7 @@ namespace AN1x
 	unsigned char getScene(bool isScene2);
 
 
-	std::vector<unsigned char> getHeader(ParamType p);
+	Message getHeader(ParamType p);
 
 	int getOffset(ParamType t, int p);
 	bool isNull(ParamType t, int p);

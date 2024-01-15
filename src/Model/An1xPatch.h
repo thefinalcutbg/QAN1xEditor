@@ -2,8 +2,9 @@
 #include "An1x.h"
 #include <array>
 
-class An1xPatch {
+class AN1xPatch {
 
+public:
 	static constexpr int SystemSize = 28;
 	static constexpr int CommonSize = 1640;
 	static constexpr int SceneSize = 116;
@@ -11,8 +12,11 @@ class An1xPatch {
 
 	static constexpr int PatchSize = CommonSize + SceneSize * 2 + SeqSize;
 
+private:
+	//holds the system data
 	static std::array<unsigned char, SystemSize> s_system;
 
+	//holds the current patch data
 	std::array<unsigned char, PatchSize> m_data {0x0};
 
 	unsigned char* getParameterAddress(ParamType type, unsigned char parameter);
@@ -21,33 +25,44 @@ class An1xPatch {
 public:
 
 	//constructs InitNormal patch
-	An1xPatch();
+	AN1xPatch();
 	//constructs patch from AN1x bulk message
-	An1xPatch(const std::vector<unsigned char> bulkMsg);
+	AN1xPatch(const Message bulkMsg);
 
 	//sets the data and returns a midi message for An1x
 	std::vector<unsigned char> setParameter(ParamType type, unsigned char parameter, int value);
 	
 	//sets system data from AN1x message
-	static bool setSystemData(const std::vector<unsigned char>& bulkMessage);
+	static bool setSystemData(const Message& bulkMessage);
 
 	//creates an1x message to set system data
-	static std::vector<unsigned char> getSystemData();
+	static Message getSystemData();
 
-	std::vector<unsigned char> getDataMessage(ParamType type) const;
+	//restore system data to default
+	static void restoreSystemData();
 
-	std::array<unsigned char, PatchSize>& rawData() { return m_data; };
+	//message to set the current patch on the AN1x
+	Message getDataMessage(ParamType type) const;
 
 	//returns value of a given parameter
 	int getParameter(ParamType type, unsigned char param) const;
 	
-	void setTrackData(const std::vector<int>& data);
+	void setFreeEGData(const std::vector<int>& data);
 
 	//return track data
-	std::vector<int> getTrackData() const;
+	std::vector<int> getFreeEGData() const;
+
+	//returns the patch data
+	decltype(m_data)& rawData() { return m_data; }
 
 	//returns patch name
 	std::string getName() const;
 
+	bool operator==(const AN1xPatch& other) const
+	{
+		return m_data == other.m_data;
+	}
 
+	//checks if patch is initialized
+	bool isDefaultInit() const;
 };

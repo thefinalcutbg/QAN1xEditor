@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)QMidi;$(Qt_INCLUDEPATH_);$(SolutionDir)src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_);$(SolutionDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -74,7 +74,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)QMidi;$(Qt_INCLUDEPATH_);$(SolutionDir)src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_);$(SolutionDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies);$(Qt_LIBS_);winmm.lib</AdditionalDependencies>
@@ -105,7 +105,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\QMidi\qmidiin.cpp" />
+    <ClCompile Include="include\QMidi\qmidimapper.cpp" />
+    <ClCompile Include="include\QMidi\qmidimessage.cpp" />
+    <ClCompile Include="include\QMidi\qmidiout.cpp" />
+    <ClCompile Include="include\QMidi\qmidipianoroll.cpp" />
+    <ClCompile Include="include\QMidi\RtMidi.cpp" />
+    <ClCompile Include="include\sqLite3\shell.c" />
+    <ClCompile Include="include\sqLite3\sqlite3.c" />
+    <ClCompile Include="src\Database\Database.cpp" />
+    <ClCompile Include="src\Model\An1File.cpp" />
     <ClCompile Include="src\Model\An1xPatch.cpp" />
+    <ClCompile Include="src\Model\PatchDatabase.cpp" />
     <ClCompile Include="src\Model\PatchMemory.cpp" />
     <ClCompile Include="src\View\ArpSeq.cpp" />
     <ClCompile Include="src\View\Browser.cpp" />
@@ -129,12 +140,6 @@
     <QtUic Include="src\View\FxEq.ui" />
     <QtUic Include="src\View\QAN1xEditor.ui" />
     <QtMoc Include="src\View\QAN1xEditor.h" />
-    <ClCompile Include="QMidi\qmidiin.cpp" />
-    <ClCompile Include="QMidi\qmidimapper.cpp" />
-    <ClCompile Include="QMidi\qmidimessage.cpp" />
-    <ClCompile Include="QMidi\qmidiout.cpp" />
-    <ClCompile Include="QMidi\qmidipianoroll.cpp" />
-    <ClCompile Include="QMidi\RtMidi.cpp" />
     <ClCompile Include="src\View\QAN1xEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\View\SceneView.ui" />
@@ -143,9 +148,20 @@
     <QtMoc Include="src\View\PianoRoll\PianoView.h" />
     <QtMoc Include="src\View\FreeEGWidget.h" />
     <QtMoc Include="src\View\FreeEG\FreeEGScene.h" />
+    <QtMoc Include="include\QMidi\qmidiin.h" />
+    <QtMoc Include="include\QMidi\qmidimapper.h" />
+    <QtMoc Include="include\QMidi\qmidimessage.h" />
+    <QtMoc Include="include\QMidi\qmidiout.h" />
+    <QtMoc Include="include\QMidi\qmidipianoroll.h" />
+    <ClInclude Include="include\QMidi\RtMidi.h" />
+    <ClInclude Include="include\sqLite3\sqlite3.h" />
+    <ClInclude Include="include\sqLite3\sqlite3ext.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Database\Database.h" />
+    <ClInclude Include="src\Model\An1File.h" />
     <ClInclude Include="src\Model\An1xPatch.h" />
     <QtMoc Include="src\View\Browser.h" />
+    <ClInclude Include="src\Model\PatchDatabase.h" />
     <ClInclude Include="src\Model\PatchMemory.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
@@ -159,12 +175,6 @@
     <ClInclude Include="src\Model\An1x.h" />
     <ClInclude Include="src\Model\MidiMaster.h" />
     <QtMoc Include="src\View\SceneView.h" />
-    <QtMoc Include="QMidi\qmidiin.h" />
-    <QtMoc Include="QMidi\qmidimapper.h" />
-    <QtMoc Include="QMidi\qmidimessage.h" />
-    <QtMoc Include="QMidi\qmidiout.h" />
-    <QtMoc Include="QMidi\qmidipianoroll.h" />
-    <ClInclude Include="QMidi\RtMidi.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QAN1xEditor.rc" />

@@ -5,43 +5,38 @@
 #include <vector>
 
 class QAN1xEditor;
-class An1xPatch;
+class AN1xPatch;
 
-typedef std::vector<unsigned char> Message;
 
 namespace MidiMaster
 {
-
 	void setView(QAN1xEditor* v);
 
+	//MIDI connectivity functions
 	void refreshConnection();
-
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
 
-	void setParam(ParamType type, unsigned char parameter, int value);
-
-	void modWheelChange(int value);
-	void pitchChange(int value);
-	//void goToVoice(int value);
-
-
-	void requestVoice(int index);
-	void sendBulk(const Message& m);
+	//called when parameter is changed from UI
+	void parameterChanged(ParamType type, unsigned char parameter, int value);
+	//called when Free EG Track change from UI
+	void FreeEGChanged(const std::vector<int>& trackData);
 
 	void requestSystem();
 	void sendSystem();
+	void restoreSystem();
 
-	void syncBulk(const Message& = {});
+	//used by PatchMemory when requesting voices from AN1x 
+	void requestVoice(int index);
+	void sendBulk(const Message& m);
 
-	void setCurrentPatch(const An1xPatch& p);
-
-	void EGTrackDataChanged(const std::vector<int>& trackData);
+	//setting patch to view
+	void setCurrentPatch(const AN1xPatch& p);
 
 	//PC keyboard as Midi
-
+	void modWheelChange(int value);
+	void pitchChange(int value);
 	void setKbdOctave(int octave);
-
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
 	

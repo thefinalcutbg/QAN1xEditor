@@ -1,8 +1,11 @@
 #include "Browser.h"
 #include "Model/PatchMemory.h"
-#include "Model/PatchMemory.h"
+#include "Model/PatchDatabase.h"
 #include <algorithm>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
+#include <qdebug.h>
 
 Browser::Browser(QWidget *parent)
 	: QWidget(parent)
@@ -16,7 +19,6 @@ Browser::Browser(QWidget *parent)
 
 	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedIndexes());});
 	connect(ui.sendButton, &QPushButton::clicked, [&] {PatchMemory::sendToAn1x(getSelectedIndexes()); });
-
 	connect(ui.An1xList, &QListWidget::doubleClicked, [&] {
 
 		auto indexes = getSelectedIndexes();
@@ -27,13 +29,18 @@ Browser::Browser(QWidget *parent)
 
 	});
 
-	PatchMemory::setBrowser(this);
+	connect(ui.importButton, &QPushButton::clicked, [&] {
+		importAN1FileButtonClicked();
+	});
+
+
+	PatchMemory::setBrowserView(this);
+	PatchDatabase::setBrowserView(this);
 
 }
 
 void Browser::setPatchName(int idx, const std::string& name)
 {
-
 	ui.An1xList->item(idx)->setText(generatePatchText(idx, name.c_str()));
 }
 
@@ -54,6 +61,46 @@ std::vector<int> Browser::getSelectedIndexes()
 	return indexList;
 }
 
+void Browser::importAN1FileButtonClicked()
+{
+
+	QFileDialog dialog(this);
+	dialog.setDirectory(QDir::homePath());
+	dialog.setFileMode(QFileDialog::ExistingFiles);
+	dialog.setNameFilter("An1x file (*.an1)");
+	QStringList fileNames;
+	if (dialog.exec())
+		fileNames = dialog.selectedFiles();
+
+	if (fileNames.empty()) return;
+
+	setProgressBarCount(fileNames.size());
+
+	for (auto& filePath : fileNames)
+	{
+		incrementProgressBar();
+
+		if (filePath.isEmpty()) continue;
+
+		QFile file(filePath);
+
+		if (!file.open(QIODevice::ReadOnly)) continue;
+
+		auto bytes = file.readAll();
+
+		try {
+			PatchDatabase::loadAn1File(std::vector<unsigned char>{bytes.begin(), bytes.end()});;
+		}
+		catch (std::exception) {
+			QMessageBox msgBox;
+			msgBox.setText("The file is corrupted");
+			msgBox.exec();
+		}
+
+		file.close();
+	}
+}
+
 QString Browser::generatePatchText(int index, const char* name)
 {
 	index++;
@@ -71,8 +118,8 @@ QString Browser::generatePatchText(int index, const char* name)
 
 void Browser::setProgressBarCount(int count)
 {
-	ui.sendButton->setDisabled(true);
-	ui.loadButton->setDisabled(true);
+	setDisabled(true);
+	
 
 	ui.progressBar->setMaximum(count);
 	ui.progressBar->setValue(0);
@@ -87,7 +134,7 @@ void Browser::incrementProgressBar()
 
 	ui.progressBar->setValue(0);
 
-	ui.sendButton->setDisabled(false);
-	ui.loadButton->setDisabled(false);
+	setDisabled(false);
+
 
 }

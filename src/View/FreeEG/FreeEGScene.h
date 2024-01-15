@@ -29,7 +29,7 @@ public:
 	
 	void setCurrentIndex(int index);
 	FreeEGScene(QObject *parent);
-	std::vector<int> getTrackData();
+	std::vector<int> getFreeEGData();
 	void setTrackData(const std::vector<int>& trackData);
 	~FreeEGScene();
 

@@ -166,13 +166,13 @@ ArpSeq::ArpSeq(QWidget *parent)
 	ui.controlChange->setCurrentIndex(0);
 
 
-	connect(ui.radioArp, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::ArpSeqSelect, 0); });
-	connect(ui.radioSeq, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::ArpSeqSelect, 1); });
-	connect(ui.radioScene1, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::ArpSeqScene, 0); });
-	connect(ui.radioScene2, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::ArpSeqScene, 1); });
-	connect(ui.radioBothScenes, &QRadioButton::clicked, [=] { MidiMaster::setParam(ParamType::Common, AN1x::ArpSeqScene, 2); });
-	connect(ui.arpType, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::setParam(ParamType::Common, AN1x::ArpTypeSeqNo, index); });
-	connect(ui.seqPatternNo, &QSpinBox::valueChanged, [=](int value) { MidiMaster::setParam(ParamType::Common, AN1x::ArpTypeSeqNo, value - 1); });
+	connect(ui.radioArp, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpSeqSelect, 0); });
+	connect(ui.radioSeq, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpSeqSelect, 1); });
+	connect(ui.radioScene1, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpSeqScene, 0); });
+	connect(ui.radioScene2, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpSeqScene, 1); });
+	connect(ui.radioBothScenes, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpSeqScene, 2); });
+	connect(ui.arpType, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpTypeSeqNo, index); });
+	connect(ui.seqPatternNo, &QSpinBox::valueChanged, [=](int value) { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpTypeSeqNo, value - 1); });
 
 	for (int i = 0; i < ui_controls.size(); i++)
 	{
@@ -184,7 +184,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 		ui_controls[i]->setParam(ParamType::Common, (AN1x::CommonParam)param);
 	}
 
-	connect(ui.seqLength, &QSpinBox::valueChanged, [=](int value) { MidiMaster::setParam(ParamType::StepSq, AN1x::SeqLength, value); });
+	connect(ui.seqLength, &QSpinBox::valueChanged, [=](int value) { MidiMaster::parameterChanged(ParamType::StepSq, AN1x::SeqLength, value); });
 
 	for (int i = 0; i < seq_controls.size(); i++) {
 

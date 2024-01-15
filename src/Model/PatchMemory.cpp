@@ -4,7 +4,7 @@
 #include "View/Browser.h"
 #include <stack>
 #include <qdebug.h>
-std::array<An1xPatch, 128> s_patches;
+std::array<AN1xPatch, 128> s_patches;
 
 std::stack<int> loadStack;
 
@@ -49,12 +49,12 @@ void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 	}
 }
 
-void PatchMemory::setBrowser(Browser* b)
+void PatchMemory::setBrowserView(Browser* b)
 {
 	browser = b;
 }
 
-void PatchMemory::patchRecieved(const An1xPatch& patch)
+void PatchMemory::patchRecieved(const AN1xPatch& patch)
 {
 	int recievedIdx = loadStack.top();
 	loadStack.pop();

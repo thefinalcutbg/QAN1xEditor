@@ -106,24 +106,24 @@ void SceneView::setAsScene(bool isScene2)
 	}
 
 	connect(ui.polyRadio, &QRadioButton::clicked, [=] {
-		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 0);
+		MidiMaster::parameterChanged(type, AN1x::SceneParam::PolyMode, 0);
 		ui.portamentoType->setItemText(0, "Normal");
 		ui.portamentoType->setItemText(1, "Sustain-key");
 		});
 
 	connect(ui.monoRadio, &QRadioButton::clicked, [=] {
-		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 1);
+		MidiMaster::parameterChanged(type, AN1x::SceneParam::PolyMode, 1);
 		ui.portamentoType->setItemText(0, "Full-time");
 		ui.portamentoType->setItemText(1, "Fingered");
 		});
 
 	connect(ui.legatoRadio, &QRadioButton::clicked, [=] {
-		MidiMaster::setParam(type, AN1x::SceneParam::PolyMode, 2);
+		MidiMaster::parameterChanged(type, AN1x::SceneParam::PolyMode, 2);
 		ui.portamentoType->setItemText(0, "Full-time");
 		ui.portamentoType->setItemText(1, "Fingered");
 		});
 
-	connect(ui.lfoReset, &QCheckBox::clicked, [=](bool checked) { MidiMaster::setParam(type, AN1x::SceneParam::LFOResetMode, checked); });
+	connect(ui.lfoReset, &QCheckBox::clicked, [=](bool checked) { MidiMaster::parameterChanged(type, AN1x::SceneParam::LFOResetMode, checked); });
 
 
 	connect(ui.algorithmCombo, &QComboBox::currentIndexChanged,

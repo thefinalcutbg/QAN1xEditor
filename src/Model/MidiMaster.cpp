@@ -1,23 +1,28 @@
 #include "MidiMaster.h"
-#include "qmidimessage.h"
-#include "qmidiout.h"
-#include "qmidiin.h"
+#include "QMidi/qmidimessage.h"
+#include "QMidi/qmidiout.h"
+#include "QMidi/qmidiin.h"
 #include <windows.h>
 #include "View/QAN1xEditor.h"
 #include "An1xPatch.h"
 #include "PatchMemory.h"
 #include <array>
 
+//static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
 
 QAN1xEditor* s_view{ nullptr };
 
-An1xPatch current_patch;
-
-bool handlingMessage = false;
+//patch currently edited
+AN1xPatch current_patch;
 
 int s_kbdOctave{ 5 };
+
+void MidiMaster::setView(QAN1xEditor* v) {	s_view = v; }
+
+//guards against recursion when setting parameters to view
+bool handlingMessage = false;
 
 void sendMessage(const Message& msg)
 {
@@ -39,15 +44,14 @@ void sendMessage(const Message& msg)
 
 void handleSysMsg(const Message& msg)
 {
-
-	if (msg.size() == 1953)  //bulk
+	if (msg.size() == 1953)  //voice bulk recieved
 	{
 		handlingMessage = false;
 		PatchMemory::patchRecieved({ msg });
 		return;
 	}
 
-	if (msg.size() == 39) //system
+	if (msg.size() == 39) //system data recieved
 	{
 		current_patch.setSystemData(msg);
 
@@ -59,7 +63,7 @@ void handleSysMsg(const Message& msg)
 		return;
 	}
 
-	//setting parameter to UI
+	//parameter recieved (AN1x doesnt send AEG ADSR and a few more)
 	std::array<int, 4> header{ 240, 67, 16, 92 };
 
 	for (int i = 0; i < header.size(); i++)
@@ -143,9 +147,38 @@ void MidiMaster::refreshConnection()
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
 }
 
-void MidiMaster::setParam(ParamType type, unsigned char parameter, int value)
+void MidiMaster::connectMidiIn(int idx)
+{
+	if (!s_in) return;
+
+	s_in->closePort();
+
+	if (idx != -1)
+		s_in->openPort(idx);
+}
+
+void MidiMaster::connectMidiOut(int idx)
+{
+	if (!s_out) return;
+
+	s_out->closePort();
+
+	if (idx != -1)
+		s_out->openPort(idx);
+}
+
+
+void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int value)
 {
 	sendMessage(current_patch.setParameter(type, parameter, value));
+}
+
+
+void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
+{
+	current_patch.setFreeEGData(trackData);
+	//sending the whole common bulk
+	sendMessage(current_patch.getDataMessage(ParamType::Common));
 }
 
 void MidiMaster::modWheelChange(int value)
@@ -183,7 +216,7 @@ void MidiMaster::sendBulk(const Message& m)
 {
 	sendMessage(m);
 
-	Sleep(1000);
+	Sleep(500);
 
 	handlingMessage = false;
 }
@@ -195,24 +228,16 @@ void MidiMaster::requestSystem()
 
 void MidiMaster::sendSystem()
 {
-	sendMessage(An1xPatch::getSystemData());
+	sendMessage(AN1xPatch::getSystemData());
 }
 
-void MidiMaster::syncBulk(const Message& m)
+void MidiMaster::restoreSystem()
 {
-	if (s_out == nullptr || !s_out->isPortOpen()) return;
-	if (s_in == nullptr || !s_in->isPortOpen()) return;
-	
-	//sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 }); break; //request System
-
-	//current_patch.setBulkPatch(m);
-	//s_view->setPatch(current_patch);
-
-
-	return;
+	AN1xPatch::restoreSystemData();
 }
 
-void MidiMaster::setCurrentPatch(const An1xPatch& p)
+
+void MidiMaster::setCurrentPatch(const AN1xPatch& p)
 {
 	handlingMessage = true;
 
@@ -226,56 +251,12 @@ void MidiMaster::setCurrentPatch(const An1xPatch& p)
 	sendMessage(p.getDataMessage(ParamType::Scene1)); //Sleep(100);
 	sendMessage(p.getDataMessage(ParamType::Scene2)); //Sleep(100);
 	sendMessage(p.getDataMessage(ParamType::StepSq)); //Sleep(100);
-
-
 }
-
-
-void MidiMaster::EGTrackDataChanged(const std::vector<int>& trackData)
-{
-	if (handlingMessage) return;
-
-	current_patch.setTrackData(trackData);
-
-	sendMessage(current_patch.getDataMessage(ParamType::Common));
-}
-
-void MidiMaster::setView(QAN1xEditor* v) {
-
-	s_view = v;
-}
-
-void MidiMaster::connectMidiIn(int idx)
-{
-	if (!s_in) return;
-
-	s_in->closePort();
-	
-	if(idx != -1)
-		s_in->openPort(idx);
-}
-
-void MidiMaster::connectMidiOut(int idx)
-{
-	if (!s_out) return;
-
-	s_out->closePort();
-
-	if(idx != -1)
-		s_out->openPort(idx);
-}
-
-
-
-//MIDI Keyboard
-
 
 
 void MidiMaster::setKbdOctave(int octave) {
 	s_kbdOctave = octave + 2;
 }
-
-
 
 void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
@@ -314,7 +295,6 @@ void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
 	setNote(note, pressed, velocity);
 };
-
 
 void MidiMaster::setNote(int note, bool on, int velocity) {
 

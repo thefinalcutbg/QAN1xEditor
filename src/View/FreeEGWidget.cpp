@@ -59,7 +59,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 
 	ui.keyTrack->showPlusOnPositives(true);
 
-	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::EGTrackDataChanged(getTrackData()); });
+	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::FreeEGChanged(getFreeEGData()); });
 }
 
 FreeEGWidget::~FreeEGWidget()
@@ -84,9 +84,9 @@ void FreeEGWidget::setCommonParameter(AN1x::CommonParam p, int value)
 	}
 }
 
-std::vector<int> FreeEGWidget::getTrackData()
+std::vector<int> FreeEGWidget::getFreeEGData()
 {
-	return scene->getTrackData();
+	return scene->getFreeEGData();
 }
 
 void FreeEGWidget::setTrackData(const std::vector<int>& data)
