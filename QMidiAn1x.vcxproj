@@ -163,6 +163,7 @@
     <QtMoc Include="src\View\Browser.h" />
     <ClInclude Include="src\Model\PatchDatabase.h" />
     <ClInclude Include="src\Model\PatchMemory.h" />
+    <ClInclude Include="src\View\BrowserTableModel.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />

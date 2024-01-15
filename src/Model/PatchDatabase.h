@@ -10,5 +10,7 @@ namespace PatchDatabase
 
 	void loadAn1File(const std::vector<unsigned char>& data);
 
+	void save();
 
+	void retrieve();
 }

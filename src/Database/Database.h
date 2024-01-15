@@ -43,7 +43,9 @@ public:
     long long asLongLong(int column);
     bool asBool(int column);
     double asDouble(int column);
+    const void* asBlob(int column);
     std::string asString(int column);
+    int getColumnSize(int column);
     void newStatement(const std::string& query);
     bool execute(const std::string& query);
 
@@ -57,6 +59,7 @@ public:
     void bind(int index, int value);
     void bind(int index, double value);
     void bind(int index, long long value);
+    void bind(int index, void* ptr, int size);
     void bindNull(int index);
     //executes already prepared statement with bindings
     bool execute();

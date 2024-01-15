@@ -1,4 +1,6 @@
 #include "An1xPatch.h"
+#include <algorithm>
+#include <qdebug.h>
 
 using namespace AN1x;
 
@@ -10,6 +12,12 @@ std::array<unsigned char, AN1xPatch::SystemSize> AN1xPatch::s_system {system_def
 
 AN1xPatch::AN1xPatch() : m_data{ initData }
 {}
+
+AN1xPatch::AN1xPatch(const void* ptr)
+{
+	std::copy((unsigned char*)ptr, (unsigned char*)ptr+m_data.size(), m_data.begin());
+}
+
 
 AN1xPatch::AN1xPatch(const std::vector<unsigned char> bulkMsg)
 {
@@ -27,7 +35,7 @@ AN1xPatch::AN1xPatch(const std::vector<unsigned char> bulkMsg)
 
 bool AN1xPatch::isDefaultInit() const
 {
-	return m_data == initData;
+	return getName() == "InitNormal";
 }
 
 const unsigned char* AN1xPatch::getParameterAddress(ParamType type, unsigned char parameter) const
@@ -171,6 +179,7 @@ void AN1xPatch::setFreeEGData(const std::vector<int>& data)
 	}
 }
 
+
 std::vector<int> AN1xPatch::getFreeEGData() const
 {
 	auto param_ptr = getParameterAddress(ParamType::Common, AN1x::FreeEgData);
@@ -211,6 +220,12 @@ std::string AN1xPatch::getName() const
 	return result;
 }
 
+
+int AN1xPatch::getType() const
+{
+	return m_data[10];
+}
+
 Message AN1xPatch::getSystemData()
 {
 	Message result;
@@ -223,3 +238,4 @@ Message AN1xPatch::getSystemData()
 
 	return result;
 }
+

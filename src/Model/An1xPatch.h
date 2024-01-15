@@ -24,10 +24,15 @@ private:
 
 public:
 
+	std::string comment;
+
 	//constructs InitNormal patch
 	AN1xPatch();
 	//constructs patch from AN1x bulk message
 	AN1xPatch(const Message bulkMsg);
+
+	//constructs AN1xPatch from blob data
+	AN1xPatch(const void* ptr);
 
 	//sets the data and returns a midi message for An1x
 	std::vector<unsigned char> setParameter(ParamType type, unsigned char parameter, int value);
@@ -57,6 +62,9 @@ public:
 
 	//returns patch name
 	std::string getName() const;
+
+	//returns patch type
+	int getType() const;
 
 	bool operator==(const AN1xPatch& other) const
 	{

@@ -76,9 +76,19 @@ double Db::asDouble(int column)
     return sqlite3_column_double(stmt, column);
 }
 
+const void* Db::asBlob(int column)
+{
+    return sqlite3_column_blob(stmt, column);
+}
+
 std::string Db::asString(int column) { 
     if (sqlite3_column_type(stmt, column) == SQLITE_NULL) return "";
     return reinterpret_cast<const char*>(sqlite3_column_text(stmt, column)); 
+}
+
+int Db::getColumnSize(int column)
+{
+    return sqlite3_column_bytes(stmt, 1);
 }
 
 
@@ -180,6 +190,17 @@ void Db::bind(int index, long long value)
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
 }
 
+void Db::bind(int index, void* ptr, int size)
+{
+    if (stmt == nullptr) return;
+
+    total_bindings++;
+
+
+    successful_bindings +=
+        sqlite3_bind_blob(stmt, index, ptr, size, SQLITE_STATIC) == SQLITE_OK;
+}
+
 void Db::bindNull(int index)
 {
     if (stmt == nullptr) return;
@@ -272,7 +293,7 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name VARCHAR(10), data TEXT)";
+const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name VARCHAR(10), comment TEXT, data BLOB)";
 
 #include <QFileInfo>
 #include <QDir>
