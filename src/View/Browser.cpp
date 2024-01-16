@@ -7,10 +7,55 @@
 #include <QFile>
 #include <qdebug.h>
 
+
 Browser::Browser(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	column_sort.setDynamicSortFilter(true);
+
+	column_sort.setSourceModel(&model);
+	search.setSourceModel(&column_sort);
+	search.setFilterKeyColumn(2);
+	ui.databaseView->setModel(&search);
+
+	//ui.databaseView->setSortingEnabled(true);
+
+	ui.databaseView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	ui.databaseView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+	ui.databaseView->horizontalHeader()->setHighlightSections(false);
+
+	ui.databaseView->verticalHeader()->setVisible(false);
+
+	ui.databaseView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	ui.databaseView->viewport()->setFocusPolicy(Qt::StrongFocus);
+
+	ui.databaseView->setShowGrid(true);
+
+
+	ui.databaseView->verticalHeader()->setDefaultSectionSize(20);
+	ui.databaseView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	ui.databaseView->horizontalHeader()->setStretchLastSection(true);
+
+	ui.databaseView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+	//ui.databaseView->hideColumn(0);
+
+	connect(ui.lineEdit, &QLineEdit::textChanged, [=]
+	{
+			QString text = ui.lineEdit->text();
+			search.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+
+	});
+
+	connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, [&](int column) {
+
+		column_sort.sort(column);
+
+	});
+
 
 	for (int i = 0; i < 128; i++)
 	{
@@ -31,6 +76,13 @@ Browser::Browser(QWidget *parent)
 
 	connect(ui.importButton, &QPushButton::clicked, [&] {
 		importAN1FileButtonClicked();
+	});
+	
+	connect(ui.databaseView, &QTableView::doubleClicked, this, [&](const QModelIndex& index) {
+
+		int idx = search.index(index.row(), 0).data().toInt()-1; //the view numbering starts from 1
+		PatchDatabase::setVoiceAsCurrent(idx);
+
 	});
 
 

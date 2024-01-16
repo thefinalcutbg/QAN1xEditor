@@ -8,6 +8,8 @@ namespace PatchDatabase
 
 	void setBrowserView(Browser* b);
 
+	void setVoiceAsCurrent(int index);
+
 	void loadAn1File(const std::vector<unsigned char>& data);
 
 	void save();

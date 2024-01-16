@@ -120,6 +120,7 @@
     <ClCompile Include="src\Model\PatchMemory.cpp" />
     <ClCompile Include="src\View\ArpSeq.cpp" />
     <ClCompile Include="src\View\Browser.cpp" />
+    <ClCompile Include="src\View\BrowserTableModel.cpp" />
     <ClCompile Include="src\View\ControlMatrixScene.cpp" />
     <ClCompile Include="src\View\FreeEGWidget.cpp" />
     <ClCompile Include="src\View\FreeEG\EGPath.cpp" />
@@ -163,7 +164,7 @@
     <QtMoc Include="src\View\Browser.h" />
     <ClInclude Include="src\Model\PatchDatabase.h" />
     <ClInclude Include="src\Model\PatchMemory.h" />
-    <ClInclude Include="src\View\BrowserTableModel.h" />
+    <QtMoc Include="src\View\BrowserTableModel.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />

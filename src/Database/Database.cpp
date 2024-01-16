@@ -4,11 +4,7 @@
 
 #include <filesystem>
 
-constexpr const char* database_error_msg = 
-    "Неуспешно записване в базата данни.\n"
-    "Уверете се, че пътят към нея е правилен и\n"
-    "че сте стартирали програмата като администратор.\n"
-    ;
+constexpr const char* database_error_msg = "Couldnt create database";
 
 Db::Db(Db* existingConnection)
     :
@@ -293,7 +289,7 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name VARCHAR(10), comment TEXT, data BLOB)";
+const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name VARCHAR(10), song TEXT, artist TEXT, comment TEXT, data BLOB)";
 
 #include <QFileInfo>
 #include <QDir>

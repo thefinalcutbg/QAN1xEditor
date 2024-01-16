@@ -4,6 +4,7 @@
 #include "PatchMemory.h"
 #include "View/Browser.h"
 #include "Database/Database.h"
+#include "MidiMaster.h";
 
 #include <qdebug.h>
 
@@ -16,6 +17,13 @@ void PatchDatabase::setBrowserView(Browser* b)
 	s_browser = b;
 
 	retrieve();
+
+	s_browser->setPatchesToTableView(patches);
+}
+
+void PatchDatabase::setVoiceAsCurrent(int index)
+{
+	MidiMaster::setCurrentPatch(patches[index]);
 }
 
 void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data)
@@ -32,7 +40,7 @@ void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data)
 
 		if (name == "InitNormal" || name == "          ") continue;
 
-		//if (patch.isDefaultInit()) continue;
+		qDebug() << name.c_str();
 
 		patches.push_back(patch);
 	}
@@ -41,6 +49,7 @@ void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data)
 	
 	save();
 
+	s_browser->setPatchesToTableView(patches);
 }
 
 void PatchDatabase::save()
@@ -53,12 +62,14 @@ void PatchDatabase::save()
 
 	for (auto& p : patches) {
 
-		db.newStatement("INSERT INTO patch (type, name, comment, data) VALUES (?,?,?,?)");
+		db.newStatement("INSERT INTO patch (type, name, song, artist, comment, data) VALUES (?,?,?,?,?,?)");
 
 		db.bind(1, p.getType());
 		db.bind(2, p.getName());
-		db.bind(3, p.comment);
-		db.bind(4, p.rawData().data(), AN1xPatch::PatchSize);
+		db.bind(3, p.metadata.song);
+		db.bind(4, p.metadata.artist);
+		db.bind(5, p.metadata.comment);
+		db.bind(6, p.rawData().data(), AN1xPatch::PatchSize);
 
 		db.execute();
 
@@ -69,12 +80,13 @@ void PatchDatabase::save()
 
 void PatchDatabase::retrieve()
 {
-	Db db("SELECT data, comment FROM patch");
+	Db db("SELECT data, song, artist, comment FROM patch");
 	
 	while (db.hasRows()) {
 		
 		patches.emplace_back(db.asBlob(0));
-		patches.back().comment = db.asString(1);
-
+		patches.back().metadata.song = db.asString(1);
+		patches.back().metadata.artist = db.asString(2);
+		patches.back().metadata.comment = db.asString(3);
 	}
 }
