@@ -126,6 +126,7 @@
     <ClCompile Include="src\View\FreeEG\EGPath.cpp" />
     <ClCompile Include="src\View\FreeEG\FreeEGScene.cpp" />
     <ClCompile Include="src\View\FxEq.cpp" />
+    <ClCompile Include="src\View\GlobalWidgets.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoKey.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoView.cpp" />
     <ClCompile Include="src\View\UiWidgets.cpp" />

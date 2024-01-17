@@ -220,16 +220,12 @@ void DialKnob::setCurrentValueAsDefault()
 
 void DialKnob::setValue(int value)
 {
-	
-	//blockSignals(true);
 
 	QDial::setValue(value);
 
 	if (underMouse() && GlobalWidgets::statusBar) {
 		GlobalWidgets::statusBar->showMessage(getValueText());
 	}
-
-	//blockSignals(false);
 }
 
 

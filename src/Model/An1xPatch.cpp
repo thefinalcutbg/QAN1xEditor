@@ -74,6 +74,9 @@ unsigned char* AN1xPatch::getParameterAddress(ParamType type, unsigned char para
 
 Message AN1xPatch::setParameter(ParamType type, unsigned char parameter, int value)
 {
+	if (type != ParamType::System) {
+		is_edited = true;
+	}
 
 	auto paramAddress = getParameterAddress(type, parameter);
 
@@ -180,6 +183,8 @@ void AN1xPatch::setFreeEGData(const std::vector<int>& data)
 	{
 		m_data[AN1x::CommonParam::FreeEgData + i] = data[i];
 	}
+
+	is_edited = true;
 }
 
 

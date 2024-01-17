@@ -154,6 +154,12 @@ void Browser::importAN1FileButtonClicked()
 
 	if (fileNames.empty()) return;
 
+	QMessageBox::StandardButton reply;
+	reply = QMessageBox::question(this, "Import An1 files", "Do you want to skip duplicate patches?",
+		QMessageBox::Yes | QMessageBox::No);
+
+	bool skipDuplicates = reply == QMessageBox::Yes;
+
 	setProgressBarCount(fileNames.size());
 
 	for (auto& filePath : fileNames)
@@ -171,7 +177,7 @@ void Browser::importAN1FileButtonClicked()
 		QFileInfo fileInfo(file.fileName());
 
 		try {
-			PatchDatabase::loadAn1File(std::vector<unsigned char>{bytes.begin(), bytes.end()}, fileInfo.fileName().toStdString());;
+			PatchDatabase::loadAn1FileToBuffer(std::vector<unsigned char>{bytes.begin(), bytes.end()}, fileInfo.fileName().toStdString());;
 		}
 		catch (std::exception) {
 			QMessageBox msgBox;
@@ -181,6 +187,9 @@ void Browser::importAN1FileButtonClicked()
 
 		file.close();
 	}
+
+	PatchDatabase::importFileBufferToDb(skipDuplicates);
+
 }
 
 QString Browser::generatePatchText(int index, const char* name)

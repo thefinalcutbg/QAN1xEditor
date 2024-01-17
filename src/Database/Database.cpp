@@ -1,7 +1,7 @@
 ﻿#include "Database.h"
 
 #include <sqLite3/sqlite3.h>
-
+#include <qdebug.h>
 #include <filesystem>
 
 constexpr const char* database_error_msg = "Couldnt create database";
@@ -186,7 +186,7 @@ void Db::bind(int index, long long value)
         sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
 }
 
-void Db::bind(int index, void* ptr, int size)
+void Db::bind(int index, const void* ptr, int size)
 {
     if (stmt == nullptr) return;
 

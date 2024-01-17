@@ -5,7 +5,9 @@
 #include <windows.h>
 #include "View/QAN1xEditor.h"
 #include "An1xPatch.h"
+#include "View/GlobalWidgets.h"
 #include "PatchMemory.h"
+#include "PatchDatabase.h"
 #include <array>
 
 //static variables
@@ -19,10 +21,21 @@ AN1xPatch current_patch;
 
 int s_kbdOctave{ 5 };
 
-void MidiMaster::setView(QAN1xEditor* v) {	s_view = v; }
 
 //guards against recursion when setting parameters to view
-bool handlingMessage = false;
+bool handlingMessage = true;
+
+void MidiMaster::setView(QAN1xEditor* v) {
+
+	s_view = v;
+
+	handlingMessage = true;
+
+	s_view->setPatch(current_patch);
+
+	handlingMessage = false;
+}
+
 
 void sendMessage(const Message& msg)
 {
@@ -170,6 +183,8 @@ void MidiMaster::connectMidiOut(int idx)
 
 void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int value)
 {
+	if (handlingMessage) return;
+
 	sendMessage(current_patch.setParameter(type, parameter, value));
 }
 
@@ -236,9 +251,9 @@ void MidiMaster::restoreSystem()
 	AN1xPatch::restoreSystemData();
 }
 
-
 void MidiMaster::setCurrentPatch(const AN1xPatch& p)
 {
+
 	handlingMessage = true;
 
 	current_patch = p;
@@ -251,6 +266,18 @@ void MidiMaster::setCurrentPatch(const AN1xPatch& p)
 	sendMessage(p.getDataMessage(ParamType::Scene1)); //Sleep(100);
 	sendMessage(p.getDataMessage(ParamType::Scene2)); //Sleep(100);
 	sendMessage(p.getDataMessage(ParamType::StepSq)); //Sleep(100);
+}
+
+const AN1xPatch& MidiMaster::currentPatch()
+{
+	return current_patch;
+}
+
+void MidiMaster::setCurrentPatchAsNewAndEdited()
+{
+	current_patch.rowid = 0;
+	//lame way to make it "edited"
+	current_patch.setParameter(ParamType::Common, 0, current_patch.getParameter(ParamType::Common, 0));
 }
 
 

@@ -62,6 +62,7 @@ AN1xPatch An1File::getPatch(int index)
 		result.rawData()[patchAddress] = m_data[fileAddress];
 	}
 
+	//getting sequencer
 	int seqOffset = firstPatchSeqBegin + AN1xPatch::SeqSize*index;
 
 	for(int i = 0; i < AN1xPatch::SeqSize; i++)

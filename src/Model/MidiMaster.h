@@ -32,6 +32,8 @@ namespace MidiMaster
 
 	//setting patch to view
 	void setCurrentPatch(const AN1xPatch& p);
+	const AN1xPatch& currentPatch();
+	void setCurrentPatchAsNewAndEdited();
 
 	//PC keyboard as Midi
 	void modWheelChange(int value);

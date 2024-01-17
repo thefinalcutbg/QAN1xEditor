@@ -59,7 +59,7 @@ public:
     void bind(int index, int value);
     void bind(int index, double value);
     void bind(int index, long long value);
-    void bind(int index, void* ptr, int size);
+    void bind(int index, const void* ptr, int size);
     void bindNull(int index);
     //executes already prepared statement with bindings
     bool execute();

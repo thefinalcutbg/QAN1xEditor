@@ -36,6 +36,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Search column:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QComboBox" name="searchTypeCombo">
          <item>
           <property name="text">
@@ -102,7 +109,7 @@
        <item>
         <widget class="QPushButton" name="commentButton">
          <property name="text">
-          <string>Edit Comment</string>
+          <string>Edit metadata</string>
          </property>
         </widget>
        </item>

@@ -490,7 +490,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>InitNormal</string>
+            <string/>
            </property>
            <property name="maxLength">
             <number>10</number>

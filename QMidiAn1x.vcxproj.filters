@@ -23,9 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\View\QAN1xEditor.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
     <QtUic Include="src\View\QAN1xEditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -35,6 +32,9 @@
     <ClCompile Include="src\View\QAN1xEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <QtRcc Include="QAN1xEditor.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -122,6 +122,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\View\BrowserTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\GlobalWidgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

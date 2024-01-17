@@ -9,7 +9,7 @@ class An1File
 
 public:
 
-	const std::string& filename;
+	const std::string filename;
 
 	An1File(const std::vector<unsigned char> bytes, const std::string& filename);
 	AN1xPatch getPatch(int index);

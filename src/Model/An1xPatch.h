@@ -19,6 +19,8 @@ private:
 	//holds the current patch data
 	std::array<unsigned char, PatchSize> m_data {0x0};
 
+	bool is_edited{ false };
+
 	unsigned char* getParameterAddress(ParamType type, unsigned char parameter);
 	const unsigned char* getParameterAddress(ParamType type, unsigned char parameter) const;
 
@@ -59,6 +61,7 @@ public:
 
 	//returns the patch data
 	decltype(m_data)& rawData() { return m_data; }
+	const decltype(m_data)& rawData() const { return m_data; }
 
 	//returns patch name
 	std::string getName() const;
@@ -70,6 +73,8 @@ public:
 	{
 		return m_data == other.m_data;
 	}
+
+	bool isEdited() const { return is_edited; }
 
 	//checks if patch is initialized
 	bool isDefaultInit() const;

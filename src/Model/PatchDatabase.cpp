@@ -5,6 +5,8 @@
 #include "View/Browser.h"
 #include "Database/Database.h"
 #include "MidiMaster.h"
+#include <unordered_set>
+#include "View/GlobalWidgets.h"
 
 Browser* s_browser{ nullptr };
 
@@ -41,6 +43,14 @@ void PatchDatabase::setBrowserView(Browser* b)
 
 void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
+
+	if (MidiMaster::currentPatch().isEdited() &&
+		GlobalWidgets::askQuestion("Save", "Do you want to save current patch?")
+		)
+	{
+		saveVoice(MidiMaster::currentPatch());
+	}
+
 	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
 
 	db.bind(1, rowid);
@@ -59,6 +69,11 @@ void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
 	db.execute("BEGIN TRANSACTION");
 
 	for (auto rowid : rowids) {
+		
+		if (MidiMaster::currentPatch().rowid == rowid) {
+			MidiMaster::setCurrentPatchAsNewAndEdited();
+
+		}
 
 		db.newStatement("DELETE FROM patch WHERE rowid=?");
 
@@ -72,34 +87,81 @@ void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
 	refreshTableView();
 }
 
-void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data, const std::string& filename)
+std::vector<An1File> s_fileBuffer;
+
+void PatchDatabase::loadAn1FileToBuffer(const std::vector<unsigned char>& data, const std::string& filename)
 {
-	An1File file(data, filename);
+	s_fileBuffer.push_back({ data, filename });
+}
+
+void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
+{
+
+	std::unordered_set<std::string> unique_nametype{"InitNormal0", ""};
 
 	Db db;
 
 	db.execute("BEGIN TRANSACTION");
 
-	for (int i = 0; i < file.patchSize(); i++) {
+	for (auto& file : s_fileBuffer)
+	{
 
-		auto patch = file.getPatch(i);
+		for (int i = 0; i < file.patchSize(); i++) {
 
-		auto name = patch.getName();
+			auto patch = file.getPatch(i);
 
-		if (name == "InitNormal" || name == "          ") continue;
+			auto name = patch.getName();
+			auto type = patch.getType();
 
-		db.newStatement("INSERT INTO patch (type, name, file, comment, data) VALUES (?,?,?,?,?)");
+			if (skipDuplicatePatches) {
 
-		db.bind(1, patch.getType());
-		db.bind(2, patch.getName());
-		db.bind(3, file.filename);
-		db.bind(4, "");
-		db.bind(5, patch.rawData().data(), AN1xPatch::PatchSize);
+				auto name = patch.getName();
 
-		db.execute();
+				auto key = name + std::to_string(type);
+
+				if (unique_nametype.count(key)) continue;
+
+				unique_nametype.insert(key);
+			}
+
+			db.newStatement("INSERT INTO patch (type, name, file, comment, data) VALUES (?,?,?,?,?)");
+
+			db.bind(1, type);
+			db.bind(2, name);
+			db.bind(3, file.filename);
+			db.bind(4, "");
+			db.bind(5, patch.rawData().data(), AN1xPatch::PatchSize);
+
+			db.execute();
+		}
+
+
 	}
 
 	db.execute("END TRANSACTION");
+
+	refreshTableView();
+
+	s_fileBuffer.clear();
+}
+
+void PatchDatabase::saveVoice(const AN1xPatch& p)
+{
+	Db db;
+
+	if (p.rowid) {
+		db.newStatement("UPDATE patch SET data=?, type=?, name=? WHERE rowid=?");
+		db.bind(4, p.rowid);
+	}
+	else {
+		db.newStatement("INSERT INTO patch (data, type, name) VALUES(?,?,?)");
+	}
+
+	db.bind(1, p.rawData().data(), AN1xPatch::PatchSize);
+	db.bind(2, p.getType());
+	db.bind(3, p.getName());
+	
+	qDebug() << "SAVE SUCCESSFUL?" << db.execute();
 
 	refreshTableView();
 }

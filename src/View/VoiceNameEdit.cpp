@@ -4,6 +4,7 @@
 VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 	: QLineEdit(parent)
 {
+	setText("InitNormal");
 
 	connect(this, &QLineEdit::textChanged, 
 		[&](const QString& text) {

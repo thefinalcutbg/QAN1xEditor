@@ -17,8 +17,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     GlobalWidgets::statusBar = statusBar();
 
-    MidiMaster::setView(this);
-
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
 
@@ -156,6 +154,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         system_controls[i]->setParam(ParamType::System, (AN1x::SystemParam)i);
     }
  
+    MidiMaster::setView(this);
+
     MidiMaster::refreshConnection();
 
 
