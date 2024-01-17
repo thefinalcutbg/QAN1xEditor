@@ -2,21 +2,12 @@
 
 #include <QAbstractTableModel>
 #include "Model/An1xPatch.h"
-
+#include "Model/PatchRow.h"
 #include <vector>
 
 class BrowserTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
-
-		struct PatchRow {
-		int index = 0;
-		int type = 0;
-		QString name;
-		QString song;
-		QString artist;
-		QString comment;
-	};
 
 	std::vector<PatchRow> list;
 
@@ -26,8 +17,8 @@ class BrowserTableModel : public QAbstractTableModel
 
 public:
 	BrowserTableModel() {}
-	void setData(const std::vector<AN1xPatch> patches);
+	void setData(const std::vector<PatchRow>& rows);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return list.size(); }
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 6; }
+	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 8; }
 
 };

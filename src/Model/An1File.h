@@ -6,9 +6,12 @@ class An1File
 {
 	const std::vector<unsigned char> m_data;
 
+
 public:
 
-	An1File(const std::vector<unsigned char> bytes);
+	const std::string& filename;
+
+	An1File(const std::vector<unsigned char> bytes, const std::string& filename);
 	AN1xPatch getPatch(int index);
 	constexpr int patchSize() { return 128; }
 };

@@ -289,7 +289,7 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name VARCHAR(10), song TEXT, artist TEXT, comment TEXT, data BLOB)";
+const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type TEXT, name TEXT, file TEXT, created_by TEXT, artist TEXT, song TEXT, comment TEXT, data BLOB)";
 
 #include <QFileInfo>
 #include <QDir>

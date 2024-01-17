@@ -22,9 +22,8 @@ public:
 	void setProgressBarCount(int count);
 	void incrementProgressBar();
 
-	void setPatchesToTableView(const std::vector<AN1xPatch> patches) {
+	void setPatchesToTableView(const std::vector<PatchRow>& patches) {
 		model.setData(patches);
-		search.setFilterKeyColumn(2);
 	};
 
 	~Browser();

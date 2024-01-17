@@ -4,33 +4,81 @@
 #include "PatchMemory.h"
 #include "View/Browser.h"
 #include "Database/Database.h"
-#include "MidiMaster.h";
-
-#include <qdebug.h>
-
-std::vector<AN1xPatch> patches;
+#include "MidiMaster.h"
 
 Browser* s_browser{ nullptr };
 
+//private functions:
+void refreshTableView() {
+
+	Db db("SELECT rowid, type, name, file, created_by, song, artist, comment FROM patch");
+
+	std::vector<PatchRow> rows;
+
+	while (db.hasRows()) {
+		rows.emplace_back();
+		rows.back().rowid = db.asRowId(0);
+		rows.back().type = db.asInt(1);
+		rows.back().name = db.asString(2).c_str();
+		rows.back().file = db.asString(3).c_str();
+		rows.back().created_by = db.asString(4).c_str();
+		rows.back().song = db.asString(5).c_str();
+		rows.back().artist = db.asString(6).c_str();
+		rows.back().comment = db.asString(7).c_str();
+	}
+
+	s_browser->setPatchesToTableView(rows);
+}
+
+
+//interface:
 void PatchDatabase::setBrowserView(Browser* b)
 {
 	s_browser = b;
 
-	retrieve();
-
-	s_browser->setPatchesToTableView(patches);
+	refreshTableView();
 }
 
-void PatchDatabase::setVoiceAsCurrent(int index)
+void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
-	MidiMaster::setCurrentPatch(patches[index]);
+	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
+
+	db.bind(1, rowid);
+
+	while (db.hasRows()) {
+
+		MidiMaster::setCurrentPatch(AN1xPatch{db.asRowId(0), db.asBlob(1)});
+		return;
+	}
 }
 
-void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data)
+void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
 {
-	An1File file(data);
+	Db db;
 
-	patches.reserve(patches.size() + file.patchSize());
+	db.execute("BEGIN TRANSACTION");
+
+	for (auto rowid : rowids) {
+
+		db.newStatement("DELETE FROM patch WHERE rowid=?");
+
+		db.bind(1, rowid);
+
+		db.execute();
+	}
+
+	db.execute("END TRANSACTION");
+
+	refreshTableView();
+}
+
+void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data, const std::string& filename)
+{
+	An1File file(data, filename);
+
+	Db db;
+
+	db.execute("BEGIN TRANSACTION");
 
 	for (int i = 0; i < file.patchSize(); i++) {
 
@@ -40,53 +88,19 @@ void PatchDatabase::loadAn1File(const std::vector<unsigned char>& data)
 
 		if (name == "InitNormal" || name == "          ") continue;
 
-		qDebug() << name.c_str();
+		db.newStatement("INSERT INTO patch (type, name, file, comment, data) VALUES (?,?,?,?,?)");
 
-		patches.push_back(patch);
-	}
-
-	patches.shrink_to_fit();
-	
-	save();
-
-	s_browser->setPatchesToTableView(patches);
-}
-
-void PatchDatabase::save()
-{
-	Db db;
-
-	db.execute("BEGIN TRANSACTION");
-
-	db.execute("DELETE FROM patch");
-
-	for (auto& p : patches) {
-
-		db.newStatement("INSERT INTO patch (type, name, song, artist, comment, data) VALUES (?,?,?,?,?,?)");
-
-		db.bind(1, p.getType());
-		db.bind(2, p.getName());
-		db.bind(3, p.metadata.song);
-		db.bind(4, p.metadata.artist);
-		db.bind(5, p.metadata.comment);
-		db.bind(6, p.rawData().data(), AN1xPatch::PatchSize);
+		db.bind(1, patch.getType());
+		db.bind(2, patch.getName());
+		db.bind(3, file.filename);
+		db.bind(4, "");
+		db.bind(5, patch.rawData().data(), AN1xPatch::PatchSize);
 
 		db.execute();
-
 	}
-	
+
 	db.execute("END TRANSACTION");
+
+	refreshTableView();
 }
 
-void PatchDatabase::retrieve()
-{
-	Db db("SELECT data, song, artist, comment FROM patch");
-	
-	while (db.hasRows()) {
-		
-		patches.emplace_back(db.asBlob(0));
-		patches.back().metadata.song = db.asString(1);
-		patches.back().metadata.artist = db.asString(2);
-		patches.back().metadata.comment = db.asString(3);
-	}
-}

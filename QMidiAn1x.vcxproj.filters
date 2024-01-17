@@ -23,7 +23,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="QAN1xEditor.qrc">
+    <QtRcc Include="src\View\QAN1xEditor.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
     <QtUic Include="src\View\QAN1xEditor.ui">
@@ -169,6 +169,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PatchDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\PatchRow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

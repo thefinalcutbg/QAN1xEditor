@@ -4,7 +4,7 @@
 
 constexpr int fileSize = 226230;
 
-An1File::An1File(const std::vector<unsigned char> bytes) : m_data(bytes)
+An1File::An1File(const std::vector<unsigned char> bytes, const std::string& filename) : m_data(bytes), filename(filename)
 {
 	if (bytes.size() != fileSize)
 		throw std::exception("File corrupted");

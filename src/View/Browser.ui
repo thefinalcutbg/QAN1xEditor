@@ -31,8 +31,42 @@
           <string/>
          </property>
          <property name="maxLength">
-          <number>10</number>
+          <number>50</number>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="searchTypeCombo">
+         <item>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Type</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>File</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Created by</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Song</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Artist</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>

@@ -2,4 +2,29 @@
     <qresource prefix="/QMidiAn1x">
         <file>an1x.png</file>
     </qresource>
+    <qresource prefix="/icon">
+        <file>resources/icon0.png</file>
+        <file>resources/icon1.png</file>
+        <file>resources/icon2.png</file>
+        <file>resources/icon3.png</file>
+        <file>resources/icon4.png</file>
+        <file>resources/icon5.png</file>
+        <file>resources/icon6.png</file>
+        <file>resources/icon7.png</file>
+        <file>resources/icon8.png</file>
+        <file>resources/icon9.png</file>
+        <file>resources/icon10.png</file>
+        <file>resources/icon11.png</file>
+        <file>resources/icon12.png</file>
+        <file>resources/icon13.png</file>
+        <file>resources/icon14.png</file>
+        <file>resources/icon15.png</file>
+        <file>resources/icon16.png</file>
+        <file>resources/icon17.png</file>
+        <file>resources/icon18.png</file>
+        <file>resources/icon19.png</file>
+        <file>resources/icon20.png</file>
+        <file>resources/icon21.png</file>
+        <file>resources/icon22.png</file>
+    </qresource>
 </RCC>

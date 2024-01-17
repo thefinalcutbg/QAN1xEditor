@@ -17,10 +17,10 @@ Browser::Browser(QWidget *parent)
 
 	column_sort.setSourceModel(&model);
 	search.setSourceModel(&column_sort);
-	search.setFilterKeyColumn(2);
+	search.setFilterKeyColumn(1);
 	ui.databaseView->setModel(&search);
 
-	//ui.databaseView->setSortingEnabled(true);
+	ui.databaseView->hideColumn(0);
 
 	ui.databaseView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	ui.databaseView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -41,7 +41,11 @@ Browser::Browser(QWidget *parent)
 
 	ui.databaseView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-	//ui.databaseView->hideColumn(0);
+	connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, [&](int index) {
+
+		search.setFilterKeyColumn(index + 1);
+
+	});
 
 	connect(ui.lineEdit, &QLineEdit::textChanged, [=]
 	{
@@ -56,6 +60,30 @@ Browser::Browser(QWidget *parent)
 
 	});
 
+	connect(ui.deleteButton, &QPushButton::clicked, [&]{
+
+		auto idxList = ui.databaseView->selectionModel()->selectedRows();
+
+		std::set<long long>selectedRowids;
+
+		for (auto& idx : idxList) {
+			long long index = search.index(idx.row(), 0).data().toLongLong();
+			selectedRowids.insert(index);
+		}
+
+		if (selectedRowids.empty()) return;
+
+		QMessageBox::StandardButton reply;
+		reply = QMessageBox::question(this, "Warning", "Delete is permanent. Are you sure?",
+			QMessageBox::Yes | QMessageBox::No);
+
+		if (reply == QMessageBox::No) {
+			return;
+		}
+
+		PatchDatabase::deleteSelectedPatches(selectedRowids);
+
+	});
 
 	for (int i = 0; i < 128; i++)
 	{
@@ -80,7 +108,7 @@ Browser::Browser(QWidget *parent)
 	
 	connect(ui.databaseView, &QTableView::doubleClicked, this, [&](const QModelIndex& index) {
 
-		int idx = search.index(index.row(), 0).data().toInt()-1; //the view numbering starts from 1
+		int idx = search.index(index.row(), 0).data().toLongLong();
 		PatchDatabase::setVoiceAsCurrent(idx);
 
 	});
@@ -140,8 +168,10 @@ void Browser::importAN1FileButtonClicked()
 
 		auto bytes = file.readAll();
 
+		QFileInfo fileInfo(file.fileName());
+
 		try {
-			PatchDatabase::loadAn1File(std::vector<unsigned char>{bytes.begin(), bytes.end()});;
+			PatchDatabase::loadAn1File(std::vector<unsigned char>{bytes.begin(), bytes.end()}, fileInfo.fileName().toStdString());;
 		}
 		catch (std::exception) {
 			QMessageBox msgBox;

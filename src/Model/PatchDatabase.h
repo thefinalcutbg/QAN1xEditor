@@ -8,11 +8,10 @@ namespace PatchDatabase
 
 	void setBrowserView(Browser* b);
 
-	void setVoiceAsCurrent(int index);
+	void setVoiceAsCurrent(long long rowid);
 
-	void loadAn1File(const std::vector<unsigned char>& data);
+	void deleteSelectedPatches(const std::set<long long> rowids);
 
-	void save();
+	void loadAn1File(const std::vector<unsigned char>& data, const std::string& filename = {});
 
-	void retrieve();
 }

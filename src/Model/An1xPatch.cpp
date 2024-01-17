@@ -13,7 +13,7 @@ std::array<unsigned char, AN1xPatch::SystemSize> AN1xPatch::s_system {system_def
 AN1xPatch::AN1xPatch() : m_data{ initData }
 {}
 
-AN1xPatch::AN1xPatch(const void* ptr)
+AN1xPatch::AN1xPatch(long long rowid, const void* ptr) : rowid(rowid)
 {
 	std::copy((unsigned char*)ptr, (unsigned char*)ptr+m_data.size(), m_data.begin());
 	

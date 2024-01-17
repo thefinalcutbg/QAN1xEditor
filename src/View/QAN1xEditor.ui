@@ -1030,7 +1030,7 @@
             </property>
             <widget class="Browser" name="browser">
              <attribute name="title">
-              <string>Browser</string>
+              <string>Patch Browser</string>
              </attribute>
             </widget>
             <widget class="SceneView" name="scene1tab">
