@@ -70,10 +70,7 @@ void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
 
 	for (auto rowid : rowids) {
 		
-		if (MidiMaster::currentPatch().rowid == rowid) {
-			MidiMaster::setCurrentPatchAsNewAndEdited();
-
-		}
+		MidiMaster::notifyRowidDelete(rowid);
 
 		db.newStatement("DELETE FROM patch WHERE rowid=?");
 
@@ -161,7 +158,7 @@ void PatchDatabase::saveVoice(const AN1xPatch& p)
 	db.bind(2, p.getType());
 	db.bind(3, p.getName());
 	
-	qDebug() << "SAVE SUCCESSFUL?" << db.execute();
+	db.execute();
 
 	refreshTableView();
 }

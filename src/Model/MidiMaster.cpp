@@ -273,8 +273,10 @@ const AN1xPatch& MidiMaster::currentPatch()
 	return current_patch;
 }
 
-void MidiMaster::setCurrentPatchAsNewAndEdited()
+void MidiMaster::notifyRowidDelete(long long rowid)
 {
+	if (rowid != current_patch.rowid) return;
+
 	current_patch.rowid = 0;
 	//lame way to make it "edited"
 	current_patch.setParameter(ParamType::Common, 0, current_patch.getParameter(ParamType::Common, 0));
