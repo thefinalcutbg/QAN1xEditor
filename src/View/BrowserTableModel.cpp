@@ -1,17 +1,7 @@
 #include "BrowserTableModel.h"
-#include <QIcon>
+#include "FreeFunctions.h"
 
 
-QIcon getTypeIcon(int type) {
-
-    if (type < 1 || type > 22) return QIcon();
-
-    QString qrcPath = ":/icon/resources/icon";
-    qrcPath += QString::number(type);
-    qrcPath += ".png";
-     
-    return QIcon(qrcPath);
-}
 
 QString getTypeText(int type) {
     
@@ -95,7 +85,7 @@ QVariant BrowserTableModel::data(const QModelIndex& index, int role) const
             switch (column)
             {
             case 1:
-                    return getTypeIcon(list[row].type);
+                    return FreeFn::getTypeIcon(list[row].type);
 
                 break;
             default:

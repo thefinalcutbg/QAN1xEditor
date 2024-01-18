@@ -6,7 +6,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <qdebug.h>
-
+#include "FreeFunctions.h"
 
 Browser::Browser(QWidget *parent)
 	: QWidget(parent)
@@ -93,7 +93,8 @@ Browser::Browser(QWidget *parent)
 
 	for (int i = 0; i < 128; i++)
 	{
-		ui.An1xList->addItem(generatePatchText(i, "InitNormal"));
+		ui.An1xList->addItem("");
+		setPatchName(i, "InitNormal", 0);
 	}
 
 	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedIndexes());});
@@ -125,9 +126,10 @@ Browser::Browser(QWidget *parent)
 
 }
 
-void Browser::setPatchName(int idx, const std::string& name)
+void Browser::setPatchName(int idx, const std::string& name, int type)
 {
 	ui.An1xList->item(idx)->setText(generatePatchText(idx, name.c_str()));
+	ui.An1xList->item(idx)->setIcon(FreeFn::getTypeIcon(type));
 }
 
 Browser::~Browser()
@@ -141,8 +143,8 @@ void Browser::recalculateListNames()
 
 		QString number = QString::number(i+1);
 
-		if (i < 10) number += ".   ";
-		else if (i < 100) number += ".  ";
+		if (i+1 < 10) number += ".   ";
+		else if (i+1 < 100) number += ".  ";
 		else number += ". ";
 
 		for (int y = 0; y < number.size(); y++)

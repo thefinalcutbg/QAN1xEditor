@@ -135,7 +135,7 @@ void PatchMemory::patchRecieved(const AN1xPatch& patch)
 	getPatch(recievedIdx) = patch;
 	
 	if (browser) {
-		browser->setPatchName(recievedIdx, patch.getName());
+		browser->setPatchName(recievedIdx, patch.getName(), patch.getType());
 	}
 
 	browser->incrementProgressBar();

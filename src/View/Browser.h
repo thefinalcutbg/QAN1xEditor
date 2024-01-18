@@ -15,7 +15,7 @@ class Browser : public QWidget
 public:
 	Browser(QWidget *parent = nullptr);
 
-	void setPatchName(int idx, const std::string& name);
+	void setPatchName(int idx, const std::string& name, int type);
 
 	QString generatePatchText(int index, const char* name);
 

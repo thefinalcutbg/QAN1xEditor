@@ -126,6 +126,7 @@
     <ClCompile Include="src\View\FreeEGWidget.cpp" />
     <ClCompile Include="src\View\FreeEG\EGPath.cpp" />
     <ClCompile Include="src\View\FreeEG\FreeEGScene.cpp" />
+    <ClCompile Include="src\View\FreeFunctions.cpp" />
     <ClCompile Include="src\View\FxEq.cpp" />
     <ClCompile Include="src\View\GlobalWidgets.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoKey.cpp" />
@@ -169,6 +170,7 @@
     <QtMoc Include="src\View\BrowserTableModel.h" />
     <ClInclude Include="src\Model\PatchRow.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
+    <ClInclude Include="src\View\FreeFunctions.h" />
     <ClInclude Include="src\View\PianoRoll\PianoKey.h" />
     <QtMoc Include="src\View\VoiceNameEdit.h" />
     <QtMoc Include="src\View\UiWidgets.h" />

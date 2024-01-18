@@ -127,6 +127,9 @@
     <ClCompile Include="src\View\GlobalWidgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\FreeFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Model\MidiMaster.h">
@@ -175,6 +178,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\PatchRow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\View\FreeFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
