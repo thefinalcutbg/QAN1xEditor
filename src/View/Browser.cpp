@@ -22,18 +22,17 @@ Browser::Browser(QWidget *parent)
 
 	ui.databaseView->hideColumn(0);
 
-	ui.databaseView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	//ui.databaseView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	ui.databaseView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	ui.databaseView->horizontalHeader()->setHighlightSections(false);
 
 	ui.databaseView->verticalHeader()->setVisible(false);
 
-	ui.databaseView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	ui.databaseView->viewport()->setFocusPolicy(Qt::StrongFocus);
+	ui.databaseView->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
+	ui.databaseView->viewport()->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
 
 	ui.databaseView->setShowGrid(true);
-
 
 	ui.databaseView->verticalHeader()->setDefaultSectionSize(20);
 	ui.databaseView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -45,6 +44,13 @@ Browser::Browser(QWidget *parent)
 
 		search.setFilterKeyColumn(index + 1);
 
+	});
+
+	connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, [&](const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
+	{
+			PatchMemory::rowMoved(start, row);
+
+			recalculateListNames();
 	});
 
 	connect(ui.lineEdit, &QLineEdit::textChanged, [=]
@@ -112,7 +118,7 @@ Browser::Browser(QWidget *parent)
 		PatchDatabase::setVoiceAsCurrent(idx);
 
 	});
-
+	
 
 	PatchMemory::setBrowserView(this);
 	PatchDatabase::setBrowserView(this);
@@ -126,6 +132,28 @@ void Browser::setPatchName(int idx, const std::string& name)
 
 Browser::~Browser()
 {}
+
+void Browser::recalculateListNames()
+{
+	for (int i = 0; i < ui.An1xList->count(); i++)
+	{
+		auto text = ui.An1xList->item(i)->text();
+
+		QString number = QString::number(i+1);
+
+		if (i < 10) number += ".   ";
+		else if (i < 100) number += ".  ";
+		else number += ". ";
+
+		for (int y = 0; y < number.size(); y++)
+		{
+			text[y] = number[y];
+		}
+
+		ui.An1xList->item(i)->setText(text);
+
+	}
+}
 
 std::vector<int> Browser::getSelectedIndexes()
 {
@@ -198,8 +226,8 @@ QString Browser::generatePatchText(int index, const char* name)
 
 	QString text = QString::number(index);
 
-	if (index < 10) text += ".     ";
-	else if (index < 100) text += ".   ";
+	if (index < 10) text += ".   ";
+	else if (index < 100) text += ".  ";
 	else text += ". ";
 
 	text += name;

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <set>
 #include "An1xPatch.h"
 
 class Browser;
@@ -11,4 +12,5 @@ namespace PatchMemory {
 	void setBrowserView(Browser* b);
 	void patchRecieved(const AN1xPatch& patch);
 	void loadAn1xMemPatch(int index);
+	void rowMoved(int from, int to);
 };

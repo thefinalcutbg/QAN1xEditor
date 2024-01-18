@@ -30,6 +30,7 @@ public:
 
 private:
 
+	void recalculateListNames();
 	std::vector<int> getSelectedIndexes();
 	void importAN1FileButtonClicked();
 

@@ -92,7 +92,11 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableView" name="databaseView"/>
+      <widget class="QTableView" name="databaseView">
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -177,6 +181,12 @@
          <width>151</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
        </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>

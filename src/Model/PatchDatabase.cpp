@@ -45,7 +45,7 @@ void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
 
 	if (MidiMaster::currentPatch().isEdited() &&
-		GlobalWidgets::askQuestion("Save", "Do you want to save current patch?")
+		GlobalWidgets::askQuestion("Do you want to save current patch?")
 		)
 	{
 		saveVoice(MidiMaster::currentPatch());
@@ -97,6 +97,17 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 	std::unordered_set<std::string> unique_nametype{"InitNormal0", ""};
 
 	Db db;
+
+	if (skipDuplicatePatches)
+	{
+		db.newStatement("SELECT name, type FROM patch");
+		
+		while (db.hasRows())
+		{
+			unique_nametype.insert(db.asString(1) + db.asString(2));
+			
+		}
+	}
 
 	db.execute("BEGIN TRANSACTION");
 
