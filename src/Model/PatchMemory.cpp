@@ -100,6 +100,8 @@ void PatchMemory::setPatch(const AN1xPatch& p, int index) {
 
 void PatchMemory::patchRecieved(const AN1xPatch& patch)
 {
+	if (loadStack.empty()) return;
+
 	int recievedIdx = loadStack.top();
 	loadStack.pop();
 

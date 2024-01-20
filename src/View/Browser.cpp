@@ -82,6 +82,17 @@ Browser::Browser(QWidget* parent)
 
 	connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
 
+	connect(ui.cancelButton, &QPushButton::clicked, [&] { 
+		
+		PatchMemory::loadFromAn1x({});
+
+		disableWidgets(false);
+		
+		ui.progressBar->setValue(0);
+
+
+	});
+
 	connect(ui.databaseView, &DbTableView::copyRequested, [&] { 
 			ClipboardManager::copyRequestFromDatabase(getSelectedTableRowids());
 	});
@@ -253,6 +264,17 @@ void Browser::importAN1FileButtonClicked()
 
 }
 
+void Browser::disableWidgets(bool disabled)
+{
+	for (auto obj : children()) {
+		if (obj->isWidgetType()) {
+			static_cast<QWidget*>(obj)->setDisabled(disabled);
+		}
+	}
+	ui.progressBar->setTextVisible(disabled);
+	ui.cancelButton->setDisabled(!disabled);
+}
+
 QString Browser::generatePatchText(int index, const char* name)
 {
 	index++;
@@ -270,9 +292,7 @@ QString Browser::generatePatchText(int index, const char* name)
 
 void Browser::setProgressBarCount(int count)
 {
-	setDisabled(true);
-	
-
+	disableWidgets(count);
 	ui.progressBar->setMaximum(count);
 	ui.progressBar->setValue(0);
 }
@@ -286,7 +306,7 @@ void Browser::incrementProgressBar()
 
 	ui.progressBar->setValue(0);
 
-	setDisabled(false);
+	disableWidgets(false);
 
 }
 

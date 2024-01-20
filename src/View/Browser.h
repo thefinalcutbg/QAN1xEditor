@@ -35,5 +35,7 @@ private:
 	std::set<long long> getSelectedTableRowids();
 	void importAN1FileButtonClicked();
 
+	void disableWidgets(bool disabled);
+
 	Ui::BrowserClass ui;
 };
