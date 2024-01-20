@@ -94,8 +94,6 @@ void PatchMemory::setPatch(const AN1xPatch& p, int index) {
 
 	getPatch(index) = p;
 
-	getPatch(index).rowid = 0;
-
 	GlobalWidgets::browser->setPatchName(index, p.getName(), p.getType());
 
 }
@@ -120,5 +118,5 @@ void PatchMemory::loadAn1xMemPatch(int index)
 {
 	if (index < 0 || index > 127) return;
 
-	MidiMaster::setCurrentPatch(getPatch(index));
+	MidiMaster::setCurrentPatch(getPatch(index), { PatchSource::SynthMemory, index });
 }

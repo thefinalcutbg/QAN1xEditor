@@ -7,7 +7,7 @@ void DragDropManager::droppedToDbTable(const std::vector<int>& selectedListItems
 {
 	for (auto idx : selectedListItems)
 	{
-		PatchDatabase::saveVoice(PatchMemory::getPatch(idx));
+		PatchDatabase::saveVoice(PatchMemory::getPatch(idx), 0);
 	}
 }
 

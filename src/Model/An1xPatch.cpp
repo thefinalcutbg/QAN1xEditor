@@ -13,7 +13,7 @@ std::array<unsigned char, AN1xPatch::SystemSize> AN1xPatch::s_system {system_def
 AN1xPatch::AN1xPatch() : m_data{ initData }
 {}
 
-AN1xPatch::AN1xPatch(long long rowid, const void* ptr) : rowid(rowid)
+AN1xPatch::AN1xPatch(long long rowid, const void* ptr)
 {
 	std::copy((unsigned char*)ptr, (unsigned char*)ptr+m_data.size(), m_data.begin());
 	
@@ -74,10 +74,6 @@ unsigned char* AN1xPatch::getParameterAddress(ParamType type, unsigned char para
 
 Message AN1xPatch::setParameter(ParamType type, unsigned char parameter, int value)
 {
-	if (type != ParamType::System) {
-		is_edited = true;
-	}
-
 	auto paramAddress = getParameterAddress(type, parameter);
 
 	auto msg = getHeader(type);
@@ -183,8 +179,6 @@ void AN1xPatch::setFreeEGData(const std::vector<int>& data)
 	{
 		m_data[AN1x::CommonParam::FreeEgData + i] = data[i];
 	}
-
-	is_edited = true;
 }
 
 

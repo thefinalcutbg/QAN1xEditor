@@ -33,21 +33,16 @@ void PatchDatabase::refreshTableView() {
 
 void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
-
-	if (MidiMaster::currentPatch().isEdited() &&
-		GlobalWidgets::askQuestion("Do you want to save current patch?")
-		)
-	{
-		saveVoice(MidiMaster::currentPatch());
-	}
-
 	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
 
 	db.bind(1, rowid);
 
 	while (db.hasRows()) {
 
-		MidiMaster::setCurrentPatch(AN1xPatch{db.asRowId(0), db.asBlob(1)});
+		MidiMaster::setCurrentPatch(
+			{ db.asRowId(0), db.asBlob(1) }, 
+			{ PatchSource::Database, rowid }
+		);
 		return;
 	}
 }
@@ -143,13 +138,13 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 	s_fileBuffer.clear();
 }
 
-void PatchDatabase::saveVoice(const AN1xPatch& p)
+void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 {
 	Db db;
 
-	if (p.rowid) {
+	if (rowid) {
 		db.newStatement("UPDATE patch SET data=?, type=?, name=? WHERE rowid=?");
-		db.bind(4, p.rowid);
+		db.bind(4, rowid);
 	}
 	else {
 		db.newStatement("INSERT INTO patch (data, type, name) VALUES(?,?,?)");

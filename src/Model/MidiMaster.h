@@ -7,6 +7,25 @@
 class QAN1xEditor;
 class AN1xPatch;
 
+struct PatchSource {
+
+	enum Location { Database, SynthMemory };
+
+	Location location{ Location::Database };
+	long long id{ 0 };
+
+	long long getRowid() const {
+
+		return location == Location::SynthMemory ? 0 : id;
+
+		return id;
+	}
+
+	int getMemoryIndex() const {
+		return location == Location::Database ? -1 : id;
+	}
+};
+
 
 namespace MidiMaster
 {
@@ -31,7 +50,7 @@ namespace MidiMaster
 	void sendBulk(const Message& m);
 
 	//setting patch to view
-	void setCurrentPatch(const AN1xPatch& p);
+	void setCurrentPatch(const AN1xPatch& p, PatchSource src);
 	const AN1xPatch& currentPatch();
 	void notifyRowidDelete(long long rowid);
 

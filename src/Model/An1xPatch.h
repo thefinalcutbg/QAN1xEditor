@@ -2,6 +2,7 @@
 #include "An1x.h"
 #include <array>
 
+
 class AN1xPatch {
 
 public:
@@ -19,8 +20,6 @@ private:
 	//holds the current patch data
 	std::array<unsigned char, PatchSize> m_data {0x0};
 
-	bool is_edited{ false };
-
 	unsigned char* getParameterAddress(ParamType type, unsigned char parameter);
 	const unsigned char* getParameterAddress(ParamType type, unsigned char parameter) const;
 
@@ -33,8 +32,6 @@ public:
 
 	//constructs AN1xPatch from blob data
 	AN1xPatch(long long rowid, const void* ptr);
-
-	long long rowid{ 0 };
 
 	//sets the data and returns a midi message for An1x
 	std::vector<unsigned char> setParameter(ParamType type, unsigned char parameter, int value);
@@ -74,8 +71,4 @@ public:
 		return m_data == other.m_data;
 	}
 
-	bool isEdited() const { return is_edited; }
-
-	//checks if patch is initialized
-	bool isDefaultInit() const;
 };

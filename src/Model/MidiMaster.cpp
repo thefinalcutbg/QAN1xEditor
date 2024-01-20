@@ -10,6 +10,8 @@
 #include "PatchDatabase.h"
 #include <array>
 
+#include <QDebug>
+
 //static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
@@ -18,6 +20,8 @@ QAN1xEditor* s_view{ nullptr };
 
 //patch currently edited
 AN1xPatch current_patch;
+PatchSource patch_src;
+bool is_edited{ false };
 
 int s_kbdOctave{ 5 };
 
@@ -118,6 +122,8 @@ void handleSysMsg(const Message& msg)
 
 	current_patch.setParameter(type, param, value);
 	s_view->setParameter(type, param, value);
+	is_edited = true;
+
 
 	handlingMessage = false;
 }
@@ -185,6 +191,8 @@ void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int v
 {
 	if (handlingMessage) return;
 
+	is_edited = true;
+
 	sendMessage(current_patch.setParameter(type, parameter, value));
 }
 
@@ -192,6 +200,9 @@ void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int v
 void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 {
 	current_patch.setFreeEGData(trackData);
+
+	is_edited = true;
+
 	//sending the whole common bulk
 	sendMessage(current_patch.getDataMessage(ParamType::Common));
 }
@@ -251,12 +262,28 @@ void MidiMaster::restoreSystem()
 	AN1xPatch::restoreSystemData();
 }
 
-void MidiMaster::setCurrentPatch(const AN1xPatch& p)
+void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 {
 
-	handlingMessage = true;
+	if (is_edited &&
+		GlobalWidgets::askQuestion("Do you want to save current patch?")
+	)
+	{
+		if (patch_src.location == PatchSource::Database) {
+			PatchDatabase::saveVoice(current_patch, patch_src.getRowid());
+		}
+		else {
+			PatchMemory::setPatch(current_patch, patch_src.getMemoryIndex());
+		}
+	}
 
 	current_patch = p;
+
+	is_edited = false;
+
+	patch_src = src;
+
+	handlingMessage = true;
 
 	s_view->setPatch(p);
 
@@ -275,11 +302,11 @@ const AN1xPatch& MidiMaster::currentPatch()
 
 void MidiMaster::notifyRowidDelete(long long rowid)
 {
-	if (rowid != current_patch.rowid) return;
+	if (patch_src.getRowid() != rowid) return;
 
-	current_patch.rowid = 0;
-	//lame way to make it "edited"
-	current_patch.setParameter(ParamType::Common, 0, current_patch.getParameter(ParamType::Common, 0));
+	patch_src.id = 0;
+
+	is_edited = true;
 }
 
 

@@ -16,7 +16,7 @@ namespace PatchDatabase
 
 	void importFileBufferToDb(bool skipDuplicatePatches);
 
-	void saveVoice(const AN1xPatch& p);
+	void saveVoice(const AN1xPatch& p, long long rowid);
 
 	AN1xPatch getPatch(long long rowid);
 }
