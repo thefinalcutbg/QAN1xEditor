@@ -17,6 +17,7 @@ QAN1x is a free open-source software written in C++ and Qt. It allows users to e
 - [Qt6 Framework](https://www.qt.io/)
 - [QMidi](https://github.com/thomasgeissl/QMidi)
 - [RtMidi](https://github.com/thestk/rtmidi)
+- [Sqlite3](https://www.sqlite.org/index.html)
 
 ## Screenshots
 ![Alt text](/screenshots/scr0.png?raw=true "Patch Browser")
