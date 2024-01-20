@@ -15,10 +15,15 @@ class BrowserTableModel : public QAbstractTableModel
 
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
+	Qt::ItemFlags flags(const QModelIndex& index) const;
+
+	Qt::DropActions supportedDropActions() const;
+
+
 public:
 	BrowserTableModel() {}
 	void setData(const std::vector<PatchRow>& rows);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return list.size(); }
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 8; }
+	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 9; }
 
 };

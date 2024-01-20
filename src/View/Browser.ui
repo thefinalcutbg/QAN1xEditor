@@ -92,7 +92,10 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableView" name="databaseView">
+      <widget class="DbTableView" name="databaseView">
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
+       </property>
        <property name="dragDropMode">
         <enum>QAbstractItemView::DragDrop</enum>
        </property>
@@ -163,7 +166,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="An1xList">
+      <widget class="MemoryList" name="An1xList">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -181,6 +184,9 @@
          <width>151</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>true</bool>
        </property>
        <property name="dragDropMode">
         <enum>QAbstractItemView::DragDrop</enum>
@@ -224,6 +230,18 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DbTableView</class>
+   <extends>QTableView</extends>
+   <header>dbtableview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MemoryList</class>
+   <extends>QListWidget</extends>
+   <header>memorylist.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

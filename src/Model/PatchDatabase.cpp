@@ -8,10 +8,8 @@
 #include <unordered_set>
 #include "View/GlobalWidgets.h"
 
-Browser* s_browser{ nullptr };
-
 //private functions:
-void refreshTableView() {
+void PatchDatabase::refreshTableView() {
 
 	Db db("SELECT rowid, type, name, file, created_by, song, artist, comment FROM patch");
 
@@ -29,17 +27,9 @@ void refreshTableView() {
 		rows.back().comment = db.asString(7).c_str();
 	}
 
-	s_browser->setPatchesToTableView(rows);
+	GlobalWidgets::browser->setPatchesToTableView(rows);
 }
 
-
-//interface:
-void PatchDatabase::setBrowserView(Browser* b)
-{
-	s_browser = b;
-
-	refreshTableView();
-}
 
 void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
@@ -172,5 +162,19 @@ void PatchDatabase::saveVoice(const AN1xPatch& p)
 	db.execute();
 
 	refreshTableView();
+}
+
+AN1xPatch PatchDatabase::getPatch(long long rowid)
+{
+	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
+
+	db.bind(1, rowid);
+
+	while (db.hasRows()) {
+
+		return AN1xPatch{ db.asRowId(0), db.asBlob(1) };
+	}
+
+	return AN1xPatch{};
 }
 

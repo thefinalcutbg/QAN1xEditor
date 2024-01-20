@@ -4,60 +4,30 @@
 #include "View/Browser.h"
 #include <stack>
 #include <qdebug.h>
+#include "View/GlobalWidgets.h"
 
-std::array<int, 128> patch_order = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 };
+constexpr std::array<int, 128> orderInit() {
 
-std::array<AN1xPatch, 128> s_patches;
+	decltype(orderInit()) result;
 
-AN1xPatch& getPatch(int idx) {
-	return s_patches[patch_order[idx]];
-};
-
-//my implementation
-/*
-void rowMoved(int from, int to)
-{
-	if(to > from) to--;
-
-	std::array<int, 128> new_order;
-
-	int i, y;
-
-	for (i = 0, y = 0; i < 128; i++, y++)
-	{
-		if (y == from) {
-
-			if (from < to) {
-				y++;
-			}
-			else if (from > to) {
-				i--;
-				continue;
-			}
-		}
-
-		if (y == to) {
-
-			new_order[i] = patch_order[from];
-
-			if (from > to) {
-				i++;
-			}
-			else if (from < to) {
-				y--;
-				continue;
-			}
-
-		}
-
-		new_order[i] = patch_order[y];
+	for (int i = 0; i < 128; i++) {
+		result[i] = i;
 	}
 
-	patch_order = new_order;
-}
-*/
+	return result;
 
-//lacho's implementation
+}
+
+std::array<int, 128> patch_order = orderInit();
+
+
+AN1xPatch& PatchMemory::getPatch(int row) {
+
+	static std::array<AN1xPatch, 128> s_patches;
+
+	return s_patches[patch_order[row]];
+};
+
 void PatchMemory::rowMoved(int from, int to)
 {
 	if(to > from) to--;
@@ -81,8 +51,6 @@ void PatchMemory::rowMoved(int from, int to)
 
 std::stack<int> loadStack;
 
-Browser* browser{ nullptr };
-
 void PatchMemory::loadFromAn1x(const std::vector<int>& indexes)
 {
 	loadStack = {};
@@ -93,7 +61,7 @@ void PatchMemory::loadFromAn1x(const std::vector<int>& indexes)
 		loadStack.push(indexes[i]);
 	}
 
-	browser->setProgressBarCount(loadStack.size());
+	GlobalWidgets::browser->setProgressBarCount(loadStack.size());
 
 	MidiMaster::requestVoice(loadStack.top());
 }
@@ -102,7 +70,7 @@ void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 {
 	if (indexes.empty()) return;
 
-	browser->setProgressBarCount(indexes.size());
+	GlobalWidgets::browser->setProgressBarCount(indexes.size());
 
 	for (auto idx : indexes) {
 
@@ -114,7 +82,7 @@ void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 		
 		AN1x::addCheckSum(msg);
 
-		browser->incrementProgressBar();
+		GlobalWidgets::browser->incrementProgressBar();
 
 		MidiMaster::sendBulk(msg);
 
@@ -122,9 +90,14 @@ void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 	}
 }
 
-void PatchMemory::setBrowserView(Browser* b)
-{
-	browser = b;
+void PatchMemory::setPatch(const AN1xPatch& p, int index) {
+
+	getPatch(index) = p;
+
+	getPatch(index).rowid = 0;
+
+	GlobalWidgets::browser->setPatchName(index, p.getName(), p.getType());
+
 }
 
 void PatchMemory::patchRecieved(const AN1xPatch& patch)
@@ -132,13 +105,9 @@ void PatchMemory::patchRecieved(const AN1xPatch& patch)
 	int recievedIdx = loadStack.top();
 	loadStack.pop();
 
-	getPatch(recievedIdx) = patch;
-	
-	if (browser) {
-		browser->setPatchName(recievedIdx, patch.getName(), patch.getType());
-	}
+	setPatch(patch, recievedIdx);
 
-	browser->incrementProgressBar();
+	GlobalWidgets::browser->incrementProgressBar();
 
 	if (loadStack.empty()) {
 		return;
@@ -152,6 +121,4 @@ void PatchMemory::loadAn1xMemPatch(int index)
 	if (index < 0 || index > 127) return;
 
 	MidiMaster::setCurrentPatch(getPatch(index));
-
-	
 }

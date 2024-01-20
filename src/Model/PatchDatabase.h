@@ -1,13 +1,12 @@
 #pragma once
 #include "An1x.h"
+#include "An1xPatch.h"
 
 class Browser;
-class AN1xPatch;
 
 namespace PatchDatabase
 {
-
-	void setBrowserView(Browser* b);
+	void refreshTableView();
 
 	void setVoiceAsCurrent(long long rowid);
 
@@ -18,4 +17,6 @@ namespace PatchDatabase
 	void importFileBufferToDb(bool skipDuplicatePatches);
 
 	void saveVoice(const AN1xPatch& p);
+
+	AN1xPatch getPatch(long long rowid);
 }

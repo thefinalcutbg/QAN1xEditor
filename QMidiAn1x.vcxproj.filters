@@ -130,6 +130,15 @@
     <ClCompile Include="src\View\FreeFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\View\DbTableView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\View\MemoryList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\DragDropManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Model\MidiMaster.h">
@@ -183,6 +192,9 @@
     <ClInclude Include="src\View\FreeFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\DragDropManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SceneView.h">
@@ -231,6 +243,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\View\BrowserTableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\DbTableView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\View\MemoryList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

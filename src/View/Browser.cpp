@@ -7,11 +7,15 @@
 #include <QFile>
 #include <qdebug.h>
 #include "FreeFunctions.h"
+#include "GlobalWidgets.h"
+#include "Model/DragDropManager.h"
 
 Browser::Browser(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	GlobalWidgets::browser = this;
 
 	column_sort.setDynamicSortFilter(true);
 
@@ -21,24 +25,7 @@ Browser::Browser(QWidget *parent)
 	ui.databaseView->setModel(&search);
 
 	ui.databaseView->hideColumn(0);
-
-	//ui.databaseView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	ui.databaseView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-	ui.databaseView->horizontalHeader()->setHighlightSections(false);
-
-	ui.databaseView->verticalHeader()->setVisible(false);
-
-	ui.databaseView->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
-	ui.databaseView->viewport()->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
-
-	ui.databaseView->setShowGrid(true);
-
-	ui.databaseView->verticalHeader()->setDefaultSectionSize(20);
-	ui.databaseView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	ui.databaseView->horizontalHeader()->setStretchLastSection(true);
-
-	ui.databaseView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	ui.databaseView->hideColumn(1);
 
 	connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, [&](int index) {
 
@@ -61,6 +48,8 @@ Browser::Browser(QWidget *parent)
 	});
 
 	connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, [&](int column) {
+
+		if (column == 3) column = 1; //column 1 stores the type as int=>faster sorting
 
 		column_sort.sort(column);
 
@@ -97,11 +86,11 @@ Browser::Browser(QWidget *parent)
 		setPatchName(i, "InitNormal", 0);
 	}
 
-	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedIndexes());});
-	connect(ui.sendButton, &QPushButton::clicked, [&] {PatchMemory::sendToAn1x(getSelectedIndexes()); });
+	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedListIndexes());});
+	connect(ui.sendButton, &QPushButton::clicked, [&] {PatchMemory::sendToAn1x(getSelectedListIndexes()); });
 	connect(ui.An1xList, &QListWidget::doubleClicked, [&] {
 
-		auto indexes = getSelectedIndexes();
+		auto indexes = getSelectedListIndexes();
 
 		if (indexes.empty()) return;
 
@@ -120,9 +109,16 @@ Browser::Browser(QWidget *parent)
 
 	});
 	
+	connect(ui.databaseView, &DbTableView::dataDroped, [&] { 
+		DragDropManager::droppedToDbTable(getSelectedListIndexes());
 
-	PatchMemory::setBrowserView(this);
-	PatchDatabase::setBrowserView(this);
+	});
+
+	connect(ui.An1xList, &MemoryList::dataDroped, [&](int row) { 
+		DragDropManager::droppedToMemoryList(getSelectedTableRowids(), row); 
+	});
+
+	PatchDatabase::refreshTableView();
 
 }
 
@@ -157,7 +153,7 @@ void Browser::recalculateListNames()
 	}
 }
 
-std::vector<int> Browser::getSelectedIndexes()
+std::vector<int> Browser::getSelectedListIndexes()
 {
 
 	QModelIndexList indexes = ui.An1xList->selectionModel()->selectedIndexes();
@@ -169,6 +165,21 @@ std::vector<int> Browser::getSelectedIndexes()
 	}
 	
 	return indexList;
+}
+
+std::set<long long> Browser::getSelectedTableRowids()
+{
+	QModelIndexList indexes = ui.databaseView->selectionModel()->selectedIndexes();
+
+	std::set<long long> rowids;
+
+	for (QModelIndex& index : indexes) {
+		
+		rowids.insert(search.index(index.row(), 0).data().toLongLong());
+	}
+
+	return rowids;
+
 }
 
 void Browser::importAN1FileButtonClicked()

@@ -31,7 +31,8 @@ public:
 private:
 
 	void recalculateListNames();
-	std::vector<int> getSelectedIndexes();
+	std::vector<int> getSelectedListIndexes();
+	std::set<long long> getSelectedTableRowids();
 	void importAN1FileButtonClicked();
 
 	Ui::BrowserClass ui;
