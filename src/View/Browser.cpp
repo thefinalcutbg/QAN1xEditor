@@ -196,8 +196,6 @@ std::set<long long> Browser::getSelectedTableRowids()
 	for (QModelIndex& index : indexes) {
 		
 		rowids.insert(search.index(index.row(), 0).data().toLongLong());
-
-		if (rowids.size() > 128) break;
 	}
 
 	return rowids;

@@ -186,6 +186,8 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
 
     ui.FreeEG->setTrackData(patch.getFreeEGData());
 
+    GlobalWidgets::statusBar->clearMessage();
+
 }
 
 void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)

@@ -12,6 +12,9 @@ void ClipboardManager::copyRequestFromDatabase(const std::set<long long>& rowids
 	int counter = 0;
 
 	for (auto rowid : rowids) {
+		
+		if (counter >= 128) return;
+
 		s_clipboard.push_back(PatchDatabase::getPatch(rowid));
 		counter++;
 	}
