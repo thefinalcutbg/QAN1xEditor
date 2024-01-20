@@ -117,6 +117,7 @@
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Model\An1File.cpp" />
     <ClCompile Include="src\Model\An1xPatch.cpp" />
+    <ClCompile Include="src\Model\ClipoboardManager.cpp" />
     <ClCompile Include="src\Model\DragDropManager.cpp" />
     <ClCompile Include="src\Model\PatchDatabase.cpp" />
     <ClCompile Include="src\Model\PatchMemory.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\Model\An1File.h" />
     <ClInclude Include="src\Model\An1xPatch.h" />
     <QtMoc Include="src\View\Browser.h" />
+    <ClInclude Include="src\Model\ClipoboardManager.h" />
     <ClInclude Include="src\Model\DragDropManager.h" />
     <ClInclude Include="src\Model\PatchDatabase.h" />
     <ClInclude Include="src\Model\PatchMemory.h" />

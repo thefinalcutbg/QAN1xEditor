@@ -15,16 +15,16 @@ class Browser : public QWidget
 public:
 	Browser(QWidget *parent = nullptr);
 
-	void setPatchName(int idx, const std::string& name, int type);
+	void setPatchToListView(int idx, const std::string& name, int type);
 
 	QString generatePatchText(int index, const char* name);
 
 	void setProgressBarCount(int count);
 	void incrementProgressBar();
 
-	void setPatchesToTableView(const std::vector<PatchRow>& patches) {
-		model.setData(patches);
-	};
+	void setPatchesToTableView(const std::vector<PatchRow>& patches);
+
+	void scrollToBottom();
 
 	~Browser();
 

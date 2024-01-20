@@ -16,6 +16,28 @@ void MemoryList::dropEvent(QDropEvent* e)
 	emit dataDroped(row(itemAt(e->pos())));
 }
 
+void MemoryList::keyPressEvent(QKeyEvent* event)
+{
+	switch (event->key())
+	{
+	case Qt::Key_C:
+		if (event->modifiers() & Qt::ControlModifier) {
+			emit copyRequested();
+			return;
+		}
+		break;
+		
+	case Qt::Key_V:
+		if (event->modifiers() & Qt::ControlModifier) {
+			emit pasteRequested();
+			return;
+		}
+		break;
+	}
+
+	QListWidget::keyPressEvent(event);
+}
+
 
 MemoryList::~MemoryList()
 {

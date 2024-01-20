@@ -94,7 +94,7 @@ void PatchMemory::setPatch(const AN1xPatch& p, int index) {
 
 	getPatch(index) = p;
 
-	GlobalWidgets::browser->setPatchName(index, p.getName(), p.getType());
+	GlobalWidgets::browser->setPatchToListView(index, p.getName(), p.getType());
 
 }
 

@@ -14,8 +14,11 @@ public:
 
 signals:
 	void dataDroped(int row);
+	void copyRequested();
+	void pasteRequested();
 
 private:
 	void dropEvent(QDropEvent* e) override;
+	void keyPressEvent(QKeyEvent* event) override;
 
 };

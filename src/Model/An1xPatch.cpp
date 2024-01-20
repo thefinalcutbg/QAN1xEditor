@@ -228,6 +228,21 @@ int AN1xPatch::getType() const
 	return m_data[10];
 }
 
+AN1x::VariFx AN1xPatch::getEffect() const
+{
+	return static_cast<AN1x::VariFx>(getParameter(ParamType::Common, AN1x::CommonParam::VariFXType));
+}
+
+AN1x::Layer AN1xPatch::getLayer() const
+{
+	return static_cast<AN1x::Layer>(getParameter(ParamType::Common, AN1x::CommonParam::LayerMode));
+}
+
+bool AN1xPatch::hasArpSeqEnabled() const
+{
+	return static_cast<AN1x::Layer>(getParameter(ParamType::Common, AN1x::CommonParam::ArpSeqOnOff));
+}
+
 Message AN1xPatch::getSystemData()
 {
 	Message result;

@@ -11,7 +11,7 @@
 //private functions:
 void PatchDatabase::refreshTableView() {
 
-	Db db("SELECT rowid, type, name, file, created_by, song, artist, comment FROM patch");
+	Db db("SELECT rowid, type, name, file, effect, layer, arp_seq, comment FROM patch");
 
 	std::vector<PatchRow> rows;
 
@@ -21,9 +21,9 @@ void PatchDatabase::refreshTableView() {
 		rows.back().type = db.asInt(1);
 		rows.back().name = db.asString(2).c_str();
 		rows.back().file = db.asString(3).c_str();
-		rows.back().created_by = db.asString(4).c_str();
-		rows.back().song = db.asString(5).c_str();
-		rows.back().artist = db.asString(6).c_str();
+		rows.back().effect = db.asInt(4);
+		rows.back().layer = db.asInt(5);
+		rows.back().arp_seq = db.asBool(6);
 		rows.back().comment = db.asString(7).c_str();
 	}
 
@@ -89,7 +89,7 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 		
 		while (db.hasRows())
 		{
-			unique_nametype.insert(db.asString(1) + db.asString(2));
+			unique_nametype.insert(db.asString(0) + db.asString(1));
 			
 		}
 	}
@@ -117,13 +117,16 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 				unique_nametype.insert(key);
 			}
 
-			db.newStatement("INSERT INTO patch (type, name, file, comment, data) VALUES (?,?,?,?,?)");
+			db.newStatement("INSERT INTO patch (type, name, layer, effect, arp_seq, file, comment, data) VALUES (?,?,?,?,?,?,?,?)");
 
 			db.bind(1, type);
 			db.bind(2, name);
-			db.bind(3, file.filename);
-			db.bind(4, "");
-			db.bind(5, patch.rawData().data(), AN1xPatch::PatchSize);
+			db.bind(3, patch.getLayer());
+			db.bind(4, patch.getEffect());
+			db.bind(5, patch.hasArpSeqEnabled());
+			db.bind(6, file.filename);
+			db.bind(7, "");
+			db.bind(8, patch.rawData().data(), AN1xPatch::PatchSize);
 
 			db.execute();
 		}
@@ -143,20 +146,25 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 	Db db;
 
 	if (rowid) {
-		db.newStatement("UPDATE patch SET data=?, type=?, name=? WHERE rowid=?");
-		db.bind(4, rowid);
+		db.newStatement("UPDATE patch SET data=?, type=?, layer=?, effect=?, arp_seq=? name=? WHERE rowid=?");
+		db.bind(7, rowid);
 	}
 	else {
-		db.newStatement("INSERT INTO patch (data, type, name) VALUES(?,?,?)");
+		db.newStatement("INSERT INTO patch (data, type, name, layer, effect, arp_seq) VALUES(?,?,?,?,?,?)");
 	}
 
 	db.bind(1, p.rawData().data(), AN1xPatch::PatchSize);
 	db.bind(2, p.getType());
 	db.bind(3, p.getName());
+	db.bind(4, p.getLayer());
+	db.bind(5, p.getEffect());
+	db.bind(6, p.hasArpSeqEnabled());
 	
 	db.execute();
 
 	refreshTableView();
+
+	if (!rowid) GlobalWidgets::browser->scrollToBottom();
 }
 
 AN1xPatch PatchDatabase::getPatch(long long rowid)

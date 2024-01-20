@@ -1,16 +1,21 @@
 #include "Browser.h"
-#include "Model/PatchMemory.h"
-#include "Model/PatchDatabase.h"
+
 #include <algorithm>
+
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
-#include <qdebug.h>
+#include <QScrollBar>
+
 #include "FreeFunctions.h"
 #include "GlobalWidgets.h"
-#include "Model/DragDropManager.h"
 
-Browser::Browser(QWidget *parent)
+#include "Model/DragDropManager.h"
+#include "Model/PatchMemory.h"
+#include "Model/PatchDatabase.h"
+#include "Model/ClipoboardManager.h"
+
+Browser::Browser(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -21,50 +26,45 @@ Browser::Browser(QWidget *parent)
 
 	column_sort.setSourceModel(&model);
 	search.setSourceModel(&column_sort);
-	search.setFilterKeyColumn(1);
+	search.setFilterKeyColumn(5);
 	ui.databaseView->setModel(&search);
 
-	ui.databaseView->hideColumn(0);
-	ui.databaseView->hideColumn(1);
+	for (int i = 0; i < 5; i++) {
+		ui.databaseView->hideColumn(i);
+	}
+
 
 	connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, [&](int index) {
 
-		search.setFilterKeyColumn(index + 1);
+		search.setFilterKeyColumn(index + 5);
 
-	});
+		});
 
 	connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, [&](const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
-	{
+		{
 			PatchMemory::rowMoved(start, row);
 
 			recalculateListNames();
-	});
+		});
 
 	connect(ui.lineEdit, &QLineEdit::textChanged, [=]
-	{
+		{
 			QString text = ui.lineEdit->text();
 			search.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 
-	});
+		});
 
 	connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, [&](int column) {
 
-		if (column == 3) column = 1; //column 1 stores the type as int=>faster sorting
+		const int hiddenColumnMap[] = { 0,1,2,3,4,5,1,2,3,4,10,11 };
 
-		column_sort.sort(column);
+		column_sort.sort(hiddenColumnMap[column]);
 
-	});
+		});
 
-	connect(ui.deleteButton, &QPushButton::clicked, [&]{
+	connect(ui.deleteButton, &QPushButton::clicked, [&] {
 
-		auto idxList = ui.databaseView->selectionModel()->selectedRows();
-
-		std::set<long long>selectedRowids;
-
-		for (auto& idx : idxList) {
-			long long index = search.index(idx.row(), 0).data().toLongLong();
-			selectedRowids.insert(index);
-		}
+		auto selectedRowids = getSelectedTableRowids();
 
 		if (selectedRowids.empty()) return;
 
@@ -80,10 +80,30 @@ Browser::Browser(QWidget *parent)
 
 	});
 
+	connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
+
+	connect(ui.databaseView, &DbTableView::copyRequested, [&] { 
+			ClipboardManager::copyRequestFromDatabase(getSelectedTableRowids());
+	});
+
+	connect(ui.An1xList, &MemoryList::copyRequested, [&] {
+			ClipboardManager::copyRequestFromMemoryList(getSelectedListIndexes());
+		});
+
+	connect(ui.An1xList, &MemoryList::pasteRequested, [&]{
+					
+				auto indexes = getSelectedListIndexes();
+
+				if (indexes.empty()) return;
+
+				ClipboardManager::pasteToListRequested(indexes[0]);
+
+		});
+
 	for (int i = 0; i < 128; i++)
 	{
 		ui.An1xList->addItem("");
-		setPatchName(i, "InitNormal", 0);
+		setPatchToListView(i, "InitNormal", 0);
 	}
 
 	connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedListIndexes());});
@@ -122,7 +142,7 @@ Browser::Browser(QWidget *parent)
 
 }
 
-void Browser::setPatchName(int idx, const std::string& name, int type)
+void Browser::setPatchToListView(int idx, const std::string& name, int type)
 {
 	ui.An1xList->item(idx)->setText(generatePatchText(idx, name.c_str()));
 	ui.An1xList->item(idx)->setIcon(FreeFn::getTypeIcon(type));
@@ -176,6 +196,8 @@ std::set<long long> Browser::getSelectedTableRowids()
 	for (QModelIndex& index : indexes) {
 		
 		rowids.insert(search.index(index.row(), 0).data().toLongLong());
+
+		if (rowids.size() > 128) break;
 	}
 
 	return rowids;
@@ -196,7 +218,7 @@ void Browser::importAN1FileButtonClicked()
 	if (fileNames.empty()) return;
 
 	QMessageBox::StandardButton reply;
-	reply = QMessageBox::question(this, "Import An1 files", "Do you want to skip duplicate patches?",
+	reply = QMessageBox::question(this, "Import An1 files", "Do you want to skip duplicates?",
 		QMessageBox::Yes | QMessageBox::No);
 
 	bool skipDuplicates = reply == QMessageBox::Yes;
@@ -268,5 +290,16 @@ void Browser::incrementProgressBar()
 
 	setDisabled(false);
 
+}
 
+void Browser::setPatchesToTableView(const std::vector<PatchRow>& patches)
+{
+	model.setData(patches);
+}
+
+void Browser::scrollToBottom()
+{
+	int maximum = ui.databaseView->verticalScrollBar()->maximum();
+
+	ui.databaseView->verticalScrollBar()->setSliderPosition(maximum);
 }

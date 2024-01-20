@@ -24,6 +24,6 @@ public:
 	BrowserTableModel() {}
 	void setData(const std::vector<PatchRow>& rows);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override { return list.size(); }
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 9; }
+	int columnCount(const QModelIndex& parent = QModelIndex()) const override { return 12; }
 
 };

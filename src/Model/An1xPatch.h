@@ -66,6 +66,10 @@ public:
 	//returns patch type
 	int getType() const;
 
+	AN1x::VariFx getEffect() const;
+	AN1x::Layer getLayer() const;
+	bool hasArpSeqEnabled() const;
+
 	bool operator==(const AN1xPatch& other) const
 	{
 		return m_data == other.m_data;

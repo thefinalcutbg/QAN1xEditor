@@ -139,22 +139,22 @@
          </item>
          <item>
           <property name="text">
+           <string>Layer</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Effect</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Arp/Seq</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>File</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Created by</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Song</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Artist</string>
           </property>
          </item>
         </widget>

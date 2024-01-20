@@ -7,7 +7,7 @@ QString getTypeText(int type) {
     
     if (type < 1 || type > 22) type = 0;
 
-     QString arr[] = {
+     static const QString arr[] = {
         "", 
         "Piano", 
         "Chromatic Percussion", 
@@ -36,6 +36,27 @@ QString getTypeText(int type) {
     return arr[type];
 }
 
+QString getLayerText(int type){
+
+    if (type < 0 || type > 5) type = 6;
+
+    static const QString arr[] = {
+        "Single","Unison","Dual","Dual Unison","Split","Split Unison",""
+    };
+
+    return arr[type];
+}
+
+QString getEffectText(int type) {
+
+    if (type < 0 || type > 14) type = 14;
+
+    static const QString arr[] = {
+      "Chorus 1", "Chorus 2", "Flagner", "Symphonic", "Phaser", "Auto PAN", "Rotary Speaker", "Pitch Change", "Aural Exciter", "Compressor", "Wah Wah", "Distortion", "Overdrive", "Amp Simulator", ""
+    };
+
+    return arr[type];
+}
 
 void BrowserTableModel::setData(const std::vector<PatchRow>& rows)
 {
@@ -55,15 +76,18 @@ QVariant BrowserTableModel::headerData(int section, Qt::Orientation orientation,
         if (orientation == Qt::Horizontal) {
             switch (section)
             {
-                case 0: return "Rowid";
-                case 1: return "Typeid";
-                case 2: return "Name";
-                case 3: return "Type";
-                case 4: return "AN1 file";
-                case 5: return "Created by";
-                case 6: return "Song";
-                case 7: return "Artist";
-                case 8: return "Comment";
+                case 0: return "RowID";
+                case 1: return "TypeID";
+                case 2: return "LayerID";
+                case 3: return "EffectID";
+                case 4: return "ArpSeqID";
+                case 5: return "Name";
+                case 6: return "Type";
+                case 7: return "Layer";
+                case 8: return "Effect";
+                case 9: return "Arp/Seq enabled";
+                case 10: return "AN1 file";
+                case 11: return "Comment";
             }
         }
     }
@@ -85,7 +109,7 @@ QVariant BrowserTableModel::data(const QModelIndex& index, int role) const
         {
             switch (column)
             {
-            case 2:
+            case 5:
                     return FreeFn::getTypeIcon(list[row].type);
 
                 break;
@@ -99,13 +123,16 @@ QVariant BrowserTableModel::data(const QModelIndex& index, int role) const
             {
                 case 0: return list[row].rowid;
                 case 1: return list[row].type;
-                case 2: return list[row].name;
-                case 3: return getTypeText(list[row].type);
-                case 4: return list[row].file;
-                case 5: return list[row].created_by;
-                case 6: return list[row].song;
-                case 7: return list[row].artist;
-                case 8: return list[row].comment;
+                case 2: return list[row].layer;
+                case 3: return list[row].effect;
+                case 4: return list[row].arp_seq;
+                case 5: return list[row].name;
+                case 6: return getTypeText(list[row].type);
+                case 7: return getLayerText(list[row].layer);
+                case 8: return getEffectText(list[row].effect);
+                case 9: return list[row].arp_seq ? "Yes" : "No";
+                case 10: return list[row].file;
+                case 11: return list[row].comment;
                 default: return QVariant();
             }
             
