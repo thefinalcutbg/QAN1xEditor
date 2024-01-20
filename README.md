@@ -19,6 +19,7 @@ QAN1x is a free open-source software written in C++ and Qt. It allows users to e
 - [RtMidi](https://github.com/thestk/rtmidi)
 
 ## Screenshots
+![Alt text](/screenshots/scr0.png?raw=true "Patch Browser")
 ![Alt text](/screenshots/scr5.png?raw=true "Free EG")
 ![Alt text](/screenshots/scr1.png?raw=true "Scene Controls")
 ![Alt text](/screenshots/scr2.png?raw=true "Effects section")
