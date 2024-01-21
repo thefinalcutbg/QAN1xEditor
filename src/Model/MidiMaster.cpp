@@ -265,6 +265,8 @@ void MidiMaster::restoreSystem()
 void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 {
 
+	if (src.id == patch_src.id && src.location == patch_src.location) return;
+
 	if (is_edited &&
 		GlobalWidgets::askQuestion("Do you want to save current patch?")
 	)

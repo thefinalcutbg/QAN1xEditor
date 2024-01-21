@@ -31,7 +31,7 @@ public:
 	AN1xPatch(const Message bulkMsg);
 
 	//constructs AN1xPatch from blob data
-	AN1xPatch(long long rowid, const void* ptr);
+	AN1xPatch(const void* ptr);
 
 	//sets the data and returns a midi message for An1x
 	std::vector<unsigned char> setParameter(ParamType type, unsigned char parameter, int value);

@@ -33,18 +33,22 @@ void PatchDatabase::refreshTableView() {
 
 void PatchDatabase::setVoiceAsCurrent(long long rowid)
 {
-	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
+	AN1xPatch result{};
+	//block controls db lifetime
+	{
+		Db db("SELECT rowid, data FROM patch WHERE rowid=?");
 
-	db.bind(1, rowid);
+		db.bind(1, rowid);
 
-	while (db.hasRows()) {
-
-		MidiMaster::setCurrentPatch(
-			{ db.asRowId(0), db.asBlob(1) }, 
-			{ PatchSource::Database, rowid }
-		);
-		return;
+		while (db.hasRows()) {
+			result = db.asBlob(1);
+		}
 	}
+
+	MidiMaster::setCurrentPatch(
+		result,
+		{ PatchSource::Database, rowid }
+	);
 }
 
 void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
@@ -143,15 +147,15 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 
 void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 {
-	Db db;
 
-	if (rowid) {
-		db.newStatement("UPDATE patch SET data=?, type=?, layer=?, effect=?, arp_seq=? name=? WHERE rowid=?");
-		db.bind(7, rowid);
-	}
-	else {
-		db.newStatement("INSERT INTO patch (data, type, name, layer, effect, arp_seq) VALUES(?,?,?,?,?,?)");
-	}
+	std::string query = rowid ?
+		"UPDATE patch SET data=?, type=?, name=?, layer=?, effect=?, arp_seq=?  WHERE rowid=?"
+		:
+		"INSERT INTO patch (data, type, name, layer, effect, arp_seq) VALUES(?,?,?,?,?,?)"
+		;
+
+	Db db(query);
+
 
 	db.bind(1, p.rawData().data(), AN1xPatch::PatchSize);
 	db.bind(2, p.getType());
@@ -159,7 +163,11 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 	db.bind(4, p.getLayer());
 	db.bind(5, p.getEffect());
 	db.bind(6, p.hasArpSeqEnabled());
-	
+
+	if (rowid) {
+		db.bind(7, rowid);
+	}
+
 	db.execute();
 
 	refreshTableView();
@@ -175,7 +183,7 @@ AN1xPatch PatchDatabase::getPatch(long long rowid)
 
 	while (db.hasRows()) {
 
-		return AN1xPatch{ db.asRowId(0), db.asBlob(1) };
+		return AN1xPatch{ db.asBlob(1) };
 	}
 
 	return AN1xPatch{};

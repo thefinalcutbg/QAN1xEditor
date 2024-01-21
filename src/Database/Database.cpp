@@ -192,7 +192,6 @@ void Db::bind(int index, const void* ptr, int size)
 
     total_bindings++;
 
-
     successful_bindings +=
         sqlite3_bind_blob(stmt, index, ptr, size, SQLITE_STATIC) == SQLITE_OK;
 }
