@@ -51,7 +51,7 @@ void PatchDatabase::setVoiceAsCurrent(long long rowid)
 	);
 }
 
-void PatchDatabase::deleteSelectedPatches(const std::set<long long> rowids)
+void PatchDatabase::deleteSelectedPatches(const std::set<long long>& rowids)
 {
 	Db db;
 
@@ -83,7 +83,7 @@ void PatchDatabase::loadAn1FileToBuffer(const std::vector<unsigned char>& data, 
 void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 {
 
-	std::unordered_set<std::string> unique_nametype{"InitNormal0", ""};
+	std::unordered_set<std::string> unique_nametype{"InitNormal0"};
 
 	Db db;
 
@@ -103,7 +103,7 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 	for (auto& file : s_fileBuffer)
 	{
 
-		for (int i = 0; i < file.patchSize(); i++) {
+		for (int i = 0; i < file.patchCount(); i++) {
 
 			auto patch = file.getPatch(i);
 
@@ -129,7 +129,7 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 			db.bind(4, patch.getEffect());
 			db.bind(5, patch.hasArpSeqEnabled());
 			db.bind(6, file.filename);
-			db.bind(7, "");
+			db.bind(7, file.getComment(i));
 			db.bind(8, patch.rawData().data(), AN1xPatch::PatchSize);
 
 			db.execute();
@@ -187,5 +187,24 @@ AN1xPatch PatchDatabase::getPatch(long long rowid)
 	}
 
 	return AN1xPatch{};
+}
+
+void PatchDatabase::updateComment(const std::string& comment, const std::set<long long>& rowids)
+{
+	Db db;
+
+	db.execute("BEGIN TRANSACTION");
+
+	for (auto rowid : rowids)
+	{
+		db.newStatement("UPDATE patch SET comment=? WHERE rowid=?");
+		db.bind(1, comment);
+		db.bind(2, rowid);
+		db.execute();
+	}
+
+	db.execute("END TRANSACTION");
+
+	refreshTableView();
 }
 

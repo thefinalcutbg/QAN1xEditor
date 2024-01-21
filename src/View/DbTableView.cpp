@@ -3,12 +3,26 @@
 #include <QDropEvent>
 #include <QHeaderView>
 #include <QKeyEvent>
+#include <QStyledItemDelegate>
+
+class NoFocusDelegate : public QStyledItemDelegate
+{
+protected:
+	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+	{
+		QStyleOptionViewItem itemOption(option);
+		if (itemOption.state & QStyle::State_HasFocus)
+			itemOption.state = itemOption.state ^ QStyle::State_HasFocus;
+		QStyledItemDelegate::paint(painter, itemOption, index);
+	}
+
+};
 
 DbTableView::DbTableView(QWidget* parent) : QTableView(parent)
 {
 
-	//setSelectionMode(QAbstractItemView::ExtendedSelection);
-	setSelectionBehavior(QAbstractItemView::SelectRows);
+	setItemDelegate(new NoFocusDelegate);
+		setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	horizontalHeader()->setHighlightSections(false);
 

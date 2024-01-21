@@ -20,7 +20,7 @@ AN1xPatch An1File::getPatch(int index)
 	constexpr int fileCommonAndSceneSize = AN1xPatch::CommonSize + AN1xPatch::SceneSize*2 - fileFreeEGsize; //FreeEG parameters are stored in 1 byte instead of 2
 	constexpr int fileCommonSize = AN1xPatch::CommonSize - fileFreeEGsize;
 	constexpr int firstPatchSeqBegin = 150326;
-
+	
 	AN1xPatch result;
 
 	//getting common parameters
@@ -74,4 +74,15 @@ AN1xPatch An1File::getPatch(int index)
 	}
 
 	return result;
+}
+
+std::string An1File::getComment(int index)
+{
+	if (index < 0 || index > 127) return "";
+
+	constexpr int firstCommentbegin = 159286;
+
+	int commentOffset = firstCommentbegin + 256 * index;
+
+	return std::string{ (const char*)&m_data[commentOffset], 256 };
 }

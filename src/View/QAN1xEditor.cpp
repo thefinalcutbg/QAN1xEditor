@@ -413,4 +413,6 @@ here:
 
 
 QAN1xEditor::~QAN1xEditor()
-{}
+{
+    MidiMaster::stopAllSounds();
+}

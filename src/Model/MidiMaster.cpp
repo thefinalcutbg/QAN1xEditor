@@ -313,6 +313,7 @@ void MidiMaster::notifyRowidDelete(long long rowid)
 
 
 void MidiMaster::setKbdOctave(int octave) {
+	stopAllSounds();
 	s_kbdOctave = octave + 2;
 }
 
@@ -367,5 +368,15 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	s_out->sendMessage(m);
 
 	s_view->pianoRoll()->setNote(note, on);
-};
+}
+
+void MidiMaster::stopAllSounds()
+{
+	for (unsigned char channel = 176; channel < 192; channel++) 
+	{
+		sendMessage({ channel, 0x78, 0x00 });
+		sendMessage({ channel, 0x79, 0x00 });
+	}
+}
+
 

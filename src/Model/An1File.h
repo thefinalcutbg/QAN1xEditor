@@ -13,5 +13,6 @@ public:
 
 	An1File(const std::vector<unsigned char> bytes, const std::string& filename);
 	AN1xPatch getPatch(int index);
-	constexpr int patchSize() { return 128; }
+	std::string getComment(int index);
+	constexpr int patchCount() { return 128; }
 };

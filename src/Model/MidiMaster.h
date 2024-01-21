@@ -61,5 +61,5 @@ namespace MidiMaster
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
 	
-	
+	void stopAllSounds();
 }

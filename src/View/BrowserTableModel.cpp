@@ -85,7 +85,7 @@ QVariant BrowserTableModel::headerData(int section, Qt::Orientation orientation,
                 case 6: return "Type";
                 case 7: return "Layer";
                 case 8: return "Effect";
-                case 9: return "Arp/Seq enabled";
+                case 9: return "Arp/Seq";
                 case 10: return "AN1 file";
                 case 11: return "Comment";
             }

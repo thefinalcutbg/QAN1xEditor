@@ -10,7 +10,7 @@ namespace PatchDatabase
 
 	void setVoiceAsCurrent(long long rowid);
 
-	void deleteSelectedPatches(const std::set<long long> rowids);
+	void deleteSelectedPatches(const std::set<long long>& rowids);
 
 	void loadAn1FileToBuffer(const std::vector<unsigned char>& data, const std::string& filename = {});
 
@@ -19,4 +19,6 @@ namespace PatchDatabase
 	void saveVoice(const AN1xPatch& p, long long rowid);
 
 	AN1xPatch getPatch(long long rowid);
+
+	void updateComment(const std::string& comment, const std::set<long long>& rowids);
 }

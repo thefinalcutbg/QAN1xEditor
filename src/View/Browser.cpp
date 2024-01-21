@@ -6,6 +6,8 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QScrollBar>
+#include <QInputDialog>
+#include <QPlainTextEdit>
 
 #include "FreeFunctions.h"
 #include "GlobalWidgets.h"
@@ -29,9 +31,13 @@ Browser::Browser(QWidget* parent)
 	search.setFilterKeyColumn(5);
 	ui.databaseView->setModel(&search);
 
+	disableWidgets(false);
+
 	for (int i = 0; i < 5; i++) {
 		ui.databaseView->hideColumn(i);
 	}
+
+	ui.databaseView->setColumnWidth(9, 55);
 
 
 	connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, [&](int index) {
@@ -46,6 +52,8 @@ Browser::Browser(QWidget* parent)
 
 			recalculateListNames();
 		});
+
+	connect(ui.commentButton, &QPushButton::clicked, [&] { editComment(); });
 
 	connect(ui.lineEdit, &QLineEdit::textChanged, [=]
 		{
@@ -264,6 +272,40 @@ void Browser::importAN1FileButtonClicked()
 
 }
 
+void Browser::editComment()
+{
+	std::set<long long> rowids = getSelectedTableRowids();
+
+	if (rowids.empty()) return;
+
+	QString comment;
+
+	if (rowids.size() == 1) {
+
+		comment = search.index(ui.databaseView->selectionModel()->selectedIndexes().first().row(), 11).data().toString();
+	}
+	else {
+
+		QMessageBox::information(this, qAppName(), "Changes will affect multiple patches!");
+	}
+
+	QInputDialog d;
+	d.setInputMode(QInputDialog::InputMode::TextInput);
+	d.setOption(QInputDialog::InputDialogOption::UsePlainTextEditForTextInput);
+
+	auto textEdit = d.findChild<QPlainTextEdit*>();
+
+	textEdit->setLineWrapMode(QPlainTextEdit::LineWrapMode::WidgetWidth);
+	textEdit->setWordWrapMode(QTextOption::WrapMode::WordWrap);
+
+	d.setLabelText("Comment:");
+	d.setTextValue(comment);
+
+	if (d.exec() != QDialog::Accepted) return;
+
+	PatchDatabase::updateComment(d.textValue().toStdString(), rowids);
+}
+
 void Browser::disableWidgets(bool disabled)
 {
 	for (auto obj : children()) {
@@ -272,6 +314,8 @@ void Browser::disableWidgets(bool disabled)
 		}
 	}
 	ui.progressBar->setTextVisible(disabled);
+	ui.progressBar->setHidden(!disabled);
+	ui.cancelButton->setHidden(!disabled);
 	ui.cancelButton->setDisabled(!disabled);
 }
 
