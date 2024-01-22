@@ -128,7 +128,7 @@ Message AN1xPatch::getDataMessage(ParamType type) const
 
 	switch (type)
 	{
-		case ParamType::System: return getSystemData();
+		case ParamType::System: return getSystemDataMsg();
 		case ParamType::Common:
 			result = { 0xF0, 0x43, 0x00, 0x5C, 0x0C, 0x68, 0x10, 0x00, 0x00 };
 			for (int i = 0; i < CommonSize; i++) result.push_back(m_data[i]);
@@ -243,7 +243,7 @@ bool AN1xPatch::hasArpSeqEnabled() const
 	return static_cast<AN1x::Layer>(getParameter(ParamType::Common, AN1x::CommonParam::ArpSeqOnOff));
 }
 
-Message AN1xPatch::getSystemData()
+Message AN1xPatch::getSystemDataMsg()
 {
 	Message result;
 

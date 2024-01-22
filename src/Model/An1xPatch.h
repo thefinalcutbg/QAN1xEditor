@@ -40,7 +40,7 @@ public:
 	static bool setSystemData(const Message& bulkMessage);
 
 	//creates an1x message to set system data
-	static Message getSystemData();
+	static Message getSystemDataMsg();
 
 	//restore system data to default
 	static void restoreSystemData();

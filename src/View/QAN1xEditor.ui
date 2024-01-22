@@ -673,7 +673,7 @@
             </rect>
            </property>
            <property name="title">
-            <string>Global Settings</string>
+            <string>System settings</string>
            </property>
            <widget class="QLabel" name="velCurveLabel">
             <property name="geometry">
@@ -927,9 +927,9 @@
            <widget class="QPushButton" name="requestSystem">
             <property name="geometry">
              <rect>
-              <x>120</x>
+              <x>110</x>
               <y>120</y>
-              <width>71</width>
+              <width>51</width>
               <height>24</height>
              </rect>
             </property>
@@ -940,14 +940,27 @@
            <widget class="QPushButton" name="sendSystem">
             <property name="geometry">
              <rect>
-              <x>210</x>
+              <x>170</x>
               <y>120</y>
-              <width>71</width>
+              <width>51</width>
               <height>24</height>
              </rect>
             </property>
             <property name="text">
              <string>Send</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="restoreSystem">
+            <property name="geometry">
+             <rect>
+              <x>230</x>
+              <y>120</y>
+              <width>51</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Restore</string>
             </property>
            </widget>
           </widget>

@@ -254,12 +254,24 @@ void MidiMaster::requestSystem()
 
 void MidiMaster::sendSystem()
 {
-	sendMessage(AN1xPatch::getSystemData());
+	sendMessage(AN1xPatch::getSystemDataMsg());
 }
 
 void MidiMaster::restoreSystem()
 {
 	AN1xPatch::restoreSystemData();
+
+	sendSystem();
+
+	handlingMessage = true;
+
+	for (int i = 0; i < AN1xPatch::SystemSize; i++)
+	{
+		s_view->setParameter(ParamType::System, i, current_patch.getParameter(ParamType::System, i));
+	}
+
+	handlingMessage = false;
+	
 }
 
 void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)

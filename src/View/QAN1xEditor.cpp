@@ -26,6 +26,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
     connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, [this] { MidiMaster::sendSystem(); });
+    connect(ui.restoreSystem, &QPushButton::clicked, [this] { MidiMaster::restoreSystem(); });
 
     ui.octaveDescrLabel->hide();
     connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { ui.octaveDescrLabel->setHidden(!checked); });
@@ -369,10 +370,50 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
         return false;
     }
 
+    static const int keyboardKeys[] = {
+            65, //Qt::Key_A,
+            87, //Qt::Key_W,
+            83, //Qt::Key_S,
+            69, //Qt::Key_E,
+            68, //Qt::Key_D,
+            70, //Qt::Key_F,
+            84, //Qt::Key_T,
+            71, //Qt::Key_G,
+            89, //Qt::Key_Y,
+            72, //Qt::Key_H,
+            85, //Qt::Key_U,
+            74, //Qt::Key_J,
+            75, //Qt::Key_K,
+            79, //Qt::Key_O,
+            76, //Qt::Key_L,
+            80, //Qt::Key_P,
+            186,//Qt::Key_Semicolon,
+            222,//Qt::Key_Apostrophe,
+            221,//Qt::Key_BracketRight,
+            220,//Qt::Key_Backslash
+            88, //Qt::Key_X
+            90  //Qt::Key_Z
+    };
+
     if (e->type() == QEvent::KeyPress)
     {
         auto keyEvent = static_cast<QKeyEvent*>(e);
+/*
+        bool notAKey = false;
 
+        for (auto key : keyboardKeys) {
+
+            if (key == keyEvent->nativeVirtualKey()) {
+                notAKey = true;
+                break;
+            }
+        }
+
+        if (!notAKey) {
+            releaseKeyboard();
+            return false;
+        }
+        */
         if (keyEvent->modifiers()) goto here;
 
         if (keyEvent->isAutoRepeat()) goto here;
