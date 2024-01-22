@@ -98,6 +98,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="panikButton">
+            <property name="text">
+             <string>Panik!</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -483,7 +490,7 @@
           <widget class="VoiceNameEdit" name="voiceNameEdit">
            <property name="geometry">
             <rect>
-             <x>100</x>
+             <x>160</x>
              <y>10</y>
              <width>81</width>
              <height>22</height>
@@ -499,9 +506,9 @@
           <widget class="QLabel" name="label_11">
            <property name="geometry">
             <rect>
-             <x>20</x>
+             <x>90</x>
              <y>10</y>
-             <width>81</width>
+             <width>71</width>
              <height>21</height>
             </rect>
            </property>
@@ -512,9 +519,9 @@
           <widget class="ComboPicker" name="voiceType">
            <property name="geometry">
             <rect>
-             <x>270</x>
+             <x>320</x>
              <y>10</y>
-             <width>141</width>
+             <width>91</width>
              <height>22</height>
             </rect>
            </property>
@@ -523,126 +530,126 @@
            </property>
            <item>
             <property name="text">
-             <string>--</string>
+             <string/>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PF - Piano</string>
+             <string>Piano</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>CP - Chromatic Perc.</string>
+             <string>Chr. Perc.</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>OR - Organ</string>
+             <string>Organ</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>GT - Guitar</string>
+             <string>Guitar</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>BA - Bass</string>
+             <string>Bass</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>ST - Strings</string>
+             <string>Strings</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>EN - Ensemble</string>
+             <string>Ensemble</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>BR - Brass</string>
+             <string>Brass</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>RD - Reed</string>
+             <string>Reed</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PI - Pipe</string>
+             <string>Pipe</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>LD - Synth Lead</string>
+             <string>Synth Lead</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PD - Synth Pad</string>
+             <string>Synth Pad</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>FX - Synth Effect</string>
+             <string>Synth FX</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>ET - Ethnic</string>
+             <string>Ethnic</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PC - Percussion</string>
+             <string>Percussion</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SE - Sound Effect</string>
+             <string>Sound FX</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>DR - Drums</string>
+             <string>Drums</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SC - Synth Comp</string>
+             <string>Synth Comp</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>VO - Vocal</string>
+             <string>Vocal</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>CO - Combination</string>
+             <string>Combination</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>WV - Material Wave</string>
+             <string>Material Wave</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SQ - Sequence</string>
+             <string>Sequence</string>
             </property>
            </item>
           </widget>
           <widget class="QLabel" name="label_50">
            <property name="geometry">
             <rect>
-             <x>190</x>
+             <x>250</x>
              <y>10</y>
-             <width>71</width>
+             <width>61</width>
              <height>21</height>
             </rect>
            </property>
@@ -666,7 +673,7 @@
           <widget class="QGroupBox" name="groupBox_2">
            <property name="geometry">
             <rect>
-             <x>420</x>
+             <x>430</x>
              <y>10</y>
              <width>301</width>
              <height>161</height>
@@ -1009,6 +1016,19 @@
             <enum>QFrame::Raised</enum>
            </property>
           </widget>
+          <widget class="QPushButton" name="initButton">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>71</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Initialize</string>
+           </property>
+          </widget>
           <zorder>an1xPng</zorder>
           <zorder>unison</zorder>
           <zorder>layerGroup</zorder>
@@ -1026,6 +1046,7 @@
           <zorder>groupBox_2</zorder>
           <zorder>label_13</zorder>
           <zorder>splitPoint</zorder>
+          <zorder>initButton</zorder>
          </widget>
         </item>
         <item>

@@ -323,6 +323,11 @@ void MidiMaster::notifyRowidDelete(long long rowid)
 	is_edited = true;
 }
 
+void MidiMaster::newPatch()
+{
+	setCurrentPatch(AN1xPatch(), { PatchSource::Database, 0 });
+}
+
 
 void MidiMaster::setKbdOctave(int octave) {
 	stopAllSounds();

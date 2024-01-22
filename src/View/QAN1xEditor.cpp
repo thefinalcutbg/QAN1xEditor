@@ -27,6 +27,9 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, [this] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, [this] { MidiMaster::restoreSystem(); });
+    connect(ui.initButton, &QPushButton::clicked, [this] { MidiMaster::newPatch(); });
+    connect(ui.panikButton, &QPushButton::clicked, [this] { MidiMaster::stopAllSounds(); });
+
 
     ui.octaveDescrLabel->hide();
     connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { ui.octaveDescrLabel->setHidden(!checked); });
