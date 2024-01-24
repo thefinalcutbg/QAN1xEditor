@@ -3,6 +3,7 @@
 #include <array>
 
 
+
 class AN1xPatch {
 
 public:
@@ -13,12 +14,14 @@ public:
 
 	static constexpr int PatchSize = CommonSize + SceneSize * 2 + SeqSize;
 
+	typedef std::array<unsigned char, PatchSize> PatchRawData;
+
 private:
 	//holds the system data
 	static std::array<unsigned char, SystemSize> s_system;
 
 	//holds the current patch data
-	std::array<unsigned char, PatchSize> m_data {0x0};
+	PatchRawData m_data {0x0};
 
 	unsigned char* getParameterAddress(ParamType type, unsigned char parameter);
 	const unsigned char* getParameterAddress(ParamType type, unsigned char parameter) const;
@@ -26,7 +29,7 @@ private:
 public:
 
 	//constructs InitNormal patch
-	AN1xPatch();
+	AN1xPatch(AN1x::InitType = AN1x::Normal);
 	//constructs patch from AN1x bulk message
 	AN1xPatch(const Message bulkMsg);
 
@@ -57,8 +60,8 @@ public:
 	std::vector<int> getFreeEGData() const;
 
 	//returns the patch data
-	decltype(m_data)& rawData() { return m_data; }
-	const decltype(m_data)& rawData() const { return m_data; }
+	PatchRawData& rawData() { return m_data; }
+	const PatchRawData& rawData() const { return m_data; }
 
 	//returns patch name
 	std::string getName() const;
@@ -70,7 +73,7 @@ public:
 	AN1x::Layer getLayer() const;
 	bool hasArpSeqEnabled() const;
 
-	int getAdler32Hash() const;
+	std::string getHash() const;
 
 	bool operator==(const AN1xPatch& other) const
 	{

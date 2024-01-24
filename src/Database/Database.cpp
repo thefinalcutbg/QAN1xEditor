@@ -275,7 +275,7 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, hash INTEGER, type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
+const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
 
 bool Db::createIfNotExist()
 {

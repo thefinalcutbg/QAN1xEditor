@@ -17,6 +17,7 @@ enum class ParamType {
 
 namespace AN1x
 {
+	enum InitType : unsigned char{Normal, Bass, Brass, String, EP, Organ, Sync, PWM};
 	enum Layer : unsigned char{ Single, Unison, Dual, DualUnison, Split, SplitUnison };
 	enum Pan : unsigned char{ Off, Alt, Round };
 	enum VariFx : unsigned char { Chorus1, Chorus2, Flagner, Symphonic, Phaser, AutoPAN, RotarySpeaker, PitchChange, AuralExciter, Compressor, WahWah, Distortion, Overdrive, AmpSimulator };

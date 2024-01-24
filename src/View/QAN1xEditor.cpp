@@ -4,7 +4,7 @@
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
 #include <QKeyEvent>
-
+#include "FreeFunctions.h"
 
 QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
@@ -14,11 +14,16 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     ui.an1xPng->setStyleSheet("background-image: url(:QMidiAn1x/an1x.png)");
 
     installEventFilter(this);
+    initializeInitMenu();
 
     GlobalWidgets::statusBar = statusBar();
 
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
+
+    for (int i = 0; i < ui.voiceType->count(); i++) {
+        ui.voiceType->setItemIcon(i, FreeFn::getTypeIcon(i));
+    }
 
     connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
@@ -27,7 +32,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, [this] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, [this] { MidiMaster::restoreSystem(); });
-    connect(ui.initButton, &QPushButton::clicked, [this] { MidiMaster::newPatch(); });
     connect(ui.panikButton, &QPushButton::clicked, [this] { MidiMaster::stopAllSounds(); });
 
 
@@ -346,6 +350,29 @@ void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
 {
     if (p >= AN1x::StepSequencerMaxSize) return;
     ui.seqTab->setSequenceParameter(p, value);
+}
+
+void QAN1xEditor::initializeInitMenu()
+{
+
+    const char* strArr[] = {
+        "Init Normal", "Init Bass", "Init Brass",  "Init String", "Init E.Piano", "Init Organ", "Init Sync", "Init PWM"
+    };
+
+    int iconArr[] = { 0, 5, 8, 6, 1, 3, 11, 12 };
+
+    for (int i = 0; i < 8; i++) {
+
+        auto action = new QAction(strArr[i]);
+
+        action->setIcon(FreeFn::getTypeIcon(iconArr[i]));
+
+        connect(action, &QAction::triggered, this, [=]{
+            MidiMaster::newPatch((AN1x::InitType)i);
+         });
+
+        ui.initButton->addAction(action);
+    }
 }
 
 unsigned char QAN1xEditor::layerMode()

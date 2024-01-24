@@ -18,6 +18,7 @@ class QAN1xEditor : public QMainWindow
     void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
     void setCommonParameter(AN1x::CommonParam p, int value);
     void setSequenceParameter(AN1x::SeqParam p, int value);
+    void initializeInitMenu();
 
     unsigned char layerMode();
 

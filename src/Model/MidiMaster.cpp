@@ -276,8 +276,7 @@ void MidiMaster::restoreSystem()
 
 void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 {
-
-	if (src.id == patch_src.id && src.location == patch_src.location) return;
+	if (src.getRowid() != 0 && src.getRowid() == patch_src.getRowid()) return;
 
 	if (is_edited &&
 		GlobalWidgets::askQuestion("Do you want to save current patch?")
@@ -323,9 +322,10 @@ void MidiMaster::notifyRowidDelete(long long rowid)
 	is_edited = true;
 }
 
-void MidiMaster::newPatch()
+void MidiMaster::newPatch(AN1x::InitType type)
 {
-	setCurrentPatch(AN1xPatch(), { PatchSource::Database, 0 });
+	qDebug() << (int)type;
+	setCurrentPatch(AN1xPatch(type), { PatchSource::Database, 0 });
 }
 
 

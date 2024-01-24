@@ -53,7 +53,7 @@ namespace MidiMaster
 	void setCurrentPatch(const AN1xPatch& p, PatchSource src);
 	const AN1xPatch& currentPatch();
 	void notifyRowidDelete(long long rowid);
-	void newPatch();
+	void newPatch(AN1x::InitType type);
 
 	//PC keyboard as Midi
 	void modWheelChange(int value);

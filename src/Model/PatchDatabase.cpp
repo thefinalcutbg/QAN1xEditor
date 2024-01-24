@@ -108,7 +108,7 @@ void PatchDatabase::importFileBufferToDb()
 			db.bind(6, file.filename);
 			db.bind(7, file.getComment(i));
 			db.bind(8, patch.rawData().data(), AN1xPatch::PatchSize);
-			db.bind(9, patch.getAdler32Hash());
+			db.bind(9, patch.getHash());
 
 			db.execute();
 		}
@@ -147,7 +147,7 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 	db.bind(4, p.getLayer());
 	db.bind(5, p.getEffect());
 	db.bind(6, p.hasArpSeqEnabled());
-	db.bind(7, p.getAdler32Hash());
+	db.bind(7, p.getHash());
 
 	if (rowid) {
 		db.bind(8, rowid);
