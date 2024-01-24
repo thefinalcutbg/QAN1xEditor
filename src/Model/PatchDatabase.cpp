@@ -11,7 +11,8 @@
 //private functions:
 void PatchDatabase::refreshTableView() {
 
-	Db db("SELECT rowid, type, name, file, effect, layer, arp_seq, comment FROM patch");
+	Db db;
+	db.newStatement("SELECT rowid, type, name, file, effect, layer, arp_seq, comment FROM patch");
 
 	std::vector<PatchRow> rows;
 
@@ -36,7 +37,8 @@ void PatchDatabase::setVoiceAsCurrent(long long rowid)
 	AN1xPatch result{};
 	//block controls db lifetime
 	{
-		Db db("SELECT rowid, data FROM patch WHERE rowid=?");
+		Db db;
+		db.newStatement("SELECT rowid, data FROM patch WHERE rowid=?");
 
 		db.bind(1, rowid);
 
@@ -80,23 +82,9 @@ void PatchDatabase::loadAn1FileToBuffer(const std::vector<unsigned char>& data, 
 	s_fileBuffer.push_back({ data, filename });
 }
 
-void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
+void PatchDatabase::importFileBufferToDb()
 {
-
-	std::unordered_set<std::string> unique_nametype{"InitNormal0"};
-
 	Db db;
-
-	if (skipDuplicatePatches)
-	{
-		db.newStatement("SELECT name, type FROM patch");
-		
-		while (db.hasRows())
-		{
-			unique_nametype.insert(db.asString(0) + db.asString(1));
-			
-		}
-	}
 
 	db.execute("BEGIN TRANSACTION");
 
@@ -110,18 +98,7 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 			auto name = patch.getName();
 			auto type = patch.getType();
 
-			if (skipDuplicatePatches) {
-
-				auto name = patch.getName();
-
-				auto key = name + std::to_string(type);
-
-				if (unique_nametype.count(key)) continue;
-
-				unique_nametype.insert(key);
-			}
-
-			db.newStatement("INSERT INTO patch (type, name, layer, effect, arp_seq, file, comment, data) VALUES (?,?,?,?,?,?,?,?)");
+			db.newStatement("INSERT INTO patch (type, name, layer, effect, arp_seq, file, comment, data, hash) VALUES (?,?,?,?,?,?,?,?,?)");
 
 			db.bind(1, type);
 			db.bind(2, name);
@@ -131,14 +108,20 @@ void PatchDatabase::importFileBufferToDb(bool skipDuplicatePatches)
 			db.bind(6, file.filename);
 			db.bind(7, file.getComment(i));
 			db.bind(8, patch.rawData().data(), AN1xPatch::PatchSize);
+			db.bind(9, patch.getAdler32Hash());
 
 			db.execute();
 		}
-
-
 	}
 
 	db.execute("END TRANSACTION");
+	
+
+	db.execute(
+		"DELETE FROM patch WHERE rowid NOT IN("
+		"SELECT MIN(rowid) FROM patch GROUP BY hash)"
+	);
+
 
 	refreshTableView();
 
@@ -149,12 +132,13 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 {
 
 	std::string query = rowid ?
-		"UPDATE patch SET data=?, type=?, name=?, layer=?, effect=?, arp_seq=?  WHERE rowid=?"
+		"UPDATE patch SET data=?, type=?, name=?, layer=?, effect=?, arp_seq=?, hash=?  WHERE rowid=?"
 		:
-		"INSERT INTO patch (data, type, name, layer, effect, arp_seq) VALUES(?,?,?,?,?,?)"
+		"INSERT INTO patch (data, type, name, layer, effect, arp_seq, hash) VALUES(?,?,?,?,?,?,?)"
 		;
 
-	Db db(query);
+	Db db;
+	db.newStatement(query);
 
 
 	db.bind(1, p.rawData().data(), AN1xPatch::PatchSize);
@@ -163,9 +147,10 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 	db.bind(4, p.getLayer());
 	db.bind(5, p.getEffect());
 	db.bind(6, p.hasArpSeqEnabled());
+	db.bind(7, p.getAdler32Hash());
 
 	if (rowid) {
-		db.bind(7, rowid);
+		db.bind(8, rowid);
 	}
 
 	db.execute();
@@ -177,7 +162,8 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 
 AN1xPatch PatchDatabase::getPatch(long long rowid)
 {
-	Db db("SELECT rowid, data FROM patch WHERE rowid=?");
+	Db db;
+	db.newStatement("SELECT rowid, data FROM patch WHERE rowid=?");
 
 	db.bind(1, rowid);
 
@@ -204,6 +190,27 @@ void PatchDatabase::updateComment(const std::string& comment, const std::set<lon
 	}
 
 	db.execute("END TRANSACTION");
+
+	refreshTableView();
+}
+
+void PatchDatabase::importExternalDb(const std::string& filepath)
+{
+	if (filepath == Db::getDbPath()) return;
+
+	Db db;
+
+	db.newStatement("ATTACH ? AS external");
+	db.bind(1, filepath);
+	db.execute();
+
+	db.execute("INSERT INTO patch SELECT * FROM external.patch");
+	db.execute("DETACH external");
+
+	db.execute(
+		"DELETE FROM patch WHERE rowid NOT IN("
+		"SELECT MIN(rowid) FROM patch GROUP BY hash)"
+	);
 
 	refreshTableView();
 }

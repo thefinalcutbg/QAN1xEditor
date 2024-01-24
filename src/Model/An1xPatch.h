@@ -70,6 +70,8 @@ public:
 	AN1x::Layer getLayer() const;
 	bool hasArpSeqEnabled() const;
 
+	int getAdler32Hash() const;
+
 	bool operator==(const AN1xPatch& other) const
 	{
 		return m_data == other.m_data;

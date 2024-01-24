@@ -137,8 +137,12 @@ Browser::Browser(QWidget* parent)
 
 	});
 
-	connect(ui.importButton, &QPushButton::clicked, [&] {
+	connect(ui.importAn1, &QPushButton::clicked, [&] {
 		importAN1FileButtonClicked();
+	});
+
+	connect(ui.importAn2, &QPushButton::clicked, [&] {
+		importAN2FileButtonClicked();
 	});
 	
 	connect(ui.databaseView, &QTableView::doubleClicked, this, [&](const QModelIndex& index) {
@@ -234,12 +238,6 @@ void Browser::importAN1FileButtonClicked()
 
 	if (fileNames.empty()) return;
 
-	QMessageBox::StandardButton reply;
-	reply = QMessageBox::question(this, "Import An1 files", "Do you want to skip duplicates?",
-		QMessageBox::Yes | QMessageBox::No);
-
-	bool skipDuplicates = reply == QMessageBox::Yes;
-
 	setProgressBarCount(fileNames.size());
 
 	for (auto& filePath : fileNames)
@@ -268,8 +266,18 @@ void Browser::importAN1FileButtonClicked()
 		file.close();
 	}
 
-	PatchDatabase::importFileBufferToDb(skipDuplicates);
+	PatchDatabase::importFileBufferToDb();
 
+}
+
+void Browser::importAN2FileButtonClicked()
+{
+	auto fileName = QFileDialog::getOpenFileName(this,
+		tr("Open QAN1xEditor"), QDir::homePath(), "QAn1xEditor file(*.an2)");
+
+	if (fileName.isEmpty()) return;
+
+	PatchDatabase::importExternalDb(fileName.toStdString());
 }
 
 void Browser::editComment()
@@ -308,6 +316,8 @@ void Browser::editComment()
 
 void Browser::disableWidgets(bool disabled)
 {
+	ui.progressSpacer->changeSize(0, 0, disabled ? QSizePolicy::Fixed : QSizePolicy::Expanding);
+
 	for (auto obj : children()) {
 		if (obj->isWidgetType()) {
 			static_cast<QWidget*>(obj)->setDisabled(disabled);
@@ -317,6 +327,7 @@ void Browser::disableWidgets(bool disabled)
 	ui.progressBar->setHidden(!disabled);
 	ui.cancelButton->setHidden(!disabled);
 	ui.cancelButton->setDisabled(!disabled);
+
 }
 
 QString Browser::generatePatchText(int index, const char* name)

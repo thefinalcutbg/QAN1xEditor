@@ -1,18 +1,21 @@
 ﻿#include "Database.h"
 
 #include <sqLite3/sqlite3.h>
-#include <qdebug.h>
 #include <filesystem>
+#include <QDir>
+#include <QStandardPaths>
 
 constexpr const char* database_error_msg = "Couldnt create database";
+
 
 Db::Db(Db* existingConnection)
     :
     m_connectionOwned{ existingConnection == nullptr },
     stmt{nullptr}
 {
+
     if(m_connectionOwned){
-        int i = sqlite3_open(dbLocation.c_str(), &db_connection);
+        int i = sqlite3_open(location.c_str(), &db_connection);
     }
     else
     {
@@ -20,16 +23,22 @@ Db::Db(Db* existingConnection)
     }
     
     if (db_connection == nullptr) {
-         throw;
+         throw std::exception();
     }
 
     execute("PRAGMA foreign_keys = ON");
     
 }
 
-Db::Db(const std::string& query, Db* existingConnection) : Db(existingConnection)
+Db::Db(const std::string& path)
 {
-    sqlite3_prepare_v2(db_connection, query.c_str(), -1, &stmt, NULL);
+    int i = sqlite3_open(path.c_str(), &db_connection);
+
+    if (db_connection == nullptr) {
+        throw std::exception("Db connection failed");
+    }
+
+    execute("PRAGMA foreign_keys = ON");
 }
 
 bool Db::hasRows(){
@@ -105,7 +114,7 @@ bool Db::execute(const std::string& query)
     }
 
     finalizeStatement();
-
+  //  qDebug() << i;
     return i == SQLITE_OK;
         
 }
@@ -234,14 +243,11 @@ void Db::finalizeStatement()
     
 }
 
-void Db::setFilePath(const std::string& filePath)
-{
-    dbLocation = filePath;
-}
 
 int Db::version()
 {
-    Db db("PRAGMA user_version");
+    Db db;
+    db.newStatement("PRAGMA user_version");
 
     while (db.hasRows()) {
         return db.asLongLong(0);
@@ -252,28 +258,9 @@ int Db::version()
 
 void Db::setVersion(int version)
 {
-    Db::crudQuery("PRAGMA user_version =" + std::to_string(version));
-}
-
-bool Db::crudQuery(const std::string& query)
-{
-    char* err;
-    sqlite3* db;
-
-    int i = sqlite3_open(dbLocation.c_str(), &db);
-    if (db == nullptr) {
-        return false;
-    }
-
-    sqlite3_exec(db, "PRAGMA foreign_keys = ON", NULL, NULL, &err);
-
-    i = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
-
-    if (err && s_showError) {
-       // ModalDialogBuilder::showError(database_error_msg);
-    }
-
-    return i == SQLITE_OK;
+    Db db;
+    db.newStatement("PRAGMA user_version =" + std::to_string(version));
+    db.execute();
 }
 
 
@@ -288,21 +275,17 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE patch(rowid INTEGER PRIMARY KEY, type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
-
-#include <QFileInfo>
-#include <QDir>
+const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, hash INTEGER, type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
 
 bool Db::createIfNotExist()
 {
-    //if (std::filesystem::exists(dbLocation)) return true;
+    auto dataFolder = QDir(QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[1] + "/QAN1xEditor");
+
+    //creating the user data folder
+    if (!dataFolder.exists()) dataFolder.mkpath(".");
+
+    location = dataFolder.filePath("patches.an2").toStdString();
     
-    QFileInfo db_path(dbLocation.c_str());
-    if (db_path.exists() && db_path.isFile()) return true;
-
-    QDir d = db_path.absoluteDir();
-    d.mkpath(d.absolutePath());
-
     Db db;
 
     db.execute(tableSchema);

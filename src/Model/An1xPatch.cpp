@@ -243,6 +243,23 @@ bool AN1xPatch::hasArpSeqEnabled() const
 	return static_cast<AN1x::Layer>(getParameter(ParamType::Common, AN1x::CommonParam::ArpSeqOnOff));
 }
 
+int AN1xPatch::getAdler32Hash() const
+{
+	const uint32_t MOD_ADLER = 65521;
+
+	uint32_t a = 1, b = 0;
+	size_t index;
+
+	// Process each byte of the data in order
+	for (index = 0; index < m_data.size(); ++index)
+	{
+		a = (a + m_data[index]) % MOD_ADLER;
+		b = (b + a) % MOD_ADLER;
+	}
+
+	return (b << 16) | a;
+}
+
 Message AN1xPatch::getSystemDataMsg()
 {
 	Message result;

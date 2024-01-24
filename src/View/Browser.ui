@@ -201,9 +201,23 @@
         <number>3</number>
        </property>
        <item>
-        <widget class="QPushButton" name="importButton">
+        <widget class="QPushButton" name="importAn1">
          <property name="text">
-          <string>Import AN1 file</string>
+          <string>Import AN1 files</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="importAn2">
+         <property name="text">
+          <string>Import AN2 file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Export AN2 file</string>
          </property>
         </widget>
        </item>
@@ -222,7 +236,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="progressSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -231,7 +245,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
+           <width>0</width>
            <height>20</height>
           </size>
          </property>

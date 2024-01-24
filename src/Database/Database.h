@@ -7,34 +7,33 @@ struct sqlite3_stmt;
 
 class Db
 {
-    sqlite3* db_connection;
-    bool m_connectionOwned;
+    sqlite3* db_connection{ nullptr };
+    bool m_connectionOwned{ false };
 
     int total_bindings{ 0 };
     int successful_bindings{ 0 };
 
-    sqlite3_stmt* stmt;
+    sqlite3_stmt* stmt{ nullptr };
 
     static inline bool s_showError{ false };
-    static inline std::string dbLocation{ "patches.an2" };
+
 
     void finalizeStatement();
 
+    static inline std::string location;// = "default.an2";
 
 public:
-    static void setFilePath(const std::string& filePath);
-    static std::string& getFilePath() { return dbLocation; }
+    static std::string getDbPath() { return location; }
     static int version();
     static void setVersion(int version);
     //open new connection and execute query on the go
-    static bool crudQuery(const std::string& query); 
     static bool createIfNotExist();
     static void showErrorDialog(bool show) {s_showError = show;}
 
     //If connection exists, db finalizes statement in destructor, but does not break connection
     Db(Db* existingConnection = nullptr);
-    //Create db connection with statement ready for retrieval:
-    Db(const std::string& query, Db* existingConnection = nullptr);
+    //Create db connection to external location:
+    Db(const std::string& path);
      
     //returns true if there are more rows to get from database
     bool hasRows(); 
