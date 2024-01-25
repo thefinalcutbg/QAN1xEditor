@@ -60,7 +60,7 @@ bool FreeFn::getUpdate()
 
     if(!GlobalWidgets::askQuestion("A new version is available. Do you want to go to download page?")) return false;
 
-    QDesktopServices::openUrl(QUrl("https://github.com/thefinalcutbg/QAN1xEditor/releases/tag/v0.2.0", QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl("https://github.com/thefinalcutbg/QAN1xEditor/releases/latest", QUrl::TolerantMode));
 
     return true;
 }
