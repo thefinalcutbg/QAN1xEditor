@@ -288,7 +288,7 @@ void Browser::exportAN2File()
 {
 
 	auto fileName = QFileDialog::getSaveFileName(this,
-		tr("Export QAN1xEditor"), QDir::homePath() + "/patches.an2", "QAn1xEditor file(*.an2)");
+		tr("Export QAN1xEditor"), QDir::homePath() + "patches.an2", "QAn1xEditor file(*.an2)");
 
 	if (fileName.isEmpty()) return;
 

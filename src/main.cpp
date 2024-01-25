@@ -2,12 +2,15 @@
 #include <QDebug>
 #include "View/QAN1xEditor.h"
 #include "Database/Database.h"
+#include "View/FreeFunctions.h"
 
 int main(int argc, char* argv[])
 {
 	Db::createIfNotExist();
 
 	QApplication a(argc, argv);
+
+	if (FreeFn::getUpdate()) return 0;
 
 	a.setWheelScrollLines(1);
 
