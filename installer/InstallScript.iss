@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Hristo Konstantinov"
 #define MyAppURL "https://github.com/thefinalcutbg/QAN1xEditor/"
-#define MyAppExeName "QAN1xEditor.exe"
+#define MyAppExeName "QAN1xEditorWin64Setup.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -28,7 +28,7 @@ UsePreviousAppDir=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=compiled
-OutputBaseFilename=OpenPrescrSetup
+OutputBaseFilename=qan1x-1.0-win64
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
