@@ -1,9 +1,10 @@
 #include "PatchMemory.h"
+
+#include <stack>
+
 #include "An1xPatch.h"
 #include "MidiMaster.h"
 #include "View/Browser.h"
-#include <stack>
-#include <qdebug.h>
 #include "View/GlobalWidgets.h"
 
 constexpr std::array<int, 128> orderInit() {

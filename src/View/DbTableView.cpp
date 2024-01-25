@@ -1,5 +1,5 @@
 #include "DbTableView.h"
-#include <qdebug.h>
+
 #include <QDropEvent>
 #include <QHeaderView>
 #include <QKeyEvent>

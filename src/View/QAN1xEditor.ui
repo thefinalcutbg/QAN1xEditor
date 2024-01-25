@@ -535,112 +535,112 @@
            </item>
            <item>
             <property name="text">
-             <string>PF</string>
+             <string>Pf</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>CP</string>
+             <string>Cp</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>OR</string>
+             <string>Or</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>GT</string>
+             <string>Gt</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>BA</string>
+             <string>Ba</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>ST</string>
+             <string>St</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>EN</string>
+             <string>En</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>BR</string>
+             <string>Br</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>RD</string>
+             <string>Rd</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PI</string>
+             <string>Pi</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>LD</string>
+             <string>Ld</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PD</string>
+             <string>Pd</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>FX</string>
+             <string>Fx</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>ET</string>
+             <string>Et</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>PC</string>
+             <string>Pc</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SE</string>
+             <string>Se</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>DR</string>
+             <string>Dr</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SC</string>
+             <string>Sc</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>VO</string>
+             <string>Vo</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>CO</string>
+             <string>Co</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>WV</string>
+             <string>Wv</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>SQ</string>
+             <string>Sq</string>
             </property>
            </item>
           </widget>
@@ -1481,7 +1481,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_14">
+           <widget class="QLabel" name="octaveLabel">
             <property name="text">
              <string>Octave:</string>
             </property>

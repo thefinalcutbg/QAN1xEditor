@@ -1,7 +1,6 @@
 #include "DragDropManager.h"
 #include "PatchMemory.h"
 #include "PatchDatabase.h"
-#include <qdebug.h>
 
 void DragDropManager::droppedToDbTable(const std::vector<int>& selectedListItems)
 {

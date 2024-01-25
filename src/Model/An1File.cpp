@@ -1,6 +1,5 @@
 #include "An1File.h"
 #include <exception>
-#include <qdebug.h>
 
 constexpr int fileSize = 226230;
 

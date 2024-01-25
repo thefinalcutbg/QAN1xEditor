@@ -67,11 +67,30 @@ PianoKey::PianoKey(int idx) : idx(idx)
 void PianoKey::noteOn()
 {
     setBrush(Qt::gray);
+    update();
 }
 
 void PianoKey::noteOff()
 {
-    setBrush(m_black ? Qt::black : Qt::white);
+    if (m_black) {
+        setBrush(Qt::black);
+        return;
+    }
+
+    m_highlighted ? setBrush(QColor(214, 220, 241)) : setBrush(Qt::white);
+
+    update();
+}
+
+void PianoKey::highlight(bool highlighted)
+{
+    m_highlighted = highlighted;
+
+    if (m_black) return;
+
+    m_highlighted ? setBrush(QColor(214, 220, 241)) : setBrush(Qt::white);
+
+    update();
 }
 
 PianoKey::~PianoKey()

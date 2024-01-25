@@ -13,5 +13,6 @@ public:
 	PianoView(QWidget *parent);
 	void setNote(int note, bool pressed);
 	void setVelocity(int velocity);
+	void setOctave(int octave);
 	~PianoView();
 };

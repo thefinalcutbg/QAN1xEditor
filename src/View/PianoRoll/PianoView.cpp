@@ -66,5 +66,25 @@ void PianoView::setVelocity(int velocity)
 	}
 }
 
+void PianoView::setOctave(int octave)
+{
+	octave += 2;
+
+	for (auto key : p_keys) {
+		key->noteOff();
+		key->highlight(false);
+	}
+	
+	if (octave < 0 || octave > 10) return;
+
+	int begin = 12 * octave;
+
+	for (int i = begin; i < begin + 20 && i < p_keys.size(); i++)
+	{
+		p_keys[i]->highlight(true);
+	}
+	
+}
+
 PianoView::~PianoView()
 {}

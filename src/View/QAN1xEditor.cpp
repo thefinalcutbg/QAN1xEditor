@@ -25,18 +25,35 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         ui.voiceType->setItemIcon(i, FreeFn::getTypeIcon(i));
     }
 
+    ui.pianoView->setOctave(ui.pcKbdOctave->value());
+
     connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
-    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { MidiMaster::setKbdOctave(value); });
+
+    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { 
+            ui.pianoView->setOctave(value);
+            MidiMaster::setKbdOctave(value); 
+    });
+
     connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, [this] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, [this] { MidiMaster::restoreSystem(); });
-    connect(ui.panikButton, &QPushButton::clicked, [this] { MidiMaster::stopAllSounds(); });
+    connect(ui.panikButton, &QPushButton::clicked, [this] { 
 
+        ui.pitchBend->setValue(64);
+        ui.modWheel->setValue(0);
+        MidiMaster::stopAllSounds(); 
+    });
 
-    ui.octaveDescrLabel->hide();
-    connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { ui.octaveDescrLabel->setHidden(!checked); });
+    connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { 
+        ui.pcKbdOctave->setHidden(!checked);
+        ui.octaveDescrLabel->setHidden(!checked);
+        ui.octaveLabel->setHidden(!checked);
+        ui.pianoView->setOctave(checked ? ui.pcKbdOctave->value() : -3);
+    });
+
+    ui.enablePcKbd->stateChanged(false);
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
@@ -93,6 +110,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
 
+    connect(ui.pitchBend, &QSlider::sliderReleased, [&] { ui.pitchBend->setValue(64); });
 
     ui.fixedVelocity->setSpecialValueText("Off");
     ui.splitPoint->setAsNoteCombo();
@@ -240,6 +258,7 @@ void QAN1xEditor::setTrackData(const std::vector<int>& trackData)
 {
     ui.FreeEG->setTrackData(trackData);
 }
+
 
 Browser* QAN1xEditor::browser()
 {

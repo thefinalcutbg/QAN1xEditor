@@ -10,8 +10,6 @@
 #include "PatchDatabase.h"
 #include <array>
 
-#include <QDebug>
-
 //static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
@@ -324,7 +322,6 @@ void MidiMaster::notifyRowidDelete(long long rowid)
 
 void MidiMaster::newPatch(AN1x::InitType type)
 {
-	qDebug() << (int)type;
 	setCurrentPatch(AN1xPatch(type), { PatchSource::Database, 0 });
 }
 
