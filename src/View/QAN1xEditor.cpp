@@ -1,9 +1,13 @@
 #include "QAN1xEditor.h"
 
+#include <QUrl>
+#include <QKeyEvent>
+#include <QDesktopServices>
+
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
-#include <QKeyEvent>
+
 #include "FreeFunctions.h"
 
 QAN1xEditor::QAN1xEditor(QWidget* parent)
@@ -211,6 +215,8 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
     }
 
     ui.FreeEG->setTrackData(patch.getFreeEGData());
+
+    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
 
     GlobalWidgets::statusBar->clearMessage();
 

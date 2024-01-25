@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1241</width>
+    <width>1243</width>
     <height>966</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1223</width>
+         <width>1225</width>
          <height>927</height>
         </rect>
        </property>
@@ -120,6 +120,13 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="donateButton">
+            <property name="text">
+             <string>Make a Donation</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -136,929 +143,969 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QGroupBox" name="unison">
-           <property name="geometry">
-            <rect>
-             <x>170</x>
-             <y>40</y>
-             <width>91</width>
-             <height>131</height>
-            </rect>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="title">
-            <string>Unison</string>
+           <property name="leftMargin">
+            <number>0</number>
            </property>
-           <property name="checkable">
-            <bool>true</bool>
+           <property name="topMargin">
+            <number>0</number>
            </property>
-           <property name="checked">
-            <bool>false</bool>
+           <property name="rightMargin">
+            <number>0</number>
            </property>
-           <widget class="QLabel" name="label_6">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>50</y>
-              <width>81</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="text">
-             <string>Detune</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignHCenter|Qt::AlignTop</set>
-            </property>
-           </widget>
-           <widget class="DialKnob" name="detune">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>20</y>
-              <width>41</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="maximum">
-             <number>32</number>
-            </property>
-            <property name="value">
-             <number>6</number>
-            </property>
-            <property name="notchTarget">
-             <double>8.000000000000000</double>
-            </property>
-            <property name="notchesVisible">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_7">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>100</y>
-              <width>81</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="text">
-             <string>Separation</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignHCenter|Qt::AlignTop</set>
-            </property>
-           </widget>
-           <widget class="DialKnob" name="separation">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>70</y>
-              <width>41</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="maximum">
-             <number>32</number>
-            </property>
-            <property name="wrapping">
-             <bool>false</bool>
-            </property>
-            <property name="notchTarget">
-             <double>8.000000000000000</double>
-            </property>
-            <property name="notchesVisible">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QGroupBox" name="layerGroup">
-           <property name="geometry">
-            <rect>
-             <x>100</x>
-             <y>40</y>
-             <width>71</width>
-             <height>131</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>Layer</string>
-           </property>
-           <widget class="QRadioButton" name="split">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>90</y>
-              <width>61</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Split</string>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="dual">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>60</y>
-              <width>61</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Dual</string>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="single">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>30</y>
-              <width>71</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Single</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QGroupBox" name="sceneGroup">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>40</y>
-             <width>91</width>
-             <height>131</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>Scene Select</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-           <widget class="QRadioButton" name="scene1radio">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>30</y>
-              <width>71</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Scene 1</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="scene2radio">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>60</y>
-              <width>89</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Scene 2</string>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="bothSceneRadio">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>90</y>
-              <width>89</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Both</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="SpinBox" name="tempoBPM">
-           <property name="geometry">
-            <rect>
-             <x>340</x>
-             <y>40</y>
-             <width>71</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="suffix">
-            <string> BPM</string>
-           </property>
-           <property name="minimum">
-            <number>39</number>
-           </property>
-           <property name="maximum">
-            <number>240</number>
-           </property>
-           <property name="value">
-            <number>140</number>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_12">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>40</y>
-             <width>81</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Tempo:</string>
-           </property>
-          </widget>
-          <widget class="ComboPicker" name="layerPan">
-           <property name="geometry">
-            <rect>
-             <x>340</x>
-             <y>100</y>
-             <width>71</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <item>
-            <property name="text">
-             <string>Off</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Alternate</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Random</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QLabel" name="label_4">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>100</y>
-             <width>61</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Layer Pan:</string>
-           </property>
-          </widget>
-          <widget class="CheckBox" name="portamentoCheck">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>150</y>
-             <width>91</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Portamento</string>
-           </property>
-          </widget>
-          <widget class="VoiceNameEdit" name="voiceNameEdit">
-           <property name="geometry">
-            <rect>
-             <x>170</x>
-             <y>10</y>
-             <width>91</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="maxLength">
-            <number>10</number>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_11">
-           <property name="geometry">
-            <rect>
-             <x>110</x>
-             <y>11</y>
-             <width>71</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Name:</string>
-           </property>
-          </widget>
-          <widget class="ComboPicker" name="voiceType">
-           <property name="geometry">
-            <rect>
-             <x>340</x>
-             <y>10</y>
-             <width>71</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="currentIndex">
+           <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
-            <property name="text">
-             <string>--</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Pf</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Cp</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Or</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Gt</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ba</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>St</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>En</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Br</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Rd</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Pi</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ld</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Pd</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Fx</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Et</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Pc</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Se</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Dr</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Sc</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Vo</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Co</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Wv</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Sq</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="CheckBox" name="arpSeqCheck">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>120</y>
-             <width>151</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Arpeggiator/Sequencer</string>
-           </property>
-          </widget>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="geometry">
-            <rect>
-             <x>430</x>
-             <y>10</y>
-             <width>301</width>
-             <height>161</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>System settings</string>
-           </property>
-           <widget class="QLabel" name="velCurveLabel">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>30</y>
-              <width>81</width>
-              <height>19</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Velocity curve:</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_9">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>90</y>
-              <width>81</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="text">
-             <string>Transpose:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-           </widget>
-           <widget class="CheckBox" name="midiLocal">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>120</y>
-              <width>91</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>MIDI Local</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_8">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>90</y>
-              <width>91</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="text">
-             <string>Master Tune</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignHCenter|Qt::AlignTop</set>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_1">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>60</y>
-              <width>91</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Fixed velocity:</string>
-            </property>
-           </widget>
-           <widget class="SpinBox" name="fixedVelocity">
-            <property name="geometry">
-             <rect>
-              <x>210</x>
-              <y>60</y>
-              <width>71</width>
-              <height>22</height>
-             </rect>
-            </property>
-            <property name="maximum">
-             <number>127</number>
-            </property>
-           </widget>
-           <widget class="ComboPicker" name="velocityCurve">
-            <property name="geometry">
-             <rect>
-              <x>210</x>
-              <y>30</y>
-              <width>71</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <item>
-             <property name="text">
-              <string>Normal</string>
+            <widget class="QFrame" name="frame_2">
+             <property name="minimumSize">
+              <size>
+               <width>741</width>
+               <height>181</height>
+              </size>
              </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Soft1</string>
+             <property name="maximumSize">
+              <size>
+               <width>741</width>
+               <height>181</height>
+              </size>
              </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Soft2</string>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
              </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Easy</string>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
              </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Wide</string>
+             <widget class="SpinBox" name="tempoBPM">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>40</y>
+                <width>71</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="suffix">
+               <string> BPM</string>
+              </property>
+              <property name="minimum">
+               <number>39</number>
+              </property>
+              <property name="maximum">
+               <number>240</number>
+              </property>
+              <property name="value">
+               <number>140</number>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_16">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>10</y>
+                <width>41</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Type:</string>
+              </property>
+             </widget>
+             <widget class="QToolButton" name="initButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>91</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>New patch</string>
+              </property>
+              <property name="popupMode">
+               <enum>QToolButton::InstantPopup</enum>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextOnly</enum>
+              </property>
+              <property name="autoRaise">
+               <bool>false</bool>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::LeftArrow</enum>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_13">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>70</y>
+                <width>61</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Split Point:</string>
+              </property>
+             </widget>
+             <widget class="CheckBox" name="arpSeqCheck">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>120</y>
+                <width>151</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Arpeggiator/Sequencer</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_4">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>100</y>
+                <width>61</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Layer Pan:</string>
+              </property>
+             </widget>
+             <widget class="QGroupBox" name="sceneGroup">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>91</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Scene Select</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+              <widget class="QRadioButton" name="scene1radio">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>30</y>
+                 <width>71</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Scene 1</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="scene2radio">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>60</y>
+                 <width>89</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Scene 2</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="bothSceneRadio">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>90</y>
+                 <width>89</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Both</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="geometry">
+               <rect>
+                <x>430</x>
+                <y>10</y>
+                <width>301</width>
+                <height>161</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>System settings</string>
+              </property>
+              <widget class="QLabel" name="velCurveLabel">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>30</y>
+                 <width>81</width>
+                 <height>19</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Velocity curve:</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_9">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>90</y>
+                 <width>81</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="text">
+                <string>Transpose:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
+              </widget>
+              <widget class="CheckBox" name="midiLocal">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>120</y>
+                 <width>91</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>MIDI Local</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_8">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>90</y>
+                 <width>91</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="text">
+                <string>Master Tune</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignHCenter|Qt::AlignTop</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_1">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>60</y>
+                 <width>91</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Fixed velocity:</string>
+               </property>
+              </widget>
+              <widget class="SpinBox" name="fixedVelocity">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>60</y>
+                 <width>71</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <number>127</number>
+               </property>
+              </widget>
+              <widget class="ComboPicker" name="velocityCurve">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>30</y>
+                 <width>71</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Normal</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Soft1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Soft2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Easy</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Wide</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Hard</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="DialKnob" name="masterTune">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>40</y>
+                 <width>51</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>170</number>
+               </property>
+               <property name="maximum">
+                <number>854</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>512</number>
+               </property>
+               <property name="notchTarget">
+                <double>500.000000000000000</double>
+               </property>
+               <property name="notchesVisible">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_3">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>20</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_5">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>70</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>-100</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_10">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>70</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>+100</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="SpinBox" name="transpose">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>90</y>
+                 <width>71</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="minimum">
+                <number>-36</number>
+               </property>
+               <property name="maximum">
+                <number>36</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="requestSystem">
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>120</y>
+                 <width>51</width>
+                 <height>24</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Request</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="sendSystem">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>120</y>
+                 <width>51</width>
+                 <height>24</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Send</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="restoreSystem">
+               <property name="geometry">
+                <rect>
+                 <x>230</x>
+                 <y>120</y>
+                 <width>51</width>
+                 <height>24</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Restore</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="VoiceNameEdit" name="voiceNameEdit">
+              <property name="geometry">
+               <rect>
+                <x>170</x>
+                <y>10</y>
+                <width>91</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="maxLength">
+               <number>10</number>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_12">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>40</y>
+                <width>81</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Tempo:</string>
+              </property>
+             </widget>
+             <widget class="CheckBox" name="portamentoCheck">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>150</y>
+                <width>91</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Portamento</string>
+              </property>
+             </widget>
+             <widget class="ComboPicker" name="splitPoint">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>70</y>
+                <width>71</width>
+                <height>21</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="ComboPicker" name="layerPan">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>100</y>
+                <width>71</width>
+                <height>21</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>Off</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Alternate</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Random</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="ComboPicker" name="voiceType">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>10</y>
+                <width>71</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>--</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pf</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Cp</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Or</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Gt</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Ba</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>St</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>En</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Br</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Rd</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pi</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Ld</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pd</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Fx</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Et</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pc</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Se</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Dr</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Sc</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Vo</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Co</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Wv</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Sq</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QGroupBox" name="unison">
+              <property name="geometry">
+               <rect>
+                <x>170</x>
+                <y>40</y>
+                <width>91</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Unison</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+              <widget class="QLabel" name="label_6">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>50</y>
+                 <width>81</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="text">
+                <string>Detune</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignHCenter|Qt::AlignTop</set>
+               </property>
+              </widget>
+              <widget class="DialKnob" name="detune">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>20</y>
+                 <width>41</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="maximum">
+                <number>32</number>
+               </property>
+               <property name="value">
+                <number>6</number>
+               </property>
+               <property name="notchTarget">
+                <double>8.000000000000000</double>
+               </property>
+               <property name="notchesVisible">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_7">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>100</y>
+                 <width>81</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="text">
+                <string>Separation</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignHCenter|Qt::AlignTop</set>
+               </property>
+              </widget>
+              <widget class="DialKnob" name="separation">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>70</y>
+                 <width>41</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="maximum">
+                <number>32</number>
+               </property>
+               <property name="wrapping">
+                <bool>false</bool>
+               </property>
+               <property name="notchTarget">
+                <double>8.000000000000000</double>
+               </property>
+               <property name="notchesVisible">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QGroupBox" name="layerGroup">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>40</y>
+                <width>71</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Layer</string>
+              </property>
+              <widget class="QRadioButton" name="split">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>90</y>
+                 <width>61</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Split</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="dual">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>60</y>
+                 <width>61</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Dual</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="single">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>30</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Single</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QLabel" name="label_11">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>11</y>
+                <width>71</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Name:</string>
+              </property>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Hard</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>722</width>
+               <height>20</height>
+              </size>
              </property>
-            </item>
-           </widget>
-           <widget class="DialKnob" name="masterTune">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>40</y>
-              <width>51</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="minimum">
-             <number>170</number>
-            </property>
-            <property name="maximum">
-             <number>854</number>
-            </property>
-            <property name="singleStep">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <number>512</number>
-            </property>
-            <property name="notchTarget">
-             <double>500.000000000000000</double>
-            </property>
-            <property name="notchesVisible">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_3">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>20</y>
-              <width>51</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_5">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>70</y>
-              <width>51</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>-100</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_10">
-            <property name="geometry">
-             <rect>
-              <x>60</x>
-              <y>70</y>
-              <width>51</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>+100</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-           <widget class="SpinBox" name="transpose">
-            <property name="geometry">
-             <rect>
-              <x>210</x>
-              <y>90</y>
-              <width>71</width>
-              <height>22</height>
-             </rect>
-            </property>
-            <property name="suffix">
-             <string/>
-            </property>
-            <property name="minimum">
-             <number>-36</number>
-            </property>
-            <property name="maximum">
-             <number>36</number>
-            </property>
-            <property name="value">
-             <number>0</number>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="requestSystem">
-            <property name="geometry">
-             <rect>
-              <x>110</x>
-              <y>120</y>
-              <width>51</width>
-              <height>24</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Request</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="sendSystem">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>120</y>
-              <width>51</width>
-              <height>24</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Send</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="restoreSystem">
-            <property name="geometry">
-             <rect>
-              <x>230</x>
-              <y>120</y>
-              <width>51</width>
-              <height>24</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Restore</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QLabel" name="label_13">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>70</y>
-             <width>61</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Split Point:</string>
-           </property>
-          </widget>
-          <widget class="ComboPicker" name="splitPoint">
-           <property name="geometry">
-            <rect>
-             <x>340</x>
-             <y>70</y>
-             <width>71</width>
-             <height>21</height>
-            </rect>
-           </property>
-          </widget>
-          <widget class="QFrame" name="an1xPng">
-           <property name="geometry">
-            <rect>
-             <x>940</x>
-             <y>0</y>
-             <width>251</width>
-             <height>181</height>
-            </rect>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-          </widget>
-          <widget class="QToolButton" name="initButton">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>91</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>New patch</string>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextOnly</enum>
-           </property>
-           <property name="autoRaise">
-            <bool>false</bool>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::LeftArrow</enum>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_16">
-           <property name="geometry">
-            <rect>
-             <x>270</x>
-             <y>10</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Type:</string>
-           </property>
-          </widget>
-          <zorder>an1xPng</zorder>
-          <zorder>unison</zorder>
-          <zorder>layerGroup</zorder>
-          <zorder>sceneGroup</zorder>
-          <zorder>tempoBPM</zorder>
-          <zorder>label_12</zorder>
-          <zorder>layerPan</zorder>
-          <zorder>label_4</zorder>
-          <zorder>portamentoCheck</zorder>
-          <zorder>voiceNameEdit</zorder>
-          <zorder>label_11</zorder>
-          <zorder>voiceType</zorder>
-          <zorder>arpSeqCheck</zorder>
-          <zorder>groupBox_2</zorder>
-          <zorder>label_13</zorder>
-          <zorder>splitPoint</zorder>
-          <zorder>initButton</zorder>
-          <zorder>label_16</zorder>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QFrame" name="an1xPng">
+             <property name="minimumSize">
+              <size>
+               <width>251</width>
+               <height>181</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>251</width>
+               <height>181</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
