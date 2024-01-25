@@ -39,7 +39,7 @@ bool FreeFn::getUpdate()
     QNetworkAccessManager mngr;
 
 
-    QNetworkRequest request(QUrl{ "https://raw.githubusercontent.com/thefinalcutbg/QAN1xEditor/master/ver" });
+    QNetworkRequest request(QUrl{ "https://raw.githubusercontent.com/thefinalcutbg/QAN1xEditor/master/latest" });
 
     auto reply = mngr.get(request);
 
