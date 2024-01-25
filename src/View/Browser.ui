@@ -215,7 +215,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="exportAN2Button">
          <property name="text">
           <string>Export AN2 file</string>
          </property>

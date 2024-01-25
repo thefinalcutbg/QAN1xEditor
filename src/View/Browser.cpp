@@ -12,6 +12,8 @@
 #include "FreeFunctions.h"
 #include "GlobalWidgets.h"
 
+#include "Database/Database.h"
+
 #include "Model/DragDropManager.h"
 #include "Model/PatchMemory.h"
 #include "Model/PatchDatabase.h"
@@ -89,6 +91,8 @@ Browser::Browser(QWidget* parent)
 	});
 
 	connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
+
+	connect(ui.exportAN2Button, &QPushButton::clicked, [&] { exportAN2File();  });
 
 	connect(ui.cancelButton, &QPushButton::clicked, [&] { 
 		
@@ -278,6 +282,17 @@ void Browser::importAN2FileButtonClicked()
 	if (fileName.isEmpty()) return;
 
 	PatchDatabase::importExternalDb(fileName.toStdString());
+}
+
+void Browser::exportAN2File()
+{
+
+	auto fileName = QFileDialog::getSaveFileName(this,
+		tr("Export QAN1xEditor"), QDir::homePath() + "/patches.an2", "QAn1xEditor file(*.an2)");
+
+	if (fileName.isEmpty()) return;
+
+	QFile::copy(Db::getDbPath().c_str(), fileName);
 }
 
 void Browser::editComment()

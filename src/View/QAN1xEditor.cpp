@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QDesktopServices>
 
+#include "Database/Database.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
@@ -15,7 +16,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 {
     ui.setupUi(this);
 
-    ui.an1xPng->setStyleSheet("background-image: url(:QMidiAn1x/an1x.png)");
+    ui.an1xPng->setStyleSheet("background-image: url(:/resources/an1x.png)");
 
     installEventFilter(this);
     initializeInitMenu();
@@ -31,6 +32,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     ui.pianoView->setOctave(ui.pcKbdOctave->value());
 
+    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
+    
     connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
     connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
@@ -183,7 +186,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         system_controls[i]->setCurrentValueAsDefault();
         system_controls[i]->setParam(ParamType::System, (AN1x::SystemParam)i);
     }
- 
+
+
     MidiMaster::setView(this);
 
     MidiMaster::refreshConnection();
@@ -215,8 +219,6 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
     }
 
     ui.FreeEG->setTrackData(patch.getFreeEGData());
-
-    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
 
     GlobalWidgets::statusBar->clearMessage();
 

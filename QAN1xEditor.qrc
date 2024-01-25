@@ -1,7 +1,4 @@
 <RCC>
-    <qresource prefix="/QMidiAn1x">
-        <file>an1x.png</file>
-    </qresource>
     <qresource prefix="/icon">
         <file>resources/icon0.png</file>
         <file>resources/icon1.png</file>
@@ -26,5 +23,8 @@
         <file>resources/icon20.png</file>
         <file>resources/icon21.png</file>
         <file>resources/icon22.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>resources/an1x.png</file>
     </qresource>
 </RCC>

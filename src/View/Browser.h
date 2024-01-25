@@ -35,6 +35,7 @@ private:
 	std::set<long long> getSelectedTableRowids();
 	void importAN1FileButtonClicked();
 	void importAN2FileButtonClicked();
+	void exportAN2File();
 	void editComment();
 	void disableWidgets(bool disabled);
 
