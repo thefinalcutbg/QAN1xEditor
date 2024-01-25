@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /patches.an2
 /include
+/installer/files
+/installer/compiled
