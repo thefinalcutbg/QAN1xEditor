@@ -23,6 +23,7 @@
         <file>resources/icon20.png</file>
         <file>resources/icon21.png</file>
         <file>resources/icon22.png</file>
+        <file>resources/appIcon.png</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/an1x.png</file>

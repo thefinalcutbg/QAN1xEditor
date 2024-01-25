@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
 
 	QApplication a(argc, argv);
 
+	a.setWindowIcon(QIcon(":/icon/resources/appIcon.png"));
+
 	if (FreeFn::getUpdate()) return 0;
 
 	a.setWheelScrollLines(1);
