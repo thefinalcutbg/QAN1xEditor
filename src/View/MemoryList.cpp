@@ -20,6 +20,9 @@ void MemoryList::keyPressEvent(QKeyEvent* event)
 {
 	switch (event->key())
 	{
+	case Qt::Key_Delete:
+		emit deleteRequested();
+		return;
 	case Qt::Key_C:
 		if (event->modifiers() & Qt::ControlModifier) {
 			emit copyRequested();

@@ -91,6 +91,16 @@ void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 	}
 }
 
+void PatchMemory::initPatches(const std::vector<int>& indexes)
+{
+	for (auto index : indexes)
+	{
+		auto& p = getPatch(index);
+		p = AN1xPatch();
+		GlobalWidgets::browser->setPatchToListView(index, p.getName(), p.getType());
+	}
+}
+
 void PatchMemory::setPatch(const AN1xPatch& p, int index) {
 
 	getPatch(index) = p;

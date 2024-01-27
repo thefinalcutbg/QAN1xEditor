@@ -16,6 +16,7 @@ signals:
 	void dataDroped(int row);
 	void copyRequested();
 	void pasteRequested();
+	void deleteRequested();
 
 private:
 	void dropEvent(QDropEvent* e) override;

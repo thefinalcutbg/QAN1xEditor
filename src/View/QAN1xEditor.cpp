@@ -39,6 +39,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
 
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { 
+            ui.pitchBend->setValue(64);
+            ui.modWheel->setValue(0);
             ui.pianoView->setOctave(value);
             MidiMaster::setKbdOctave(value); 
     });

@@ -88,9 +88,13 @@ Browser::Browser(QWidget* parent)
 
 		PatchDatabase::deleteSelectedPatches(selectedRowids);
 
-	});
+		});
 
 	connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
+
+	connect(ui.An1xList, &MemoryList::deleteRequested, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
+
+	connect(ui.initButton, &QPushButton::clicked, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
 
 	connect(ui.exportAN2Button, &QPushButton::clicked, [&] { exportAN2File();  });
 

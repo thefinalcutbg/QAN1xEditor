@@ -82,6 +82,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="initButton">
+       <property name="text">
+        <string>Initialize</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="sendButton">
        <property name="text">
         <string>Send to AN1x</string>
