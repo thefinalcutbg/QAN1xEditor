@@ -366,18 +366,11 @@ void Browser::editComment()
 
 void Browser::disableWidgets(bool disabled)
 {
-	ui.progressSpacer->changeSize(0, 0, disabled ? QSizePolicy::Fixed : QSizePolicy::Expanding);
+	ui.groupBox->setDisabled(disabled);
+	ui.groupBox_2->setDisabled(disabled);
 
-	for (auto obj : children()) {
-		if (obj->isWidgetType()) {
-			static_cast<QWidget*>(obj)->setDisabled(disabled);
-		}
-	}
-	ui.progressBar->setTextVisible(disabled);
 	ui.progressBar->setHidden(!disabled);
 	ui.cancelButton->setHidden(!disabled);
-	ui.cancelButton->setDisabled(!disabled);
-
 }
 
 QString Browser::generatePatchText(int index, const char* name)
