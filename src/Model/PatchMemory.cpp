@@ -6,6 +6,7 @@
 #include "MidiMaster.h"
 #include "View/Browser.h"
 #include "View/GlobalWidgets.h"
+#include "An1File.h"
 
 constexpr std::array<int, 128> orderInit() {
 
@@ -107,6 +108,19 @@ void PatchMemory::setPatch(const AN1xPatch& p, int index) {
 
 	GlobalWidgets::browser->setPatchToListView(index, p.getName(), p.getType());
 
+}
+
+void PatchMemory::loadAn1File(const An1File& file)
+{
+	for (int i = 0; i < 128; i++)
+	{
+		auto &p = getPatch(i);
+
+		p = file.getPatch(i);
+
+		GlobalWidgets::browser->setPatchToListView(i, p.getName(), p.getType());
+
+	}
 }
 
 void PatchMemory::patchRecieved(const AN1xPatch& patch)

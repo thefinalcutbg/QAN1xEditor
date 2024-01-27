@@ -18,6 +18,7 @@
 #include "Model/PatchMemory.h"
 #include "Model/PatchDatabase.h"
 #include "Model/ClipoboardManager.h"
+#include "Model/An1File.h"
 
 Browser::Browser(QWidget* parent)
 	: QWidget(parent)
@@ -93,6 +94,8 @@ Browser::Browser(QWidget* parent)
 	connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
 
 	connect(ui.An1xList, &MemoryList::deleteRequested, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
+
+	connect(ui.loadAN1ToList, &QPushButton::clicked, [&] { loadAN1FileToList();  });
 
 	connect(ui.initButton, &QPushButton::clicked, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
 
@@ -287,6 +290,34 @@ void Browser::importAN2FileButtonClicked()
 
 	PatchDatabase::importExternalDb(fileName.toStdString());
 }
+
+void Browser::loadAN1FileToList()
+{
+	auto fileName = QFileDialog::getOpenFileName(this,
+		tr("Open AN1xEdit file"), QDir::homePath(), "AN1xEdit file(*.an1)");
+
+	if (fileName.isEmpty()) return;
+
+	QFile file(fileName);
+
+	if (!file.open(QIODevice::ReadOnly)) return;
+
+	auto bytes = file.readAll();
+
+	QFileInfo fileInfo(file.fileName());
+
+	try {
+		PatchMemory::loadAn1File({ std::vector<unsigned char>{bytes.begin(), bytes.end()}, "" });
+	}
+	catch (std::exception) {
+		QMessageBox msgBox;
+		msgBox.setText("The file is corrupted");
+		msgBox.exec();
+	}
+
+	file.close();
+}
+
 
 void Browser::exportAN2File()
 {

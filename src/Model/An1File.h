@@ -12,7 +12,7 @@ public:
 	const std::string filename;
 
 	An1File(const std::vector<unsigned char> bytes, const std::string& filename);
-	AN1xPatch getPatch(int index);
-	std::string getComment(int index);
-	constexpr int patchCount() { return 128; }
+	AN1xPatch getPatch(int index) const;
+	std::string getComment(int index) const;
+	constexpr int patchCount() const { return 128; }
 };

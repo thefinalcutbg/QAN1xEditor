@@ -9,7 +9,7 @@ An1File::An1File(const std::vector<unsigned char> bytes, const std::string& file
 		throw std::exception("File corrupted");
 }
 
-AN1xPatch An1File::getPatch(int index)
+AN1xPatch An1File::getPatch(int index) const
 {
 	if (index < 0 || index > 127) return AN1xPatch();
 
@@ -75,7 +75,7 @@ AN1xPatch An1File::getPatch(int index)
 	return result;
 }
 
-std::string An1File::getComment(int index)
+std::string An1File::getComment(int index) const
 {
 	if (index < 0 || index > 127) return "";
 

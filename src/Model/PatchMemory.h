@@ -4,6 +4,7 @@
 #include "An1xPatch.h"
 
 class Browser;
+class An1File;
 
 namespace PatchMemory {
 
@@ -14,5 +15,6 @@ namespace PatchMemory {
 	void loadAn1xMemPatch(int index);
 	void rowMoved(int from, int to);
 	void setPatch(const AN1xPatch& patch, int row);
+	void loadAn1File(const An1File& file);
 	AN1xPatch& getPatch(int index);
 };
