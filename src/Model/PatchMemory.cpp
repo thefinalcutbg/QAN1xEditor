@@ -10,7 +10,7 @@
 
 constexpr std::array<int, 128> orderInit() {
 
-	decltype(orderInit()) result;
+    decltype(orderInit()) result{};
 
 	for (int i = 0; i < 128; i++) {
 		result[i] = i;
