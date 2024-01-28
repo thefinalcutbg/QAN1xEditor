@@ -282,7 +282,7 @@ const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMAR
 bool Db::createIfNotExist()
 {
 
-    #ifdef Q_OS_WS
+    #ifdef _WIN32
         int index = 1;
     #else
         int index = 0;

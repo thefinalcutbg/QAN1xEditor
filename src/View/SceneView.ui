@@ -1332,12 +1332,12 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -1370,12 +1370,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget1">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -1411,12 +1411,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget2">
     <property name="geometry">
      <rect>
       <x>70</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -1452,12 +1452,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget3">
     <property name="geometry">
      <rect>
       <x>100</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -1496,20 +1496,16 @@
      </item>
     </layout>
    </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget1</zorder>
+   <zorder>layoutWidget2</zorder>
+   <zorder>layoutWidget3</zorder>
    <zorder>label_28</zorder>
    <zorder>label_37</zorder>
    <zorder>label_36</zorder>
-   <zorder>ampAttack</zorder>
-   <zorder>ampDecay</zorder>
-   <zorder>ampRelease</zorder>
-   <zorder>ampSustain</zorder>
    <zorder>ampVolume</zorder>
    <zorder>ampVelSens</zorder>
    <zorder>feedback</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
-   <zorder>label_12</zorder>
-   <zorder>label_13</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
@@ -3109,12 +3105,12 @@
      <set>Qt::AlignHCenter|Qt::AlignTop</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget4">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -3147,12 +3143,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget5">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -3188,12 +3184,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget6">
     <property name="geometry">
      <rect>
       <x>70</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -3229,12 +3225,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget7">
     <property name="geometry">
      <rect>
       <x>100</x>
       <y>30</y>
-      <width>31</width>
+      <width>21</width>
       <height>121</height>
      </rect>
     </property>
@@ -3273,16 +3269,16 @@
      </item>
     </layout>
    </widget>
+   <zorder>layoutWidget4</zorder>
+   <zorder>layoutWidget5</zorder>
+   <zorder>layoutWidget6</zorder>
+   <zorder>layoutWidget7</zorder>
    <zorder>label_39</zorder>
    <zorder>label_43</zorder>
    <zorder>label_57</zorder>
    <zorder>label_44</zorder>
    <zorder>label_41</zorder>
    <zorder>label_40</zorder>
-   <zorder>filterAttack</zorder>
-   <zorder>filterDecay</zorder>
-   <zorder>filterRelease</zorder>
-   <zorder>filterSustain</zorder>
    <zorder>hpf</zorder>
    <zorder>filterCutoff</zorder>
    <zorder>filterResonance</zorder>
@@ -3291,10 +3287,6 @@
    <zorder>filterKeyTrk</zorder>
    <zorder>filterVelSens</zorder>
    <zorder>filterDepth</zorder>
-   <zorder>label_17</zorder>
-   <zorder>label_16</zorder>
-   <zorder>label_14</zorder>
-   <zorder>label_15</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_7">
    <property name="geometry">
