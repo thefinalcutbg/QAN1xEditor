@@ -1,6 +1,7 @@
 ﻿#include "Database.h"
 
-#include <sqLite3/sqlite3.h>
+#include <QtGlobal>
+#include <sqlite3.h>
 #include <filesystem>
 #include <QDir>
 #include <QStandardPaths>
@@ -35,7 +36,7 @@ Db::Db(const std::string& path)
     int i = sqlite3_open(path.c_str(), &db_connection);
 
     if (db_connection == nullptr) {
-        throw std::exception("Db connection failed");
+        throw std::exception();
     }
 
     execute("PRAGMA foreign_keys = ON");
@@ -277,9 +278,17 @@ Db::~Db()
 
 const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
 
+
 bool Db::createIfNotExist()
 {
-    auto dataFolder = QDir(QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[1] + "/QAN1xEditor");
+
+    #ifdef Q_OS_WS
+        int index = 1;
+    #else
+        int index = 0;
+    #endif
+
+    auto dataFolder = QDir(QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[index] + "/QAN1xEditor");
 
     //creating the user data folder
     if (!dataFolder.exists()) dataFolder.mkpath(".");

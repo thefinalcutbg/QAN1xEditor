@@ -3698,17 +3698,17 @@
   <customwidget>
    <class>DialKnob</class>
    <extends>QDial</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>ComboPicker</class>
    <extends>QComboBox</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>SpinBox</class>
    <extends>QSpinBox</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

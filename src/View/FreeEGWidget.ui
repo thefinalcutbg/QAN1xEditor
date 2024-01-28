@@ -593,14 +593,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ComboPicker</class>
-   <extends>QComboBox</extends>
-   <header>UiWidgets.h</header>
-  </customwidget>
-  <customwidget>
    <class>DialKnob</class>
    <extends>QDial</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboPicker</class>
+   <extends>QComboBox</extends>
+   <header>View/UiWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

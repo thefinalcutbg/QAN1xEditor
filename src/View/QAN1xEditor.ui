@@ -38,7 +38,7 @@
          <x>0</x>
          <y>0</y>
          <width>1225</width>
-         <height>927</height>
+         <height>926</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -1098,7 +1098,7 @@
               </size>
              </property>
              <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+              <enum>QFrame::NoFrame</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
@@ -1684,79 +1684,77 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>SceneView</class>
-   <extends>QWidget</extends>
-   <header>View/sceneview.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>DialKnob</class>
    <extends>QDial</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>ComboPicker</class>
    <extends>QComboBox</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
-   <class>VoiceNameEdit</class>
-   <extends>QLineEdit</extends>
-   <header>View/voicenameedit.h</header>
+   <class>SpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>CheckBox</class>
    <extends>QCheckBox</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SceneView</class>
+   <extends>QWidget</extends>
+   <header>View/SceneView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VoiceNameEdit</class>
+   <extends>QLineEdit</extends>
+   <header>View/VoiceNameEdit.h</header>
   </customwidget>
   <customwidget>
    <class>ControlMatrixScene</class>
    <extends>QWidget</extends>
-   <header>View/controlmatrixscene.h</header>
+   <header>View/ControlMatrixScene.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>FxEq</class>
    <extends>QWidget</extends>
-   <header>View/fxeq.h</header>
+   <header>View/FxEq.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ArpSeq</class>
    <extends>QWidget</extends>
-   <header>View/arpseq.h</header>
+   <header>View/ArpSeq.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>SpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>PianoView</class>
    <extends>QGraphicsView</extends>
-   <header>PianoRoll/pianoview.h</header>
+   <header>View/PianoRoll/PianoView.h</header>
   </customwidget>
   <customwidget>
    <class>EGSlider</class>
    <extends>QSlider</extends>
-   <header>UiWidgets.h</header>
+   <header>View/UiWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>FreeEGWidget</class>
    <extends>QWidget</extends>
-   <header>freeegwidget.h</header>
+   <header>View/FreeEGWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Browser</class>
    <extends>QWidget</extends>
-   <header>View/browser.h</header>
+   <header>View/Browser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../QAN1xEditor.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

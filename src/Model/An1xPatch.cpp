@@ -267,7 +267,7 @@ Message AN1xPatch::getSystemDataMsg()
 	return result;
 }
 
-#include <QCryptoGraphicHash>
+#include <QCryptographicHash>
 #include <QString>
 
 std::string AN1xPatch::getHash() const

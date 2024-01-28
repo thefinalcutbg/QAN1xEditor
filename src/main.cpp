@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QDebug>
 #include "View/QAN1xEditor.h"
 #include "Database/Database.h"
 #include "View/FreeFunctions.h"
@@ -11,6 +10,10 @@ int main(int argc, char* argv[])
 	QApplication a(argc, argv);
 
 	a.setWindowIcon(QIcon(":/icon/resources/appIcon.png"));
+
+    auto font = a.font();
+    font.setPointSize(8);
+    a.setFont(font);
 
 	if (FreeFn::getUpdate()) return 0;
 

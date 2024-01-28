@@ -2,13 +2,22 @@
 #include "QMidi/qmidimessage.h"
 #include "QMidi/qmidiout.h"
 #include "QMidi/qmidiin.h"
-#include <windows.h>
 #include "View/QAN1xEditor.h"
 #include "An1xPatch.h"
 #include "View/GlobalWidgets.h"
 #include "PatchMemory.h"
 #include "PatchDatabase.h"
 #include <array>
+#include <QtGlobal>
+#include <QTimer>
+#include <QEventLoop>
+
+void blockExec()
+{
+    QEventLoop loop;
+    QTimer::singleShot(500, &loop, SLOT(quit()));
+    loop.exec();
+}
 
 //static variables
 QMidiOut* s_out{ nullptr };
@@ -240,7 +249,7 @@ void MidiMaster::sendBulk(const Message& m)
 {
 	sendMessage(m);
 
-	Sleep(500);
+    blockExec();
 
 	handlingMessage = false;
 }
