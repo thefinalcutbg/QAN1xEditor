@@ -47,7 +47,7 @@ namespace MidiMaster
 
 	//used by PatchMemory when requesting voices from AN1x 
 	void requestVoice(int index);
-	void sendBulk(const Message& m);
+    void sendBulk(const AN1xPatch& patch, int index);
 
 	//setting patch to view
 	void setCurrentPatch(const AN1xPatch& p, PatchSource src);

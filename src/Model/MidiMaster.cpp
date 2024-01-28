@@ -12,7 +12,7 @@
 #include <QTimer>
 #include <QEventLoop>
 
-void blockExec()
+void waitForAWhile()
 {
     QEventLoop loop;
     QTimer::singleShot(500, &loop, SLOT(quit()));
@@ -245,13 +245,25 @@ void MidiMaster::requestVoice(int index)
 	sendMessage(AN1x::voiceRequest(index));
 }
 
-void MidiMaster::sendBulk(const Message& m)
+void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 {
-	sendMessage(m);
+    if (idx < 0 || idx > 127) return;
 
-    blockExec();
+    Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
+
+    msg.reserve(patch.rawData().size() + 11);
+
+    for (auto value : patch.rawData()) msg.push_back(value);
+
+    AN1x::addCheckSum(msg);
+
+    sendMessage(msg);
+
+    waitForAWhile();
 
 	handlingMessage = false;
+
+    PatchMemory::patchSent();
 }
 
 void MidiMaster::requestSystem()
@@ -343,26 +355,26 @@ void MidiMaster::setKbdOctave(int octave) {
 void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
 	static int s_buttonsNotes[20]{
-	65, //Qt::Key_A,
-	87, //Qt::Key_W,
-	83, //Qt::Key_S,
-	69, //Qt::Key_E,
-	68, //Qt::Key_D,
-	70, //Qt::Key_F,
-	84, //Qt::Key_T,
-	71, //Qt::Key_G,
-	89, //Qt::Key_Y,
-	72, //Qt::Key_H,
-	85, //Qt::Key_U,
-	74, //Qt::Key_J,
-	75, //Qt::Key_K,
-	79, //Qt::Key_O,
-	76, //Qt::Key_L,
-	80, //Qt::Key_P,
-	186, //Qt::Key_Semicolon,
-	222, //Qt::Key_Apostrophe,
-	221, //Qt::Key_BracketRight,
-	220 //Qt::Key_Backslash
+    65, //Qt::Key_A,
+    87, //Qt::Key_W,
+    83, //Qt::Key_S,
+    69, //Qt::Key_E,
+    68, //Qt::Key_D,
+    70, //Qt::Key_F,
+    84, //Qt::Key_T,
+    71, //Qt::Key_G,
+    89, //Qt::Key_Y,
+    72, //Qt::Key_H,
+    85, //Qt::Key_U,
+    74, //Qt::Key_J,
+    75, //Qt::Key_K,
+    79, //Qt::Key_O,
+    76, //Qt::Key_L,
+    80, //Qt::Key_P,
+    186, //Qt::Key_Semicolon,
+    222, //Qt::Key_Apostrophe,
+    221, //Qt::Key_BracketRight,
+    220 //Qt::Key_Backslash
 	};
 
 	int note{ -1 };

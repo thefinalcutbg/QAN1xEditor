@@ -68,28 +68,22 @@ void PatchMemory::loadFromAn1x(const std::vector<int>& indexes)
 	MidiMaster::requestVoice(loadStack.top());
 }
 
+std::stack<int> sendStack;
+
 void PatchMemory::sendToAn1x(const std::vector<int>& indexes)
 {
+    sendStack = {};
+
 	if (indexes.empty()) return;
+
+    for (int i = indexes.size() - 1; i >= 0; i--) {
+        sendStack.push(indexes[i]);
+    }
 
 	GlobalWidgets::browser->setProgressBarCount(indexes.size());
 
-	for (auto idx : indexes) {
+    patchSent();
 
-		if (idx < 0 || idx > 127) continue;
-
-		Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
-
-		for (auto value : getPatch(idx).rawData()) msg.push_back(value);
-		
-		AN1x::addCheckSum(msg);
-
-		GlobalWidgets::browser->incrementProgressBar();
-
-		MidiMaster::sendBulk(msg);
-
-
-	}
 }
 
 void PatchMemory::initPatches(const std::vector<int>& indexes)
@@ -137,8 +131,22 @@ void PatchMemory::patchRecieved(const AN1xPatch& patch)
 	if (loadStack.empty()) {
 		return;
 	}
+
 	MidiMaster::requestVoice(loadStack.top());
 
+}
+
+void PatchMemory::patchSent()
+{
+    if (sendStack.empty()) return;
+
+    auto index = sendStack.top();
+
+    sendStack.pop();
+
+    GlobalWidgets::browser->incrementProgressBar();
+
+    MidiMaster::sendBulk(getPatch(index), index);
 }
 
 void PatchMemory::loadAn1xMemPatch(int index)

@@ -43,13 +43,13 @@ Browser::Browser(QWidget* parent)
     ui.databaseView->setColumnWidth(9, 55);
 
 
-    connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, [&](int index) {
+    connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 
         search.setFilterKeyColumn(index + 5);
 
     });
 
-    connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, [&](const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
+    connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, this, [&](const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
             {
                 PatchMemory::rowMoved(start, row);
 
@@ -91,20 +91,20 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.databaseView, &DbTableView::deletePressed, [&] { ui.deleteButton->click(); });
+    connect(ui.databaseView, &DbTableView::deletePressed, this, [&] { ui.deleteButton->click(); });
 
-    connect(ui.An1xList, &MemoryList::deleteRequested, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
+    connect(ui.An1xList, &MemoryList::deleteRequested, this, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
 
-    connect(ui.loadAN1ToList, &QPushButton::clicked, [&] { loadAN1FileToList();  });
+    connect(ui.loadAN1ToList, &QPushButton::clicked, this, [&] { loadAN1FileToList();  });
 
-    connect(ui.initButton, &QPushButton::clicked, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
+    connect(ui.initButton, &QPushButton::clicked, this, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
 
-    connect(ui.exportAN2Button, &QPushButton::clicked, [&] { exportAN2File();  });
+    connect(ui.exportAN2Button, &QPushButton::clicked, this, [&] { exportAN2File();  });
 
-    connect(ui.cancelButton, &QPushButton::clicked, [&] {
+    connect(ui.cancelButton, &QPushButton::clicked, this, [&] {
 
         PatchMemory::loadFromAn1x({});
-
+        PatchMemory::sendToAn1x({});
         disableWidgets(false);
 
         ui.progressBar->setValue(0);
