@@ -293,7 +293,7 @@ bool Db::createIfNotExist()
     //creating the user data folder
     if (!dataFolder.exists()) dataFolder.mkpath(".");
 
-    location = dataFolder.filePath("patches.an2").toStdString();
+    location = dataFolder.filePath("patches.qan1").toStdString();
     
     Db db;
 

@@ -284,7 +284,7 @@ void Browser::importAN1FileButtonClicked()
 void Browser::importAN2FileButtonClicked()
 {
     auto fileName = QFileDialog::getOpenFileName(this,
-                                                 tr("Open QAN1xEditor"), QDir::homePath(), "QAn1xEditor file(*.an2)");
+                                                 tr("Open QAN1xEditor"), QDir::homePath(), "QAn1xEditor file(*.qan1)");
 
     if (fileName.isEmpty()) return;
 
@@ -323,7 +323,7 @@ void Browser::exportAN2File()
 {
 
     auto fileName = QFileDialog::getSaveFileName(this,
-                                                 tr("Export QAN1xEditor"), QDir::homePath() + "patches.an2", "QAn1xEditor file(*.an2)");
+                                                 tr("Export QAN1xEditor"), QDir::homePath() + "/patches.qan1", "QAn1xEditor file(*.qan1)");
 
     if (fileName.isEmpty()) return;
 
@@ -379,7 +379,7 @@ void Browser::disableWidgets(bool disabled)
 	ui.cancelButton->setDisabled(!disabled);
 
 }
-#include <qdebug.h>
+
 void Browser::saveAN1File()
 {
     auto fileName = QFileDialog::getSaveFileName(this,

@@ -223,21 +223,7 @@
           <item>
            <widget class="QPushButton" name="importAn1">
             <property name="text">
-             <string>Import AN1 files</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="importAn2">
-            <property name="text">
-             <string>Import AN2 file</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="exportAN2Button">
-            <property name="text">
-             <string>Export AN2 file</string>
+             <string>Import multiple AN1 files</string>
             </property>
            </widget>
           </item>
@@ -270,6 +256,20 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="importAn2">
+            <property name="text">
+             <string>Import database</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="exportAN2Button">
+            <property name="text">
+             <string>Export database</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
