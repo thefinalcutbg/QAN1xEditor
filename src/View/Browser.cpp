@@ -97,7 +97,7 @@ Browser::Browser(QWidget* parent)
 
     connect(ui.loadAN1ToList, &QPushButton::clicked, this, [&] { loadAN1FileToList();  });
 
-    connect(ui.initButton, &QPushButton::clicked, this, [&] { PatchMemory::initPatches(getSelectedListIndexes()); });
+    connect(ui.saveAN1file, &QPushButton::clicked, this, [&] { saveAN1File(); });
 
     connect(ui.exportAN2Button, &QPushButton::clicked, this, [&] { exportAN2File();  });
 
@@ -378,6 +378,26 @@ void Browser::disableWidgets(bool disabled)
 	ui.cancelButton->setHidden(!disabled);
 	ui.cancelButton->setDisabled(!disabled);
 
+}
+#include <qdebug.h>
+void Browser::saveAN1File()
+{
+    auto fileName = QFileDialog::getSaveFileName(this,
+        tr("Save as An1xEdit file"), QDir::homePath() + "/AN1xEdit1.an1", "An1xEdit file(*.an1)");
+
+    if (fileName.isEmpty()) return;
+
+    QFile f(fileName);
+
+    f.open(QIODeviceBase::WriteOnly);
+
+    auto source = PatchMemory::getFile();
+
+    QByteArray byteArray(reinterpret_cast<const char*>(source.data()), source.size());
+
+    f.write(byteArray);
+    
+    f.close();
 }
 
 QString Browser::generatePatchText(int index, const char* name)

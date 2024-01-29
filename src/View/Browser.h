@@ -39,6 +39,7 @@ private:
 	void exportAN2File();
 	void editComment();
 	void disableWidgets(bool disabled);
+	void saveAN1File();
 
 	Ui::BrowserClass ui;
 };

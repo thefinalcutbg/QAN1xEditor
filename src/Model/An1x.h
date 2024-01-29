@@ -158,7 +158,7 @@ namespace AN1x
 		FreeEgTrackParam4,
 		FreeEgTrackSceneSw4,
 		FreeEgData, //FreeEG begins from here
-		CommonMaxSize = 1640
+		CommonSize = 1640
 	};
 
 	enum SceneParam : unsigned char
@@ -236,7 +236,7 @@ namespace AN1x
 		CtrlMtrxDepth1,
 		//repeat last 3 15 more times
 		CtrlMtrxDepth16 = 0x73,
-		SceneParametersMaxSize
+		SceneSize
 	};
 
 	enum SeqParam
@@ -255,7 +255,7 @@ namespace AN1x
 		//15 more
 		SeqCtrlChange1 = 0x36,
 		//15 more
-		StepSequencerMaxSize = 0x46
+		SeqencerSize = 0x46
 	};
 
 	unsigned char getScene(bool isScene2);

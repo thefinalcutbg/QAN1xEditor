@@ -28,7 +28,20 @@ AN1xPatch& PatchMemory::getPatch(int row) {
 	static std::array<AN1xPatch, 128> s_patches;
 
 	return s_patches[patch_order[row]];
-};
+}
+
+std::vector<unsigned char> PatchMemory::getFile()
+{
+	An1File file;
+
+	for (int i = 0; i < 128; i++)
+	{
+		file.setPatch(getPatch(i), i);
+	}
+
+	return file.getFileData();
+}
+;
 
 void PatchMemory::rowMoved(int from, int to)
 {

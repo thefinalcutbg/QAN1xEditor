@@ -30,14 +30,14 @@
           <item>
            <widget class="QPushButton" name="loadAN1ToList">
             <property name="text">
-             <string>Import An1</string>
+             <string>Open AN1 file</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="initButton">
+           <widget class="QPushButton" name="saveAN1file">
             <property name="text">
-             <string>Initialize</string>
+             <string>Save AN1 file</string>
             </property>
            </widget>
           </item>
@@ -46,7 +46,7 @@
         <item>
          <widget class="MemoryList" name="An1xList">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -59,7 +59,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>160</width>
+            <width>171</width>
             <height>16777215</height>
            </size>
           </property>

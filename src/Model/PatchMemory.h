@@ -18,4 +18,5 @@ namespace PatchMemory {
 	void setPatch(const AN1xPatch& patch, int row);
 	void loadAn1File(const An1File& file);
 	AN1xPatch& getPatch(int index);
+	std::vector<unsigned char> getFile();
 };

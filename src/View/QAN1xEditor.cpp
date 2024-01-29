@@ -205,17 +205,17 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
         setParameter(ParamType::Common, i, patch.getParameter(ParamType::Common, i));
     }
 
-    for (int i = 0; i < AN1x::SceneParametersMaxSize; i++) {
+    for (int i = 0; i < AN1x::SceneSize; i++) {
         if (AN1x::isNull(ParamType::Scene1, i)) continue;
         setParameter(ParamType::Scene1, i, patch.getParameter(ParamType::Scene1, i));
     }
 
-    for (int i = 0; i < AN1x::SceneParametersMaxSize; i++){
+    for (int i = 0; i < AN1x::SceneSize; i++){
         if (AN1x::isNull(ParamType::Scene2, i)) continue;
         setParameter(ParamType::Scene2, i, patch.getParameter(ParamType::Scene2, i));
     }
 
-    for (int i = 0; i < AN1x::StepSequencerMaxSize; i++) {
+    for (int i = 0; i < AN1x::SeqencerSize; i++) {
         if (AN1x::isNull(ParamType::StepSq, i)) continue;
         setParameter(ParamType::StepSq, i, patch.getParameter(ParamType::StepSq, i));
     }
@@ -297,7 +297,7 @@ void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
 
 void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
 {
-    if (p >= AN1x::SceneParametersMaxSize) return;
+    if (p >= AN1x::SceneSize) return;
 
     auto& sceneView = isScene2 ? *ui.scene2tab : *ui.scene1tab;
 
@@ -377,7 +377,7 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
 
 void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
 {
-    if (p >= AN1x::StepSequencerMaxSize) return;
+    if (p >= AN1x::SeqencerSize) return;
     ui.seqTab->setSequenceParameter(p, value);
 }
 

@@ -27,5 +27,6 @@
     </qresource>
     <qresource prefix="/">
         <file>resources/an1x.png</file>
+        <file>resources/AN1xEdit.an1</file>
     </qresource>
 </RCC>

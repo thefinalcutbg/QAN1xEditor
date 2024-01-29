@@ -99,7 +99,7 @@ void ControlMatrixScene::setAsScene(bool isScene2)
 
 void ControlMatrixScene::setSceneParameters(AN1x::SceneParam p, int value)
 {
-	if (p < AN1x::CtrlMtrxSource1 || p > AN1x::SceneParametersMaxSize) return;
+	if (p < AN1x::CtrlMtrxSource1 || p > AN1x::SceneSize) return;
 
 	ui_controls[p - AN1x::CtrlMtrxSource1]->setValue(value);
 }
