@@ -454,9 +454,20 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
             90  //Qt::Key_Z
     };
 
+    if (e->type() != QEvent::KeyPress && e->type() != QEvent::KeyRelease) {
+        return QWidget::eventFilter(obj, e);
+    }
+
+    auto keyEvent = static_cast<QKeyEvent*>(e);
+
+#ifdef Q_OS_WIN:
+    auto key = keyEvent->nativeVirtualKey();
+#else
+    auto key = keyEvent->key();
+#endif
+
     if (e->type() == QEvent::KeyPress)
     {
-        auto keyEvent = static_cast<QKeyEvent*>(e);
 /*
         bool notAKey = false;
 
@@ -479,14 +490,16 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
         grabKeyboard();
 
-        if (keyEvent->key() == Qt::Key_X) {
+
+
+        if (key == Qt::Key_X) {
             ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() + 1);
         }
-        else if (keyEvent->key() == Qt::Key_Z) {
+        else if (key == Qt::Key_Z) {
             ui.pcKbdOctave->setValue(ui.pcKbdOctave->value() - 1);
         }
         else {
-            MidiMaster::pcKeyPress(keyEvent->key(), true, ui.velocityKbdSpin->value());
+            MidiMaster::pcKeyPress(key, true, ui.velocityKbdSpin->value());
         }
 
         return false;
@@ -494,13 +507,12 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
     if (e->type() == QEvent::KeyRelease)
     {
-        auto keyEvent = static_cast<QKeyEvent*>(e);
-
+        
         if (keyEvent->modifiers()) goto here;
 
         if (keyEvent->isAutoRepeat()) goto here;
 
-        MidiMaster::pcKeyPress(keyEvent->key(), false, ui.velocityKbdSpin->value());
+        MidiMaster::pcKeyPress(key, false, ui.velocityKbdSpin->value());
 
         return false;
     }

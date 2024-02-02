@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	a.setWheelScrollLines(1);
 
 	QAN1xEditor w;
-	w.setWindowTitle("QAN1xEditor v1.0");
+	w.setWindowTitle("QAN1xEditor v1.1");
 	w.show();
 
 	return a.exec();

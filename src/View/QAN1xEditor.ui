@@ -38,7 +38,7 @@
          <x>0</x>
          <y>0</y>
          <width>1225</width>
-         <height>926</height>
+         <height>927</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -1580,14 +1580,14 @@
           <item>
            <widget class="EGSlider" name="pitchBend">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>19</width>
               <height>53</height>
              </size>
             </property>
@@ -1611,14 +1611,14 @@
           <item>
            <widget class="EGSlider" name="modWheel">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>19</width>
               <height>53</height>
              </size>
             </property>

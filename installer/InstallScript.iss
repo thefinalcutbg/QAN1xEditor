@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "QAN1xEditor"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "Hristo Konstantinov"
 #define MyAppURL "https://github.com/thefinalcutbg/QAN1xEditor/"
 #define MyAppExeName "QAN1xEditor.exe"
