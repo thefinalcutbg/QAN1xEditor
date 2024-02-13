@@ -28,7 +28,7 @@ UsePreviousAppDir=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=compiled
-OutputBaseFilename=qan1x-1.0-win64
+OutputBaseFilename=qan1x-1.1-win64
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes

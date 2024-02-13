@@ -460,7 +460,7 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 
     auto keyEvent = static_cast<QKeyEvent*>(e);
 
-#ifdef Q_OS_WIN:
+#ifdef Q_OS_WIN
     auto key = keyEvent->nativeVirtualKey();
 #else
     auto key = keyEvent->key();
