@@ -13,7 +13,7 @@ void MemoryList::dropEvent(QDropEvent* e)
 		return;
 	}
 
-	emit dataDroped(row(itemAt(e->pos())));
+    emit dataDroped(row(itemAt(e->position().toPoint())));
 }
 
 void MemoryList::keyPressEvent(QKeyEvent* event)

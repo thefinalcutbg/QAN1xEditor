@@ -37,7 +37,7 @@ void ClipboardManager::pasteToListRequested(int row)
 {
 	if (row < 0 || row > 127) return;
 
-	for (int i = 0; i < s_clipboard.size(); i++) {
+    for (size_t i = 0; i < s_clipboard.size(); i++) {
 		PatchMemory::setPatch(s_clipboard[i], i + row);
 	}
 }

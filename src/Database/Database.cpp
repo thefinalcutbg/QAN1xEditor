@@ -2,11 +2,8 @@
 
 #include <QtGlobal>
 #include <sqlite3.h>
-#include <filesystem>
 #include <QDir>
 #include <QStandardPaths>
-
-constexpr const char* database_error_msg = "Couldnt create database";
 
 
 Db::Db(Db* existingConnection)
@@ -16,7 +13,7 @@ Db::Db(Db* existingConnection)
 {
 
     if(m_connectionOwned){
-        int i = sqlite3_open(location.c_str(), &db_connection);
+        sqlite3_open(location.c_str(), &db_connection);
     }
     else
     {
@@ -33,7 +30,7 @@ Db::Db(Db* existingConnection)
 
 Db::Db(const std::string& path)
 {
-    int i = sqlite3_open(path.c_str(), &db_connection);
+    sqlite3_open(path.c_str(), &db_connection);
 
     if (db_connection == nullptr) {
         throw std::exception();
@@ -94,7 +91,7 @@ std::string Db::asString(int column) {
 
 int Db::getColumnSize(int column)
 {
-    return sqlite3_column_bytes(stmt, 1);
+    return sqlite3_column_bytes(stmt, column);
 }
 
 

@@ -6,7 +6,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <qdebug.h>
 
-void PianoKey::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+void PianoKey::mouseMoveEvent(QGraphicsSceneMouseEvent*)
 {
 
 }
@@ -25,12 +25,12 @@ void PianoKey::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
     }
 }
 
-void PianoKey::hoverEnterEvent(QGraphicsSceneHoverEvent* e)
+void PianoKey::hoverEnterEvent(QGraphicsSceneHoverEvent*)
 {
     
 }
 
-void PianoKey::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void PianoKey::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 {
     MidiMaster::setNote(idx, false, m_velocity);
 }

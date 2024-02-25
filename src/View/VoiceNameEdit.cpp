@@ -10,7 +10,7 @@ VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 		[&](const QString& text) {
 			auto result = text.toStdString();
 
-			for (int i = 0; i < 10; i++)
+            for (size_t i = 0; i < 10; i++)
 			{
 				MidiMaster::parameterChanged(ParamType::Common, (AN1x::CommonParam)i, i >= result.size() ? ' ' : result[i]);
 			}
@@ -22,7 +22,7 @@ VoiceNameEdit::VoiceNameEdit(QWidget *parent)
 void VoiceNameEdit::setName(AN1x::CommonParam p, int value)
 {
 	blockSignals(true);
-	int position = (int)p;
+    size_t position = (int)p;
 
 	auto currentText = text().toStdString();
 

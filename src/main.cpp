@@ -11,10 +11,6 @@ int main(int argc, char* argv[])
 
 	a.setWindowIcon(QIcon(":/icon/resources/appIcon.png"));
 
-    auto font = a.font();
-    font.setPointSize(8);
-    a.setFont(font);
-
 	if (FreeFn::getUpdate()) return 0;
 
 	a.setWheelScrollLines(1);

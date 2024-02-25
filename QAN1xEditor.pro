@@ -1,14 +1,18 @@
-QT       += core gui network
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core widgets gui network
 
 CONFIG += c++17
 
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+macx{
+    LIBS += -framework CoreMidi
+    LIBS += -framework CoreAudio
+    LIBS += -framework CoreFoundation
+}
 
-LIBS += -lsqlite3 -lasound
+ICON = $$PWD/installer/icon.icns
+
+linux{
+    LIBS += -lasound
+}
 
 INCLUDEPATH += include
 INCLUDEPATH += src
@@ -20,6 +24,7 @@ SOURCES += \
     include/QMidi/qmidimessage.cpp \
     include/QMidi/qmidiout.cpp \
     include/QMidi/qmidipianoroll.cpp \
+    include/sqLite3/sqlite3.c \
     src/Database/Database.cpp \
     src/Model/An1File.cpp \
     src/Model/An1x.cpp \
@@ -56,6 +61,8 @@ HEADERS += \
     include/QMidi/qmidimessage.h \
     include/QMidi/qmidiout.h \
     include/QMidi/qmidipianoroll.h \
+    include/sqLite3/sqlite3.h \
+    include/sqLite3/sqlite3ext.h \
     src/Database/Database.h \
     src/Model/An1File.h \
     src/Model/An1x.h \

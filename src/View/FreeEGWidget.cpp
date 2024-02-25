@@ -36,7 +36,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 
 	ui.lengthCombo->setCurrentIndex(38);
 
-	for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
 	{
 		if (ui_controls[i] == nullptr) continue;
 
@@ -48,7 +48,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 	ui.egView->setScene(scene);
 	ui.egView->viewport()->setMouseTracking(true);
 
-	connect(ui.currentTrackCombo, &QComboBox::currentIndexChanged, [=](int index) { scene->setCurrentIndex(index); });
+    connect(ui.currentTrackCombo, &QComboBox::currentIndexChanged, this, [=](int index) { scene->setCurrentIndex(index); });
 
 	scene->setCurrentIndex(0);
 
@@ -67,7 +67,7 @@ FreeEGWidget::~FreeEGWidget()
 
 void FreeEGWidget::setCommonParameter(AN1x::CommonParam p, int value)
 {
-	int idx = p - AN1x::FreeEGTrigger;
+    size_t idx = p - AN1x::FreeEGTrigger;
 
 	if (
 		p == AN1x::FreeEgTrackSceneSw1 ||

@@ -4,7 +4,7 @@
 #include "ui_Browser.h"
 #include "BrowserTableModel.h"
 #include <QSortFilterProxyModel>
-
+#include <set>
 class Browser : public QWidget
 {
 	Q_OBJECT

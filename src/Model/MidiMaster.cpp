@@ -90,7 +90,7 @@ void handleSysMsg(const Message& msg)
 	//parameter recieved (AN1x doesnt send AEG ADSR and a few more)
 	std::array<int, 4> header{ 240, 67, 16, 92 };
 
-	for (int i = 0; i < header.size(); i++)
+    for (size_t i = 0; i < header.size(); i++)
 	{
 		if (msg[i] != header[i]) return;
 	}
@@ -355,31 +355,31 @@ void MidiMaster::setKbdOctave(int octave) {
 void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
 	static int s_buttonsNotes[20]{
-    65, //Qt::Key_A,
-    87, //Qt::Key_W,
-    83, //Qt::Key_S,
-    69, //Qt::Key_E,
-    68, //Qt::Key_D,
-    70, //Qt::Key_F,
-    84, //Qt::Key_T,
-    71, //Qt::Key_G,
-    89, //Qt::Key_Y,
-    72, //Qt::Key_H,
-    85, //Qt::Key_U,
-    74, //Qt::Key_J,
-    75, //Qt::Key_K,
-    79, //Qt::Key_O,
-    76, //Qt::Key_L,
-    80, //Qt::Key_P,
-    186, //Qt::Key_Semicolon,
-    222, //Qt::Key_Apostrophe,
-    221, //Qt::Key_BracketRight,
-    220 //Qt::Key_Backslash
-	};
+            Qt::Key_A,
+            Qt::Key_W,
+            Qt::Key_S,
+            Qt::Key_E,
+            Qt::Key_D,
+            Qt::Key_F,
+            Qt::Key_T,
+            Qt::Key_G,
+            Qt::Key_Y,
+            Qt::Key_H,
+            Qt::Key_U,
+            Qt::Key_J,
+            Qt::Key_K,
+            Qt::Key_O,
+            Qt::Key_L,
+            Qt::Key_P,
+            Qt::Key_Semicolon,
+            Qt::Key_Apostrophe,
+            Qt::Key_BracketRight,
+            Qt::Key_Backslash,
+    };
 
 	int note{ -1 };
 
-	for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++) {
 		if (kbd_key == s_buttonsNotes[i]) {
 			note = (12 * s_kbdOctave) + i;
 

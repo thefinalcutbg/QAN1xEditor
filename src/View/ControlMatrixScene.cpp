@@ -63,7 +63,7 @@ void ControlMatrixScene::setAsScene(bool isScene2)
 	ui.depth_16
 	};
 
-	for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
 	{
 		auto combo = static_cast<ComboPicker*>(ui_controls[i]);
 
@@ -87,7 +87,7 @@ void ControlMatrixScene::setAsScene(bool isScene2)
 		dial->setCurrentValueAsDefault();
 	}
 
-	for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
 	{
 		auto parameter = static_cast<int>(AN1x::CtrlMtrxSource1) + i;
 

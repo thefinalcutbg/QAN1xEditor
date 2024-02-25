@@ -7,11 +7,11 @@ FxEq::FxEq(QWidget *parent)
 	ui.setupUi(this);
 
 
-    connect(ui.variFxType, &QComboBox::currentIndexChanged, [&](int index) { setFxLayout(index); });
-    connect(ui.delayType, &QComboBox::currentIndexChanged, [&](int index) { setDelayLayout(index); });
-    connect(ui.dlyBypass, &QCheckBox::clicked, [&] { setBypass(); });
-    connect(ui.revBypass, &QCheckBox::clicked, [&] { setBypass(); });
-    connect(ui.allBypass, &QCheckBox::clicked, [&] { setBypass(); });
+    connect(ui.variFxType, &QComboBox::currentIndexChanged, this, [&](int index) { setFxLayout(index); });
+    connect(ui.delayType, &QComboBox::currentIndexChanged, this, [&](int index) { setDelayLayout(index); });
+    connect(ui.dlyBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
+    connect(ui.revBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
+    connect(ui.allBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
 
     setFxLayout(0);
     setDelayLayout(0);
@@ -80,7 +80,7 @@ FxEq::FxEq(QWidget *parent)
     ui.scene1DW->showPlusOnPositives(true);
     ui.scene2DW->showPlusOnPositives(true);
 
-    for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
     {
         if (ui_controls[i] == nullptr) continue;
 
@@ -133,7 +133,7 @@ void FxEq::setSystemParameter(AN1x::SystemParam p, int value)
 
 void FxEq::setCommonParameter(AN1x::CommonParam p, int value)
 {
-    int idx = p - AN1x::VariFXType;
+    size_t idx = p - AN1x::VariFXType;
 
     if (idx >= 0 && idx < ui_controls.size() &&  ui_controls[idx] != nullptr) {
         ui_controls[idx]->setValue(value);
