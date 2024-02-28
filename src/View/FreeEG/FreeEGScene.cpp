@@ -76,7 +76,7 @@ void FreeEGScene::setTrackData(const std::vector<int>& trackData)
 {
 	//if (trackData.size() != 192 * 4) return;
 
-	for (int i = 0; i < trackData.size(); i++)
+    for (size_t i = 0; i < trackData.size(); i++)
 	{
 		int currentTrackNo = i / 192;
 		auto& currentTrack = track[currentTrackNo];

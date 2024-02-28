@@ -4,7 +4,6 @@
 #include <QKeyEvent>
 #include <QDesktopServices>
 
-#include "Database/Database.h"
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
@@ -32,37 +31,37 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     ui.pianoView->setOctave(ui.pcKbdOctave->value());
 
-    connect(ui.donateButton, &QPushButton::clicked, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
+    connect(ui.donateButton, &QPushButton::clicked, this, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
     
-    connect(ui.modWheel, &QSlider::valueChanged, [this](int value) { MidiMaster::modWheelChange(value); });
-    connect(ui.pitchBend, &QSlider::valueChanged, [this](int value) { MidiMaster::pitchChange(value); });
-    connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, [=](int value) { ui.pianoView->setVelocity(value); });
+    connect(ui.modWheel, &QSlider::valueChanged, this, [&](int value) { MidiMaster::modWheelChange(value); });
+    connect(ui.pitchBend, &QSlider::valueChanged, this, [&](int value) { MidiMaster::pitchChange(value); });
+    connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, this, [=](int value) { ui.pianoView->setVelocity(value); });
 
-    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, [this](int value) { 
+    connect(ui.pcKbdOctave, &QSpinBox::valueChanged, this, [this](int value) {
             ui.pitchBend->setValue(64);
             ui.modWheel->setValue(0);
             ui.pianoView->setOctave(value);
             MidiMaster::setKbdOctave(value); 
     });
 
-    connect(ui.requestSystem, &QPushButton::clicked, [this] { MidiMaster::requestSystem(); });
-    connect(ui.sendSystem, &QPushButton::clicked, [this] { MidiMaster::sendSystem(); });
-    connect(ui.restoreSystem, &QPushButton::clicked, [this] { MidiMaster::restoreSystem(); });
-    connect(ui.panikButton, &QPushButton::clicked, [this] { 
+    connect(ui.requestSystem, &QPushButton::clicked, this, [&] { MidiMaster::requestSystem(); });
+    connect(ui.sendSystem, &QPushButton::clicked, this, [&] { MidiMaster::sendSystem(); });
+    connect(ui.restoreSystem, &QPushButton::clicked, this, [&] { MidiMaster::restoreSystem(); });
+    connect(ui.panikButton, &QPushButton::clicked, this, [this] {
 
         ui.pitchBend->setValue(64);
         ui.modWheel->setValue(0);
         MidiMaster::stopAllSounds(); 
     });
 
-    connect(ui.enablePcKbd, &QCheckBox::stateChanged, [this](bool checked) { 
+    connect(ui.enablePcKbd, &QCheckBox::stateChanged, this, [this](bool checked) {
         ui.pcKbdOctave->setHidden(!checked);
         ui.octaveDescrLabel->setHidden(!checked);
         ui.octaveLabel->setHidden(!checked);
         ui.pianoView->setOctave(checked ? ui.pcKbdOctave->value() : -3);
     });
 
-    ui.enablePcKbd->stateChanged(false);
+    emit ui.enablePcKbd->stateChanged(false);
 
     ui.scene1tab->setAsScene(false);
     ui.scene2tab->setAsScene(true);
@@ -88,15 +87,15 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 
     //MIDI DEVICES
-    connect(ui.refresh, &QPushButton::clicked, [=] { MidiMaster::refreshConnection(); });
-    connect(ui.inCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
-    connect(ui.outCombo, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
+    connect(ui.refresh, &QPushButton::clicked, this, [=] { MidiMaster::refreshConnection(); });
+    connect(ui.inCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
+    connect(ui.outCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
 
     //LAYER
-    connect(ui.single, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
-    connect(ui.dual, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
-    connect(ui.split, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
-    connect(ui.unison, &QGroupBox::clicked, [=](bool checked) {
+    connect(ui.single, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
+    connect(ui.dual, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Dual : AN1x::DualUnison); });
+    connect(ui.split, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Split : AN1x::SplitUnison); });
+    connect(ui.unison, &QGroupBox::clicked, this, [=](bool checked) {
 
         if (ui.single->isChecked())
         {
@@ -113,20 +112,20 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         }
     );
 
-    connect(ui.scene1radio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 0); });
-    connect(ui.scene2radio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 1); });
-    connect(ui.bothSceneRadio, &QRadioButton::clicked, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 2); });
+    connect(ui.scene1radio, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 0); });
+    connect(ui.scene2radio, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 1); });
+    connect(ui.bothSceneRadio, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::SceneSelect, 2); });
 
-    connect(ui.transpose, &QSpinBox::valueChanged, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
+    connect(ui.transpose, &QSpinBox::valueChanged, this, [=](int value) { ui.transpose->setPrefix(value > 0 ? "+" : ""); });
 
-    connect(ui.pitchBend, &QSlider::sliderReleased, [&] { ui.pitchBend->setValue(64); });
+    connect(ui.pitchBend, &QSlider::sliderReleased, this, [&] { ui.pitchBend->setValue(64); });
 
     ui.fixedVelocity->setSpecialValueText("Off");
     ui.splitPoint->setAsNoteCombo();
     ui.tempoBPM->setSpecialValueText("MIDI");
     ui.masterTune->setValueTextType(DialKnob::MasterTune);
 
-    connect(ui.fixedVelocity, &QSpinBox::valueChanged, 
+    connect(ui.fixedVelocity, &QSpinBox::valueChanged, this,
         [&](int value) { 
             ui.velocityCurve->setDisabled(value); 
             ui.velCurveLabel->setDisabled(value);
@@ -164,7 +163,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         
     };
 
-    for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
     {
         if (ui_controls[i] == nullptr) continue;
 
@@ -181,7 +180,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     system_controls[4] = ui.fixedVelocity;
     system_controls[11] = ui.midiLocal;
 
-    for (int i = 0; i < system_controls.size(); i++)
+    for (size_t i = 0; i < system_controls.size(); i++)
     {
         if (system_controls[i] == nullptr) continue;
 
@@ -256,6 +255,7 @@ void QAN1xEditor::setParameter(ParamType type, unsigned char param, int value)
         case ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
         case ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
         case ParamType::StepSq: setSequenceParameter((AN1x::SeqParam)param, value); break;
+        default: break;
     }
 }
 
@@ -428,32 +428,32 @@ bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
         releaseKeyboard();
         return false;
     }
-
+/*
     static const int keyboardKeys[] = {
-            65, //Qt::Key_A,
-            87, //Qt::Key_W,
-            83, //Qt::Key_S,
-            69, //Qt::Key_E,
-            68, //Qt::Key_D,
-            70, //Qt::Key_F,
-            84, //Qt::Key_T,
-            71, //Qt::Key_G,
-            89, //Qt::Key_Y,
-            72, //Qt::Key_H,
-            85, //Qt::Key_U,
-            74, //Qt::Key_J,
-            75, //Qt::Key_K,
-            79, //Qt::Key_O,
-            76, //Qt::Key_L,
-            80, //Qt::Key_P,
-            186,//Qt::Key_Semicolon,
-            222,//Qt::Key_Apostrophe,
-            221,//Qt::Key_BracketRight,
-            220,//Qt::Key_Backslash
-            88, //Qt::Key_X
-            90  //Qt::Key_Z
+            Qt::Key_A,
+            Qt::Key_W,
+            Qt::Key_S,
+            Qt::Key_E,
+            Qt::Key_D,
+            Qt::Key_F,
+            Qt::Key_T,
+            Qt::Key_G,
+            Qt::Key_Y,
+            Qt::Key_H,
+            Qt::Key_U,
+            Qt::Key_J,
+            Qt::Key_K,
+            Qt::Key_O,
+            Qt::Key_L,
+            Qt::Key_P,
+            Qt::Key_Semicolon,
+            Qt::Key_Apostrophe,
+            Qt::Key_BracketRight,
+            Qt::Key_Backslash,
+            Qt::Key_X,
+            Qt::Key_Z
     };
-
+*/
     if (e->type() != QEvent::KeyPress && e->type() != QEvent::KeyRelease) {
         return QWidget::eventFilter(obj, e);
     }

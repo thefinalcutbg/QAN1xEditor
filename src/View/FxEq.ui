@@ -74,9 +74,9 @@
    <widget class="QLabel" name="param3label_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>90</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -130,9 +130,9 @@
    <widget class="QLabel" name="param3label_6">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>179</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -672,7 +672,7 @@
    <widget class="CheckBox" name="allBypass">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>160</x>
       <y>30</y>
       <width>81</width>
       <height>20</height>
@@ -1006,9 +1006,9 @@
    <widget class="QLabel" name="revLabel4">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>120</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -1022,9 +1022,9 @@
    <widget class="QLabel" name="revLabel6">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>80</x>
       <y>180</y>
-      <width>51</width>
+      <width>71</width>
       <height>21</height>
      </rect>
     </property>
@@ -1038,9 +1038,9 @@
    <widget class="QLabel" name="revLabel7">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>150</x>
       <y>180</y>
-      <width>51</width>
+      <width>71</width>
       <height>21</height>
      </rect>
     </property>
@@ -1289,9 +1289,9 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>660</x>
       <y>40</y>
-      <width>281</width>
+      <width>291</width>
       <height>111</height>
      </rect>
     </property>
@@ -1304,7 +1304,7 @@
     <widget class="DialKnob" name="highGain">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>190</x>
        <y>30</y>
        <width>50</width>
        <height>64</height>
@@ -1332,7 +1332,7 @@
     <widget class="QLabel" name="label_32">
      <property name="geometry">
       <rect>
-       <x>150</x>
+       <x>160</x>
        <y>70</y>
        <width>31</width>
        <height>16</height>
@@ -1348,7 +1348,7 @@
     <widget class="QLabel" name="label_33">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>30</x>
        <y>90</y>
        <width>91</width>
        <height>16</height>
@@ -1364,7 +1364,7 @@
     <widget class="QLabel" name="label_34">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>180</x>
        <y>90</y>
        <width>71</width>
        <height>16</height>
@@ -1380,7 +1380,7 @@
     <widget class="DialKnob" name="highFq">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>50</x>
        <y>30</y>
        <width>50</width>
        <height>64</height>
@@ -1405,7 +1405,7 @@
     <widget class="QLabel" name="label_35">
      <property name="geometry">
       <rect>
-       <x>230</x>
+       <x>240</x>
        <y>70</y>
        <width>51</width>
        <height>16</height>
@@ -1420,8 +1420,8 @@
       <rect>
        <x>0</x>
        <y>70</y>
-       <width>41</width>
-       <height>16</height>
+       <width>51</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
@@ -1434,7 +1434,7 @@
     <widget class="QLabel" name="label_37">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>70</y>
        <width>51</width>
        <height>16</height>
@@ -1447,7 +1447,7 @@
     <widget class="QLabel" name="label_38">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>200</x>
        <y>20</y>
        <width>31</width>
        <height>16</height>
@@ -1463,7 +1463,7 @@
     <widget class="QLabel" name="label_41">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>50</x>
        <y>20</y>
        <width>51</width>
        <height>20</height>
@@ -1690,7 +1690,7 @@
      <rect>
       <x>280</x>
       <y>40</y>
-      <width>391</width>
+      <width>381</width>
       <height>111</height>
      </rect>
     </property>

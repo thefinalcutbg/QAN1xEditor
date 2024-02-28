@@ -54,7 +54,6 @@ AN1xPatch::AN1xPatch(const std::vector<unsigned char> bulkMsg)
 
 const unsigned char* AN1xPatch::getParameterAddress(ParamType type, unsigned char parameter) const
 {
-	unsigned char* paramAddress = nullptr;
 
 	static constexpr int dataOffsets[5]{
 		0,
@@ -156,6 +155,7 @@ Message AN1xPatch::getDataMessage(ParamType type) const
 			result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x46, 0x10, 0xE, 0x00 };
 			for (int i = CommonSize + (SceneSize*2); i < CommonSize + (SceneSize * 2) + SeqSize; i++) result.push_back(m_data[i]);
 			break;
+        default: break;
 	}	
 
 	AN1x::addCheckSum(result);
@@ -186,7 +186,7 @@ int AN1xPatch::getParameter(ParamType type, unsigned char param) const
 
 void AN1xPatch::setFreeEGData(const std::vector<int>& data)
 {
-	for (int i = 0; i < data.size(); i++)
+    for (size_t i = 0; i < data.size(); i++)
 	{
 		m_data[AN1x::CommonParam::FreeEgData + i] = data[i];
 	}
@@ -273,15 +273,15 @@ Message AN1xPatch::getSystemDataMsg()
 std::string AN1xPatch::getHash() const
 {
 
-	QCryptographicHash* hash = new QCryptographicHash(QCryptographicHash::Sha256);
+    QCryptographicHash hash = QCryptographicHash(QCryptographicHash::Sha256);
 
 	QByteArray data;
 
 	data.reserve(m_data.size());
 
-	hash->addData((char*)m_data.data(), m_data.size());
+    hash.addData((char*)m_data.data(), m_data.size());
 
-	return QString(hash->result()).toStdString();
+    return QString(hash.result()).toStdString();
 
 	/*
 	//Old adler implementation:

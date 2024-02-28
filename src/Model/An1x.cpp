@@ -17,6 +17,7 @@ Message AN1x::getHeader(ParamType p)
 		case ParamType::Scene1: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x10 };
 		case ParamType::Scene2: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x11 };
 		case ParamType::StepSq: return { 0xF0, 0x43, 0x10, 0x5C, 0x10, 0x0E };
+        default: break;
 	}
 
 	return {};
@@ -95,6 +96,7 @@ int AN1x::getOffset(ParamType t, int parameter)
 			
 		}
 		break;
+        default: break;
 	}
 
 	return 0;
@@ -151,7 +153,7 @@ bool AN1x::isNull(ParamType t, int p)
 			return s_commonNull.count(p);
 		case ParamType::StepSq:
 			return p == AN1x::SeqNull1 || p == AN1x::SeqNull2;
-			
+        default: break;
 	}
 	return false;
 }
@@ -169,6 +171,7 @@ bool AN1x::isTwoByteParameter(ParamType t, int p)
 			return isNull(ParamType::Scene1, (AN1x::SceneParam)(p + 1)) && p + 1 != SceneParam::reserve;
 		case ParamType::StepSq:
 			return false; //everything is 1 byte
+        default: break;
 	}
 
 	return false;
@@ -576,7 +579,7 @@ void AN1x::addCheckSum(std::vector<unsigned char>& message)
 {
 	unsigned char sum = 0x00;
 
-	for (int i = 4; i < message.size(); i++) {
+    for (size_t i = 4; i < message.size(); i++) {
 
 		sum += message[i]; //intended arithmetic overflow
 	}

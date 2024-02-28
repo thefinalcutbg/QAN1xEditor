@@ -15,11 +15,11 @@ bool DialKnob::event(QEvent* e)
 
 	switch (e->type())
 	{
-	case QEvent::HoverEnter:
+    case QEvent::Enter:
 		GlobalWidgets::statusBar->showMessage(getValueText());
 		return true;
 		break;
-	case QEvent::HoverLeave:
+    case QEvent::Leave:
 		GlobalWidgets::statusBar->clearMessage();
 		return true;
 		break;
@@ -200,7 +200,7 @@ DialKnob::DialKnob(QWidget *parent)
 	setAttribute(Qt::WA_Hover, true);
 	installEventFilter(this);
 
-	connect(this, &QDial::valueChanged, 
+    connect(this, &QDial::valueChanged, this,
 		[&](int value) {
 			if (type == ParamType::Unknown) return;
 			GlobalWidgets::statusBar->showMessage(getValueText());
@@ -233,11 +233,11 @@ bool ComboPicker::event(QEvent* e)
 {
 	switch (e->type())
 	{
-	case QEvent::HoverEnter:
+    case QEvent::Enter:
 		GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(currentIndex()));
 		return true;
 		break;
-	case QEvent::HoverLeave:
+    case QEvent::Leave:
 		GlobalWidgets::statusBar->clearMessage();
 		return true;
 		break;
@@ -261,7 +261,7 @@ bool ComboPicker::event(QEvent* e)
 
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
-	connect(this, &QComboBox::currentIndexChanged, 
+    connect(this, &QComboBox::currentIndexChanged, this,
 		[&](int value) { 
 			if (type == ParamType::Unknown) return;
 
@@ -317,7 +317,7 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 	setAttribute(Qt::WA_Hover, true);
 	installEventFilter(this);
 
-	connect(this, &QSlider::valueChanged, [&](int value) {
+    connect(this, &QSlider::valueChanged, this, [&](int value) {
 		if (type == ParamType::Unknown) return;
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
 			MidiMaster::parameterChanged(type, parameter, value);
@@ -346,11 +346,11 @@ bool EGSlider::event(QEvent* e)
 {
 	switch (e->type())
 	{
-	case QEvent::HoverEnter:
+    case QEvent::Enter:
 		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value()));
 		return true;
 		break;
-	case QEvent::HoverLeave:
+    case QEvent::Leave:
 		GlobalWidgets::statusBar->clearMessage();
 		return true;
 		break;

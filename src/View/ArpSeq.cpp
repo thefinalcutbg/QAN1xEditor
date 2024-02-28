@@ -27,9 +27,9 @@ ArpSeq::ArpSeq(QWidget *parent)
 
 	setArpLayout(true);
 
-	connect(ui.radioArp, &QRadioButton::clicked, [this] { setArpLayout(true); });
-	connect(ui.radioSeq, &QRadioButton::clicked, [this] { setArpLayout(false); });
-	connect(ui.kbdMode, &QComboBox::currentIndexChanged, [this](int index) { 
+    connect(ui.radioArp, &QRadioButton::clicked, this, [this] { setArpLayout(true); });
+    connect(ui.radioSeq, &QRadioButton::clicked, this, [this] { setArpLayout(false); });
+    connect(ui.kbdMode, &QComboBox::currentIndexChanged, this, [this](int index) {
 		ui.seqPatternNo->setDisabled(index < 2); 
 		ui.seqLabel_1->setDisabled(index < 2);
 	});
@@ -142,7 +142,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 
 
 
-	connect(ui.seqLength, &QSpinBox::valueChanged, [this](int value) {
+    connect(ui.seqLength, &QSpinBox::valueChanged, this, [this](int value) {
 			for (int i = 0; i < 16; i++) p_steps[i]->setEnabled(i < value);
 		}
 	);
@@ -174,7 +174,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 	connect(ui.arpType, &QComboBox::currentIndexChanged, [=](int index) { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpTypeSeqNo, index); });
 	connect(ui.seqPatternNo, &QSpinBox::valueChanged, [=](int value) { MidiMaster::parameterChanged(ParamType::Common, AN1x::ArpTypeSeqNo, value - 1); });
 
-	for (int i = 0; i < ui_controls.size(); i++)
+    for (size_t i = 0; i < ui_controls.size(); i++)
 	{
 		if (ui_controls[i] == nullptr) continue;
 
@@ -184,9 +184,9 @@ ArpSeq::ArpSeq(QWidget *parent)
 		ui_controls[i]->setParam(ParamType::Common, (AN1x::CommonParam)param);
 	}
 
-	connect(ui.seqLength, &QSpinBox::valueChanged, [=](int value) { MidiMaster::parameterChanged(ParamType::StepSq, AN1x::SeqLength, value); });
+    connect(ui.seqLength, &QSpinBox::valueChanged, this, [=](int value) { MidiMaster::parameterChanged(ParamType::StepSq, AN1x::SeqLength, value); });
 
-	for (int i = 0; i < seq_controls.size(); i++) {
+    for (size_t i = 0; i < seq_controls.size(); i++) {
 
 		if (seq_controls[i] == nullptr) continue;
 

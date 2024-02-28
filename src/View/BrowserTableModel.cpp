@@ -58,7 +58,7 @@ QString getEffectText(int type) {
     return arr[type];
 }
 
-void BrowserTableModel::setData(const std::vector<PatchRow>& rows)
+void BrowserTableModel::setPatchData(const std::vector<PatchRow>& rows)
 {
     beginResetModel();
 
@@ -144,7 +144,7 @@ QVariant BrowserTableModel::data(const QModelIndex& index, int role) const
 
 }
 
-Qt::ItemFlags BrowserTableModel::flags(const QModelIndex& index) const
+Qt::ItemFlags BrowserTableModel::flags(const QModelIndex&) const
 {
     auto flags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     return flags;

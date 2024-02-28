@@ -5,7 +5,6 @@
 #include "View/Browser.h"
 #include "Database/Database.h"
 #include "MidiMaster.h"
-#include <unordered_set>
 #include "View/GlobalWidgets.h"
 
 //private functions:
@@ -154,6 +153,11 @@ void PatchDatabase::saveVoice(const AN1xPatch& p, long long rowid)
 	}
 
 	db.execute();
+
+    db.execute(
+        "DELETE FROM patch WHERE rowid NOT IN("
+        "SELECT MIN(rowid) FROM patch GROUP BY hash)"
+    );
 
 	refreshTableView();
 

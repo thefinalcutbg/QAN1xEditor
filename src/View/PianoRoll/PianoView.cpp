@@ -8,7 +8,7 @@ PianoView::PianoView(QWidget *parent)
 
 	int xPos = 0;
 
-	for (int i = 0; i < p_keys.size(); i++)
+    for (size_t i = 0; i < p_keys.size(); i++)
 	{
 		auto& key = p_keys[i];
 
@@ -79,7 +79,7 @@ void PianoView::setOctave(int octave)
 
 	int begin = 12 * octave;
 
-	for (int i = begin; i < begin + 20 && i < p_keys.size(); i++)
+    for (size_t i = begin; i < begin + 20 && i < p_keys.size(); i++)
 	{
 		p_keys[i]->highlight(true);
 	}

@@ -1,6 +1,6 @@
 #include "Browser.h"
 
-#include <algorithm>
+//#include <algorithm>
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -49,23 +49,23 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, this, [&](const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
+    connect(ui.An1xList->model(), &QAbstractListModel::rowsMoved, this, [&](const QModelIndex&, int start, int, const QModelIndex& , int row)
             {
                 PatchMemory::rowMoved(start, row);
 
                 recalculateListNames();
             });
 
-    connect(ui.commentButton, &QPushButton::clicked, [&] { editComment(); });
+    connect(ui.commentButton, &QPushButton::clicked, this, [&] { editComment(); });
 
-    connect(ui.lineEdit, &QLineEdit::textChanged, [=]
+    connect(ui.lineEdit, &QLineEdit::textChanged, this, [=]
             {
                 QString text = ui.lineEdit->text();
                 search.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
 
             });
 
-    connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, [&](int column) {
+    connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, this, [&](int column) {
 
         const int hiddenColumnMap[] = { 0,1,2,3,4,5,1,2,3,4,10,11 };
 
@@ -73,7 +73,7 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.deleteButton, &QPushButton::clicked, [&] {
+    connect(ui.deleteButton, &QPushButton::clicked, this, [&] {
 
         auto selectedRowids = getSelectedTableRowids();
 
@@ -112,15 +112,15 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.databaseView, &DbTableView::copyRequested, [&] {
+    connect(ui.databaseView, &DbTableView::copyRequested, this, [&] {
         ClipboardManager::copyRequestFromDatabase(getSelectedTableRowids());
     });
 
-    connect(ui.An1xList, &MemoryList::copyRequested, [&] {
+    connect(ui.An1xList, &MemoryList::copyRequested, this, [&] {
         ClipboardManager::copyRequestFromMemoryList(getSelectedListIndexes());
     });
 
-    connect(ui.An1xList, &MemoryList::pasteRequested, [&]{
+    connect(ui.An1xList, &MemoryList::pasteRequested, this, [&]{
 
         auto indexes = getSelectedListIndexes();
 
@@ -136,9 +136,9 @@ Browser::Browser(QWidget* parent)
         setPatchToListView(i, "InitNormal", 0);
     }
 
-    connect(ui.loadButton, &QPushButton::clicked, [&] {PatchMemory::loadFromAn1x(getSelectedListIndexes());});
-    connect(ui.sendButton, &QPushButton::clicked, [&] {PatchMemory::sendToAn1x(getSelectedListIndexes()); });
-    connect(ui.An1xList, &QListWidget::doubleClicked, [&] {
+    connect(ui.loadButton, &QPushButton::clicked, this, [&] {PatchMemory::loadFromAn1x(getSelectedListIndexes());});
+    connect(ui.sendButton, &QPushButton::clicked, this, [&] {PatchMemory::sendToAn1x(getSelectedListIndexes()); });
+    connect(ui.An1xList, &QListWidget::doubleClicked, this, [&] {
 
         auto indexes = getSelectedListIndexes();
 
@@ -148,11 +148,11 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.importAn1, &QPushButton::clicked, [&] {
+    connect(ui.importAn1, &QPushButton::clicked, this, [&] {
         importAN1FileButtonClicked();
     });
 
-    connect(ui.importAn2, &QPushButton::clicked, [&] {
+    connect(ui.importAn2, &QPushButton::clicked, this, [&] {
         importAN2FileButtonClicked();
     });
 
@@ -163,12 +163,12 @@ Browser::Browser(QWidget* parent)
 
     });
 
-    connect(ui.databaseView, &DbTableView::dataDroped, [&] {
+    connect(ui.databaseView, &DbTableView::dataDroped, this, [&] {
         DragDropManager::droppedToDbTable(getSelectedListIndexes());
 
     });
 
-    connect(ui.An1xList, &MemoryList::dataDroped, [&](int row) {
+    connect(ui.An1xList, &MemoryList::dataDroped, this, [&](int row) {
         DragDropManager::droppedToMemoryList(getSelectedTableRowids(), row);
     });
 
@@ -304,8 +304,6 @@ void Browser::loadAN1FileToList()
 
     auto bytes = file.readAll();
 
-    QFileInfo fileInfo(file.fileName());
-
     try {
         PatchMemory::loadAn1File({ std::vector<unsigned char>{bytes.begin(), bytes.end()}, "" });
     }
@@ -437,7 +435,7 @@ void Browser::incrementProgressBar()
 
 void Browser::setPatchesToTableView(const std::vector<PatchRow>& patches)
 {
-    model.setData(patches);
+    model.setPatchData(patches);
 }
 
 void Browser::scrollToBottom()

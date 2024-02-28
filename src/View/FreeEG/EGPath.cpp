@@ -9,7 +9,7 @@ EGPath::EGPath(const QColor& color) : bounds(0, 0, 1148, 256), color(color)
 	}
 }
 
-void EGPath::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void EGPath::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 	painter->setRenderHint(QPainter::Antialiasing);
 
@@ -38,5 +38,5 @@ void EGPath::setPoint(int index, int value)
 
 void EGPath::setTrack(const std::array<int, 192>& track)
 {
-	for (int i = 0; i < track.size(); i++) setPoint(i, track[i]);
+    for (size_t i = 0; i < track.size(); i++) setPoint(i, track[i]);
 }
