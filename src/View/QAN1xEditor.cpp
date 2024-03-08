@@ -90,6 +90,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.refresh, &QPushButton::clicked, this, [=] { MidiMaster::refreshConnection(); });
     connect(ui.inCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
     connect(ui.outCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
+    connect(ui.channelSpin, &QSpinBox::valueChanged, this, [&](int value){ MidiMaster::setSendChannel(value); });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });

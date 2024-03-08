@@ -3,8 +3,6 @@
 #include <QPen>
 #include "Model/MidiMaster.h"
 #include <QGraphicsSceneMouseEvent>
-#include <QGraphicsSceneHoverEvent>
-#include <qdebug.h>
 
 void PianoKey::mouseMoveEvent(QGraphicsSceneMouseEvent*)
 {
@@ -27,7 +25,7 @@ void PianoKey::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 
 void PianoKey::hoverEnterEvent(QGraphicsSceneHoverEvent*)
 {
-    
+
 }
 
 void PianoKey::hoverLeaveEvent(QGraphicsSceneHoverEvent*)

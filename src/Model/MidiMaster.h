@@ -61,6 +61,6 @@ namespace MidiMaster
 	void setKbdOctave(int octave);
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
-	
+    void setSendChannel(int channel);
 	void stopAllSounds();
 }

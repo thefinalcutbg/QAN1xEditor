@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /include
 /installer/files
 /installer/compiled
+.DS_Store
+.DS_Store

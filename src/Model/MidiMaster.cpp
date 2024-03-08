@@ -31,7 +31,7 @@ PatchSource patch_src;
 bool is_edited{ false };
 
 int s_kbdOctave{ 5 };
-
+int s_sendChannel{1};
 
 //guards against recursion when setting parameters to view
 bool handlingMessage = true;
@@ -399,9 +399,9 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	m->setPitch(note);
 	m->setStatus(on ? QMidiStatus::MIDI_NOTE_ON : QMidiStatus::MIDI_NOTE_OFF);
 	m->setVelocity(velocity);
-
+    m->setChannel(s_sendChannel);
 	s_out->sendMessage(m);
-
+    qDebug() << m->getChannel();
 	s_view->pianoRoll()->setNote(note, on);
 }
 
@@ -415,3 +415,10 @@ void MidiMaster::stopAllSounds()
 }
 
 
+
+void MidiMaster::setSendChannel(int channel)
+{
+    if(channel < 1 || channel > 16) return;
+    stopAllSounds();
+    s_sendChannel = channel;
+}
