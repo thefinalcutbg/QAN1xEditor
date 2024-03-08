@@ -10,11 +10,8 @@ class PianoKey  : public QGraphicsRectItem
 	bool m_highlighted{ false };
 	bool m_pressed{ false };
 
-	void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-	void hoverEnterEvent(QGraphicsSceneHoverEvent* e) override;
-	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
 	int m_velocity{ 64 };
 

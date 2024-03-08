@@ -403,6 +403,7 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	s_out->sendMessage(m);
     qDebug() << m->getChannel();
 	s_view->pianoRoll()->setNote(note, on);
+
 }
 
 void MidiMaster::stopAllSounds()

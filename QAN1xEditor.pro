@@ -8,7 +8,7 @@ macx{
     LIBS += -framework CoreFoundation
 }
 
-ICON = $$PWD/installer/icon.icns
+ICON = $$PWD/installer/macos/icon.icns
 
 linux{
     LIBS += -lasound

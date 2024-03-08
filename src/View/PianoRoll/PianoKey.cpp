@@ -4,11 +4,6 @@
 #include "Model/MidiMaster.h"
 #include <QGraphicsSceneMouseEvent>
 
-void PianoKey::mouseMoveEvent(QGraphicsSceneMouseEvent*)
-{
-
-}
-
 void PianoKey::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton) {
@@ -21,16 +16,6 @@ void PianoKey::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
     if (e->button() == Qt::LeftButton) {
         MidiMaster::setNote(idx, false, m_velocity);
     }
-}
-
-void PianoKey::hoverEnterEvent(QGraphicsSceneHoverEvent*)
-{
-
-}
-
-void PianoKey::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
-{
-    MidiMaster::setNote(idx, false, m_velocity);
 }
 
 PianoKey::PianoKey(int idx) : idx(idx)
