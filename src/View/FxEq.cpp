@@ -9,9 +9,6 @@ FxEq::FxEq(QWidget *parent)
 
     connect(ui.variFxType, &QComboBox::currentIndexChanged, this, [&](int index) { setFxLayout(index); });
     connect(ui.delayType, &QComboBox::currentIndexChanged, this, [&](int index) { setDelayLayout(index); });
-    connect(ui.dlyBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
-    connect(ui.revBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
-    connect(ui.allBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
 
     setFxLayout(0);
     setDelayLayout(0);
@@ -93,43 +90,7 @@ FxEq::FxEq(QWidget *parent)
 
 }
 
-void FxEq::setSystemParameter(AN1x::SystemParam p, int value)
-{
-    if (p != AN1x::SystemParam::EffectBypass) return;
 
-    QSignalBlocker all(ui.allBypass);
-    QSignalBlocker dly(ui.dlyBypass);
-    QSignalBlocker rev(ui.revBypass);
-
-    switch (value)
-    {
-    case 0: 
-        ui.allBypass->setChecked(false);
-        ui.dlyBypass->setChecked(false);
-        ui.revBypass->setChecked(false);
-        break;
-    case 1:
-        ui.allBypass->setChecked(false);
-        ui.dlyBypass->setChecked(true);
-        ui.revBypass->setChecked(false);
-        break;
-    case 2:
-        ui.allBypass->setChecked(false);
-        ui.dlyBypass->setChecked(false);
-        ui.revBypass->setChecked(true);
-        break;
-    case 3:
-        ui.allBypass->setChecked(false);
-        ui.dlyBypass->setChecked(true);
-        ui.revBypass->setChecked(true);
-        break;
-    case 4:
-        ui.allBypass->setChecked(true);
-        ui.dlyBypass->setChecked(true);
-        ui.revBypass->setChecked(true);
-        break;
-    }
-}
 
 void FxEq::setCommonParameter(AN1x::CommonParam p, int value)
 {
@@ -904,32 +865,6 @@ void FxEq::setEqLayout()
     ui.highGain->showPlusOnPositives(true);
 
 }
-
-void FxEq::setBypass()
-{
-    bool all = ui.allBypass->isChecked();
-    
-    if (all) {
-        QSignalBlocker d(ui.dlyBypass);
-        QSignalBlocker r(ui.revBypass);
-        ui.dlyBypass->setChecked(true);
-        ui.revBypass->setChecked(true);
-        MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, 4);
-    }
-
-    bool dly = ui.dlyBypass->isChecked();
-    bool rev = ui.revBypass->isChecked();
-
-    bool value[4] = { (!dly && !rev),(!dly && rev),(dly && !rev),(dly && rev) };
-
-    for (int i = 0; i < 4; i++) {
-        if (value[i]) {
-            MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, i);
-        }
-    }
-
-}
-
 
 FxEq::~FxEq()
 {}

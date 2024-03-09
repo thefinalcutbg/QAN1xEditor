@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 	Db::createIfNotExist();
 
 	QApplication a(argc, argv);
-    a.setStyle("windows");
+
 	a.setWindowIcon(QIcon(":/icon/resources/appIcon.png"));
 
 	if (FreeFn::getUpdate()) return 0;

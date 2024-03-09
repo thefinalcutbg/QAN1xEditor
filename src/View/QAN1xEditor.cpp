@@ -44,6 +44,10 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
             MidiMaster::setKbdOctave(value); 
     });
 
+    connect(ui.dlyBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
+    connect(ui.revBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
+    connect(ui.allBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
+
     connect(ui.requestSystem, &QPushButton::clicked, this, [&] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, this, [&] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, this, [&] { MidiMaster::restoreSystem(); });
@@ -288,12 +292,46 @@ void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
         ui.velCurveLabel->setDisabled(false);
     }
 
-    ui.fxeqTab->setSystemParameter(p, value);
+    if (p == AN1x::SystemParam::EffectBypass){
 
-    if (system_controls[p] == nullptr) return;
+    QSignalBlocker all(ui.allBypass);
+    QSignalBlocker dly(ui.dlyBypass);
+    QSignalBlocker rev(ui.revBypass);
 
-    system_controls[p]->setValue(value);
- 
+        switch (value)
+        {
+            case 0:
+                ui.allBypass->setChecked(false);
+                ui.dlyBypass->setChecked(false);
+                ui.revBypass->setChecked(false);
+                break;
+            case 1:
+                ui.allBypass->setChecked(false);
+                ui.dlyBypass->setChecked(true);
+                ui.revBypass->setChecked(false);
+                break;
+            case 2:
+                ui.allBypass->setChecked(false);
+                ui.dlyBypass->setChecked(false);
+                ui.revBypass->setChecked(true);
+                break;
+            case 3:
+                ui.allBypass->setChecked(false);
+                ui.dlyBypass->setChecked(true);
+                ui.revBypass->setChecked(true);
+                break;
+            case 4:
+                ui.allBypass->setChecked(true);
+                ui.dlyBypass->setChecked(true);
+                ui.revBypass->setChecked(true);
+                break;
+        }
+    }
+
+    if (system_controls[p] != nullptr){
+
+        system_controls[p]->setValue(value);
+    }
 }
 
 void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
@@ -402,6 +440,30 @@ void QAN1xEditor::initializeInitMenu()
          });
 
         ui.initButton->addAction(action);
+    }
+}
+
+void QAN1xEditor::setBypass()
+{
+    bool all = ui.allBypass->isChecked();
+
+    if (all) {
+        QSignalBlocker d(ui.dlyBypass);
+        QSignalBlocker r(ui.revBypass);
+        ui.dlyBypass->setChecked(true);
+        ui.revBypass->setChecked(true);
+        MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, 4);
+    }
+
+    bool dly = ui.dlyBypass->isChecked();
+    bool rev = ui.revBypass->isChecked();
+
+    bool value[4] = { (!dly && !rev),(!dly && rev),(dly && !rev),(dly && rev) };
+
+    for (int i = 0; i < 4; i++) {
+        if (value[i]) {
+            MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, i);
+        }
     }
 }
 

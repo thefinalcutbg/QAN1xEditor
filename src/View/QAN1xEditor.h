@@ -19,7 +19,7 @@ class QAN1xEditor : public QMainWindow
     void setCommonParameter(AN1x::CommonParam p, int value);
     void setSequenceParameter(AN1x::SeqParam p, int value);
     void initializeInitMenu();
-
+    void setBypass();
     unsigned char layerMode();
 
 public:
