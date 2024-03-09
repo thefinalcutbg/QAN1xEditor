@@ -198,7 +198,9 @@ void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int v
 {
 	if (handlingMessage) return;
 
-	is_edited = true;
+    if(type != ParamType::System){
+        is_edited = true;
+    }
 
 	sendMessage(current_patch.setParameter(type, parameter, value));
 }

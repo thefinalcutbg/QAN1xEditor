@@ -236,6 +236,13 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QLabel" name="countLabel">
+            <property name="text">
+             <string>Total patches: 0</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>

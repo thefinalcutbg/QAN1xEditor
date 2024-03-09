@@ -42,10 +42,10 @@ Browser::Browser(QWidget* parent)
 
     ui.databaseView->setColumnWidth(9, 55);
 
-
     connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 
         search.setFilterKeyColumn(index + 5);
+        refreshCountLabel();
 
     });
 
@@ -62,6 +62,7 @@ Browser::Browser(QWidget* parent)
             {
                 QString text = ui.lineEdit->text();
                 search.setFilterRegularExpression(QRegularExpression(text, QRegularExpression::PatternOption::CaseInsensitiveOption));
+                refreshCountLabel();
 
             });
 
@@ -436,6 +437,7 @@ void Browser::incrementProgressBar()
 void Browser::setPatchesToTableView(const std::vector<PatchRow>& patches)
 {
     model.setPatchData(patches);
+    refreshCountLabel();
 }
 
 void Browser::scrollToBottom()
@@ -443,4 +445,9 @@ void Browser::scrollToBottom()
     int maximum = ui.databaseView->verticalScrollBar()->maximum();
 
     ui.databaseView->verticalScrollBar()->setSliderPosition(maximum);
+}
+
+void Browser::refreshCountLabel()
+{
+    ui.countLabel->setText(QString("Total results: ") + QString::number(search.rowCount()));
 }

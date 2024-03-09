@@ -590,4 +590,5 @@ here:
 QAN1xEditor::~QAN1xEditor()
 {
     MidiMaster::stopAllSounds();
+    MidiMaster::newPatch(AN1x::InitType::Normal); //forces save dialog
 }

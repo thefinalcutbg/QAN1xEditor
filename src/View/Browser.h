@@ -26,6 +26,8 @@ public:
 
 	void scrollToBottom();
 
+    void refreshCountLabel();
+
 	~Browser();
 
 private:
