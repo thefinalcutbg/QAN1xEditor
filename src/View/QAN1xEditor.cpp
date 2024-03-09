@@ -17,8 +17,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     GlobalWidgets::statusBar = statusBar();
 
-    ui.an1xPng->setStyleSheet("background-image: url(:/resources/an1x.png)");
-
     installEventFilter(this);
     initializeInitMenu();
 
