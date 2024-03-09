@@ -6,12 +6,14 @@ macx{
     LIBS += -framework CoreMidi
     LIBS += -framework CoreAudio
     LIBS += -framework CoreFoundation
+    ICON = $$PWD/installer/macos/icon.icns
 }
 
-ICON = $$PWD/installer/macos/icon.icns
+
 
 linux{
     LIBS += -lasound
+    ICON = $$PWD/installer/icon.ico
 }
 
 INCLUDEPATH += include

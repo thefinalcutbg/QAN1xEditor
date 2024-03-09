@@ -262,12 +262,17 @@ bool ComboPicker::event(QEvent* e)
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
     connect(this, &QComboBox::currentIndexChanged, this,
-		[&](int value) { 
+        [&](int value) {
+
+            if(GlobalWidgets::statusBar) {
+                GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(value));
+            }
+
 			if (type == ParamType::Unknown) return;
 
-			GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(value));
-			if (m_isNoteCombo) value = 127 - value;
-			MidiMaster::parameterChanged(type, parameter, value); }
+            if (m_isNoteCombo) value = 127 - value;
+
+            MidiMaster::parameterChanged(type, parameter, value); }
 	);
 
 	installEventFilter(this);
@@ -318,9 +323,14 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 	installEventFilter(this);
 
     connect(this, &QSlider::valueChanged, this, [&](int value) {
-		if (type == ParamType::Unknown) return;
-		GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
-			MidiMaster::parameterChanged(type, parameter, value);
+
+        if (GlobalWidgets::statusBar){
+                GlobalWidgets::statusBar->showMessage("Current value: " + QString::number(value));
+        }
+
+            if (type == ParamType::Unknown) return;
+
+            MidiMaster::parameterChanged(type, parameter, value);
 		}
 	);
 }

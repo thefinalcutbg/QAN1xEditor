@@ -15,12 +15,14 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 {
     ui.setupUi(this);
 
+    GlobalWidgets::statusBar = statusBar();
+
     ui.an1xPng->setStyleSheet("background-image: url(:/resources/an1x.png)");
 
     installEventFilter(this);
     initializeInitMenu();
 
-    GlobalWidgets::statusBar = statusBar();
+
 
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
