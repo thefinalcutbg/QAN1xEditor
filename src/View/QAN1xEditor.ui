@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1233</width>
-    <height>947</height>
+    <height>956</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -50,7 +50,7 @@
          <x>0</x>
          <y>0</y>
          <width>1233</width>
-         <height>926</height>
+         <height>929</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -212,7 +212,7 @@
               <rect>
                <x>10</x>
                <y>10</y>
-               <width>151</width>
+               <width>131</width>
                <height>21</height>
               </rect>
              </property>
@@ -286,7 +286,7 @@
             <widget class="QGroupBox" name="sceneGroup">
              <property name="geometry">
               <rect>
-               <x>180</x>
+               <x>170</x>
                <y>0</y>
                <width>91</width>
                <height>141</height>
@@ -333,7 +333,7 @@
               <rect>
                <x>60</x>
                <y>50</y>
-               <width>101</width>
+               <width>91</width>
                <height>21</height>
               </rect>
              </property>
@@ -416,7 +416,7 @@
               <rect>
                <x>60</x>
                <y>90</y>
-               <width>101</width>
+               <width>91</width>
                <height>22</height>
               </rect>
              </property>
@@ -679,9 +679,9 @@
             <widget class="QGroupBox" name="layerGroup">
              <property name="geometry">
               <rect>
-               <x>270</x>
+               <x>260</x>
                <y>0</y>
-               <width>81</width>
+               <width>91</width>
                <height>141</height>
               </rect>
              </property>
@@ -757,9 +757,9 @@
             <widget class="CheckBox" name="midiLocal">
              <property name="geometry">
               <rect>
-               <x>10</x>
+               <x>120</x>
                <y>110</y>
-               <width>111</width>
+               <width>101</width>
                <height>21</height>
               </rect>
              </property>
@@ -774,7 +774,7 @@
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>91</y>
+               <y>100</y>
                <width>121</width>
                <height>20</height>
               </rect>
@@ -925,7 +925,7 @@
                <x>120</x>
                <y>30</y>
                <width>201</width>
-               <height>101</height>
+               <height>81</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -954,7 +954,7 @@
                    <string>Transpose:</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
