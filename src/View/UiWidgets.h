@@ -61,7 +61,7 @@ public:
 	void setOffset(int offset) { m_offset = offset; };
 	void setSuffix(const char* suffix) { m_suffix = suffix; }
 	void showPlusOnPositives(bool show) { m_showPositive = show; }
-	int getValue() final { return isHidden() ? 0 : value(); }
+    int  getValue() final { return isHidden() ? 0 : value(); }
 };
 
 #include <QComboBox>

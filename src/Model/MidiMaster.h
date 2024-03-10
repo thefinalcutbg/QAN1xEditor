@@ -63,4 +63,5 @@ namespace MidiMaster
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
     void setSendChannel(int channel);
 	void stopAllSounds();
+    void cleanUp();
 }

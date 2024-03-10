@@ -14,8 +14,9 @@ create-dmg \
   --window-pos 200 110 \
   --window-size 605 360 \
   --icon-size 72 \
-  --icon "QAN1xEditor.app" 250 190 \
-  --app-drop-link 460 190 \
+  --icon "QAN1xEditor.app" 250 170 \
+  --app-drop-link 460 170 \
+  --add-file "Instructions.txt" "Instructions.txt" 460 30 \
   --hide-extension "QAN1xEditor.app" \
   "$PWD/../compiled/qanxeditor-arm64.dmg" \
   "$PWD/../files/"

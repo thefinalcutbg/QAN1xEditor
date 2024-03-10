@@ -9,6 +9,7 @@ unsigned char AN1x::getScene(bool isScene2)
 
 Message AN1x::getHeader(ParamType p)
 {
+    //the third byte is the midi divice number, which is hardcoded to All (0x10)
 
 	switch (p)
 	{

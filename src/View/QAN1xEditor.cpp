@@ -20,8 +20,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     installEventFilter(this);
     initializeInitMenu();
 
-
-
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
 
@@ -51,10 +49,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.requestSystem, &QPushButton::clicked, this, [&] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, this, [&] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, this, [&] { MidiMaster::restoreSystem(); });
-    connect(ui.panikButton, &QPushButton::clicked, this, [this] {
-
-        ui.pitchBend->setValue(64);
-        ui.modWheel->setValue(0);
+    connect(ui.panikButton, &QPushButton::clicked, this, [&] {
         MidiMaster::stopAllSounds(); 
     });
 
@@ -307,13 +302,13 @@ void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
                 break;
             case 1:
                 ui.allBypass->setChecked(false);
-                ui.dlyBypass->setChecked(true);
-                ui.revBypass->setChecked(false);
+                ui.dlyBypass->setChecked(false);
+                ui.revBypass->setChecked(true);
                 break;
             case 2:
                 ui.allBypass->setChecked(false);
-                ui.dlyBypass->setChecked(false);
-                ui.revBypass->setChecked(true);
+                ui.dlyBypass->setChecked(true);
+                ui.revBypass->setChecked(false);
                 break;
             case 3:
                 ui.allBypass->setChecked(false);
@@ -590,5 +585,5 @@ here:
 QAN1xEditor::~QAN1xEditor()
 {
     MidiMaster::stopAllSounds();
-    MidiMaster::newPatch(AN1x::InitType::Normal); //forces save dialog
+    MidiMaster::cleanUp();
 }

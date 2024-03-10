@@ -183,7 +183,10 @@ QString DialKnob::getValueText()
 
 		case MasterTune:
 		{
-			return ""; //implement this
+            double value = getValue() - 170 - 342;
+            value = value * (double(100)/double(342));
+            return result += QString::number(value, 'F', 1) + " cents";
+
 		}
 		break;
 
@@ -198,7 +201,6 @@ DialKnob::DialKnob(QWidget *parent)
 {
 	setMouseTracking(true);
 	setAttribute(Qt::WA_Hover, true);
-	installEventFilter(this);
 
     connect(this, &QDial::valueChanged, this,
 		[&](int value) {
@@ -261,6 +263,7 @@ bool ComboPicker::event(QEvent* e)
 
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
+
     connect(this, &QComboBox::currentIndexChanged, this,
         [&](int value) {
 
@@ -275,7 +278,6 @@ ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
             MidiMaster::parameterChanged(type, parameter, value); }
 	);
 
-	installEventFilter(this);
 }
 
 
@@ -320,7 +322,6 @@ EGSlider::EGSlider(QWidget* parent) : QSlider(parent)
 {
 	setMouseTracking(true);
 	setAttribute(Qt::WA_Hover, true);
-	installEventFilter(this);
 
     connect(this, &QSlider::valueChanged, this, [&](int value) {
 

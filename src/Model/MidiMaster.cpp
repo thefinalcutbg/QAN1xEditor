@@ -72,6 +72,7 @@ void handleSysMsg(const Message& msg)
 	{
 		handlingMessage = false;
 		PatchMemory::patchRecieved({ msg });
+
 		return;
 	}
 
@@ -84,6 +85,8 @@ void handleSysMsg(const Message& msg)
 			s_view->setParameter(ParamType::System, i, current_patch.getParameter(ParamType::System, i));
 		}
 
+        handlingMessage = false;
+
 		return;
 	}
 
@@ -92,7 +95,11 @@ void handleSysMsg(const Message& msg)
 
     for (size_t i = 0; i < header.size(); i++)
 	{
-		if (msg[i] != header[i]) return;
+
+        if (msg[i] != header[i]){
+            handlingMessage = false;
+            return;
+        }
 	}
 
 	ParamType type;
@@ -109,13 +116,16 @@ void handleSysMsg(const Message& msg)
 		case 16: type = ParamType::Scene1; break;
 		case 17: type = ParamType::Scene2; break;
 		case 14: type = ParamType::StepSq; break;
-		default: return;
+        default: handlingMessage = false; return;
 		}
 	}
 
 	unsigned char param = msg[6];
 
-	if (AN1x::isNull(type, param)) return;
+    if (AN1x::isNull(type, param)){
+        handlingMessage = false;
+        return;
+    }
 
 	int value = msg[7];
 
@@ -129,8 +139,10 @@ void handleSysMsg(const Message& msg)
 
 	current_patch.setParameter(type, param, value);
 	s_view->setParameter(type, param, value);
-	is_edited = true;
 
+    if(type != ParamType::System){
+        is_edited = true;
+    }
 
 	handlingMessage = false;
 }
@@ -214,20 +226,6 @@ void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 
 	//sending the whole common bulk
 	sendMessage(current_patch.getDataMessage(ParamType::Common));
-}
-
-void MidiMaster::modWheelChange(int value)
-{
-	if (value < 0 || value > 127) return;
-
-	sendMessage({ 0xB0, 0x01, (unsigned char)value });
-}
-
-void MidiMaster::pitchChange(int value)
-{
-	if (value < 0 || value > 127) return;
-
-	sendMessage({ 0xE0, 0x00, (unsigned char)value });
 }
 
 /*
@@ -394,7 +392,7 @@ void MidiMaster::pcKeyPress(int kbd_key, bool pressed, int velocity) {
 
 void MidiMaster::setNote(int note, bool on, int velocity) {
 
-	if (note == -1) return;
+    if (note == -1) return;
 
 	QMidiMessage* m = new QMidiMessage();
 
@@ -403,18 +401,34 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	m->setVelocity(velocity);
     m->setChannel(s_sendChannel);
 	s_out->sendMessage(m);
-    qDebug() << m->getChannel();
+
 	s_view->pianoRoll()->setNote(note, on);
 
 }
 
+void MidiMaster::modWheelChange(int value)
+{
+    if (value < 0 || value > 127) return;
+
+    unsigned char channel = 0xB0 + s_sendChannel - 1;
+    sendMessage({ channel, 0x01, (unsigned char)value });
+}
+
+void MidiMaster::pitchChange(int value)
+{
+    if (value < 0 || value > 127) return;
+
+    unsigned char channel = 0xE0 + s_sendChannel - 1;
+    sendMessage({ channel, 0x00, (unsigned char)value });
+}
+
+
 void MidiMaster::stopAllSounds()
 {
-    for (unsigned char channel = 176; channel < 192; channel++)
-	{
-		sendMessage({ channel, 0x78, 0x00 });
-		sendMessage({ channel, 0x79, 0x00 });
-	}
+    unsigned char channel = 176 + s_sendChannel - 1;
+
+    sendMessage({ channel, 0x78, 0x00 });
+
 }
 
 
@@ -424,4 +438,18 @@ void MidiMaster::setSendChannel(int channel)
     if(channel < 1 || channel > 16) return;
     stopAllSounds();
     s_sendChannel = channel;
+}
+
+void MidiMaster::cleanUp()
+{
+    if (is_edited &&
+        GlobalWidgets::askQuestion("Do you want to save current patch?")
+        )
+    {
+            PatchDatabase::saveVoice(current_patch, patch_src.getRowid());
+    }
+
+    if(s_in) { delete s_in; }
+    if(s_out) { delete s_out; }
+
 }
