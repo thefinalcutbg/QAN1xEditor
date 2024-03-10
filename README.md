@@ -28,7 +28,7 @@ QAN1x is a free open-source software written in C++ and Qt. It allows users to e
 ![Alt text](/screenshots/scr4.png?raw=true "Control Matrix")
 
 ## Setup
-For Windows - use the Visual Studio solution, or setup a new project by yourself. Everything needed (except the Qt framework) is included in the repo. For Linux - use the included *.pro file for Qt Creator
+First you need to download Qt6 Framework. Then be sure to extract the Include folder from Include.zip (it contains sqLite3, QMidi and RtMidi source files). On Windows use the Visual Studio solution (be sure to install the Qt plugin for Visual Studio). For Linux and MacOS - use the included *.pro file with Qt Creator.
 
 ## Contact
 Created by [@TheFinalCut](https://github.com/thefinalcutbg) - feel free to contact me!
