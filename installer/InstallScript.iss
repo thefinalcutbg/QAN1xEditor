@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "QAN1xEditor"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "Hristo Konstantinov"
 #define MyAppURL "https://github.com/thefinalcutbg/QAN1xEditor/"
 #define MyAppExeName "QAN1xEditor.exe"
@@ -28,7 +28,7 @@ UsePreviousAppDir=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=compiled
-OutputBaseFilename=qan1x-1.1-win64
+OutputBaseFilename=qan1xeditor-1.2-win64
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
