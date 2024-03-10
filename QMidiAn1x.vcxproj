@@ -112,7 +112,6 @@
     <ClCompile Include="include\QMidi\qmidiout.cpp" />
     <ClCompile Include="include\QMidi\qmidipianoroll.cpp" />
     <ClCompile Include="include\QMidi\RtMidi.cpp" />
-    <ClCompile Include="include\sqLite3\shell.c" />
     <ClCompile Include="include\sqLite3\sqlite3.c" />
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Model\An1File.cpp" />

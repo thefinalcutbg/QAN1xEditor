@@ -88,12 +88,6 @@
     <ClCompile Include="src\Model\PatchMemory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\sqLite3\shell.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\sqLite3\sqlite3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Database\Database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -142,6 +136,9 @@
     <ClCompile Include="src\Model\ClipoboardManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\sqLite3\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Model\MidiMaster.h">
@@ -171,12 +168,6 @@
     <ClInclude Include="src\Model\PatchMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\sqLite3\sqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\sqLite3\sqlite3ext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Database\Database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -199,6 +190,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\ClipoboardManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sqLite3\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sqLite3\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
