@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1233</width>
-    <height>942</height>
+    <height>947</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -50,25 +50,10 @@
          <x>0</x>
          <y>0</y>
          <width>1233</width>
-         <height>915</height>
+         <height>926</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>12</number>
-        </property>
-        <property name="topMargin">
-         <number>12</number>
-        </property>
-        <property name="rightMargin">
-         <number>12</number>
-        </property>
-        <property name="bottomMargin">
-         <number>12</number>
-        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
@@ -190,9 +175,9 @@
             <widget class="SpinBox" name="tempoBPM">
              <property name="geometry">
               <rect>
-               <x>540</x>
+               <x>530</x>
                <y>10</y>
-               <width>91</width>
+               <width>101</width>
                <height>22</height>
               </rect>
              </property>
@@ -317,21 +302,6 @@
               <bool>false</bool>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_8">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
               <item>
                <widget class="QRadioButton" name="scene1radio">
                 <property name="text">
@@ -719,21 +689,6 @@
               <string>Layer</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
               <item>
                <widget class="QRadioButton" name="single">
                 <property name="text">
@@ -803,7 +758,7 @@
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>130</y>
+               <y>110</y>
                <width>111</width>
                <height>21</height>
               </rect>
@@ -819,9 +774,9 @@
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>100</y>
+               <y>91</y>
                <width>121</width>
-               <height>21</height>
+               <height>20</height>
               </rect>
              </property>
              <property name="frameShadow">
@@ -1542,7 +1497,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>20</width>
               <height>0</height>
              </size>
             </property>
@@ -1573,7 +1528,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>20</width>
               <height>0</height>
              </size>
             </property>
