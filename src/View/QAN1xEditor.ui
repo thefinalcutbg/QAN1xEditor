@@ -286,9 +286,9 @@
             <widget class="QGroupBox" name="sceneGroup">
              <property name="geometry">
               <rect>
-               <x>170</x>
+               <x>160</x>
                <y>0</y>
-               <width>91</width>
+               <width>101</width>
                <height>141</height>
               </rect>
              </property>
