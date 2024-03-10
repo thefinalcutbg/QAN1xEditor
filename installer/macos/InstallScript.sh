@@ -18,5 +18,5 @@ create-dmg \
   --app-drop-link 460 170 \
   --add-file "Instructions.txt" "Instructions.txt" 460 30 \
   --hide-extension "QAN1xEditor.app" \
-  "$PWD/../compiled/qanxeditor-1.2-macos-arm64.dmg" \
+  "$PWD/../compiled/qan1xeditor-1.2-macos-arm64.dmg" \
   "$PWD/../files/"
