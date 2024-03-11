@@ -7,6 +7,7 @@ macx{
     LIBS += -framework CoreAudio
     LIBS += -framework CoreFoundation
     ICON = $$PWD/installer/macos/icon.icns
+    QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
 }
 
 
