@@ -284,5 +284,11 @@
     <Image Include="icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="installer\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="installer\win\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

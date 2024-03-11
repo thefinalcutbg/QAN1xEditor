@@ -22,7 +22,7 @@
   <widget class="QGroupBox" name="groupBox_9">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>290</x>
      <y>10</y>
      <width>111</width>
      <height>211</height>
@@ -249,7 +249,7 @@
   <widget class="QGroupBox" name="groupBox_5">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>10</y>
      <width>271</width>
      <height>211</height>
@@ -673,7 +673,7 @@
   <widget class="QGroupBox" name="groupBox_7">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>710</x>
      <y>10</y>
      <width>301</width>
      <height>211</height>
@@ -1248,7 +1248,7 @@
   <widget class="QGroupBox" name="groupBox_8">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>230</y>
      <width>991</width>
      <height>131</height>
@@ -1934,7 +1934,7 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>400</x>
      <y>10</y>
      <width>311</width>
      <height>211</height>
