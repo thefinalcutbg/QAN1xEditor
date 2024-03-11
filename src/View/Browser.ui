@@ -23,21 +23,21 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <property name="topMargin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="loadAN1ToList">
+           <widget class="QPushButton" name="loadButton">
             <property name="text">
-             <string>Open AN1 file</string>
+             <string>Request</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="saveAN1file">
+           <widget class="QPushButton" name="sendButton">
             <property name="text">
-             <string>Save AN1 file</string>
+             <string>Send</string>
             </property>
            </widget>
           </item>
@@ -90,21 +90,21 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <property name="topMargin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="loadButton">
+           <widget class="QPushButton" name="loadAN1ToList">
             <property name="text">
-             <string>Request</string>
+             <string>Open AN1 file</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="sendButton">
+           <widget class="QPushButton" name="saveAN1file">
             <property name="text">
-             <string>Send</string>
+             <string>Save AN1 file</string>
             </property>
            </widget>
           </item>
