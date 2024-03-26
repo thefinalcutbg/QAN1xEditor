@@ -209,7 +209,10 @@ void PatchDatabase::importExternalDb(const std::string& filepath)
 	db.bind(1, filepath);
 	db.execute();
 
-	db.execute("INSERT INTO patch SELECT * FROM external.patch");
+    db.execute("ALTER TABLE external.patch ADD fav INTEGER DEFAULT 0");
+    db.execute("PRAGMA external.user_version = 1");
+
+    db.execute("INSERT INTO patch SELECT * FROM external.patch");
 	db.execute("DETACH external");
 
 	db.execute(
