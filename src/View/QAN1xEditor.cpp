@@ -454,6 +454,8 @@ void QAN1xEditor::setBypass()
         ui.dlyBypass->setChecked(true);
         ui.revBypass->setChecked(true);
         MidiMaster::parameterChanged(ParamType::System, AN1x::EffectBypass, 4);
+
+        return;
     }
 
     bool dly = ui.dlyBypass->isChecked();
