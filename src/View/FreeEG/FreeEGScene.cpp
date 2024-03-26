@@ -79,8 +79,9 @@ void FreeEGScene::setTrackData(const std::vector<int>& trackData)
     for (size_t i = 0; i < trackData.size(); i++)
 	{
 		int currentTrackNo = i / 192;
-		auto& currentTrack = track[currentTrackNo];
-		currentTrack[i % 192] = trackData[i];
+
+        track[currentTrackNo][i % 192] = trackData[i];
+        default_track[currentTrackNo][i % 192] = trackData[i];
 	}
 
 	for (int i = 0; i < 4; i++) {
@@ -97,8 +98,9 @@ void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void FreeEGScene::setCurrentIndex(int index)
 {
-	current_path = path[index];
-	current_track = &track[index];
+    if(index < 0 || index > 3) return;
+
+    m_currentIndex = index;
 }
 
 void FreeEGScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
@@ -118,16 +120,23 @@ void FreeEGScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 void FreeEGScene::processPosition(QPointF pos, bool reset)
 {
 	int x = static_cast<int>(pos.x()) / 6;
-	int y = (static_cast<int>(pos.y()) * -1) + 128;
+    if (x < 0 || x > 191) return;
 
-	if (x < 0 || x > 191) return;
-	if (y < -128 || y > 128) return;
+    int y = 0;
 
-	if (reset) y = 0;
+    if(!reset){
+        y = (static_cast<int>(pos.y()) * -1) + 128;
+        y = std::min(128, y);
+        y = std::max(-128, y);
+    }
+    else if(!m_resetToZero){
 
-	current_path->setPoint(x, y);
+        y = defaultTrack().at(x);
+    }
 
-	current_track->at(x) = y;
+    currentPath().setPoint(x, y);
+
+    currentTrack().at(x) = y;
 }
 
 

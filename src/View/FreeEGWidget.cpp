@@ -60,6 +60,7 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 	ui.keyTrack->showPlusOnPositives(true);
 
 	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::FreeEGChanged(getFreeEGData()); });
+    connect(ui.resetToZeroCheck, &QCheckBox::stateChanged, this, [&](int resetToZero){ scene->setResetMode(resetToZero); });
 }
 
 FreeEGWidget::~FreeEGWidget()
