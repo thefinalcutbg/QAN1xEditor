@@ -59,7 +59,7 @@ Browser::Browser(QWidget* parent)
     }
 
     ui.databaseView->setColumnWidth(5, 30);
-    ui.databaseView->setColumnWidth(9, 55);
+    ui.databaseView->setColumnWidth(10, 55);
 
     connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 
