@@ -1,5 +1,5 @@
 #pragma once
-#include "An1x.h"
+
 #include "An1xPatch.h"
 
 class Browser;
@@ -13,6 +13,8 @@ namespace PatchDatabase
 	void deleteSelectedPatches(const std::set<long long>& rowids);
 
 	void loadAn1FileToBuffer(const std::vector<unsigned char>& data, const std::string& filename = {});
+
+    void setFavourite(bool fav, long long rowid);
 
 	void importFileBufferToDb();
 

@@ -3,6 +3,8 @@
 #include <QAbstractTableModel>
 #include "Model/PatchRow.h"
 #include <vector>
+#include <QIcon>
+#include <QItemDelegate>
 
 class BrowserTableModel : public QAbstractTableModel
 {
@@ -23,6 +25,30 @@ public:
 	BrowserTableModel() {}
     void setPatchData(const std::vector<PatchRow>& rows);
     int rowCount(const QModelIndex& = QModelIndex()) const override { return list.size(); }
-    int columnCount(const QModelIndex& = QModelIndex()) const override { return 12; }
+    int columnCount(const QModelIndex& = QModelIndex()) const override { return 13; }
 
+};
+
+class QMouseEvent;
+
+class FavButtonDelegate : public QItemDelegate
+{
+    Q_OBJECT
+
+    QIcon star_yellow{ ":/icon/resources/icon_fav.png" };
+    QIcon star_gray{ ":/icon/resources/icon_favgray.png" };
+    QIcon star_hover{ ":/icon/resources/icon_favhover.png" };
+
+    int m_row_hover = -1;
+
+    bool mouseIsOnStar(QMouseEvent* e, const QStyleOptionViewItem& option);
+
+public:
+    FavButtonDelegate(QObject* parent = 0);
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+    bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index);
+
+signals:
+    void favouriteClicked(int row);
+    void updateRequested();
 };

@@ -149,7 +149,7 @@ void SceneView::setAsScene(bool isScene2)
 		});
 }
 
-void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
+void SceneView::setSceneParameters(AN1x::SceneParam p, int value, bool setAsDefault)
 {
 	if (p == AN1x::PolyMode) {
 		
@@ -185,6 +185,11 @@ void SceneView::setSceneParameters(AN1x::SceneParam p, int value)
 
 	if (p < ui_controls.size() && ui_controls[p] != nullptr) {
 		ui_controls[p]->setValue(value);
+
+        if(setAsDefault){
+            ui_controls[p]->setCurrentValueAsDefault();
+        }
+
 	}
 }
 

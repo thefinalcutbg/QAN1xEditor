@@ -201,22 +201,22 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
 
     for (int i = 0; i < AN1x::FreeEgData; i++) {
         if (AN1x::isNull(ParamType::Common, i)) continue;
-        setParameter(ParamType::Common, i, patch.getParameter(ParamType::Common, i));
+        setParameter(ParamType::Common, i, patch.getParameter(ParamType::Common, i), true);
     }
 
     for (int i = 0; i < AN1x::SceneSize; i++) {
         if (AN1x::isNull(ParamType::Scene1, i)) continue;
-        setParameter(ParamType::Scene1, i, patch.getParameter(ParamType::Scene1, i));
+        setParameter(ParamType::Scene1, i, patch.getParameter(ParamType::Scene1, i), true);
     }
 
     for (int i = 0; i < AN1x::SceneSize; i++){
         if (AN1x::isNull(ParamType::Scene2, i)) continue;
-        setParameter(ParamType::Scene2, i, patch.getParameter(ParamType::Scene2, i));
+        setParameter(ParamType::Scene2, i, patch.getParameter(ParamType::Scene2, i), true);
     }
 
     for (int i = 0; i < AN1x::SeqencerSize; i++) {
         if (AN1x::isNull(ParamType::StepSq, i)) continue;
-        setParameter(ParamType::StepSq, i, patch.getParameter(ParamType::StepSq, i));
+        setParameter(ParamType::StepSq, i, patch.getParameter(ParamType::StepSq, i), true);
     }
 
     ui.FreeEG->setTrackData(patch.getFreeEGData());
@@ -246,15 +246,15 @@ void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 
 }
 
-void QAN1xEditor::setParameter(ParamType type, unsigned char param, int value)
+void QAN1xEditor::setParameter(ParamType type, unsigned char param, int value, bool setAsDefault)
 {
     switch (type)
     {
         case ParamType::System: setSystemParameter((AN1x::SystemParam)param, value); break;
-        case ParamType::Common: setCommonParameter((AN1x::CommonParam)param, value); break;
-        case ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false); break;
-        case ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true); break;
-        case ParamType::StepSq: setSequenceParameter((AN1x::SeqParam)param, value); break;
+        case ParamType::Common: setCommonParameter((AN1x::CommonParam)param, value, setAsDefault); break;
+        case ParamType::Scene1: setSceneParameter((AN1x::SceneParam)param, value, false, setAsDefault); break;
+        case ParamType::Scene2: setSceneParameter((AN1x::SceneParam)param, value, true, setAsDefault); break;
+        case ParamType::StepSq: setSequenceParameter((AN1x::SeqParam)param, value, setAsDefault); break;
         default: break;
     }
 }
@@ -329,22 +329,22 @@ void QAN1xEditor::setSystemParameter(AN1x::SystemParam p, int value)
     }
 }
 
-void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
+void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2, bool setAsDefault)
 {
     if (p >= AN1x::SceneSize) return;
 
     auto& sceneView = isScene2 ? *ui.scene2tab : *ui.scene1tab;
 
-    sceneView.setSceneParameters(p, value);
+    sceneView.setSceneParameters(p, value, setAsDefault);
     
     auto& ctrlMatrix = isScene2 ? *ui.ctrlMatrixScene1 : *ui.ctrlMatrixScene2;
 
-    ctrlMatrix.setSceneParameters(p, value);
+    ctrlMatrix.setSceneParameters(p, value, setAsDefault);
 
-    ui.fxeqTab->setSceneParameter(p, value, isScene2);
+    ui.fxeqTab->setSceneParameter(p, value, isScene2, setAsDefault);
 }
 
-void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
+void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value, bool setAsDefault)
 {
     if (p >= AN1x::FreeEgData) return;
 
@@ -401,18 +401,24 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value)
     }
 
     if (p < AN1x::VariFXType && ui_controls[p] != nullptr) {
+
         ui_controls[p]->setValue(value);
+
+        if(setAsDefault) {
+            ui_controls[p]->setCurrentValueAsDefault();
+        }
     }
 
-    ui.fxeqTab->setCommonParameter(p, value);
-    ui.seqTab->setCommonParameter(p, value);
+    ui.fxeqTab->setCommonParameter(p, value, setAsDefault);
+    ui.seqTab->setCommonParameter(p, value, setAsDefault);
     ui.FreeEG->setCommonParameter(p, value);
+
 }
 
-void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value)
+void QAN1xEditor::setSequenceParameter(AN1x::SeqParam p, int value, bool setAsDefault)
 {
     if (p >= AN1x::SeqencerSize) return;
-    ui.seqTab->setSequenceParameter(p, value);
+    ui.seqTab->setSequenceParameter(p, value, setAsDefault);
 }
 
 void QAN1xEditor::initializeInitMenu()

@@ -197,7 +197,7 @@ ArpSeq::ArpSeq(QWidget *parent)
 }
 
 
-void ArpSeq::setCommonParameter(AN1x::CommonParam p, int value)
+void ArpSeq::setCommonParameter(AN1x::CommonParam p, int value, bool setAsDefault)
 {
 	if (p < AN1x::CommonParam::ArpSeqSelect || p >= AN1x::CommonParam::NullCommon23) return;
 
@@ -224,22 +224,33 @@ void ArpSeq::setCommonParameter(AN1x::CommonParam p, int value)
 		break;
 
 	default:
-		ui_controls[static_cast<int>(p - AN1x::CommonParam::ArpSeqSelect)]->setValue(value);
+        auto ctrl = ui_controls[static_cast<int>(p - AN1x::CommonParam::ArpSeqSelect)];
+        ctrl->setValue(value);
+        if(setAsDefault) ctrl->setCurrentValueAsDefault();
 	
 	}
 
 }
 
-void ArpSeq::setSequenceParameter(AN1x::SeqParam p, int value)
+void ArpSeq::setSequenceParameter(AN1x::SeqParam p, int value, bool setAsDefault)
 {
 	if (seq_controls[p] == nullptr) return;
 
 	if (p == AN1x::SeqLength) {
 		ui.seqLength->setValue(value);
+
+        if(setAsDefault){
+            ui.seqLength->setCurrentValueAsDefault();
+        }
+
 		return;
 	}
 
 	seq_controls[p]->setValue(value);
+
+    if(setAsDefault){
+        seq_controls[p]->setCurrentValueAsDefault();
+    }
 }
 
 void ArpSeq::setArpLayout(bool arp)

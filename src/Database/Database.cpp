@@ -273,7 +273,7 @@ Db::~Db()
     }
 }
 
-const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
+const char* tableSchema = "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, fav INTEGER DEFAULT 0, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB)";
 
 
 bool Db::createIfNotExist()
@@ -285,7 +285,9 @@ bool Db::createIfNotExist()
         int index = 0;
     #endif
 
-    auto dataFolder = QDir(QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[index] + "/QAN1xEditor");
+    auto stdPth = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+
+    auto dataFolder = QDir(stdPth[index] + "/QAN1xEditor");
 
     //creating the user data folder
     if (!dataFolder.exists()) dataFolder.mkpath(".");
@@ -296,8 +298,14 @@ bool Db::createIfNotExist()
 
     db.execute(tableSchema);
 
+    //some migrations
+    if(db.version() == 0){
+        db.execute("ALTER TABLE patch ADD fav INTEGER DEFAULT 0");
+        db.execute("PRAGMA user_version = 1");
+    }
+
     return true;
 
-  //  rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
+  //rc = sqlite3_exec(db,"VACUUM", NULL, NULL, &err);
 
 }

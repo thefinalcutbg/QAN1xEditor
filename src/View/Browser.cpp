@@ -31,20 +31,39 @@ Browser::Browser(QWidget* parent)
 
     column_sort.setSourceModel(&model);
     search.setSourceModel(&column_sort);
-    search.setFilterKeyColumn(5);
+    search.setFilterKeyColumn(6);
     ui.databaseView->setModel(&search);
-
+    ui.databaseView->setMouseTracking(true);
     disableWidgets(false);
+
+    auto favDelagete = new FavButtonDelegate();
+    ui.databaseView->setItemDelegateForColumn(5, favDelagete);
+
+    ui.databaseView->horizontalHeader()->setMinimumSectionSize(30);
+
+    connect(favDelagete, &FavButtonDelegate::updateRequested, this, [&] {
+        ui.databaseView->viewport()->update();
+    });
+
+    connect(favDelagete, &FavButtonDelegate::favouriteClicked, this, [&](int row) {
+
+        PatchDatabase::setFavourite(
+            search.index(row, 5).data().toBool(),
+            search.index(row, 0).data().toLongLong()
+        );
+
+    });
 
     for (int i = 0; i < 5; i++) {
         ui.databaseView->hideColumn(i);
     }
 
+    ui.databaseView->setColumnWidth(5, 30);
     ui.databaseView->setColumnWidth(9, 55);
 
     connect(ui.searchTypeCombo, &QComboBox::currentIndexChanged, this, [&](int index) {
 
-        search.setFilterKeyColumn(index + 5);
+        search.setFilterKeyColumn(index + 6);
         refreshCountLabel();
 
     });
@@ -68,7 +87,7 @@ Browser::Browser(QWidget* parent)
 
     connect(ui.databaseView->horizontalHeader(), &QHeaderView::sectionClicked, this, [&](int column) {
 
-        const int hiddenColumnMap[] = { 0,1,2,3,4,5,1,2,3,4,10,11 };
+        const int hiddenColumnMap[] = { 0,1,2,3,4,5,1,2,3,4,10,11,12 };
 
         column_sort.sort(hiddenColumnMap[column]);
 

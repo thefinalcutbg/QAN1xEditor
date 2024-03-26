@@ -97,11 +97,17 @@ void ControlMatrixScene::setAsScene(bool isScene2)
 
 }
 
-void ControlMatrixScene::setSceneParameters(AN1x::SceneParam p, int value)
+void ControlMatrixScene::setSceneParameters(AN1x::SceneParam p, int value, bool setAsDefault)
 {
 	if (p < AN1x::CtrlMtrxSource1 || p > AN1x::SceneSize) return;
 
-	ui_controls[p - AN1x::CtrlMtrxSource1]->setValue(value);
+    auto ctrl = ui_controls[p - AN1x::CtrlMtrxSource1];
+
+    ctrl->setValue(value);
+
+    if(setAsDefault){
+        ctrl->setCurrentValueAsDefault();
+    }
 }
 
 ControlMatrixScene::~ControlMatrixScene()

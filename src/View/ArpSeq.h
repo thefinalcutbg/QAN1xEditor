@@ -19,8 +19,8 @@ class ArpSeq : public QWidget
 	
 public:
 	ArpSeq(QWidget *parent = nullptr);
-	void setCommonParameter(AN1x::CommonParam p, int value);
-	void setSequenceParameter(AN1x::SeqParam p, int value);
+    void setCommonParameter(AN1x::CommonParam p, int value, bool setAsDefault = false);
+    void setSequenceParameter(AN1x::SeqParam p, int value,  bool setAsDefault = false);
 
 	~ArpSeq();
 

@@ -92,25 +92,34 @@ FxEq::FxEq(QWidget *parent)
 
 
 
-void FxEq::setCommonParameter(AN1x::CommonParam p, int value)
+void FxEq::setCommonParameter(AN1x::CommonParam p, int value, bool setAsDefault)
 {
     size_t idx = p - AN1x::VariFXType;
 
     if (idx >= 0 && idx < ui_controls.size() &&  ui_controls[idx] != nullptr) {
+
         ui_controls[idx]->setValue(value);
+
+        if(setAsDefault){
+            ui_controls[idx]->setCurrentValueAsDefault();
+        }
     }
 
     if (p == AN1x::VariFXType)setFxLayout(value);
 
-    if (p == AN1x::DlyType) setDelayLayout(value);
+    if (p == AN1x::DlyType)setDelayLayout(value);
 }
 
-void FxEq::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2)
+void FxEq::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2, bool setAsDefault)
 {
     if (p != AN1x::VariFxDW) return;
 
     auto& dial = isScene2 ? ui.scene1DW : ui.scene2DW;
     dial->setValue(value);
+
+    if(setAsDefault){
+        dial->setCurrentValueAsDefault();
+    }
 
 }
 

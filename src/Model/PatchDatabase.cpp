@@ -11,20 +11,21 @@
 void PatchDatabase::refreshTableView() {
 
 	Db db;
-	db.newStatement("SELECT rowid, type, name, file, effect, layer, arp_seq, comment FROM patch");
+    db.newStatement("SELECT rowid, fav, type, name, file, effect, layer, arp_seq, comment FROM patch");
 
 	std::vector<PatchRow> rows;
 
 	while (db.hasRows()) {
 		rows.emplace_back();
 		rows.back().rowid = db.asRowId(0);
-		rows.back().type = db.asInt(1);
-		rows.back().name = db.asString(2).c_str();
-		rows.back().file = db.asString(3).c_str();
-		rows.back().effect = db.asInt(4);
-		rows.back().layer = db.asInt(5);
-		rows.back().arp_seq = db.asBool(6);
-		rows.back().comment = db.asString(7).c_str();
+        rows.back().fav = db.asBool(1);
+        rows.back().type = db.asInt(2);
+        rows.back().name = db.asString(3).c_str();
+        rows.back().file = db.asString(4).c_str();
+        rows.back().effect = db.asInt(5);
+        rows.back().layer = db.asInt(6);
+        rows.back().arp_seq = db.asBool(7);
+        rows.back().comment = db.asString(8).c_str();
 	}
 
 	GlobalWidgets::browser->setPatchesToTableView(rows);
@@ -219,3 +220,17 @@ void PatchDatabase::importExternalDb(const std::string& filepath)
 	refreshTableView();
 }
 
+
+void PatchDatabase::setFavourite(bool fav, long long rowid)
+{
+    Db db;
+
+    db.newStatement("UPDATE patch SET fav=? WHERE rowid=?");
+
+    db.bind(1, fav);
+    db.bind(2, rowid);
+
+    db.execute();
+
+    refreshTableView();
+}

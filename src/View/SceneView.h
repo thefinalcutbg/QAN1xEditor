@@ -19,7 +19,7 @@ public:
 
 	void setAsScene(bool isSceen2);
 
-	void setSceneParameters(AN1x::SceneParam p, int value);
+    void setSceneParameters(AN1x::SceneParam p, int value, bool setAsDefault = false);
 
 	~SceneView();
 

@@ -230,37 +230,6 @@ void DialKnob::setValue(int value)
 	}
 }
 
-
-bool ComboPicker::event(QEvent* e)
-{
-	switch (e->type())
-	{
-    case QEvent::Enter:
-		GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(currentIndex()));
-		return true;
-		break;
-    case QEvent::Leave:
-		GlobalWidgets::statusBar->clearMessage();
-		return true;
-		break;
-	case QEvent::MouseButtonPress:
-		if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
-		{
-			int val = m_isNoteCombo ? 60 : defaultValue;
-			setValue(val);
-
-			emit currentIndexChanged(val);
-			return true;
-		}
-		
-		break;
-	default:
-		break;
-	}
-
-	return QComboBox::event(e);
-}
-
 ComboPicker::ComboPicker(QWidget* parent) : QComboBox(parent)
 {
 
@@ -289,11 +258,47 @@ void ComboPicker::setCurrentValueAsDefault()
 
 void ComboPicker::setValue(int value)
 {
-	blockSignals(true);
 	if (m_isNoteCombo) value = 127-value;
 	setCurrentIndex(value);
-	blockSignals(false);
 }
+
+bool ComboPicker::event(QEvent* e)
+{
+    switch (e->type())
+    {
+    case QEvent::Enter:
+        GlobalWidgets::statusBar->showMessage("Current Value: " + itemText(currentIndex()));
+        return true;
+        break;
+    case QEvent::Leave:
+        GlobalWidgets::statusBar->clearMessage();
+        return true;
+        break;
+    case QEvent::MouseButtonPress:
+        if (static_cast<QMouseEvent*>(e)->button() == Qt::RightButton)
+        {
+            int val = defaultValue;
+
+            emit currentIndexChanged(val);
+
+            if(m_isNoteCombo){
+
+                val = (defaultValue - 127)*-1;
+            }
+
+            setValue(val);
+
+            return true;
+        }
+
+        break;
+    default:
+        break;
+    }
+
+    return QComboBox::event(e);
+}
+
 
 void ComboPicker::setAsNoteCombo()
 {

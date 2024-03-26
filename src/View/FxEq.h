@@ -21,8 +21,8 @@ class FxEq : public QWidget
 public:
 	FxEq(QWidget *parent = nullptr);
 
-	void setCommonParameter(AN1x::CommonParam p, int value);
-	void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2);
+    void setCommonParameter(AN1x::CommonParam p, int value, bool setAsDefault = false);
+    void setSceneParameter(AN1x::SceneParam p, int value, bool isScene2, bool setAsDefault = false);
 
 	Ui::FxEq ui;
 

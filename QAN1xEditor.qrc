@@ -24,6 +24,9 @@
         <file>resources/icon21.png</file>
         <file>resources/icon22.png</file>
         <file>resources/appIcon.png</file>
+        <file>resources/icon_fav.png</file>
+        <file>resources/icon_favgray.png</file>
+        <file>resources/icon_favhover.png</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/an1x.png</file>
