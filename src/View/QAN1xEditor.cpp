@@ -380,7 +380,7 @@ void QAN1xEditor::setCommonParameter(AN1x::CommonParam p, int value, bool setAsD
                 ui.split->setChecked(true);
                 break;
             case AN1x::SplitUnison:
-                ui.unison->setChecked(false);
+                ui.unison->setChecked(true);
                 ui.split->setChecked(true);
                 break;
         }
