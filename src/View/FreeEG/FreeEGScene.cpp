@@ -89,6 +89,19 @@ void FreeEGScene::setTrackData(const std::vector<int>& trackData)
 	}
 }
 
+void FreeEGScene::quickAssign(int from, int to, int value)
+{
+	if (from > to) {
+		std::swap(from, to);
+	}
+
+	for (int i = from; i <= to; i++) {
+		currentPath().setPoint(i, value);
+		currentTrack().at(i) = value;
+	}
+	emit editingFinished();
+}
+
 
 void FreeEGScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {

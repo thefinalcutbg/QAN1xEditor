@@ -39,6 +39,7 @@ public:
     std::vector<int> getFreeEGData();
     void setResetMode(bool resetToZero) { m_resetToZero = resetToZero; };
 	void setTrackData(const std::vector<int>& trackData);
+    void quickAssign(int from, int to, int value);
 
     ~FreeEGScene();
 

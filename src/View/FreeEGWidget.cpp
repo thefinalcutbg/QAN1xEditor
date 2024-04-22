@@ -61,6 +61,18 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 
 	connect(scene, &FreeEGScene::editingFinished, this, [&] { MidiMaster::FreeEGChanged(getFreeEGData()); });
     connect(ui.resetMode, &QComboBox::currentIndexChanged, this, [&](int resetToZero){ scene->setResetMode(resetToZero); });
+
+	connect(ui.fromSpin, &QSpinBox::valueChanged, this, [&](int value) {
+		if (value > ui.toSpin->value()) ui.toSpin->setValue(value);
+	});
+
+	connect(ui.toSpin, &QSpinBox::valueChanged, this, [&](int value) {
+		if (value < ui.fromSpin->value()) ui.fromSpin->setValue(value);
+	});
+
+	connect(ui.assignButton, &QPushButton::clicked, this, [&] {
+		scene->quickAssign(ui.fromSpin->value(), ui.toSpin->value(), ui.valueSpin->value());
+	});
 }
 
 FreeEGWidget::~FreeEGWidget()
