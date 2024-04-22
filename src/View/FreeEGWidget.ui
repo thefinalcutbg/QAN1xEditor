@@ -609,9 +609,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>490</y>
-     <width>1151</width>
-     <height>41</height>
+     <y>430</y>
+     <width>1041</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -675,13 +675,6 @@
         </property>
         <property name="value">
          <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>(use mouse wheel)</string>
         </property>
        </widget>
       </item>

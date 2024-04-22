@@ -54,7 +54,7 @@ bool FreeFn::getUpdate()
     reply->deleteLater();
 
     //Current version
-    constexpr int current_ver = 3;
+    constexpr int current_ver = 4;
 
     if (!ok || current_ver >= latest_ver) return false;
 
