@@ -36,10 +36,10 @@
     <item>
      <widget class="QScrollArea" name="scrollArea_5">
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
+       <enum>QFrame::Shadow::Plain</enum>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
@@ -119,10 +119,10 @@
           <item>
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
+             <enum>QSizePolicy::Policy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -167,10 +167,10 @@
              </size>
             </property>
             <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+             <enum>QFrame::Shape::NoFrame</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <widget class="SpinBox" name="tempoBPM">
              <property name="geometry">
@@ -198,7 +198,7 @@
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>90</y>
+               <y>110</y>
                <width>51</width>
                <height>20</height>
               </rect>
@@ -217,19 +217,19 @@
               </rect>
              </property>
              <property name="text">
-              <string>Initialize patch</string>
+              <string>Create new patch</string>
              </property>
              <property name="popupMode">
-              <enum>QToolButton::InstantPopup</enum>
+              <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
              </property>
              <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextOnly</enum>
+              <enum>Qt::ToolButtonStyle::ToolButtonTextOnly</enum>
              </property>
              <property name="autoRaise">
               <bool>false</bool>
              </property>
              <property name="arrowType">
-              <enum>Qt::NoArrow</enum>
+              <enum>Qt::ArrowType::NoArrow</enum>
              </property>
             </widget>
             <widget class="QLabel" name="label_13">
@@ -332,7 +332,7 @@
              <property name="geometry">
               <rect>
                <x>60</x>
-               <y>50</y>
+               <y>80</y>
                <width>81</width>
                <height>21</height>
               </rect>
@@ -415,7 +415,7 @@
              <property name="geometry">
               <rect>
                <x>60</x>
-               <y>90</y>
+               <y>110</y>
                <width>81</width>
                <height>22</height>
               </rect>
@@ -567,13 +567,13 @@
                </rect>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
+               <enum>QFrame::Shadow::Plain</enum>
               </property>
               <property name="text">
                <string>Detune</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignHCenter|Qt::AlignTop</set>
+               <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
               </property>
              </widget>
              <widget class="DialKnob" name="detune">
@@ -626,13 +626,13 @@
                </rect>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
+               <enum>QFrame::Shadow::Plain</enum>
               </property>
               <property name="text">
                <string>Separation</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignHCenter|Qt::AlignTop</set>
+               <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
               </property>
              </widget>
              <widget class="DialKnob" name="separation">
@@ -719,7 +719,7 @@
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>50</y>
+               <y>80</y>
                <width>51</width>
                <height>20</height>
               </rect>
@@ -728,12 +728,37 @@
               <string>Name:</string>
              </property>
             </widget>
+            <widget class="QToolButton" name="saveButton">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>40</y>
+               <width>131</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Save current patch</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonStyle::ToolButtonTextOnly</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>false</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::ArrowType::NoArrow</enum>
+             </property>
+            </widget>
            </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_5">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -780,13 +805,13 @@
               </rect>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
+              <enum>QFrame::Shadow::Plain</enum>
              </property>
              <property name="text">
               <string>Master Tune</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
             <widget class="DialKnob" name="masterTune">
@@ -848,7 +873,7 @@
               <string>0</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
             <widget class="QLabel" name="label_5">
@@ -864,7 +889,7 @@
               <string>-100</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
             <widget class="QLabel" name="label_10">
@@ -880,7 +905,7 @@
               <string>+100</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
             <widget class="QGroupBox" name="groupBox_3">
@@ -925,7 +950,7 @@
                <x>120</x>
                <y>30</y>
                <width>201</width>
-               <height>81</height>
+               <height>86</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -948,13 +973,13 @@
                 <item>
                  <widget class="QLabel" name="label_9">
                   <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
+                   <enum>QFrame::Shadow::Plain</enum>
                   </property>
                   <property name="text">
                    <string>Transpose:</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                   <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -1036,7 +1061,7 @@
               <item>
                <spacer name="verticalSpacer_4">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Orientation::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1070,7 +1095,7 @@
               <item>
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Orientation::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1091,10 +1116,10 @@
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="tabPosition">
-             <enum>QTabWidget::North</enum>
+             <enum>QTabWidget::TabPosition::North</enum>
             </property>
             <property name="tabShape">
-             <enum>QTabWidget::Rounded</enum>
+             <enum>QTabWidget::TabShape::Rounded</enum>
             </property>
             <property name="currentIndex">
              <number>0</number>
@@ -1225,7 +1250,7 @@
                    <string>Common</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignCenter</set>
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
                   </property>
                   <widget class="ComboPicker" name="sourceMtrxCom_1">
                    <property name="geometry">
@@ -1366,7 +1391,7 @@
                     <string>Common Source 1</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_59">
@@ -1382,7 +1407,7 @@
                     <string>Common Source 2</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_60">
@@ -1398,7 +1423,7 @@
                     <string>Common Parameter 1</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_61">
@@ -1414,7 +1439,7 @@
                     <string>Common Parameter 2</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_62">
@@ -1430,7 +1455,7 @@
                     <string>Depth 1</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_63">
@@ -1446,7 +1471,7 @@
                     <string>Depth 2</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                  </widget>
@@ -1454,7 +1479,7 @@
                 <item>
                  <spacer name="horizontalSpacer_2">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1469,7 +1494,7 @@
               <item>
                <spacer name="verticalSpacer">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Orientation::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1514,7 +1539,7 @@
              <number>64</number>
             </property>
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -1542,7 +1567,7 @@
              <number>127</number>
             </property>
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -1576,10 +1601,10 @@
               <item>
                <spacer name="horizontalSpacer_8">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
+                 <enum>QSizePolicy::Policy::Preferred</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1612,10 +1637,10 @@
               <item>
                <spacer name="horizontalSpacer_7">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
+                 <enum>QSizePolicy::Policy::Preferred</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1635,10 +1660,10 @@
               <item>
                <spacer name="horizontalSpacer_6">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
+                 <enum>QSizePolicy::Policy::Preferred</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1684,7 +1709,7 @@
               <item>
                <spacer name="horizontalSpacer">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1723,7 +1748,7 @@
           <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>

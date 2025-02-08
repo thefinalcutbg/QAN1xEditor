@@ -175,6 +175,7 @@
     <QtMoc Include="src\View\BrowserTableModel.h" />
     <ClInclude Include="src\Model\PatchRow.h" />
     <QtMoc Include="src\View\DbTableView.h" />
+    <ClInclude Include="src\Model\Settings.h" />
     <ClInclude Include="src\View\FreeEG\EGPath.h" />
     <ClInclude Include="src\View\FreeFunctions.h" />
     <QtMoc Include="src\View\MemoryList.h" />

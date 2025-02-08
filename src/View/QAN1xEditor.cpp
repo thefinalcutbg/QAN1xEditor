@@ -7,7 +7,6 @@
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
-
 #include "FreeFunctions.h"
 
 QAN1xEditor::QAN1xEditor(QWidget* parent)
@@ -22,6 +21,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
+    ui.saveButton->setDisabled(true);
 
     for (int i = 0; i < ui.voiceType->count(); i++) {
         ui.voiceType->setItemIcon(i, FreeFn::getTypeIcon(i));
@@ -52,6 +52,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.panikButton, &QPushButton::clicked, this, [&] {
         MidiMaster::stopAllSounds(); 
     });
+
+    connect(ui.saveButton, &QPushButton::clicked, this, [&] { MidiMaster::saveCurrentPatch(true); });
 
     connect(ui.enablePcKbd, &QCheckBox::stateChanged, this, [this](bool checked) {
         ui.pcKbdOctave->setHidden(!checked);
@@ -190,10 +192,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 
     MidiMaster::setView(this);
-
-    MidiMaster::refreshConnection();
-
-
+    
 }
 
 void QAN1xEditor::setPatch(const AN1xPatch& patch)
@@ -227,6 +226,8 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
 
 void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 {
+    auto settings = getSettings();
+
     {
         QSignalBlocker b1(ui.inCombo);
         QSignalBlocker b2(ui.outCombo);
@@ -241,8 +242,7 @@ void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
         for (auto& string : out) ui.outCombo->addItem(string);
     }
 
-    ui.inCombo->setCurrentIndex(ui.inCombo->count() - 1);
-    ui.outCombo->setCurrentIndex(ui.outCombo->count() - 1);
+    setSettings(settings);
 
 }
 
@@ -267,6 +267,11 @@ void QAN1xEditor::setModWheel(int value)
 void QAN1xEditor::setTrackData(const std::vector<int>& trackData)
 {
     ui.FreeEG->setTrackData(trackData);
+}
+
+void QAN1xEditor::enableSaveButton(bool enable)
+{
+    ui.saveButton->setDisabled(!enable);
 }
 
 
@@ -470,6 +475,10 @@ void QAN1xEditor::setBypass()
     }
 }
 
+void QAN1xEditor::setSettings()
+{
+}
+
 unsigned char QAN1xEditor::layerMode()
 {
     bool notUnison = !ui.unison->isChecked();
@@ -481,12 +490,43 @@ unsigned char QAN1xEditor::layerMode()
     return 0;
 }
 
+void QAN1xEditor::closeEvent(QCloseEvent* event)
+{
+    if (!MidiMaster::cleanUp()) {
+        event->ignore();
+    }
+
+    foreach(QWidget * widget, QApplication::topLevelWidgets())
+    {
+        if (widget == this) continue;
+        widget->close();
+    }
+}
+
 PianoView* QAN1xEditor::pianoRoll()
 {
     return ui.pianoView;
 }
 
+Settings QAN1xEditor::getSettings() const
+{
+    return Settings{
+        .midi_in = ui.inCombo->currentText().toStdString(),
+        .midi_out = ui.outCombo->currentText().toStdString(),
+        .midi_send_channel = ui.channelSpin->value()
+    };
+}
 
+void QAN1xEditor::setSettings(const Settings& s)
+{
+    int in = ui.inCombo->findText(s.midi_in.c_str());
+    int out = ui.outCombo->findText(s.midi_out.c_str());
+    int ch = s.midi_send_channel;
+
+    if (in != -1) ui.inCombo->setCurrentIndex(in);
+    if (out != -1) ui.outCombo->setCurrentIndex(out);
+    ui.channelSpin->setValue(ch);
+}
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
 {
@@ -591,7 +631,4 @@ here:
 
 
 QAN1xEditor::~QAN1xEditor()
-{
-    MidiMaster::stopAllSounds();
-    MidiMaster::cleanUp();
-}
+{}

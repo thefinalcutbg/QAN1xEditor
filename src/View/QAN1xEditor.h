@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_QAN1xEditor.h"
+#include "Model/Settings.h"
 
 class AN1xPatch;
 
@@ -20,7 +21,9 @@ class QAN1xEditor : public QMainWindow
     void setSequenceParameter(AN1x::SeqParam p, int value, bool setAsDefault = false);
     void initializeInitMenu();
     void setBypass();
+    void setSettings();
     unsigned char layerMode();
+    void closeEvent(QCloseEvent* event) override;
 
 public:
     QAN1xEditor(QWidget *parent = nullptr);
@@ -29,8 +32,13 @@ public:
     void setParameter(ParamType type, unsigned char param, int value, bool setAsDefault = false);
     void setModWheel(int value);
     void setTrackData(const std::vector<int>& trackData);
+    void enableSaveButton(bool enable);
     Browser* browser();
     PianoView* pianoRoll();
+
+    Settings getSettings() const;
+
+    void setSettings(const Settings& s);
 
     //two byte values are represented by int and 0 and has to be separated;
 

@@ -198,6 +198,9 @@
     <ClInclude Include="include\sqLite3\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\View\SceneView.h">

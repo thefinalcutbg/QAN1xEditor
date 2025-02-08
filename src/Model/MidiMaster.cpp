@@ -27,8 +27,8 @@ QAN1xEditor* s_view{ nullptr };
 
 //patch currently edited
 AN1xPatch current_patch;
-PatchSource patch_src;
-bool is_edited{ false };
+PatchSource current_patch_src;
+bool s_voice_edited{ false };
 
 int s_kbdOctave{ 5 };
 int s_sendChannel{1};
@@ -45,8 +45,42 @@ void MidiMaster::setView(QAN1xEditor* v) {
 	s_view->setPatch(current_patch);
 
 	handlingMessage = false;
+
+	refreshConnection();
+
+	s_view->setSettings(PatchDatabase::getMidiSettings());
 }
 
+void makeEdited(bool edited) {
+	s_voice_edited = edited;
+	s_view->enableSaveButton(edited);
+}
+
+//returns false if dialog is CANCELED
+bool permissionToChangePatch() {
+
+	if (!s_voice_edited) return true;
+
+	std::string question = "Do you want to save current patch? (";
+	question += current_patch.getName();
+	question += ")";
+
+	int answer = GlobalWidgets::YesNoCancelQuestion(question.c_str());
+
+	switch (answer) {
+		//no
+		case 0: return true;
+		//yes
+		case 1:
+			MidiMaster::saveCurrentPatch();
+			return true;
+		//cancel
+		default: return false;
+	}
+
+	return true;
+
+}
 
 void sendMessage(const Message& msg)
 {
@@ -141,7 +175,7 @@ void handleSysMsg(const Message& msg)
 	s_view->setParameter(type, param, value);
 
     if(type != ParamType::System){
-        is_edited = true;
+        makeEdited(true);
     }
 
 	handlingMessage = false;
@@ -211,7 +245,7 @@ void MidiMaster::parameterChanged(ParamType type, unsigned char parameter, int v
 	if (handlingMessage) return;
 
     if(type != ParamType::System){
-        is_edited = true;
+        makeEdited(true);
     }
 
 	sendMessage(current_patch.setParameter(type, parameter, value));
@@ -222,7 +256,7 @@ void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 {
 	current_patch.setFreeEGData(trackData);
 
-	is_edited = true;
+	makeEdited(true);
 
 	//sending the whole common bulk
 	sendMessage(current_patch.getDataMessage(ParamType::Common));
@@ -295,25 +329,23 @@ void MidiMaster::restoreSystem()
 
 void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 {
-	if (src.getRowid() != 0 && src.getRowid() == patch_src.getRowid()) return;
+	if (s_voice_edited) {
 
-	if (is_edited &&
-		GlobalWidgets::askQuestion("Do you want to save current patch?")
-	)
-	{
-		if (patch_src.location == PatchSource::Database) {
-			PatchDatabase::saveVoice(current_patch, patch_src.getRowid());
+		if (!current_patch_src.isSameAs(src)) {
+
+			if(!permissionToChangePatch()) return;
 		}
-		else {
-			PatchMemory::setPatch(current_patch, patch_src.getMemoryIndex());
+		else if(!GlobalWidgets::askQuestion("Do you want to reload the current patch and lose all changes?")){
+
+			return;
 		}
 	}
 
 	current_patch = p;
 
-	is_edited = false;
+	makeEdited(false);
 
-	patch_src = src;
+	current_patch_src = src;
 
 	handlingMessage = true;
 
@@ -334,11 +366,11 @@ const AN1xPatch& MidiMaster::currentPatch()
 
 void MidiMaster::notifyRowidDelete(long long rowid)
 {
-	if (patch_src.getRowid() != rowid) return;
+	if (current_patch_src.getRowid() != rowid) return;
 
-	patch_src.id = 0;
+	current_patch_src.id = 0;
 
-	is_edited = true;
+	makeEdited(true);
 }
 
 void MidiMaster::newPatch(AN1x::InitType type)
@@ -431,8 +463,6 @@ void MidiMaster::stopAllSounds()
 
 }
 
-
-
 void MidiMaster::setSendChannel(int channel)
 {
     if(channel < 1 || channel > 16) return;
@@ -440,16 +470,35 @@ void MidiMaster::setSendChannel(int channel)
     s_sendChannel = channel;
 }
 
-void MidiMaster::cleanUp()
+void MidiMaster::saveCurrentPatch(bool showMessage)
 {
-    if (is_edited &&
-        GlobalWidgets::askQuestion("Do you want to save current patch?")
-        )
-    {
-            PatchDatabase::saveVoice(current_patch, patch_src.getRowid());
-    }
+	if (!s_voice_edited) return;
+
+	current_patch_src.location == PatchSource::Database ?
+		PatchDatabase::saveVoice(current_patch, current_patch_src.getRowid())
+		:
+		PatchMemory::setPatch(current_patch, current_patch_src.getMemoryIndex());
+
+	makeEdited(false);
+
+	if (showMessage) {
+		GlobalWidgets::showMessage("Patch saved successfully");
+	}
+}
+
+bool MidiMaster::cleanUp()
+{
+	MidiMaster::stopAllSounds();
+
+	if (current_patch_src.location == PatchSource::Database) {
+		if (!permissionToChangePatch()) return false;
+	}
+
+	PatchDatabase::setMidiSettings(s_view->getSettings());
 
     if(s_in) { delete s_in; }
     if(s_out) { delete s_out; }
+
+	return true;
 
 }

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "An1xPatch.h"
+#include "Settings.h"
 
 class Browser;
+
 
 namespace PatchDatabase
 {
@@ -25,4 +27,8 @@ namespace PatchDatabase
 	void updateComment(const std::string& comment, const std::set<long long>& rowids);
 
 	void importExternalDb(const std::string& filepath);
+
+	void setMidiSettings(const Settings& s);
+
+	Settings getMidiSettings();
 }

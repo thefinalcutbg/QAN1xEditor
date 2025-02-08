@@ -24,6 +24,17 @@ struct PatchSource {
 	int getMemoryIndex() const {
 		return location == Location::Database ? -1 : id;
 	}
+
+	bool isSameAs(const PatchSource& other) {
+		
+		if (location != other.location) return false;
+
+		if (id != other.id) return false;
+
+		if (location == Location::Database && !id) return false;
+
+		return true;
+	}
 };
 
 
@@ -35,7 +46,7 @@ namespace MidiMaster
 	void refreshConnection();
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
-
+	
 	//called when parameter is changed from UI
 	void parameterChanged(ParamType type, unsigned char parameter, int value);
 	//called when Free EG Track change from UI
@@ -62,6 +73,8 @@ namespace MidiMaster
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
     void setSendChannel(int channel);
+	void saveCurrentPatch(bool showMessage = false);
 	void stopAllSounds();
-    void cleanUp();
+
+    bool cleanUp(); //returns false if denies close
 }
