@@ -53,7 +53,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         MidiMaster::stopAllSounds(); 
     });
 
-    connect(ui.saveButton, &QPushButton::clicked, this, [&] { MidiMaster::saveCurrentPatch(true); });
+    connect(ui.saveButton, &QPushButton::clicked, this, [&] { MidiMaster::saveCurrentPatch(); });
 
     connect(ui.enablePcKbd, &QCheckBox::stateChanged, this, [this](bool checked) {
         ui.pcKbdOctave->setHidden(!checked);

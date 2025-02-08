@@ -61,9 +61,13 @@ bool permissionToChangePatch() {
 
 	if (!s_voice_edited) return true;
 
-	std::string question = "Do you want to save current patch? (";
+	std::string question = "Do you want to save current patch - ";
 	question += current_patch.getName();
-	question += ")";
+	
+	while (question.at(question.size() - 1) == ' ') {
+		question.pop_back();
+	}
+	question += "?";
 
 	int answer = GlobalWidgets::YesNoCancelQuestion(question.c_str());
 
@@ -470,7 +474,7 @@ void MidiMaster::setSendChannel(int channel)
     s_sendChannel = channel;
 }
 
-void MidiMaster::saveCurrentPatch(bool showMessage)
+void MidiMaster::saveCurrentPatch()
 {
 	if (!s_voice_edited) return;
 
@@ -481,9 +485,6 @@ void MidiMaster::saveCurrentPatch(bool showMessage)
 
 	makeEdited(false);
 
-	if (showMessage) {
-		GlobalWidgets::showMessage("Patch saved successfully");
-	}
 }
 
 bool MidiMaster::cleanUp()
