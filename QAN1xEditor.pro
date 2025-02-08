@@ -76,6 +76,7 @@ HEADERS += \
     src/Model/PatchDatabase.h \
     src/Model/PatchMemory.h \
     src/Model/PatchRow.h \
+    src/Model/Settings.h \
     src/View/AbstractController.h \
     src/View/ArpSeq.h \
     src/View/Browser.h \
