@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "QAN1xEditor"
-#define MyAppVersion "1.4"
+#define MyAppVersion "1.5"
 #define MyAppPublisher "Hristo Konstantinov"
 #define MyAppURL "https://github.com/thefinalcutbg/QAN1xEditor/"
 #define MyAppExeName "QAN1xEditor.exe"
@@ -23,7 +23,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 UsePreviousAppDir=yes
 OutputDir=..\compiled
-OutputBaseFilename=qan1xeditor-1.4-win64
+OutputBaseFilename=qan1xeditor-1.5-win64
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
