@@ -231,12 +231,13 @@ void PatchDatabase::setMidiSettings(const Settings& s)
 
 	db.execute();
 
-	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru) VALUES (?,?,?,?)");
+	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru, device_no) VALUES (?,?,?,?, ?)");
 
 	db.bind(1, s.midi_in);
 	db.bind(2, s.midi_out);
 	db.bind(3, s.midi_send_channel);
 	db.bind(4, s.midi_thru);
+	db.bind(5, s.device_no);
 
 	db.execute();
 }
@@ -247,7 +248,7 @@ Settings PatchDatabase::getMidiSettings()
 	
 	 Db db;
 	 db.newStatement(
-		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru FROM settings"
+		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru, device_no FROM settings"
 	 );
 
 	 while (db.hasRows()) {
@@ -255,7 +256,8 @@ Settings PatchDatabase::getMidiSettings()
 			 .midi_in = db.asString(0),
 			 .midi_out = db.asString(1),
 			 .midi_send_channel = db.asInt(2),
-			 .midi_thru = db.asBool(3)
+			 .midi_thru = db.asBool(3),
+			 .device_no = db.asInt(4)
 		 };
 	 }
 

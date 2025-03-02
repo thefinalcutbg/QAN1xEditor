@@ -24,6 +24,7 @@ QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
 int s_sendChannel{ 1 };
 bool midi_thru = false;
+int s_deviceNo{ 0 };
 
 QAN1xEditor* s_view{ nullptr };
 
@@ -98,6 +99,15 @@ void sendMessage(const Message& msg)
 
 		auto m = msg;
 
+		//SYSEX
+		if (m.size() > 4 &&
+			m[0] == 0xF0 && 
+			m[1] == 0x43 && 
+			m[3] == 0x5C
+		){
+			m[2] += s_deviceNo;
+		}
+
 		s_out->sendRawMessage(m);
 	}
 	catch (std::exception) { 
@@ -109,9 +119,10 @@ void handleSysMsg(const Message& msg)
 {
 	//header check:
 	if (   
-		msg[0] != 240 //exclusive
-	 && msg[1] != 67 //YAMAHA ID
-	 && msg[3] != 92 //AN1x MODEL ID
+		msg[0] != 0xF0 //exclusive
+	 || msg[1] != 0x43 //YAMAHA ID
+	 || msg[2]%16 != s_deviceNo
+	 || msg[3] != 0x5C //AN1x MODEL ID
 	) {
 		handlingMessage = false;
 		return;
@@ -249,6 +260,11 @@ void MidiMaster::connectMidiOut(int idx)
 void MidiMaster::setMidiThru(bool enabled)
 {
 	midi_thru = enabled;
+}
+
+void MidiMaster::setDeviceNo(int number)
+{
+	s_deviceNo = number - 1;
 }
 
 

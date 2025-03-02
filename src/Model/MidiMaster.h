@@ -47,6 +47,7 @@ namespace MidiMaster
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
 	void setMidiThru(bool enabled);
+	void setDeviceNo(int number);
 
 	//called when parameter is changed from UI
 	void parameterChanged(ParamType type, unsigned char parameter, int value);

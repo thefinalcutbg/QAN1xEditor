@@ -28,7 +28,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     }
 
     ui.pianoView->setOctave(ui.pcKbdOctave->value());
-
+    ui.deviceSpin->setSpecialValueText("All");
+    ui.deviceSpin->setMinimumWidth(40);
     connect(ui.donateButton, &QPushButton::clicked, this, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
 
     connect(ui.modWheel, &QSlider::valueChanged, this, [&](int value) { MidiMaster::modWheelChange(value); });
@@ -93,6 +94,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.inCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
     connect(ui.outCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
     connect(ui.sendSpin, &QSpinBox::valueChanged, this, [&](int value){ MidiMaster::setSendChannel(value); });
+    connect(ui.deviceSpin, &QSpinBox::valueChanged, this, [&](int value) { MidiMaster::setDeviceNo(value); });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
@@ -511,7 +513,8 @@ Settings QAN1xEditor::getSettings() const
         .midi_in = ui.inCombo->currentText().toStdString(),
         .midi_out = ui.outCombo->currentText().toStdString(),
         .midi_send_channel = ui.sendSpin->value(),
-        .midi_thru = ui.thruCheck->isChecked()
+        .midi_thru = ui.thruCheck->isChecked(),
+        .device_no = ui.deviceSpin->value()
     };
 }
 
@@ -525,6 +528,7 @@ void QAN1xEditor::setSettings(const Settings& s)
 
     ui.sendSpin->setValue(s.midi_send_channel);
     ui.thruCheck->setChecked(s.midi_thru);
+    ui.deviceSpin->setValue(s.device_no);
 }
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)
