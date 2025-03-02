@@ -107,6 +107,16 @@ void sendMessage(const Message& msg)
 
 void handleSysMsg(const Message& msg)
 {
+	//header check:
+	if (   
+		msg[0] != 240 //exclusive
+	 && msg[1] != 67 //YAMAHA ID
+	 && msg[3] != 92 //AN1x MODEL ID
+	) {
+		handlingMessage = false;
+		return;
+	}
+
 	if (msg.size() == 1953)  //voice bulk recieved
 	{
 		handlingMessage = false;
@@ -130,16 +140,6 @@ void handleSysMsg(const Message& msg)
 	}
 
 	//parameter recieved (AN1x doesnt send AEG ADSR and a few more)
-	std::array<int, 4> header{ 240, 67, 16, 92 };
-
-    for (size_t i = 0; i < header.size(); i++)
-	{
-
-        if (msg[i] != header[i]){
-            handlingMessage = false;
-            return;
-        }
-	}
 
 	ParamType type;
 
@@ -314,7 +314,9 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 
 void MidiMaster::requestSystem()
 {
-	sendMessage({ 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 });
+	Message msg = { 0xF0, 0x43, 0x20, 0x5C, 0x00, 0x00, 0x00, 0xF7 };
+
+	sendMessage(msg);
 }
 
 void MidiMaster::sendSystem()
