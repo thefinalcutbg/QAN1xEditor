@@ -124,13 +124,11 @@ void handleSysMsg(const Message& msg)
 	 || msg[2]%16 != s_deviceNo
 	 || msg[3] != 0x5C //AN1x MODEL ID
 	) {
-		handlingMessage = false;
 		return;
 	}
 
 	if (msg.size() == 1953)  //voice bulk recieved
 	{
-		handlingMessage = false;
 		PatchMemory::patchRecieved({ msg });
 
 		return;
@@ -144,8 +142,6 @@ void handleSysMsg(const Message& msg)
 		{
 			s_view->setParameter(ParamType::System, i, current_patch.getParameter(ParamType::System, i));
 		}
-
-        handlingMessage = false;
 
 		return;
 	}
@@ -166,14 +162,13 @@ void handleSysMsg(const Message& msg)
 		case 16: type = ParamType::Scene1; break;
 		case 17: type = ParamType::Scene2; break;
 		case 14: type = ParamType::StepSq; break;
-        default: handlingMessage = false; return;
+        default:  return;
 		}
 	}
 
 	unsigned char param = msg[6];
 
     if (AN1x::isNull(type, param)){
-        handlingMessage = false;
         return;
     }
 
@@ -193,8 +188,6 @@ void handleSysMsg(const Message& msg)
     if(type != ParamType::System){
         makeEdited(true);
     }
-
-	handlingMessage = false;
 }
 
 void MidiMaster::refreshConnection()
@@ -216,23 +209,23 @@ void MidiMaster::refreshConnection()
 	s_in->setIgnoreTypes(false, true, true);
 
 	QObject::connect(s_in, &QMidiIn::midiMessageReceived, s_view, [=](QMidiMessage* m)
-		{
-			handlingMessage = true;
+	{
+		handlingMessage = true;
 
-			auto status = m->getStatus();
+		auto status = m->getStatus();
 
-			if (status == QMidiStatus::MIDI_SYSEX) {
-				handleSysMsg(m->getSysExData());
-			}
+		if (status == QMidiStatus::MIDI_SYSEX) {
+			handleSysMsg(m->getSysExData());
+		}
 
-			if (midi_thru) {
-				s_out->sendMessage(m);
-			}
+		if (midi_thru) {
+			s_out->sendMessage(m);
+		}
 
-			handlingMessage = false;
+		handlingMessage = false;
 
-			delete m;
-		});
+		delete m;
+	});
 
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
 }

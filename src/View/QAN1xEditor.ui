@@ -1584,7 +1584,7 @@
               <item>
                <widget class="QLabel" name="label_17">
                 <property name="text">
-                 <string>Device No:</string>
+                 <string>Device Num:</string>
                 </property>
                </widget>
               </item>
@@ -1742,7 +1742,7 @@
               <item>
                <widget class="QLabel" name="octaveDescrLabel">
                 <property name="text">
-                 <string>(use Z and X on keyboard to change octaves)</string>
+                 <string/>
                 </property>
                </widget>
               </item>

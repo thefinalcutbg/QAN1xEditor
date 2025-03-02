@@ -59,7 +59,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
     connect(ui.enablePcKbd, &QCheckBox::stateChanged, this, [this](bool checked) {
         ui.pcKbdOctave->setHidden(!checked);
-        ui.octaveDescrLabel->setHidden(!checked);
+        ui.octaveDescrLabel->setText(checked ? "(use Z and X on keyboard to change octaves)" : "");
         ui.octaveLabel->setHidden(!checked);
         ui.pianoView->setOctave(checked ? ui.pcKbdOctave->value() : -3);
     });
