@@ -275,8 +275,7 @@ Db::~Db()
 
 const char* tableSchema = 
 "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, fav INTEGER DEFAULT 0, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB);"
-"CREATE TABLE IF NOT EXISTS settings (midi_in TEXT, midi_out TEXT, midi_send_ch INTEGER);";
-
+"CREATE TABLE IF NOT EXISTS settings (midi_in TEXT, midi_out TEXT, midi_send_ch INTEGER, midi_thru INTEGER DEFAULT 0);";
 
 bool Db::createIfNotExist()
 {
@@ -304,6 +303,11 @@ bool Db::createIfNotExist()
     if(db.version() == 0){
         db.execute("ALTER TABLE patch ADD fav INTEGER DEFAULT 0");
         db.execute("PRAGMA user_version = 1");
+    }
+
+    if (db.version() == 1) {
+        db.execute("ALTER TABLE settings ADD midi_thru INTEGER DEFAULT 0");
+        db.execute("PRAGMA user_version = 2");
     }
 
     return true;

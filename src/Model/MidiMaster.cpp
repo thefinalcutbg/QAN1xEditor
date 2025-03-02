@@ -22,6 +22,8 @@ void waitForAWhile()
 //static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
+int s_sendChannel{ 1 };
+bool midi_thru = false;
 
 QAN1xEditor* s_view{ nullptr };
 
@@ -31,7 +33,6 @@ PatchSource current_patch_src;
 bool s_voice_edited{ false };
 
 int s_kbdOctave{ 5 };
-int s_sendChannel{1};
 
 //guards against recursion when setting parameters to view
 bool handlingMessage = true;
@@ -207,12 +208,14 @@ void MidiMaster::refreshConnection()
 		{
 			handlingMessage = true;
 
-			switch (m->getStatus())
-			{
-			case QMidiStatus::MIDI_PROGRAM_CHANGE: handlingMessage = false; break;
-			case QMidiStatus::MIDI_SYSEX: handleSysMsg(m->getSysExData()); break;
-			case QMidiStatus::MIDI_CONTROL_CHANGE: s_view->setModWheel(m->getRawMessage()[2]); break;
-			default: handlingMessage = false; s_out->sendMessage(m);
+			auto status = m->getStatus();
+
+			if (status == QMidiStatus::MIDI_SYSEX) {
+				handleSysMsg(m->getSysExData());
+			}
+
+			if (midi_thru) {
+				s_out->sendMessage(m);
 			}
 
 			handlingMessage = false;
@@ -241,6 +244,11 @@ void MidiMaster::connectMidiOut(int idx)
 
 	if (idx != -1)
 		s_out->openPort(idx);
+}
+
+void MidiMaster::setMidiThru(bool enabled)
+{
+	midi_thru = enabled;
 }
 
 

@@ -1584,17 +1584,24 @@
               <item>
                <widget class="QLabel" name="label_14">
                 <property name="text">
-                 <string>MIDI send channel:</string>
+                 <string>MIDI send chаnnel:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="channelSpin">
+               <widget class="QSpinBox" name="sendSpin">
                 <property name="minimum">
                  <number>1</number>
                 </property>
                 <property name="maximum">
                  <number>16</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="thruCheck">
+                <property name="text">
+                 <string>MIDI Thru</string>
                 </property>
                </widget>
               </item>

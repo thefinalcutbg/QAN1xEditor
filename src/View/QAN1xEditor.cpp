@@ -30,22 +30,23 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     ui.pianoView->setOctave(ui.pcKbdOctave->value());
 
     connect(ui.donateButton, &QPushButton::clicked, this, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
-    
+
     connect(ui.modWheel, &QSlider::valueChanged, this, [&](int value) { MidiMaster::modWheelChange(value); });
     connect(ui.pitchBend, &QSlider::valueChanged, this, [&](int value) { MidiMaster::pitchChange(value); });
     connect(ui.velocityKbdSpin, &QSpinBox::valueChanged, this, [=](int value) { ui.pianoView->setVelocity(value); });
 
     connect(ui.pcKbdOctave, &QSpinBox::valueChanged, this, [this](int value) {
-            ui.pitchBend->setValue(64);
-            ui.modWheel->setValue(0);
-            ui.pianoView->setOctave(value);
-            MidiMaster::setKbdOctave(value); 
-    });
+        ui.pitchBend->setValue(64);
+        ui.modWheel->setValue(0);
+        ui.pianoView->setOctave(value);
+        MidiMaster::setKbdOctave(value);
+        });
 
     connect(ui.dlyBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
     connect(ui.revBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
     connect(ui.allBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
 
+    connect(ui.thruCheck, &QCheckBox::stateChanged, this, [&] { MidiMaster::setMidiThru(ui.thruCheck->isChecked()); });
     connect(ui.requestSystem, &QPushButton::clicked, this, [&] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, this, [&] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, this, [&] { MidiMaster::restoreSystem(); });
@@ -91,7 +92,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.refresh, &QPushButton::clicked, this, [=] { MidiMaster::refreshConnection(); });
     connect(ui.inCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
     connect(ui.outCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
-    connect(ui.channelSpin, &QSpinBox::valueChanged, this, [&](int value){ MidiMaster::setSendChannel(value); });
+    connect(ui.sendSpin, &QSpinBox::valueChanged, this, [&](int value){ MidiMaster::setSendChannel(value); });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
@@ -475,10 +476,6 @@ void QAN1xEditor::setBypass()
     }
 }
 
-void QAN1xEditor::setSettings()
-{
-}
-
 unsigned char QAN1xEditor::layerMode()
 {
     bool notUnison = !ui.unison->isChecked();
@@ -513,7 +510,8 @@ Settings QAN1xEditor::getSettings() const
     return Settings{
         .midi_in = ui.inCombo->currentText().toStdString(),
         .midi_out = ui.outCombo->currentText().toStdString(),
-        .midi_send_channel = ui.channelSpin->value()
+        .midi_send_channel = ui.sendSpin->value(),
+        .midi_thru = ui.thruCheck->isChecked()
     };
 }
 
@@ -521,11 +519,12 @@ void QAN1xEditor::setSettings(const Settings& s)
 {
     int in = ui.inCombo->findText(s.midi_in.c_str());
     int out = ui.outCombo->findText(s.midi_out.c_str());
-    int ch = s.midi_send_channel;
 
     if (in != -1) ui.inCombo->setCurrentIndex(in);
     if (out != -1) ui.outCombo->setCurrentIndex(out);
-    ui.channelSpin->setValue(ch);
+
+    ui.sendSpin->setValue(s.midi_send_channel);
+    ui.thruCheck->setChecked(s.midi_thru);
 }
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)

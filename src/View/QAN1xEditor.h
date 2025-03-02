@@ -21,7 +21,6 @@ class QAN1xEditor : public QMainWindow
     void setSequenceParameter(AN1x::SeqParam p, int value, bool setAsDefault = false);
     void initializeInitMenu();
     void setBypass();
-    void setSettings();
     unsigned char layerMode();
     void closeEvent(QCloseEvent* event) override;
 

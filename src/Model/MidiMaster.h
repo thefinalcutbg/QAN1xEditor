@@ -46,7 +46,8 @@ namespace MidiMaster
 	void refreshConnection();
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
-	
+	void setMidiThru(bool enabled);
+
 	//called when parameter is changed from UI
 	void parameterChanged(ParamType type, unsigned char parameter, int value);
 	//called when Free EG Track change from UI
