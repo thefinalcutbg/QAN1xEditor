@@ -129,6 +129,8 @@ void handleSysMsg(const Message& msg)
 
 	if (msg.size() == 1953)  //voice bulk recieved
 	{
+		handlingMessage = false; //otherwise the request for the next patch won't be recieved 
+
 		PatchMemory::patchRecieved({ msg });
 
 		return;

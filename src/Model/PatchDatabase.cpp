@@ -210,9 +210,11 @@ void PatchDatabase::importExternalDb(const std::string& filepath)
 	db.execute();
 
     db.execute("ALTER TABLE external.patch ADD fav INTEGER DEFAULT 0");
-    db.execute("PRAGMA external.user_version = 1");
 
-    db.execute("INSERT INTO patch SELECT * FROM external.patch");
+    db.execute("INSERT INTO "
+		"patch (hash,type,name,file,layer,effect,arp_seq,comment,data,fav) "
+		"SELECT hash,type,name,file,layer,effect,arp_seq,comment,data,fav FROM external.patch"
+	);
 	db.execute("DETACH external");
 
 	db.execute(
