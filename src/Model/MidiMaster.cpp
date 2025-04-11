@@ -97,7 +97,7 @@ bool permissionToChangePatch() {
 
 }
 
-void sendMessage(const Message& msg)
+void sendMessage(const Message& msg, bool addChecksum = false)
 {
 	if (s_out == nullptr) return;
 
@@ -115,37 +115,14 @@ void sendMessage(const Message& msg)
 			m[3] == 0x5C
 		){
 			m[2] += s_adv.device_no-1;
+
+			if (addChecksum) {
+				AN1x::addCheckSum(m);
+			}
+
 		}
 
-		if (!s_adv.buffer_size) {
-			s_out->sendRawMessage(m);
-			return;
-		}
-
-		auto chunks = m.size() / s_adv.buffer_size;
-
-		auto remainder = m.size() % s_adv.buffer_size;
-
-		for (int i = 0; i < chunks; i++) {
-
-			auto start = i * s_adv.buffer_size;
-			auto end = start + s_adv.buffer_size;
-
-			auto mChunk = std::vector<unsigned char>{ m.begin() + start, m.begin() + end };
-
-			s_out->sendRawMessage(mChunk);
-			
-			waitForAWhile(s_adv.msDelay);
-		}
-
-		if (remainder > 0) {
-	
-			auto start = chunks * s_adv.buffer_size;
-
-			std::vector<unsigned char> mChunk(m.begin() + start, m.end());
-
-			s_out->sendRawMessage(mChunk);
-		}
+		s_out->sendRawMessage(m);
 	}
 	catch (std::exception) { 
 		MidiMaster::refreshConnection();
@@ -345,21 +322,23 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 {
     if (idx < 0 || idx > 127) return;
 
-    Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
+	auto& data = patch.rawData();
 
-    msg.reserve(patch.rawData().size() + 11);
+	if (!s_adv.buffer_size) {
 
-    for (auto value : patch.rawData()) msg.push_back(value);
+		Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
 
-    AN1x::addCheckSum(msg);
+		msg.reserve(patch.rawData().size() + 11);
 
-    sendMessage(msg);
+		for (auto value : patch.rawData()) msg.push_back(value);
+
+		sendMessage(msg, true);
+	}
 
     waitForAWhile(s_adv.msDelay);
 
 	handlingMessage = false;
 
-    PatchMemory::patchSent();
 }
 
 void MidiMaster::requestSystem()
@@ -371,7 +350,7 @@ void MidiMaster::requestSystem()
 
 void MidiMaster::sendSystem()
 {
-	sendMessage(AN1xPatch::getSystemDataMsg());
+	sendMessage(AN1xPatch::getSystemDataMsg(), true);
 }
 
 void MidiMaster::restoreSystem()
@@ -417,10 +396,10 @@ void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 
 	handlingMessage = false;
 
-	sendMessage(p.getDataMessage(ParamType::Common)); //Sleep(100);
-	sendMessage(p.getDataMessage(ParamType::Scene1)); //Sleep(100);
-	sendMessage(p.getDataMessage(ParamType::Scene2)); //Sleep(100);
-	sendMessage(p.getDataMessage(ParamType::StepSq)); //Sleep(100);
+	sendMessage(p.getDataMessage(ParamType::Common), true); waitForAWhile(s_adv.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Scene1), true); waitForAWhile(s_adv.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Scene2), true); waitForAWhile(s_adv.msDelay);
+	sendMessage(p.getDataMessage(ParamType::StepSq), true); waitForAWhile(s_adv.msDelay);
 }
 
 const AN1xPatch& MidiMaster::currentPatch()

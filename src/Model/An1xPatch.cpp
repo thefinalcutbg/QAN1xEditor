@@ -158,8 +158,6 @@ Message AN1xPatch::getDataMessage(ParamType type) const
         default: break;
 	}	
 
-	AN1x::addCheckSum(result);
-
 	return result;
 }
 
@@ -261,8 +259,6 @@ Message AN1xPatch::getSystemDataMsg()
 	result = { 0xF0, 0x43, 0x00, 0x5C, 0x00, 0x1C, 0x00, 0x00, 0x00 };
 	
 	for (auto value : s_system) result.push_back(value);
-
-	addCheckSum(result);
 
 	return result;
 }
