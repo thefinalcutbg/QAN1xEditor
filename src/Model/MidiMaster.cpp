@@ -22,7 +22,7 @@ void waitForAWhile(int ms = 500)
 //static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
-AdvancedMidiSettings s_adv;
+AdvancedMidiSettings settings;
 
 QAN1xEditor* s_view{ nullptr };
 
@@ -59,7 +59,7 @@ void MidiMaster::setView(QAN1xEditor* v) {
 
 void saveCurrentSettings() {
 
-	PatchDatabase::setMidiSettings(s_view->getCurrentDevices(), s_adv);
+	PatchDatabase::setMidiSettings(s_view->getCurrentDevices(), settings);
 }
 
 void makeEdited(bool edited) {
@@ -97,7 +97,7 @@ bool permissionToChangePatch() {
 
 }
 
-void sendMessage(const Message& msg, bool addChecksum = false)
+void sendMessage(const Message& msg, bool BulkDump = false)
 {
 	if (s_out == nullptr) return;
 
@@ -114,15 +114,59 @@ void sendMessage(const Message& msg, bool addChecksum = false)
 			m[1] == 0x43 && 
 			m[3] == 0x5C
 		){
-			m[2] += s_adv.device_no-1;
-
-			if (addChecksum) {
-				AN1x::addCheckSum(m);
-			}
-
+			m[2] += settings.device_no-1;
 		}
 
-		s_out->sendRawMessage(m);
+		if(!BulkDump){
+			s_out->sendRawMessage(m);
+			return; 
+		}
+
+		AN1x::addCheckSum(m);
+
+		//send whole bulk dump at once
+		if (!settings.buffer_size) {
+
+			m.push_back(0xF7);
+
+			s_out->sendRawMessage(m);
+
+			return;
+		}
+	
+		const auto chunkSize = settings.buffer_size;
+
+		auto chunks = m.size() / chunkSize;
+		auto remainder = m.size() % chunkSize;
+
+		for (size_t i = 0; i < chunks; ++i) {
+
+			auto start = i * chunkSize;
+			auto end = start + chunkSize;
+
+			auto chunk = std::vector<unsigned char>(m.begin() + start, m.begin() + end);
+
+			if (end == m.size()) {
+				chunk.push_back(0xF7);
+			}
+			
+			s_out->sendRawMessage(chunk);
+
+			waitForAWhile(settings.buffer_size);
+		}
+
+		if (!remainder) return;
+
+		//the last chunk
+
+		auto start = chunks * chunkSize;
+	
+		auto chunk = std::vector<unsigned char>(m.begin() + start, m.end());
+
+		chunk.push_back(0xF7); //end of data
+
+		s_out->sendRawMessage(chunk);
+
 	}
 	catch (std::exception) { 
 		MidiMaster::refreshConnection();
@@ -135,7 +179,7 @@ void handleSysMsg(const Message& msg)
 	if (   
 		msg[0] != 0xF0 //exclusive
 	 || msg[1] != 0x43 //YAMAHA ID
-	 || msg[2]%16 != s_adv.device_no-1
+	 || msg[2]%16 != settings.device_no-1
 	 || msg[3] != 0x5C //AN1x MODEL ID
 	) {
 		return;
@@ -234,7 +278,7 @@ void MidiMaster::refreshConnection()
 			handleSysMsg(m->getSysExData());
 		}
 
-		if (s_adv.midi_thru) {
+		if (settings.midi_thru) {
 			s_out->sendMessage(m);
 		}
 
@@ -292,11 +336,11 @@ void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 
 void MidiMaster::setAdvancedSettings(const AdvancedMidiSettings& advSettings)
 {
-	if (s_adv.midi_send_channel != advSettings.midi_send_channel) {
+	if (settings.midi_send_channel != advSettings.midi_send_channel) {
 		stopAllSounds();
 	}
 
-	s_adv = advSettings;
+	settings = advSettings;
 
 	saveCurrentSettings();
 }
@@ -324,18 +368,16 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 
 	auto& data = patch.rawData();
 
-	if (!s_adv.buffer_size) {
+	Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
 
-		Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
+	msg.reserve(patch.rawData().size() + 11);
 
-		msg.reserve(patch.rawData().size() + 11);
+	for (auto value : patch.rawData()) msg.push_back(value);
 
-		for (auto value : patch.rawData()) msg.push_back(value);
+	sendMessage(msg, true);
 
-		sendMessage(msg, true);
-	}
 
-    waitForAWhile(s_adv.msDelay);
+    waitForAWhile(settings.msDelay);
 
 	handlingMessage = false;
 
@@ -396,10 +438,10 @@ void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 
 	handlingMessage = false;
 
-	sendMessage(p.getDataMessage(ParamType::Common), true); waitForAWhile(s_adv.msDelay);
-	sendMessage(p.getDataMessage(ParamType::Scene1), true); waitForAWhile(s_adv.msDelay);
-	sendMessage(p.getDataMessage(ParamType::Scene2), true); waitForAWhile(s_adv.msDelay);
-	sendMessage(p.getDataMessage(ParamType::StepSq), true); waitForAWhile(s_adv.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Common), true); waitForAWhile(settings.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Scene1), true); waitForAWhile(settings.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Scene2), true); waitForAWhile(settings.msDelay);
+	sendMessage(p.getDataMessage(ParamType::StepSq), true); waitForAWhile(settings.msDelay);
 }
 
 const AN1xPatch& MidiMaster::currentPatch()
@@ -474,7 +516,7 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	m->setPitch(note);
 	m->setStatus(on ? QMidiStatus::MIDI_NOTE_ON : QMidiStatus::MIDI_NOTE_OFF);
 	m->setVelocity(velocity);
-    m->setChannel(s_adv.midi_send_channel);
+    m->setChannel(settings.midi_send_channel);
 	s_out->sendMessage(m);
 
 	s_view->pianoRoll()->setNote(note, on);
@@ -485,7 +527,7 @@ void MidiMaster::modWheelChange(int value)
 {
     if (value < 0 || value > 127) return;
 
-    unsigned char channel = 0xB0 + s_adv.midi_send_channel - 1;
+    unsigned char channel = 0xB0 + settings.midi_send_channel - 1;
     sendMessage({ channel, 0x01, (unsigned char)value });
 }
 
@@ -493,14 +535,14 @@ void MidiMaster::pitchChange(int value)
 {
     if (value < 0 || value > 127) return;
 
-    unsigned char channel = 0xE0 + s_adv.midi_send_channel - 1;
+    unsigned char channel = 0xE0 + settings.midi_send_channel - 1;
     sendMessage({ channel, 0x00, (unsigned char)value });
 }
 
 
 void MidiMaster::stopAllSounds()
 {
-    unsigned char channel = 176 + s_adv.midi_send_channel - 1;
+    unsigned char channel = 176 + settings.midi_send_channel - 1;
 
     sendMessage({ channel, 0x78, 0x00 });
 

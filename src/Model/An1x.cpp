@@ -588,6 +588,4 @@ void AN1x::addCheckSum(std::vector<unsigned char>& message)
 	unsigned char checkSum = (~sum + 1) & 0x7F;
 
 	message.push_back(checkSum);
-
-	message.push_back(0xF7);
 }
