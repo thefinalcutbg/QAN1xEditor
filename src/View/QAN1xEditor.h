@@ -35,9 +35,9 @@ public:
     Browser* browser();
     PianoView* pianoRoll();
 
-    Settings getSettings() const;
+    MidiDeviceNames getCurrentDevices() const;
 
-    void setSettings(const Settings& s);
+    void setMidiDeviceNames(const MidiDeviceNames& devices);
 
     //two byte values are represented by int and 0 and has to be separated;
 

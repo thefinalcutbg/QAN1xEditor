@@ -7,7 +7,10 @@
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
+#include "View/SettingsDialog.h"
+
 #include "FreeFunctions.h"
+#include "Model/PatchDatabase.h"
 
 QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
@@ -28,8 +31,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     }
 
     ui.pianoView->setOctave(ui.pcKbdOctave->value());
-    ui.deviceSpin->setSpecialValueText("All");
-    ui.deviceSpin->setMinimumWidth(40);
+
     connect(ui.donateButton, &QPushButton::clicked, this, [&] { QDesktopServices::openUrl(QUrl("https://www.paypal.com/donate/?hosted_button_id=NW5FHTBR8FG56", QUrl::TolerantMode)); });
 
     connect(ui.modWheel, &QSlider::valueChanged, this, [&](int value) { MidiMaster::modWheelChange(value); });
@@ -47,7 +49,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.revBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
     connect(ui.allBypass, &QCheckBox::clicked, this, [&] { setBypass(); });
 
-    connect(ui.thruCheck, &QCheckBox::stateChanged, this, [&] { MidiMaster::setMidiThru(ui.thruCheck->isChecked()); });
     connect(ui.requestSystem, &QPushButton::clicked, this, [&] { MidiMaster::requestSystem(); });
     connect(ui.sendSystem, &QPushButton::clicked, this, [&] { MidiMaster::sendSystem(); });
     connect(ui.restoreSystem, &QPushButton::clicked, this, [&] { MidiMaster::restoreSystem(); });
@@ -93,8 +94,6 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     connect(ui.refresh, &QPushButton::clicked, this, [=] { MidiMaster::refreshConnection(); });
     connect(ui.inCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiIn(index - 1); });
     connect(ui.outCombo, &QComboBox::currentIndexChanged, this, [=](int index) { MidiMaster::connectMidiOut(index - 1); /*MidiMaster::syncBulk();*/ });
-    connect(ui.sendSpin, &QSpinBox::valueChanged, this, [&](int value){ MidiMaster::setSendChannel(value); });
-    connect(ui.deviceSpin, &QSpinBox::valueChanged, this, [&](int value) { MidiMaster::setDeviceNo(value); });
 
     //LAYER
     connect(ui.single, &QRadioButton::clicked, this, [=] { MidiMaster::parameterChanged(ParamType::Common, AN1x::LayerMode, !ui.unison->isChecked() ? AN1x::Single : AN1x::Unison); });
@@ -192,7 +191,17 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         system_controls[i]->setCurrentValueAsDefault();
         system_controls[i]->setParam(ParamType::System, (AN1x::SystemParam)i);
     }
+    
+    connect(ui.advancedButton, &QPushButton::clicked, this, [&] {
 
+        SettingsDialog d(PatchDatabase::getMidiSettings().second);
+
+        d.exec();
+
+        if (d.result) {
+            MidiMaster::setAdvancedSettings(d.result.value());
+        }
+    });
 
     MidiMaster::setView(this);
     
@@ -229,7 +238,6 @@ void QAN1xEditor::setPatch(const AN1xPatch& patch)
 
 void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
 {
-    auto settings = getSettings();
 
     {
         QSignalBlocker b1(ui.inCombo);
@@ -245,7 +253,9 @@ void QAN1xEditor::setMidiDevices(const QStringList& in, const QStringList& out)
         for (auto& string : out) ui.outCombo->addItem(string);
     }
 
-    setSettings(settings);
+    auto s = PatchDatabase::getMidiSettings();
+
+    setMidiDeviceNames(PatchDatabase::getMidiSettings().first);
 
 }
 
@@ -507,28 +517,21 @@ PianoView* QAN1xEditor::pianoRoll()
     return ui.pianoView;
 }
 
-Settings QAN1xEditor::getSettings() const
+MidiDeviceNames QAN1xEditor::getCurrentDevices() const
 {
-    return Settings{
-        .midi_in = ui.inCombo->currentText().toStdString(),
-        .midi_out = ui.outCombo->currentText().toStdString(),
-        .midi_send_channel = ui.sendSpin->value(),
-        .midi_thru = ui.thruCheck->isChecked(),
-        .device_no = ui.deviceSpin->value()
+    return{
+        ui.inCombo->currentText().toStdString(),
+        ui.outCombo->currentText().toStdString()
     };
 }
 
-void QAN1xEditor::setSettings(const Settings& s)
+void QAN1xEditor::setMidiDeviceNames(const MidiDeviceNames& devices)
 {
-    int in = ui.inCombo->findText(s.midi_in.c_str());
-    int out = ui.outCombo->findText(s.midi_out.c_str());
+    int in = ui.inCombo->findText(devices.midi_in.c_str());
+    int out = ui.outCombo->findText(devices.midi_out.c_str());
 
     if (in != -1) ui.inCombo->setCurrentIndex(in);
     if (out != -1) ui.outCombo->setCurrentIndex(out);
-
-    ui.sendSpin->setValue(s.midi_send_channel);
-    ui.thruCheck->setChecked(s.midi_thru);
-    ui.deviceSpin->setValue(s.device_no);
 }
 
 bool QAN1xEditor::eventFilter(QObject* obj, QEvent* e)

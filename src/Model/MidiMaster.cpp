@@ -12,19 +12,17 @@
 #include <QTimer>
 #include <QEventLoop>
 
-void waitForAWhile()
+void waitForAWhile(int ms = 500)
 {
     QEventLoop loop;
-    QTimer::singleShot(500, &loop, SLOT(quit()));
+    QTimer::singleShot(ms, &loop, SLOT(quit()));
     loop.exec();
 }
 
 //static variables
 QMidiOut* s_out{ nullptr };
 QMidiIn* s_in{ nullptr };
-int s_sendChannel{ 1 };
-bool midi_thru = false;
-int s_deviceNo{ 0 };
+AdvancedMidiSettings s_adv;
 
 QAN1xEditor* s_view{ nullptr };
 
@@ -50,7 +48,18 @@ void MidiMaster::setView(QAN1xEditor* v) {
 
 	refreshConnection();
 
-	s_view->setSettings(PatchDatabase::getMidiSettings());
+	auto settings = PatchDatabase::getMidiSettings();
+
+	setAdvancedSettings(settings.second);
+
+	s_view->setMidiDeviceNames(settings.first);
+
+	
+}
+
+void saveCurrentSettings() {
+
+	PatchDatabase::setMidiSettings(s_view->getCurrentDevices(), s_adv);
 }
 
 void makeEdited(bool edited) {
@@ -105,10 +114,33 @@ void sendMessage(const Message& msg)
 			m[1] == 0x43 && 
 			m[3] == 0x5C
 		){
-			m[2] += s_deviceNo;
+			m[2] += s_adv.device_no;
 		}
 
-		s_out->sendRawMessage(m);
+		auto chunks = m.size() / s_adv.buffer_size;
+
+		auto remainder = m.size() % s_adv.buffer_size;
+
+		for (int i = 0; i < chunks; i++) {
+
+			auto start = i * s_adv.buffer_size;
+			auto end = start + s_adv.buffer_size;
+
+			auto mChunk = std::vector<unsigned char>{ m.begin() + start, m.begin() + end };
+
+			s_out->sendRawMessage(mChunk);
+			
+			waitForAWhile(s_adv.msDelay);
+		}
+
+		if (remainder > 0) {
+	
+			auto start = chunks * s_adv.buffer_size;
+
+			std::vector<unsigned char> mChunk(m.begin() + start, m.end());
+
+			s_out->sendRawMessage(mChunk);
+		}
 	}
 	catch (std::exception) { 
 		MidiMaster::refreshConnection();
@@ -121,7 +153,7 @@ void handleSysMsg(const Message& msg)
 	if (   
 		msg[0] != 0xF0 //exclusive
 	 || msg[1] != 0x43 //YAMAHA ID
-	 || msg[2]%16 != s_deviceNo
+	 || msg[2]%16 != s_adv.device_no
 	 || msg[3] != 0x5C //AN1x MODEL ID
 	) {
 		return;
@@ -220,7 +252,7 @@ void MidiMaster::refreshConnection()
 			handleSysMsg(m->getSysExData());
 		}
 
-		if (midi_thru) {
+		if (s_adv.midi_thru) {
 			s_out->sendMessage(m);
 		}
 
@@ -230,6 +262,7 @@ void MidiMaster::refreshConnection()
 	});
 
 	s_view->setMidiDevices(s_in->getPorts(), s_out->getPorts());
+
 }
 
 void MidiMaster::connectMidiIn(int idx)
@@ -250,16 +283,6 @@ void MidiMaster::connectMidiOut(int idx)
 
 	if (idx != -1)
 		s_out->openPort(idx);
-}
-
-void MidiMaster::setMidiThru(bool enabled)
-{
-	midi_thru = enabled;
-}
-
-void MidiMaster::setDeviceNo(int number)
-{
-	s_deviceNo = number - 1;
 }
 
 
@@ -283,6 +306,17 @@ void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 
 	//sending the whole common bulk
 	sendMessage(current_patch.getDataMessage(ParamType::Common));
+}
+
+void MidiMaster::setAdvancedSettings(const AdvancedMidiSettings& advSettings)
+{
+	if (s_adv.midi_send_channel != advSettings.midi_send_channel) {
+		stopAllSounds();
+	}
+
+	s_adv = advSettings;
+
+	saveCurrentSettings();
 }
 
 /*
@@ -316,7 +350,7 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 
     sendMessage(msg);
 
-    waitForAWhile();
+    waitForAWhile(s_adv.msDelay);
 
 	handlingMessage = false;
 
@@ -456,7 +490,7 @@ void MidiMaster::setNote(int note, bool on, int velocity) {
 	m->setPitch(note);
 	m->setStatus(on ? QMidiStatus::MIDI_NOTE_ON : QMidiStatus::MIDI_NOTE_OFF);
 	m->setVelocity(velocity);
-    m->setChannel(s_sendChannel);
+    m->setChannel(s_adv.midi_send_channel);
 	s_out->sendMessage(m);
 
 	s_view->pianoRoll()->setNote(note, on);
@@ -467,7 +501,7 @@ void MidiMaster::modWheelChange(int value)
 {
     if (value < 0 || value > 127) return;
 
-    unsigned char channel = 0xB0 + s_sendChannel - 1;
+    unsigned char channel = 0xB0 + s_adv.midi_send_channel - 1;
     sendMessage({ channel, 0x01, (unsigned char)value });
 }
 
@@ -475,24 +509,17 @@ void MidiMaster::pitchChange(int value)
 {
     if (value < 0 || value > 127) return;
 
-    unsigned char channel = 0xE0 + s_sendChannel - 1;
+    unsigned char channel = 0xE0 + s_adv.midi_send_channel - 1;
     sendMessage({ channel, 0x00, (unsigned char)value });
 }
 
 
 void MidiMaster::stopAllSounds()
 {
-    unsigned char channel = 176 + s_sendChannel - 1;
+    unsigned char channel = 176 + s_adv.midi_send_channel - 1;
 
     sendMessage({ channel, 0x78, 0x00 });
 
-}
-
-void MidiMaster::setSendChannel(int channel)
-{
-    if(channel < 1 || channel > 16) return;
-    stopAllSounds();
-    s_sendChannel = channel;
 }
 
 void MidiMaster::saveCurrentPatch()
@@ -516,7 +543,7 @@ bool MidiMaster::cleanUp()
 		if (!permissionToChangePatch()) return false;
 	}
 
-	PatchDatabase::setMidiSettings(s_view->getSettings());
+	saveCurrentSettings();
 
     if(s_in) { delete s_in; }
     if(s_out) { delete s_out; }

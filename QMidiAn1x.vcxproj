@@ -134,6 +134,7 @@
     <ClCompile Include="src\View\MemoryList.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoKey.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoView.cpp" />
+    <ClCompile Include="src\View\SettingsDialog.cpp" />
     <ClCompile Include="src\View\UiWidgets.cpp" />
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
@@ -150,8 +151,10 @@
     <ClCompile Include="src\View\QAN1xEditor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\View\SceneView.ui" />
+    <QtUic Include="src\View\SettingsDialog.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\SettingsDialog.h" />
     <QtMoc Include="src\View\PianoRoll\PianoView.h" />
     <QtMoc Include="src\View\FreeEGWidget.h" />
     <QtMoc Include="src\View\FreeEG\FreeEGScene.h" />

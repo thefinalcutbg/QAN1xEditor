@@ -28,7 +28,7 @@ namespace PatchDatabase
 
 	void importExternalDb(const std::string& filepath);
 
-	void setMidiSettings(const Settings& s);
+	void setMidiSettings(const MidiDeviceNames& devices, const AdvancedMidiSettings& settings);
 
-	Settings getMidiSettings();
+	std::pair<MidiDeviceNames, AdvancedMidiSettings> getMidiSettings();
 }

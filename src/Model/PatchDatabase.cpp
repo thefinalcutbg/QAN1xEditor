@@ -225,7 +225,7 @@ void PatchDatabase::importExternalDb(const std::string& filepath)
 	refreshTableView();
 }
 
-void PatchDatabase::setMidiSettings(const Settings& s)
+void PatchDatabase::setMidiSettings(const MidiDeviceNames& devices, const AdvancedMidiSettings& s)
 {
 	Db db;
 
@@ -233,37 +233,44 @@ void PatchDatabase::setMidiSettings(const Settings& s)
 
 	db.execute();
 
-	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru, device_no) VALUES (?,?,?,?, ?)");
+	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, delay_ms) VALUES (?,?,?,?,?,?,?)");
 
-	db.bind(1, s.midi_in);
-	db.bind(2, s.midi_out);
+	db.bind(1, devices.midi_in);
+	db.bind(2, devices.midi_out);
 	db.bind(3, s.midi_send_channel);
 	db.bind(4, s.midi_thru);
 	db.bind(5, s.device_no);
+	db.bind(6, s.buffer_size);
+	db.bind(7, s.msDelay);
 
 	db.execute();
 }
 
-Settings PatchDatabase::getMidiSettings()
+std::pair<MidiDeviceNames, AdvancedMidiSettings> PatchDatabase::getMidiSettings()
 {
-	 Settings result;
-	
+
 	 Db db;
 	 db.newStatement(
-		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru, device_no FROM settings"
+		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, delay_ms FROM settings"
 	 );
 
 	 while (db.hasRows()) {
-		 return Settings{
+		 qDebug() << db.asInt(5);
+		 return { MidiDeviceNames{
 			 .midi_in = db.asString(0),
-			 .midi_out = db.asString(1),
+			 .midi_out = db.asString(1)
+			 },
+			 AdvancedMidiSettings{
 			 .midi_send_channel = db.asInt(2),
 			 .midi_thru = db.asBool(3),
-			 .device_no = db.asInt(4)
+			 .device_no = db.asInt(4),
+			 .buffer_size = db.asInt(5),
+			 .msDelay = db.asInt(6)
+			 }
 		 };
 	 }
-
-	 return Settings();
+	
+	 return {};
 }
 
 

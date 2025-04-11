@@ -3,6 +3,7 @@
 #include "An1x.h"
 
 #include <vector>
+#include "Model/Settings.h"
 
 class QAN1xEditor;
 class AN1xPatch;
@@ -37,7 +38,6 @@ struct PatchSource {
 	}
 };
 
-
 namespace MidiMaster
 {
 	void setView(QAN1xEditor* v);
@@ -46,13 +46,14 @@ namespace MidiMaster
 	void refreshConnection();
 	void connectMidiIn(int idx);
 	void connectMidiOut(int idx);
-	void setMidiThru(bool enabled);
-	void setDeviceNo(int number);
 
 	//called when parameter is changed from UI
 	void parameterChanged(ParamType type, unsigned char parameter, int value);
 	//called when Free EG Track change from UI
 	void FreeEGChanged(const std::vector<int>& trackData);
+
+	void stopAllSounds();
+	void setAdvancedSettings(const AdvancedMidiSettings& advSettings);
 
 	void requestSystem();
 	void sendSystem();
@@ -74,9 +75,8 @@ namespace MidiMaster
 	void setKbdOctave(int octave);
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
-    void setSendChannel(int channel);
 	void saveCurrentPatch();
-	void stopAllSounds();
+	
 
     bool cleanUp(); //returns false if denies close
 }
