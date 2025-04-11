@@ -1,7 +1,5 @@
 #include "FreeEGScene.h"
 #include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-
 
 FreeEGScene::FreeEGScene(QObject *parent)
 	: QGraphicsScene(parent)

@@ -2,6 +2,10 @@
 
 SettingsDialog::SettingsDialog(const AdvancedMidiSettings& s) : QDialog(nullptr)
 {
+    ui.setupUi(this);
+
+    ui.deviceSpin->setMinimumWidth(40);
+
 	ui.buffer->setValue(s.buffer_size);
 	ui.thruCheck->setChecked(s.midi_thru);
 	ui.delay->setValue(s.msDelay);

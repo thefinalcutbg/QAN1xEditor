@@ -53,6 +53,7 @@ SOURCES += \
     src/View/PianoRoll/PianoView.cpp \
     src/View/QAN1xEditor.cpp \
     src/View/SceneView.cpp \
+    src/View/SettingsDialog.cpp \
     src/View/UiWidgets.cpp \
     src/View/VoiceNameEdit.cpp \
     src/main.cpp
@@ -94,6 +95,7 @@ HEADERS += \
     src/View/PianoRoll/PianoView.h \
     src/View/QAN1xEditor.h \
     src/View/SceneView.h \
+    src/View/SettingsDialog.h \
     src/View/UiWidgets.h \
     src/View/VoiceNameEdit.h
 
@@ -104,7 +106,8 @@ FORMS += \
     src/View/FreeEGWidget.ui \
     src/View/FxEq.ui \
     src/View/QAN1xEditor.ui \
-    src/View/SceneView.ui
+    src/View/SceneView.ui \
+    src/View/SettingsDialog.ui
 
 RESOURCES += \
     QAN1xEditor.qrc

@@ -255,7 +255,6 @@ std::pair<MidiDeviceNames, AdvancedMidiSettings> PatchDatabase::getMidiSettings(
 	 );
 
 	 while (db.hasRows()) {
-		 qDebug() << db.asInt(5);
 		 return { MidiDeviceNames{
 			 .midi_in = db.asString(0),
 			 .midi_out = db.asString(1)
