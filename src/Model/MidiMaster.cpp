@@ -114,7 +114,12 @@ void sendMessage(const Message& msg)
 			m[1] == 0x43 && 
 			m[3] == 0x5C
 		){
-			m[2] += s_adv.device_no;
+			m[2] += s_adv.device_no-1;
+		}
+
+		if (!s_adv.buffer_size) {
+			s_out->sendRawMessage(m);
+			return;
 		}
 
 		auto chunks = m.size() / s_adv.buffer_size;
@@ -153,7 +158,7 @@ void handleSysMsg(const Message& msg)
 	if (   
 		msg[0] != 0xF0 //exclusive
 	 || msg[1] != 0x43 //YAMAHA ID
-	 || msg[2]%16 != s_adv.device_no
+	 || msg[2]%16 != s_adv.device_no-1
 	 || msg[3] != 0x5C //AN1x MODEL ID
 	) {
 		return;
