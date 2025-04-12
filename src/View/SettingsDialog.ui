@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>245</width>
-    <height>207</height>
+    <width>266</width>
+    <height>172</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Buffer size:</string>
+        <string>Bulk buffer:</string>
        </property>
       </widget>
      </item>
@@ -65,7 +65,7 @@
         <number>32</number>
        </property>
        <property name="value">
-        <number>256</number>
+        <number>0</number>
        </property>
        <property name="displayIntegerBase">
         <number>10</number>
@@ -75,7 +75,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Buffer delay:</string>
+        <string>Bulk delay:</string>
        </property>
       </widget>
      </item>
@@ -91,7 +91,7 @@
         <string> ms</string>
        </property>
        <property name="minimum">
-        <number>10</number>
+        <number>0</number>
        </property>
        <property name="maximum">
         <number>1000</number>
@@ -100,7 +100,7 @@
         <number>10</number>
        </property>
        <property name="value">
-        <number>50</number>
+        <number>10</number>
        </property>
        <property name="displayIntegerBase">
         <number>10</number>
@@ -110,7 +110,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_17">
        <property name="text">
-        <string>Device Num:</string>
+        <string>Device Number:</string>
        </property>
       </widget>
      </item>
@@ -127,7 +127,7 @@
      <item row="3" column="2">
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -142,12 +142,12 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>10</height>
       </size>
      </property>
     </spacer>
@@ -157,7 +157,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -177,7 +177,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

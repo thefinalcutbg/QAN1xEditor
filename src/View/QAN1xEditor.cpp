@@ -192,7 +192,7 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         system_controls[i]->setParam(ParamType::System, (AN1x::SystemParam)i);
     }
     
-    connect(ui.advancedButton, &QPushButton::clicked, this, [&] {
+    connect(ui.settingsButton, &QPushButton::clicked, this, [&] {
 
         SettingsDialog d(PatchDatabase::getMidiSettings().second);
 

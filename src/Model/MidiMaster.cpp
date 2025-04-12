@@ -97,7 +97,7 @@ bool permissionToChangePatch() {
 
 }
 
-void sendMessage(const Message& msg, bool BulkDump = false)
+void sendMessage(const Message& msg, bool bulkDump = false)
 {
 	if (s_out == nullptr) return;
 
@@ -117,17 +117,17 @@ void sendMessage(const Message& msg, bool BulkDump = false)
 			m[2] += settings.device_no-1;
 		}
 
-		if(!BulkDump){
+		if(!bulkDump){
 			s_out->sendRawMessage(m);
 			return; 
 		}
 
 		AN1x::addCheckSum(m);
 
+		m.push_back(0xF7);
+
 		//send whole bulk dump at once
 		if (!settings.buffer_size) {
-
-			m.push_back(0xF7);
 
 			s_out->sendRawMessage(m);
 
@@ -144,15 +144,13 @@ void sendMessage(const Message& msg, bool BulkDump = false)
 			auto start = i * chunkSize;
 			auto end = start + chunkSize;
 
-			auto chunk = std::vector<unsigned char>(m.begin() + start, m.begin() + end);
+			std::vector<unsigned char> chunk;
 
-			if (end == m.size()) {
-				chunk.push_back(0xF7);
-			}
-			
+			chunk.insert(chunk.end(), m.begin() + start, m.begin() + end);
+
 			s_out->sendRawMessage(chunk);
 
-			waitForAWhile(settings.buffer_size);
+			waitForAWhile(settings.msDelay);
 		}
 
 		if (!remainder) return;
@@ -161,9 +159,9 @@ void sendMessage(const Message& msg, bool BulkDump = false)
 
 		auto start = chunks * chunkSize;
 	
-		auto chunk = std::vector<unsigned char>(m.begin() + start, m.end());
+		std::vector<unsigned char> chunk;
 
-		chunk.push_back(0xF7); //end of data
+		chunk.insert(chunk.end(), m.begin() + start, m.end());
 
 		s_out->sendRawMessage(chunk);
 
@@ -438,10 +436,10 @@ void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 
 	handlingMessage = false;
 
-	sendMessage(p.getDataMessage(ParamType::Common), true); waitForAWhile(settings.msDelay);
-	sendMessage(p.getDataMessage(ParamType::Scene1), true); waitForAWhile(settings.msDelay);
-	sendMessage(p.getDataMessage(ParamType::Scene2), true); waitForAWhile(settings.msDelay);
-	sendMessage(p.getDataMessage(ParamType::StepSq), true); waitForAWhile(settings.msDelay);
+	sendMessage(p.getDataMessage(ParamType::Common), true); 
+	sendMessage(p.getDataMessage(ParamType::Scene1), true); 
+	sendMessage(p.getDataMessage(ParamType::Scene2), true); 
+	sendMessage(p.getDataMessage(ParamType::StepSq), true);
 }
 
 const AN1xPatch& MidiMaster::currentPatch()

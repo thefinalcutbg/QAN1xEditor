@@ -4,7 +4,7 @@ SettingsDialog::SettingsDialog(const AdvancedMidiSettings& s) : QDialog(nullptr)
 {
     ui.setupUi(this);
 
-	setWindowTitle("Advanced Settings");
+	setWindowTitle("MIDI Settings");
 
     ui.deviceSpin->setMinimumWidth(40);
 

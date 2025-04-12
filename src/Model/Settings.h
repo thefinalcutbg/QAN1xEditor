@@ -5,7 +5,7 @@ struct AdvancedMidiSettings {
 	int midi_send_channel{ 1 };
 	bool midi_thru = false;
 	int device_no{ 1 };
-	int buffer_size{ 256 };
+	int buffer_size{ 0 };
 	int msDelay{ 50 };
 };
 
