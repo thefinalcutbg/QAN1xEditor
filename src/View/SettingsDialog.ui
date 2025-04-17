@@ -43,7 +43,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Bulk buffer:</string>
+        <string>Buffer size</string>
        </property>
       </widget>
      </item>
@@ -75,7 +75,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Bulk delay:</string>
+        <string>Buffer delay</string>
        </property>
       </widget>
      </item>

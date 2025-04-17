@@ -133,7 +133,7 @@ void sendMessage(const Message& msg, bool bulkDump = false)
 
 			return;
 		}
-	
+
 		const auto chunkSize = settings.buffer_size;
 
 		auto chunks = m.size() / chunkSize;

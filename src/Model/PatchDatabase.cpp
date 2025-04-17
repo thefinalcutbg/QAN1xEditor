@@ -233,7 +233,7 @@ void PatchDatabase::setMidiSettings(const MidiDeviceNames& devices, const Advanc
 
 	db.execute();
 
-	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, delay_ms) VALUES (?,?,?,?,?,?,?)");
+	db.newStatement("INSERT INTO settings (midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, buffer_delay) VALUES (?,?,?,?,?,?,?)");
 
 	db.bind(1, devices.midi_in);
 	db.bind(2, devices.midi_out);
@@ -251,7 +251,7 @@ std::pair<MidiDeviceNames, AdvancedMidiSettings> PatchDatabase::getMidiSettings(
 
 	 Db db;
 	 db.newStatement(
-		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, delay_ms FROM settings"
+		 "SELECT midi_in, midi_out, midi_send_ch, midi_thru, device_no, buffer_size, buffer_delay FROM settings"
 	 );
 
 	 while (db.hasRows()) {
