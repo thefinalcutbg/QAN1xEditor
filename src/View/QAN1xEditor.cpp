@@ -3,7 +3,7 @@
 #include <QUrl>
 #include <QKeyEvent>
 #include <QDesktopServices>
-#include <QtVersion>
+#include <QtGlobal>
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"

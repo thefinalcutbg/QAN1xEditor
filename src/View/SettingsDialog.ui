@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_14">
        <property name="text">
-        <string>Send chаnnel:</string>
+        <string>Send Chаnnel:</string>
        </property>
       </widget>
      </item>
@@ -43,7 +43,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Buffer size:</string>
+        <string>Buffer Size:</string>
        </property>
       </widget>
      </item>
@@ -75,7 +75,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Buffer delay:</string>
+        <string>Buffer Delay:</string>
        </property>
       </widget>
      </item>
