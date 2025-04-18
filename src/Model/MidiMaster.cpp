@@ -364,8 +364,6 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 {
     if (idx < 0 || idx > 127) return;
 
-	auto& data = patch.rawData();
-
 	Message msg = { 0xF0, 0x43, 0x00, 0x5C, 0x0F, 0x16, 0x11, (unsigned char)idx, 0x00 };
 
 	msg.reserve(patch.rawData().size() + 11);
@@ -373,7 +371,6 @@ void MidiMaster::sendBulk(const AN1xPatch& patch, int idx)
 	for (auto value : patch.rawData()) msg.push_back(value);
 
 	sendMessage(msg, true);
-
 
     waitForAWhile(settings.msDelay);
 
@@ -436,10 +433,10 @@ void MidiMaster::setCurrentPatch(const AN1xPatch& p, PatchSource src)
 
 	handlingMessage = false;
 
-	sendMessage(p.getDataMessage(ParamType::Common), true); 
-	sendMessage(p.getDataMessage(ParamType::Scene1), true); 
-	sendMessage(p.getDataMessage(ParamType::Scene2), true); 
-	sendMessage(p.getDataMessage(ParamType::StepSq), true);
+    sendMessage(p.getDataMessage(ParamType::Common), true); waitForAWhile(settings.msDelay);
+    sendMessage(p.getDataMessage(ParamType::Scene1), true); waitForAWhile(settings.msDelay);
+    sendMessage(p.getDataMessage(ParamType::Scene2), true); waitForAWhile(settings.msDelay);
+    sendMessage(p.getDataMessage(ParamType::StepSq), true);
 }
 
 const AN1xPatch& MidiMaster::currentPatch()

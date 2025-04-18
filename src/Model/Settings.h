@@ -6,7 +6,7 @@ struct AdvancedMidiSettings {
 	bool midi_thru = false;
 	int device_no{ 1 };
 	int buffer_size{ 0 };
-	int msDelay{ 50 };
+    int msDelay{ 100 };
 };
 
 struct MidiDeviceNames {

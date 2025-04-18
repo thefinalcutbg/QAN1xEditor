@@ -3,7 +3,7 @@
 #include <QUrl>
 #include <QKeyEvent>
 #include <QDesktopServices>
-
+#include <QtVersion>
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
@@ -212,6 +212,10 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
         emit ui.enablePcKbd->stateChanged(kbdGrab);
     });
+
+#ifdef Q_OS_MAC
+    ui.midiLocal->setGeometry(QRect(120, 122, 101, 21));
+#endif
 
     MidiMaster::setView(this);
     
