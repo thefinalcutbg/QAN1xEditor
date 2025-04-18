@@ -22,6 +22,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     installEventFilter(this);
     initializeInitMenu();
 
+    ui.donateButton->setIcon(QPixmap(":/icon/resources/icon_fav.png"));
+
     ui.pitchBend->setCurrentValueAsDefault();
     ui.modWheel->setCurrentValueAsDefault();
     ui.saveButton->setDisabled(true);
