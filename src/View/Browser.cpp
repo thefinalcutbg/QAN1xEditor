@@ -358,7 +358,7 @@ void Browser::editComment()
 
     if (rowids.size() == 1) {
 
-        comment = search.index(ui.databaseView->selectionModel()->selectedIndexes().first().row(), 11).data().toString();
+        comment = search.index(ui.databaseView->selectionModel()->selectedIndexes().first().row(), 12).data().toString();
     }
     else {
 
