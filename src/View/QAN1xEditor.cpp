@@ -194,6 +194,12 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     
     connect(ui.settingsButton, &QPushButton::clicked, this, [&] {
 
+        bool kbdGrab = ui.enablePcKbd->isChecked();
+
+        if(kbdGrab){
+            releaseKeyboard();
+        }
+
         SettingsDialog d(PatchDatabase::getMidiSettings().second);
 
         d.exec();
@@ -201,6 +207,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
         if (d.result) {
             MidiMaster::setAdvancedSettings(d.result.value());
         }
+
+        emit ui.enablePcKbd->stateChanged(kbdGrab);
     });
 
     MidiMaster::setView(this);
