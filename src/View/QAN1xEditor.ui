@@ -58,6 +58,9 @@
             <property name="text">
              <string>Midi In:</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
            </widget>
           </item>
           <item>
@@ -80,6 +83,9 @@
            <widget class="QLabel" name="label_2">
             <property name="text">
              <string>Midi Out:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -126,7 +132,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1144,7 +1150,7 @@
                    </size>
                   </property>
                   <property name="title">
-                   <string>Scene 1</string>
+                   <string/>
                   </property>
                   <widget class="ControlMatrixScene" name="ctrlMatrixScene1" native="true">
                    <property name="geometry">
@@ -1158,7 +1164,7 @@
                    <widget class="QPushButton" name="loadButton_1">
                     <property name="geometry">
                      <rect>
-                      <x>180</x>
+                      <x>120</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1171,7 +1177,7 @@
                    <widget class="QPushButton" name="saveButton_1">
                     <property name="geometry">
                      <rect>
-                      <x>130</x>
+                      <x>70</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1179,6 +1185,19 @@
                     </property>
                     <property name="text">
                      <string/>
+                    </property>
+                   </widget>
+                   <widget class="QLabel" name="label_14">
+                    <property name="geometry">
+                     <rect>
+                      <x>20</x>
+                      <y>10</y>
+                      <width>51</width>
+                      <height>21</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>Scene 1</string>
                     </property>
                    </widget>
                   </widget>
@@ -1199,7 +1218,7 @@
                    </size>
                   </property>
                   <property name="title">
-                   <string>Scene 2</string>
+                   <string/>
                   </property>
                   <widget class="ControlMatrixScene" name="ctrlMatrixScene2" native="true">
                    <property name="geometry">
@@ -1213,7 +1232,7 @@
                    <widget class="QPushButton" name="saveButton_2">
                     <property name="geometry">
                      <rect>
-                      <x>130</x>
+                      <x>70</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1226,7 +1245,7 @@
                    <widget class="QPushButton" name="loadButton_2">
                     <property name="geometry">
                      <rect>
-                      <x>180</x>
+                      <x>120</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1234,6 +1253,19 @@
                     </property>
                     <property name="text">
                      <string/>
+                    </property>
+                   </widget>
+                   <widget class="QLabel" name="label_17">
+                    <property name="geometry">
+                     <rect>
+                      <x>20</x>
+                      <y>10</y>
+                      <width>51</width>
+                      <height>21</height>
+                     </rect>
+                    </property>
+                    <property name="text">
+                     <string>Scene 2</string>
                     </property>
                    </widget>
                   </widget>

@@ -19,22 +19,6 @@
   <property name="windowTitle">
    <string>ControlMatrixScene</string>
   </property>
-  <widget class="QLabel" name="label_54">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>10</y>
-     <width>51</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Depth</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="ComboPicker" name="param_1">
    <property name="geometry">
     <rect>
@@ -46,22 +30,6 @@
    </property>
    <property name="currentIndex">
     <number>-1</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_53">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>10</y>
-     <width>141</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Parameter</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="ComboPicker" name="source_1">
@@ -121,22 +89,6 @@
    </property>
    <property name="notchesVisible">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_52">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>141</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Source</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="ComboPicker" name="source_3">

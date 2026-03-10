@@ -10,6 +10,8 @@ TemplateDialog::TemplateDialog(int type, QWidget* parent)
 {
 	ui.setupUi(this);
 
+	setWindowTitle("Templates");
+
 	ui.loadButton->setEnabled(false);
 	ui.deleteButton->setEnabled(false);
 
