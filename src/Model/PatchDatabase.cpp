@@ -215,6 +215,12 @@ void PatchDatabase::importExternalDb(const std::string& filepath)
 		"patch (hash,type,name,file,layer,effect,arp_seq,comment,data,fav) "
 		"SELECT hash,type,name,file,layer,effect,arp_seq,comment,data,fav FROM external.patch"
 	);
+
+	db.execute("INSERT INTO "
+		"template (type,name,data) "
+		"SELECT type,name,data FROM external.template"
+	);
+
 	db.execute("DETACH external");
 
 	db.execute(
