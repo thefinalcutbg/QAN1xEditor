@@ -576,6 +576,9 @@
               <property name="text">
                <string>Detune</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
              </widget>
              <widget class="DialKnob" name="detune">
               <property name="geometry">
@@ -628,6 +631,9 @@
               </property>
               <property name="text">
                <string>Separation</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
               </property>
              </widget>
              <widget class="DialKnob" name="separation">
@@ -1089,7 +1095,7 @@
              <enum>QTabWidget::TabShape::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>6</number>
+             <number>0</number>
             </property>
             <widget class="Browser" name="browser">
              <attribute name="title">
@@ -1430,6 +1436,9 @@
                    <property name="text">
                     <string>Common Source 1</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
                   </widget>
                   <widget class="QLabel" name="label_59">
                    <property name="geometry">
@@ -1442,6 +1451,9 @@
                    </property>
                    <property name="text">
                     <string>Common Source 2</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_60">
@@ -1456,6 +1468,9 @@
                    <property name="text">
                     <string>Common Parameter 1</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
                   </widget>
                   <widget class="QLabel" name="label_61">
                    <property name="geometry">
@@ -1468,6 +1483,9 @@
                    </property>
                    <property name="text">
                     <string>Common Parameter 2</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_62">
