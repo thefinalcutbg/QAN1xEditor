@@ -1150,7 +1150,7 @@
                    </size>
                   </property>
                   <property name="title">
-                   <string/>
+                   <string>Scene 1</string>
                   </property>
                   <widget class="ControlMatrixScene" name="ctrlMatrixScene1" native="true">
                    <property name="geometry">
@@ -1164,7 +1164,7 @@
                    <widget class="QPushButton" name="loadButton_1">
                     <property name="geometry">
                      <rect>
-                      <x>120</x>
+                      <x>60</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1177,7 +1177,7 @@
                    <widget class="QPushButton" name="saveButton_1">
                     <property name="geometry">
                      <rect>
-                      <x>70</x>
+                      <x>20</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1185,19 +1185,6 @@
                     </property>
                     <property name="text">
                      <string/>
-                    </property>
-                   </widget>
-                   <widget class="QLabel" name="label_14">
-                    <property name="geometry">
-                     <rect>
-                      <x>20</x>
-                      <y>10</y>
-                      <width>51</width>
-                      <height>21</height>
-                     </rect>
-                    </property>
-                    <property name="text">
-                     <string>Scene 1</string>
                     </property>
                    </widget>
                   </widget>
@@ -1218,7 +1205,7 @@
                    </size>
                   </property>
                   <property name="title">
-                   <string/>
+                   <string>Scene 2</string>
                   </property>
                   <widget class="ControlMatrixScene" name="ctrlMatrixScene2" native="true">
                    <property name="geometry">
@@ -1232,7 +1219,7 @@
                    <widget class="QPushButton" name="saveButton_2">
                     <property name="geometry">
                      <rect>
-                      <x>70</x>
+                      <x>20</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1245,7 +1232,7 @@
                    <widget class="QPushButton" name="loadButton_2">
                     <property name="geometry">
                      <rect>
-                      <x>120</x>
+                      <x>60</x>
                       <y>10</y>
                       <width>37</width>
                       <height>24</height>
@@ -1253,19 +1240,6 @@
                     </property>
                     <property name="text">
                      <string/>
-                    </property>
-                   </widget>
-                   <widget class="QLabel" name="label_17">
-                    <property name="geometry">
-                     <rect>
-                      <x>20</x>
-                      <y>10</y>
-                      <width>51</width>
-                      <height>21</height>
-                     </rect>
-                    </property>
-                    <property name="text">
-                     <string>Scene 2</string>
                     </property>
                    </widget>
                   </widget>
