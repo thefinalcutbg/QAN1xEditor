@@ -379,13 +379,13 @@
     </rect>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
+    <enum>QFrame::Shadow::Plain</enum>
    </property>
    <property name="text">
     <string>Key Track</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="DialKnob" name="keyTrack">
@@ -433,8 +433,8 @@
     <rect>
      <x>10</x>
      <y>280</y>
-     <width>930</width>
-     <height>26</height>
+     <width>961</width>
+     <height>38</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -471,6 +471,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="saveButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -478,6 +484,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="loadButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -486,7 +498,7 @@
     <item>
      <spacer name="horizontalSpacer_5">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -513,7 +525,7 @@
     <item>
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -565,7 +577,7 @@
     <item>
      <spacer name="horizontalSpacer_3">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -607,7 +619,7 @@
     <item>
      <spacer name="horizontalSpacer">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -695,7 +707,7 @@
       <item>
        <spacer name="horizontalSpacer_6">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -731,7 +743,7 @@
     <item>
      <spacer name="verticalSpacer">
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>

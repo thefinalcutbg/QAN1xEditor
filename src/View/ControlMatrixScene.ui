@@ -22,7 +22,7 @@
   <widget class="ComboPicker" name="param_1">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>40</y>
      <width>141</width>
      <height>22</height>
@@ -35,7 +35,7 @@
   <widget class="ComboPicker" name="source_1">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>40</y>
      <width>141</width>
      <height>22</height>
@@ -94,7 +94,7 @@
   <widget class="ComboPicker" name="source_3">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>100</y>
      <width>141</width>
      <height>22</height>
@@ -107,7 +107,7 @@
   <widget class="ComboPicker" name="source_4">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>130</y>
      <width>141</width>
      <height>22</height>
@@ -120,7 +120,7 @@
   <widget class="ComboPicker" name="source_5">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>160</y>
      <width>141</width>
      <height>22</height>
@@ -133,7 +133,7 @@
   <widget class="ComboPicker" name="source_6">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>190</y>
      <width>141</width>
      <height>22</height>
@@ -146,7 +146,7 @@
   <widget class="ComboPicker" name="source_7">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>220</y>
      <width>141</width>
      <height>22</height>
@@ -159,7 +159,7 @@
   <widget class="ComboPicker" name="source_8">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>250</y>
      <width>141</width>
      <height>22</height>
@@ -172,7 +172,7 @@
   <widget class="ComboPicker" name="source_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>70</y>
      <width>141</width>
      <height>22</height>
@@ -185,7 +185,7 @@
   <widget class="ComboPicker" name="param_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>70</y>
      <width>141</width>
      <height>22</height>
@@ -198,7 +198,7 @@
   <widget class="ComboPicker" name="param_3">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>100</y>
      <width>141</width>
      <height>22</height>
@@ -211,7 +211,7 @@
   <widget class="ComboPicker" name="param_4">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>130</y>
      <width>141</width>
      <height>22</height>
@@ -224,7 +224,7 @@
   <widget class="ComboPicker" name="param_5">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>160</y>
      <width>141</width>
      <height>22</height>
@@ -237,7 +237,7 @@
   <widget class="ComboPicker" name="param_6">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>190</y>
      <width>141</width>
      <height>22</height>
@@ -250,7 +250,7 @@
   <widget class="ComboPicker" name="param_7">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>220</y>
      <width>141</width>
      <height>22</height>
@@ -263,7 +263,7 @@
   <widget class="ComboPicker" name="param_8">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>250</y>
      <width>141</width>
      <height>22</height>
@@ -276,7 +276,7 @@
   <widget class="ComboPicker" name="source_9">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>280</y>
      <width>141</width>
      <height>22</height>
@@ -289,7 +289,7 @@
   <widget class="ComboPicker" name="source_10">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>310</y>
      <width>141</width>
      <height>22</height>
@@ -302,7 +302,7 @@
   <widget class="ComboPicker" name="source_11">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>340</y>
      <width>141</width>
      <height>22</height>
@@ -315,7 +315,7 @@
   <widget class="ComboPicker" name="source_12">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>370</y>
      <width>141</width>
      <height>22</height>
@@ -328,7 +328,7 @@
   <widget class="ComboPicker" name="source_13">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>400</y>
      <width>141</width>
      <height>22</height>
@@ -341,7 +341,7 @@
   <widget class="ComboPicker" name="source_14">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>430</y>
      <width>141</width>
      <height>22</height>
@@ -354,7 +354,7 @@
   <widget class="ComboPicker" name="source_15">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>460</y>
      <width>141</width>
      <height>22</height>
@@ -367,7 +367,7 @@
   <widget class="ComboPicker" name="source_16">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>490</y>
      <width>141</width>
      <height>22</height>
@@ -380,7 +380,7 @@
   <widget class="ComboPicker" name="param_9">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>280</y>
      <width>141</width>
      <height>22</height>
@@ -393,7 +393,7 @@
   <widget class="ComboPicker" name="param_10">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>310</y>
      <width>141</width>
      <height>22</height>
@@ -406,7 +406,7 @@
   <widget class="ComboPicker" name="param_11">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>340</y>
      <width>141</width>
      <height>22</height>
@@ -419,7 +419,7 @@
   <widget class="ComboPicker" name="param_12">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>370</y>
      <width>141</width>
      <height>22</height>
@@ -432,7 +432,7 @@
   <widget class="ComboPicker" name="param_13">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>400</y>
      <width>141</width>
      <height>22</height>
@@ -445,7 +445,7 @@
   <widget class="ComboPicker" name="param_14">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>430</y>
      <width>141</width>
      <height>22</height>
@@ -458,7 +458,7 @@
   <widget class="ComboPicker" name="param_15">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>460</y>
      <width>141</width>
      <height>22</height>
@@ -471,7 +471,7 @@
   <widget class="ComboPicker" name="param_16">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>490</y>
      <width>141</width>
      <height>22</height>
@@ -1174,23 +1174,23 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>10</y>
-     <width>181</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Src:</string>
+    <string>Source:</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>10</y>
      <width>141</width>
      <height>21</height>
@@ -1200,7 +1200,7 @@
     <string>Parameter:</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -1216,7 +1216,7 @@
     <string>Depth:</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
  </widget>

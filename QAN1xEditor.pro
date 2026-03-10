@@ -54,6 +54,7 @@ SOURCES += \
     src/View/QAN1xEditor.cpp \
     src/View/SceneView.cpp \
     src/View/SettingsDialog.cpp \
+    src/View/TemplateDialog.cpp \
     src/View/UiWidgets.cpp \
     src/View/VoiceNameEdit.cpp \
     src/main.cpp
@@ -96,6 +97,7 @@ HEADERS += \
     src/View/QAN1xEditor.h \
     src/View/SceneView.h \
     src/View/SettingsDialog.h \
+    src/View/TemplateDialog.h \
     src/View/UiWidgets.h \
     src/View/VoiceNameEdit.h
 
@@ -107,7 +109,8 @@ FORMS += \
     src/View/FxEq.ui \
     src/View/QAN1xEditor.ui \
     src/View/SceneView.ui \
-    src/View/SettingsDialog.ui
+    src/View/SettingsDialog.ui \
+    src/View/TemplateDialog.ui
 
 RESOURCES += \
     QAN1xEditor.qrc
