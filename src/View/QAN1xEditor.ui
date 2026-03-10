@@ -1038,9 +1038,9 @@
              <property name="geometry">
               <rect>
                <x>450</x>
-               <y>20</y>
+               <y>40</y>
                <width>82</width>
-               <height>178</height>
+               <height>131</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1073,7 +1073,7 @@
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>10</height>
                  </size>
                 </property>
                </spacer>
