@@ -330,7 +330,7 @@ void MidiMaster::FreeEGChanged(const std::vector<int>& trackData)
 	makeEdited(true);
 
 	//sending the whole common bulk
-	sendMessage(current_patch.getDataMessage(ParamType::Common));
+	sendMessage(current_patch.getDataMessage(ParamType::Common), true);
 }
 
 void MidiMaster::setAdvancedSettings(const AdvancedMidiSettings& advSettings)
@@ -491,11 +491,8 @@ void MidiMaster::loadTamplate(int type, int position)
 {
 	auto& address = templateMap.at(static_cast<MidiMaster::TemplateType>(type));
 
-	if (type == TemplateType::MATRIX2) {
-		type = TemplateType::MATRIX1; //matrix 1 and 2 stored in the same place
-	}
 
-	TemplateDialog d(static_cast<MidiMaster::TemplateType>(type));
+	TemplateDialog d(type == TemplateType::MATRIX2 ? TemplateType::MATRIX1 : type);
 	d.exec();
 
 	auto templateData = d.getResult();
@@ -517,6 +514,20 @@ void MidiMaster::loadTamplate(int type, int position)
 	s_view->setPatch(current_patch);
 
 	handlingMessage = false;
+
+	switch (type) {
+	case TemplateType::SEQUENCER:
+		sendMessage(current_patch.getDataMessage(ParamType::StepSq), true);
+		break;
+	case TemplateType::FREEEG:
+		sendMessage(current_patch.getDataMessage(ParamType::Common), true);
+		break;
+	case TemplateType::MATRIX1:
+		sendMessage(current_patch.getDataMessage(ParamType::Scene1), true);
+		break;
+	case TemplateType::MATRIX2:
+		sendMessage(current_patch.getDataMessage(ParamType::Scene2), true);
+	}
 
 	makeEdited(true);
 }

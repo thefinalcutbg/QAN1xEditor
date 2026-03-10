@@ -19,6 +19,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
 
 	ui.tabWidget->setCurrentIndex(0);
 
+	ui.initButton->setPopupMode(QToolButton::InstantPopup);
+
     GlobalWidgets::statusBar = statusBar();
 
     installEventFilter(this);
