@@ -3637,6 +3637,32 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="saveButton">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>30</y>
+      <width>37</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="loadButton">
+    <property name="geometry">
+     <rect>
+      <x>1053</x>
+      <y>30</y>
+      <width>37</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>controlChange</zorder>
    <zorder>label_11</zorder>
    <zorder>label_13</zorder>
@@ -3665,6 +3691,8 @@
    <zorder>step_3</zorder>
    <zorder>step_2</zorder>
    <zorder>step_1</zorder>
+   <zorder>saveButton</zorder>
+   <zorder>loadButton</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -135,6 +135,12 @@
     <ClCompile Include="src\View\PianoRoll\PianoKey.cpp" />
     <ClCompile Include="src\View\PianoRoll\PianoView.cpp" />
     <ClCompile Include="src\View\SettingsDialog.cpp" />
+    <ClCompile Include="src\View\TemplateDialog.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <ClCompile Include="src\View\UiWidgets.cpp" />
     <ClCompile Include="src\Model\An1x.cpp" />
     <ClCompile Include="src\Model\MidiMaster.cpp" />
@@ -152,8 +158,10 @@
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\View\SceneView.ui" />
     <QtUic Include="src\View\SettingsDialog.ui" />
+    <QtUic Include="src\View\TemplateDialog.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\View\TemplateDialog.h" />
     <QtMoc Include="src\View\SettingsDialog.h" />
     <QtMoc Include="src\View\PianoRoll\PianoView.h" />
     <QtMoc Include="src\View\FreeEGWidget.h" />

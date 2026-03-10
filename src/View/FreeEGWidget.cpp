@@ -1,7 +1,7 @@
 #include "FreeEGWidget.h"
 #include "Model/MidiMaster.h"
 #include "FreeEG/FreeEGScene.h"
-
+#include <QInputDialog>
 
 FreeEGWidget::FreeEGWidget(QWidget* parent)
 	: QWidget(parent)
@@ -23,6 +23,9 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 		ui.trackParam_4,
 		ui.trackSceneSw_4
 	};
+
+	ui.saveButton->setIcon(QIcon(":/icon/resources/icon_save.png"));
+	ui.loadButton->setIcon(QIcon(":/icon/resources/icon_load.png"));
 
 	ComboPicker* paramCombo[] = { ui.trackParam_1, ui.trackParam_2, ui.trackParam_3, ui.trackParam_4 };
 
@@ -72,6 +75,29 @@ FreeEGWidget::FreeEGWidget(QWidget* parent)
 
 	connect(ui.assignButton, &QPushButton::clicked, this, [&] {
 		scene->quickAssign(ui.fromSpin->value(), ui.toSpin->value(), ui.valueSpin->value());
+	});
+
+	connect(ui.saveButton, &QPushButton::clicked, this, [this]() {
+
+		MidiMaster::saveTemplate(
+			MidiMaster::TemplateType::FREEEG,
+			QInputDialog::getText(
+				this, 
+				"Save Free EG", 
+				"Template Name:", 
+				QLineEdit::Normal, 
+				"My FreeEG Template"
+			).toStdString(),
+			ui.currentTrackCombo->currentIndex()
+		);
+	});
+
+	connect(ui.loadButton, &QPushButton::clicked, this, [this]() {
+
+			MidiMaster::loadTamplate(
+				MidiMaster::TemplateType::FREEEG,
+				ui.currentTrackCombo->currentIndex()
+			);
 	});
 }
 

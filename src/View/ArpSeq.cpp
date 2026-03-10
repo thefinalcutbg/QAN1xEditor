@@ -1,10 +1,14 @@
 #include "ArpSeq.h"
 #include "Model/MidiMaster.h"
+#include <QInputDialog>
 
 ArpSeq::ArpSeq(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	ui.saveButton->setIcon(QIcon(":/icon/resources/icon_save.png"));
+	ui.loadButton->setIcon(QIcon(":/icon/resources/icon_load.png"));
 
 	ui_controls = {
 		nullptr, //arp/seq select
@@ -194,6 +198,23 @@ ArpSeq::ArpSeq(QWidget *parent)
 		seq_controls[i]->setParam(ParamType::StepSq, (AN1x::SeqParam)i);
 	}
 
+	connect(ui.saveButton, &QPushButton::clicked, this, [this]() {
+
+		MidiMaster::saveTemplate(
+			MidiMaster::TemplateType::SEQUENCER,
+			QInputDialog::getText(
+				this,
+				"Save Sequencer",
+				"Template Name:",
+				QLineEdit::Normal,
+				"My Sequencer Template"
+			).toStdString()
+		);
+	});
+
+	connect(ui.loadButton, &QPushButton::clicked, this, [this]() {
+		MidiMaster::loadTamplate(MidiMaster::TemplateType::SEQUENCER);
+	});
 }
 
 

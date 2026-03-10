@@ -41,8 +41,6 @@ Db::Db(const std::string& path)
 
 bool Db::hasRows(){
 
-    if (total_bindings != successful_bindings) return false;
-
     bool result = sqlite3_step(stmt) == SQLITE_ROW;//|| sqlite3_step(stmt) != ;
 
     if(!result) finalizeStatement();
@@ -145,9 +143,6 @@ void Db::closeConnection()
 
     if (stmt) sqlite3_reset(stmt);
 
-    successful_bindings = 0;
-    total_bindings = 0;
-
      sqlite3_close_v2(db_connection);
 }
 
@@ -155,87 +150,54 @@ void Db::closeConnection()
 void Db::bind(int index, const std::string& value)
 {
     if(stmt == nullptr) return;
-
-    total_bindings++;
-    
-
-    successful_bindings +=
-        sqlite3_bind_text(stmt, index, value.c_str(), -1, SQLITE_TRANSIENT) == SQLITE_OK;
+    sqlite3_bind_text(stmt, index, value.c_str(), -1, SQLITE_TRANSIENT);
 }
 
 void Db::bind(int index, int value)
 {
     if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_int(stmt,index,value) == SQLITE_OK;
+    sqlite3_bind_int(stmt,index,value);
 }
 
 void Db::bind(int index, double value)
 {
     if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_double(stmt, index, value) == SQLITE_OK;
+    sqlite3_bind_double(stmt, index, value);
 }
 
 void Db::bind(int index, long long value)
 {
     if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_int64(stmt, index, value) == SQLITE_OK;
+    sqlite3_bind_int64(stmt, index, value);
 }
 
 void Db::bind(int index, const void* ptr, int size)
 {
     if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings +=
-        sqlite3_bind_blob(stmt, index, ptr, size, SQLITE_STATIC) == SQLITE_OK;
+    sqlite3_bind_blob(stmt, index, ptr, size, SQLITE_STATIC);
 }
 
 void Db::bindNull(int index)
 {
     if (stmt == nullptr) return;
-
-    total_bindings++;
-
-    successful_bindings += sqlite3_bind_null(stmt, index) ? 0 : 1;
+    sqlite3_bind_null(stmt, index);
 }
 
 bool Db::execute()
 {
     if (stmt == nullptr) return false;
 
-    if (total_bindings != successful_bindings)
-    {
-        finalizeStatement();
-        return false;
-    }
-
     auto result = sqlite3_step(stmt);
     finalizeStatement();
-
+    
     return result == SQLITE_DONE;
 }
 
 
 void Db::finalizeStatement()
 {
-    total_bindings = 0;
-    successful_bindings = 0;
-
     if (!stmt) return;
-
+     
     sqlite3_finalize(stmt);
     stmt = nullptr;
     
@@ -275,7 +237,9 @@ Db::~Db()
 
 const char* tableSchema = 
 "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, fav INTEGER DEFAULT 0, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB);"
-"CREATE TABLE IF NOT EXISTS settings (midi_in TEXT, midi_out TEXT, midi_send_ch INTEGER, midi_thru INTEGER DEFAULT 0, device_no INTEGER DEFAULT 1, buffer_size INTEGER DEFAULT 0, buffer_delay INTEGER DEFAULT 100);";
+"CREATE TABLE IF NOT EXISTS settings (midi_in TEXT, midi_out TEXT, midi_send_ch INTEGER, midi_thru INTEGER DEFAULT 0, device_no INTEGER DEFAULT 1, buffer_size INTEGER DEFAULT 0, buffer_delay INTEGER DEFAULT 100);"
+"CREATE TABLE IF NOT EXISTS template (rowid INTEGER PRIMARY KEY,  type INTEGER, name TEXT, data BLOB);"
+;
 
 bool Db::createIfNotExist()
 {
@@ -316,6 +280,11 @@ bool Db::createIfNotExist()
         db.execute("ALTER TABLE settings ADD buffer_delay INTEGER DEFAULT 100");
         db.execute("PRAGMA user_version = 3");
     }
+
+    if (db.version() == 3) {
+		db.execute("CREATE TABLE IF NOT EXISTS template (rowid INTEGER PRIMARY KEY, type INTEGER, name TEXT, data BLOB);");
+        db.execute("PRAGMA user_version = 4");
+	}
 
     return true;
 

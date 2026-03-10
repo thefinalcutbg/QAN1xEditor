@@ -272,6 +272,52 @@ std::pair<MidiDeviceNames, AdvancedMidiSettings> PatchDatabase::getMidiSettings(
 	 return {};
 }
 
+void PatchDatabase::saveTemplate(int type, const std::string& name, const unsigned char* data, size_t size)
+{
+	Db db;
+	db.newStatement("INSERT INTO template (type, name, data) VALUES (?, ?, ?)");
+	db.bind(1, type);
+	db.bind(2, name);
+	db.bind(3, data, static_cast<int>(size));
+	db.execute();
+}
+
+void PatchDatabase::removeTemplate(long long rowid)
+{
+	Db db;
+	db.newStatement("DELETE FROM template WHERE rowid=?");
+	db.bind(1, rowid);
+	db.execute();
+}
+
+std::vector<unsigned char> PatchDatabase::getTemplateData(long long rowid)
+{
+	Db db;
+	db.newStatement("SELECT data FROM template WHERE rowid=?");
+	db.bind(1, rowid);
+	while (db.hasRows()) {
+		const void* blobData = db.asBlob(0);
+		int size = db.getColumnSize(0);
+		return std::vector<unsigned char>((unsigned char*)blobData, (unsigned char*)blobData + size);
+	}
+	return {};
+}
+
+std::vector <std::pair<long long, std::string>> PatchDatabase::getTemplateList(int type)
+{
+	std::vector <std::pair<long long, std::string>> result;
+
+	Db db;
+	db.newStatement("SELECT rowid, name FROM template WHERE type=?");
+	db.bind(1, type);
+
+	while (db.hasRows())
+	{
+		result.emplace_back(db.asRowId(0), db.asString(1));
+	}
+
+	return result;
+}
 
 void PatchDatabase::setFavourite(bool fav, long long rowid)
 {

@@ -69,6 +69,11 @@ namespace MidiMaster
 	void notifyRowidDelete(long long rowid);
 	void newPatch(AN1x::InitType type);
 
+	//template management
+	enum TemplateType { SEQUENCER, MATRIX1, MATRIX2, FREEEG };
+	void saveTemplate(int type, const std::string& name, int position = 0);
+	void loadTamplate(int type, int position = 0);
+
 	//PC keyboard as Midi
 	void modWheelChange(int value);
 	void pitchChange(int value);
@@ -76,7 +81,6 @@ namespace MidiMaster
 	void pcKeyPress(int pcKey, bool pressed, int velocity); 	//pressed = false means released
 	void setNote(int note, bool press, int velocity); 	//pressed = false means released
 	void saveCurrentPatch();
-	
 
     bool cleanUp(); //returns false if denies close
 }

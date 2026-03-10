@@ -433,8 +433,8 @@
     <rect>
      <x>10</x>
      <y>280</y>
-     <width>1151</width>
-     <height>33</height>
+     <width>930</width>
+     <height>26</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -467,6 +467,20 @@
         <string>Track 4</string>
        </property>
       </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="saveButton">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="loadButton">
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </item>
     <item>
@@ -611,7 +625,7 @@
      <x>10</x>
      <y>430</y>
      <width>1041</width>
-     <height>51</height>
+     <height>66</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">

@@ -8,6 +8,8 @@ class Browser;
 
 namespace PatchDatabase
 {
+
+
 	void refreshTableView();
 
 	void setVoiceAsCurrent(long long rowid);
@@ -31,4 +33,14 @@ namespace PatchDatabase
 	void setMidiSettings(const MidiDeviceNames& devices, const AdvancedMidiSettings& settings);
 
 	std::pair<MidiDeviceNames, AdvancedMidiSettings> getMidiSettings();
+
+	void saveTemplate(int type, const std::string& name, const unsigned char *data, size_t size);
+
+	void removeTemplate(long long rowid);
+
+	std::vector<unsigned char> getTemplateData(long long rowid);
+
+	std::vector <std::pair<long long, std::string>> getTemplateList(int type);
+
+
 }

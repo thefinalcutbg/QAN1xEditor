@@ -10,9 +10,6 @@ class Db
     sqlite3* db_connection{ nullptr };
     bool m_connectionOwned{ false };
 
-    int total_bindings{ 0 };
-    int successful_bindings{ 0 };
-
     sqlite3_stmt* stmt{ nullptr };
 
     static inline bool s_showError{ false };

@@ -27,6 +27,8 @@
         <file>resources/icon_fav.png</file>
         <file>resources/icon_favgray.png</file>
         <file>resources/icon_favhover.png</file>
+        <file>resources/icon_load.png</file>
+        <file>resources/icon_save.png</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/an1x.png</file>

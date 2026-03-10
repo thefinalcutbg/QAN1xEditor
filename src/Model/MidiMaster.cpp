@@ -5,6 +5,7 @@
 #include "View/QAN1xEditor.h"
 #include "An1xPatch.h"
 #include "View/GlobalWidgets.h"
+#include "View/TemplateDialog.h"
 #include "PatchMemory.h"
 #include "PatchDatabase.h"
 #include <array>
@@ -456,6 +457,68 @@ void MidiMaster::notifyRowidDelete(long long rowid)
 void MidiMaster::newPatch(AN1x::InitType type)
 {
 	setCurrentPatch(AN1xPatch(type), { PatchSource::Database, 0 });
+}
+
+struct TemplateAddress {
+	int offset;
+	int size;
+};
+
+const std::map<MidiMaster::TemplateType, TemplateAddress> templateMap{
+	{ MidiMaster::TemplateType::SEQUENCER, { AN1x::CommonSize + 2* AN1x::SceneSize, AN1x::SeqParam::SeqencerSize } },
+	{ MidiMaster::TemplateType::FREEEG, { AN1x::FreeEgData, (AN1x::CommonSize-AN1x::FreeEgData)/4 } },
+	{ MidiMaster::TemplateType::MATRIX1, { AN1x::CommonSize + AN1x::CtrlMtrxSource1, AN1x::SceneSize - AN1x::CtrlMtrxSource1 } },
+	{ MidiMaster::TemplateType::MATRIX2, { AN1x::CommonSize + AN1x::SceneSize + AN1x::CtrlMtrxSource1, AN1x::SceneSize - AN1x::CtrlMtrxSource1 } }
+};	
+
+void MidiMaster::saveTemplate(int t, const std::string& name, int pos)
+{
+	auto type = static_cast<MidiMaster::TemplateType>(t);
+	auto& address = templateMap.at(type);
+
+	if (type == TemplateType::MATRIX2) {
+		type = TemplateType::MATRIX1; //matrix 1 and 2 stored in the same place
+	}
+
+	PatchDatabase::saveTemplate(
+		type, name.empty() ? "No name" : name,
+		&current_patch.rawData()[address.offset + address.size*pos],
+		address.size
+	);
+}
+
+void MidiMaster::loadTamplate(int type, int position)
+{
+	auto& address = templateMap.at(static_cast<MidiMaster::TemplateType>(type));
+
+	if (type == TemplateType::MATRIX2) {
+		type = TemplateType::MATRIX1; //matrix 1 and 2 stored in the same place
+	}
+
+	TemplateDialog d(static_cast<MidiMaster::TemplateType>(type));
+	d.exec();
+
+	auto templateData = d.getResult();
+
+	if (templateData.empty()) return;
+
+	if(templateData.size() != address.size) {
+		GlobalWidgets::showMessage("Template data size mismatch!");
+		return;
+	}
+
+	for (size_t i = 0; i < templateData.size(); i++)
+	{
+		current_patch.rawData()[address.offset + i + templateData.size() * position] = templateData[i];
+	}
+
+	handlingMessage = true;
+
+	s_view->setPatch(current_patch);
+
+	handlingMessage = false;
+
+	makeEdited(true);
 }
 
 

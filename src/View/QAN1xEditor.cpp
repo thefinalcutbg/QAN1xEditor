@@ -4,11 +4,11 @@
 #include <QKeyEvent>
 #include <QDesktopServices>
 #include <QtGlobal>
+#include <QInputDialog>
 #include "GlobalWidgets.h"
 #include "Model/MidiMaster.h"
 #include "Model/An1xPatch.h"
 #include "View/SettingsDialog.h"
-
 #include "FreeFunctions.h"
 #include "Model/PatchDatabase.h"
 
@@ -16,6 +16,8 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+	ui.tabWidget->setCurrentIndex(0);
 
     GlobalWidgets::statusBar = statusBar();
 
@@ -217,6 +219,52 @@ QAN1xEditor::QAN1xEditor(QWidget* parent)
     ui.midiLocal->setGeometry(QRect(120, 122, 101, 21));
 #endif
 
+
+
+    ui.saveButton_1->setIcon(QIcon(":/icon/resources/icon_save.png"));
+    ui.loadButton_1->setIcon(QIcon(":/icon/resources/icon_load.png"));
+
+    ui.saveButton_2->setIcon(QIcon(":/icon/resources/icon_save.png"));
+    ui.loadButton_2->setIcon(QIcon(":/icon/resources/icon_load.png"));
+
+
+    connect(ui.saveButton_1, &QPushButton::clicked, this, [this]() {
+
+        MidiMaster::saveTemplate(
+            MidiMaster::TemplateType::MATRIX1,
+            QInputDialog::getText(
+                this,
+                "Save Ctrl Matrix Scene 1",
+                "Template Name:",
+                QLineEdit::Normal,
+                "My Ctrl Matrix Template"
+            ).toStdString()
+        );
+    });
+
+    connect(ui.loadButton_1, &QPushButton::clicked, this, [this]() {
+        MidiMaster::loadTamplate(MidiMaster::TemplateType::MATRIX1);
+    });
+
+    connect(ui.saveButton_2, &QPushButton::clicked, this, [this]() {
+
+        MidiMaster::saveTemplate(
+            MidiMaster::TemplateType::MATRIX2,
+            QInputDialog::getText(
+                this,
+                "Save Ctrl Matrix Scene 2",
+                "Template Name:",
+                QLineEdit::Normal,
+                "My Ctrl Matrix Template"
+            ).toStdString()
+        );
+    });
+
+    connect(ui.loadButton_2, &QPushButton::clicked, this, [this]() {
+        MidiMaster::loadTamplate(MidiMaster::TemplateType::MATRIX2);
+    });
+
+
     MidiMaster::setView(this);
     
 }
@@ -369,7 +417,7 @@ void QAN1xEditor::setSceneParameter(AN1x::SceneParam p, int value, bool isScene2
 
     sceneView.setSceneParameters(p, value, setAsDefault);
     
-    auto& ctrlMatrix = isScene2 ? *ui.ctrlMatrixScene1 : *ui.ctrlMatrixScene2;
+    auto& ctrlMatrix = isScene2 ? *ui.ctrlMatrixScene2 : *ui.ctrlMatrixScene1;
 
     ctrlMatrix.setSceneParameters(p, value, setAsDefault);
 
