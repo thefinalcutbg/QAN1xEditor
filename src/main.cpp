@@ -9,6 +9,10 @@ int main(int argc, char* argv[])
 
 	QApplication a(argc, argv);
 
+#ifdef Q_OS_WIN
+	QApplication::setStyle("windowsvista");     //"windows11", "windowsvista", "Windows", "Fusion"
+#endif
+
 	a.setWindowIcon(QIcon(":/icon/resources/appIcon.png"));
 
 	if (FreeFn::getUpdate()) return 0;
