@@ -1034,51 +1034,44 @@
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QPushButton" name="sendSystem">
              <property name="geometry">
               <rect>
                <x>450</x>
-               <y>40</y>
-               <width>82</width>
-               <height>131</height>
+               <y>36</y>
+               <width>80</width>
+               <height>32</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <widget class="QPushButton" name="sendSystem">
-                <property name="text">
-                 <string>Send</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="restoreSystem">
-                <property name="text">
-                 <string>Restore</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="requestSystem">
-                <property name="text">
-                 <string>Request</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>10</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <property name="text">
+              <string>Send</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="restoreSystem">
+             <property name="geometry">
+              <rect>
+               <x>450</x>
+               <y>66</y>
+               <width>80</width>
+               <height>32</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Restore</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="requestSystem">
+             <property name="geometry">
+              <rect>
+               <x>450</x>
+               <y>96</y>
+               <width>80</width>
+               <height>32</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Request</string>
+             </property>
             </widget>
            </widget>
           </item>
