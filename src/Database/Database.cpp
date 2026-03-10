@@ -239,6 +239,7 @@ const char* tableSchema =
 "CREATE TABLE IF NOT EXISTS patch(rowid INTEGER PRIMARY KEY, fav INTEGER DEFAULT 0, hash BLOB(32), type INTEGER, name TEXT, file TEXT, layer INTEGER, effect INTEGER, arp_seq INTEGER, comment TEXT, data BLOB);"
 "CREATE TABLE IF NOT EXISTS settings (midi_in TEXT, midi_out TEXT, midi_send_ch INTEGER, midi_thru INTEGER DEFAULT 0, device_no INTEGER DEFAULT 1, buffer_size INTEGER DEFAULT 0, buffer_delay INTEGER DEFAULT 100);"
 "CREATE TABLE IF NOT EXISTS template (rowid INTEGER PRIMARY KEY,  type INTEGER, name TEXT, data BLOB);"
+"PRAGMA user_version = 4;"
 ;
 
 bool Db::createIfNotExist()
