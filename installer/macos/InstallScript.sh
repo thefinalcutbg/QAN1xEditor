@@ -1,8 +1,8 @@
 #!/bin/sh
 
 APP="$PWD/../files/QAN1xEditor.app" #the compiled bundle
-INSTALLER="$PWD/../compiled/qan1xeditor-1.7.0-macos.dmg"
-QDEPLOY="$PWD/../../../Qt/6.5.3/macos/bin/macdeployqt" #macdeployqt location
+INSTALLER="$PWD/../compiled/qan1xeditor-1.8.0-macos.dmg"
+QDEPLOY="$PWD/../../../Qt/6.10.0/macos/bin/macdeployqt" #macdeployqt location
 
 $QDEPLOY $APP -sign-for-notarization="Developer ID Application: Hristo Konstantinov" #deploying the app
 
