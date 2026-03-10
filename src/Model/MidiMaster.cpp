@@ -491,7 +491,6 @@ void MidiMaster::loadTamplate(int type, int position)
 {
 	auto& address = templateMap.at(static_cast<MidiMaster::TemplateType>(type));
 
-
 	TemplateDialog d(type == TemplateType::MATRIX2 ? TemplateType::MATRIX1 : type);
 	d.exec();
 
@@ -513,6 +512,8 @@ void MidiMaster::loadTamplate(int type, int position)
 
 	s_view->setPatch(current_patch);
 
+	makeEdited(true);
+
 	handlingMessage = false;
 
 	switch (type) {
@@ -527,9 +528,9 @@ void MidiMaster::loadTamplate(int type, int position)
 		break;
 	case TemplateType::MATRIX2:
 		sendMessage(current_patch.getDataMessage(ParamType::Scene2), true);
+		break;
 	}
 
-	makeEdited(true);
 }
 
 
