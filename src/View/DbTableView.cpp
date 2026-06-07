@@ -54,6 +54,9 @@ void DbTableView::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Delete:
 		emit deletePressed();
 		break;
+	case Qt::Key_Return:
+		emit doubleClicked(currentIndex());
+		break;
 	case Qt::Key_C:
 		if (event->modifiers() & Qt::ControlModifier) {
 			emit copyRequested();
@@ -61,7 +64,7 @@ void DbTableView::keyPressEvent(QKeyEvent* event)
 		else {
 			QTableView::keyPressEvent(event);
 		}
-		
+		break;
 	default:
 		QTableView::keyPressEvent(event);
 	}
